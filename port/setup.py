@@ -117,6 +117,27 @@ def jsonLoadTileData(data):
     return tiles
 
 
+"""
+The purpose of this function is to be able to write
+
+        obj.data.item.visi.inviAct
+        instead of 
+        obj["#data"]["#item"]["#visi"]["#inviAct"]
+        
+Using the keys from the original game is super verbose
+bcause keys that begin with # can only be indexed as strings in the [] operator
+
+"""
+
+
+def cleanSymbols(jsonString):
+    # convert lowercase direction key to uppercase
+    # only down is lowercase for some reason in the original game
+    jsonString = jsonString.replace('#d"', '#D"')
+    jsonString = jsonString.replace("#", "")
+    return jsonString
+
+
 def packImages(episodeNumber):
     print(f"Packing images for episode {episodeNumber}")
     images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
@@ -139,7 +160,8 @@ def parseMapData(episodeNumber):
         jsonData = parseMapDataToJson(data)
         jsonData = separateTileStrings(jsonData)
         jsonData = jsonLoadTileData(jsonData)
-        parsed = json.loads(json.dumps(jsonData))
+        jsonString = cleanSymbols(json.dumps(jsonData))
+        parsed = json.loads(jsonString)
         mapName = pathlib.Path(m).name.split('.')[0]
         parsed["name"] = mapName
         globalMap.append(parsed)
