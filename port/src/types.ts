@@ -24,7 +24,7 @@ export interface GameObjectItem {
 
 export interface GameObjectMove {
   U: number;
-  d: number;
+  D: number;
   L: number;
   R: number;
   COND: number;
