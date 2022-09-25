@@ -1,10 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
-import { GameMapArea, GameObjectType } from "./types";
+import { GameObject } from "./object";
+import { GameMapArea } from "./types";
 
 export class Game {
   public app;
+  private gameObjects: GameObject[] = [];
 
   constructor() {
     this.app = new PIXI.Application({
@@ -31,9 +33,9 @@ export class Game {
     const first = data[0];
 
     for (const obj of first.data) {
-      if (obj.data.item.type == GameObjectType.FLOR) {
-        console.log(obj);
-      }
+      this.gameObjects.push(new GameObject(obj, first.name));
     }
+
+    console.log(this.gameObjects);
   }
 }

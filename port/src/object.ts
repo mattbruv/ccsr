@@ -1,5 +1,21 @@
 import { GameObjectData, GameObjectType, IGameObject } from "./types";
 
+/*
+    Maps are laid out in a grid pattern, and named XXYY
+    X increases left to right, starting at 01
+    Y increases top to bottom, starting at 01.
+*/
+function getMapOffset(mapName: string) {
+  const xIndex = mapName.substring(0, 2);
+  const yIndex = mapName.substring(2, 4);
+
+  // Subtract 1 to convert to zero based indexing.
+  return {
+    x: parseInt(xIndex) - 1,
+    y: parseInt(yIndex) - 1,
+  };
+}
+
 /**
  * Generic class for a game Object.
  *
@@ -17,7 +33,11 @@ export class GameObject implements IGameObject {
   HSHIFT: number;
   data: GameObjectData;
 
-  constructor(obj: IGameObject) {
+  readonly mapName: string;
+  readonly mapOffsetX: number;
+  readonly mapOffsetY: number;
+
+  constructor(obj: IGameObject, mapName: string) {
     this.member = obj.member;
     this.type = obj.type;
     this.location = obj.location;
@@ -26,5 +46,10 @@ export class GameObject implements IGameObject {
     this.WSHIFT = obj.WSHIFT;
     this.HSHIFT = obj.HSHIFT;
     this.data = obj.data;
+
+    this.mapName = mapName;
+    const offset = getMapOffset(this.mapName);
+    this.mapOffsetX = offset.x;
+    this.mapOffsetY = offset.y;
   }
 }
