@@ -7,6 +7,7 @@ import { GameMapArea } from "./types";
 export class Game {
   public app;
   private gameObjects: GameObject[] = [];
+  private worldContainer: PIXI.Container;
 
   constructor() {
     this.app = new PIXI.Application({
@@ -16,6 +17,10 @@ export class Game {
       width: 416,
       height: 320,
     });
+
+    this.worldContainer = new PIXI.Container();
+
+    this.app.stage.addChild(this.worldContainer);
 
     loadAssets(() => {
       console.log("Done loading assets!");
@@ -34,8 +39,19 @@ export class Game {
 
     for (const obj of first.data) {
       this.gameObjects.push(new GameObject(obj, first.name));
+      const sprite = new PIXI.Sprite(getMemberTexture(obj.member));
+      sprite.position.set(Math.random() * 200, Math.random() * 200);
+      this.worldContainer.addChild(sprite);
     }
 
     console.log(this.gameObjects);
   }
+}
+
+function getMemberTexture(memberName: string) {
+  let name = memberName; //.toLowerCase();
+  name = name + ".png";
+  name = name.replace(".x.", ".");
+  console.log(name);
+  return PIXI.Loader.shared.resources["textures1"].spritesheet?.textures[name];
 }
