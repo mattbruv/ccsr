@@ -1,6 +1,22 @@
-export interface GameObject {
+export interface GameMapArea {
+  name: string;
+  roomID: number;
+  roomStatus: number;
+  data: IGameObject[];
+}
+
+export enum GameObjectType {
+  FLOR = "FLOR",
+  WALL = "WALL",
+  CHAR = "char",
+  ITEM = "item",
+  DOOR = "DOOR",
+  WATER = "WATER",
+}
+
+export interface IGameObject {
   member: string;
-  type: string;
+  type: GameObjectType;
   location: number[];
   width: number;
   height: number;
@@ -23,7 +39,7 @@ export interface GameObjectMessage {
 
 export interface GameObjectItem {
   name: string;
-  type: string;
+  type: GameObjectType;
   visi: GameObjectVisibility;
   COND: (GameObjectCond | null)[];
 }
