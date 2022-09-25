@@ -35,22 +35,13 @@ export class Game {
 
   private initObjects() {
     const data: GameMapArea[] = Loader.shared.resources["map1"].data;
-    const first = data[0];
 
-    for (const obj of first.data) {
-      this.gameObjects.push(new GameObject(obj, first.name));
-      const sprite = new PIXI.Sprite(getMemberTexture(obj.member));
-      sprite.position.set(Math.random() * 200, Math.random() * 200);
-      this.worldContainer.addChild(sprite);
+    for (const area of data) {
+      for (const obj of area.data) {
+        const gameObject = new GameObject(obj, area.name);
+        this.worldContainer.addChild(gameObject.sprite);
+        this.gameObjects.push(gameObject);
+      }
     }
-
-    console.log(this.gameObjects);
   }
-}
-
-function getMemberTexture(memberName: string) {
-  let name = memberName.toLowerCase();
-  name = name + ".png";
-  name = name.replace(".x.", ".");
-  return PIXI.Loader.shared.resources["textures1"].spritesheet?.textures[name];
 }
