@@ -14,8 +14,8 @@ export class Game {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
       backgroundColor: 0x6495ed,
-      width: 416,
-      height: 320,
+      width: 1416,
+      height: 1320,
     });
 
     this.worldContainer = new PIXI.Container();

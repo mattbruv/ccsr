@@ -41,15 +41,18 @@ export class GameObject implements IGameObject {
 
     this.sprite = new PIXI.TilingSprite(getMemberTexture(this.member)!);
 
-    if (this.member.includes("tile") === false) {
-      //console.log(this.member);
-      this.sprite.anchor.set(0.5, 0.5);
-    }
-    const halfWidth = Math.round(this.width / 2);
-    const halfHeight = Math.round(this.width / 2);
+    const offsetX = this.mapOffsetX * 32 * 13;
+    const offsetY = this.mapOffsetY * 32 * 10;
+    this.sprite.position.x = this.location[0] * 16 + this.WSHIFT + offsetX;
+    this.sprite.position.y = this.location[1] * 16 + this.HSHIFT + offsetY;
 
-    this.sprite.position.x = this.location[0] * 16 + this.WSHIFT;
-    this.sprite.position.y = this.location[1] * 16 + this.HSHIFT;
+    if (this.member.includes("tile") === false) {
+      this.sprite.position.x -= Math.round(this.width / 2);
+      this.sprite.position.y -= Math.round(this.height / 2);
+      //console.log(this.member);
+      //this.sprite.anchor.set(0.5, 0.5);
+    }
+
     this.sprite.width = this.width;
     this.sprite.height = this.height;
   }
