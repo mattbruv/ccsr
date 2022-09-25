@@ -1,5 +1,6 @@
 import glob
 import json
+import os
 import pathlib
 import re
 from PyTexturePacker import Packer
@@ -140,8 +141,22 @@ def cleanSymbols(jsonString):
     return jsonString
 
 
+def fileToLower(p):
+    path = pathlib.Path(p)
+    a = path.parents[0]
+    b = path.name.lower()
+    out = pathlib.Path(str(a) + "/" + str(b))
+    os.rename(p, out)
+
+
 def packImages(episodeNumber):
     print(f"Packing images for episode {episodeNumber}")
+    images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
+
+    # rename images to use all lowercase filenames for consistency
+    for img in images:
+        fileToLower(img)
+
     images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
     print(f"Found {len(images)} images, packing them now.")
     packer = Packer.create(enable_rotated=False,

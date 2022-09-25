@@ -49,9 +49,8 @@ export class Game {
 }
 
 function getMemberTexture(memberName: string) {
-  let name = memberName; //.toLowerCase();
+  let name = memberName.toLowerCase();
   name = name + ".png";
   name = name.replace(".x.", ".");
-  console.log(name);
   return PIXI.Loader.shared.resources["textures1"].spritesheet?.textures[name];
 }
