@@ -140,6 +140,8 @@ def parseMapData(episodeNumber):
         jsonData = separateTileStrings(jsonData)
         jsonData = jsonLoadTileData(jsonData)
         parsed = json.loads(json.dumps(jsonData))
+        mapName = pathlib.Path(m).name.split('.')[0]
+        parsed["name"] = mapName
         globalMap.append(parsed)
 
     print(f"Parsed {len(globalMap)} maps for episode {episodeNumber}")
