@@ -131,6 +131,8 @@ bcause keys that begin with # can only be indexed as strings in the [] operator
 
 
 def cleanSymbols(jsonString):
+    # convert "none" string to null
+    jsonString = jsonString.replace('"#none"', "null")
     # convert lowercase direction key to uppercase
     # only down is lowercase for some reason in the original game
     jsonString = jsonString.replace('#d"', '#D"')
