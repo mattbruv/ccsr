@@ -1,12 +1,12 @@
 # CCSR Documentation
 
 
-## Map Data
 
+## Game Object
 
-### Game Object
+### Item
 
-#### Object Item Type
+#### Type
 
 A Game object's item type must be one of the following:
 FLOR,

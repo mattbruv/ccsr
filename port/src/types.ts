@@ -12,14 +12,27 @@ export interface GameObject {
 export interface GameObjectData {
   item: GameObjectItem;
   move: GameObjectMove;
-  message: string[];
+  message: GameObjectMessage[];
+}
+
+export interface GameObjectMessage {
+  plrAct: string;
+  plrObj: string;
+  text: string;
 }
 
 export interface GameObjectItem {
   name: string;
   type: string;
   visi: GameObjectVisibility;
-  COND: string[];
+  COND: (GameObjectCond | null)[];
+}
+
+export interface GameObjectCond {
+  hasObj: string;
+  hasAct: string;
+  giveObj: string;
+  giveAct: string;
 }
 
 export interface GameObjectMove {

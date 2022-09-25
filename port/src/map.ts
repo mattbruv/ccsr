@@ -9,13 +9,14 @@ export interface GameMapArea {
 
 export class GameMap {
   public loadMap(data: GameMapArea[]) {
-    const set = new Set();
     for (const area of data) {
       for (const obj of area.data) {
-        //set.add(obj.data.item.type);
-        console.log(obj.data.item.COND);
+        if (obj.data.message.length > 0) {
+          for (const msg of obj.data.message) {
+            console.log(msg.text);
+          }
+        }
       }
     }
-    console.log(set);
   }
 }
