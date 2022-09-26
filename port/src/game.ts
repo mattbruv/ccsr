@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea } from "./types";
+import { GameMapArea, GameObjectType } from "./types";
 
 export class Game {
   public app;
@@ -14,8 +14,10 @@ export class Game {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
       backgroundColor: 0x6495ed,
-      width: 1416,
-      height: 1320,
+      width: 2416,
+      height: 2320,
+      antialias: false,
+      //resizeTo: window,
     });
 
     this.worldContainer = new PIXI.Container();
@@ -38,10 +40,17 @@ export class Game {
 
     for (const area of data) {
       for (const obj of area.data) {
+        if (obj.member.toLowerCase().includes("tile")) {
+          continue;
+        }
         const gameObject = new GameObject(obj, area.name);
         this.worldContainer.addChild(gameObject.sprite);
         this.gameObjects.push(gameObject);
       }
     }
+    console.log(
+      this.gameObjects.filter((x) => !x.member.includes("tile")).length
+    );
+    console.log(this.gameObjects.length);
   }
 }

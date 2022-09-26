@@ -22,7 +22,7 @@ export class GameObject implements IGameObject {
   readonly mapOffsetX: number;
   readonly mapOffsetY: number;
 
-  public sprite: PIXI.TilingSprite;
+  public sprite: PIXI.Sprite;
 
   constructor(obj: IGameObject, mapName: string) {
     this.member = obj.member.toLowerCase();
@@ -39,7 +39,7 @@ export class GameObject implements IGameObject {
     this.mapOffsetX = offset.x;
     this.mapOffsetY = offset.y;
 
-    this.sprite = new PIXI.TilingSprite(getMemberTexture(this.member)!);
+    this.sprite = new PIXI.Sprite(getMemberTexture(this.member)!);
 
     const offsetX = this.mapOffsetX * 32 * 13;
     const offsetY = this.mapOffsetY * 32 * 10;
