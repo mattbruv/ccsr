@@ -38,7 +38,7 @@ export class Game {
     });
 
     this.app.stage.addChild(this.viewport);
-    this.viewport.drag().pinch().wheel().decelerate();
+    this.viewport.drag().pinch().wheel(); //.decelerate();
 
     this.worldContainer = new PIXI.Container();
 

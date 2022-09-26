@@ -29,7 +29,6 @@ export class GameObject implements IGameObject {
   public sprite: PIXI.Sprite;
 
   constructor(obj: IGameObject, mapName: string) {
-    console.log(obj);
     this.member = obj.member.toLowerCase();
     this.type = obj.type;
     this.location = obj.location;
