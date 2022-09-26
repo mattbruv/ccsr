@@ -1,11 +1,13 @@
 import * as PIXI from "pixi.js";
+import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
 import { GameMapArea } from "./types";
 
 export class Game {
-  public app;
+  private app;
+  private viewport: Viewport;
   private gameObjects: GameObject[] = [];
   private worldContainer: PIXI.Container;
   private backgroundTexture: PIXI.RenderTexture;
@@ -21,8 +23,21 @@ export class Game {
       antialias: false,
       resizeTo: window,
     });
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-    //PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+    this.viewport = new Viewport({
+      screenWidth: window.innerWidth,
+      screenHeight: window.innerHeight,
+      worldWidth: 4000,
+      worldHeight: 4000,
+
+      interaction: this.app.renderer.plugins.interaction,
+      // the interaction module is important for wheel to work properly
+      // when renderer.view is placed or scaled
+    });
+
+    this.app.stage.addChild(this.viewport);
+    this.viewport.drag().pinch().wheel().decelerate();
 
     this.worldContainer = new PIXI.Container();
 
@@ -39,7 +54,8 @@ export class Game {
     });
     this.backgroundSprite = new PIXI.Sprite();
 
-    this.app.stage.addChild(this.worldContainer);
+    this.viewport.addChild(this.worldContainer);
+    //this.app.stage.addChild(this.worldContainer);
 
     loadAssets(() => {
       console.log("Done loading assets!");
