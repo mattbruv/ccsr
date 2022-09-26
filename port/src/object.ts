@@ -55,6 +55,34 @@ export class GameObject implements IGameObject {
     this.sprite.width = this.width;
     this.sprite.height = this.height;
   }
+
+  /**
+   * Determines if the game object will ever move or not.
+   * Only dynamic objects will be added to the PIXI scene graph.
+   * Having thousands of objects in the scene graph which never
+   * update just slows down the rendering and adds unnecessary work.
+   *
+   * @returns true if the game object will ever move or disappear
+   */
+  public isStatic() {
+    // Always include these types of objects' sprites in the scene
+    const dynamicTypes = [
+      GameObjectType.CHAR, // characters
+      GameObjectType.ITEM, // items
+    ];
+
+    if (dynamicTypes.includes(this.data.item.type)) {
+      return false;
+    }
+
+    if (this.data.move.COND !== 1) {
+      return false;
+    }
+
+    // TODO: vis objects
+
+    return true;
+  }
 }
 
 /*

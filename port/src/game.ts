@@ -58,11 +58,12 @@ export class Game {
     for (const area of data) {
       for (const obj of area.data) {
         const gameObject = new GameObject(obj, area.name);
-        this.worldContainer.addChild(gameObject.sprite);
         this.gameObjects.push(gameObject);
       }
-      break;
     }
+
+    // Loop through all static objects and render them to the background
+
     console.log(this.gameObjects.length);
     console.log(this.worldContainer.children.length);
     console.log(infoSet);
@@ -75,3 +76,13 @@ export function getMemberTexture(memberName: string) {
   name = name.replace(".x.", ".");
   return PIXI.Loader.shared.resources["textures1"].spritesheet?.textures[name];
 }
+
+/*
+  GPU PROFILING TESTS
+
+  EMPTY            = 14% GPU
+  25 TilingSprites = 33% GPU
+  34 TilingSprites = 37% GPU
+  34 Sprites       = 14% GPU
+  1345 Sprites     = 19% GPU
+*/
