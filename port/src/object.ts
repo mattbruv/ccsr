@@ -23,6 +23,9 @@ export class GameObject implements IGameObject {
   readonly mapOffsetX: number;
   readonly mapOffsetY: number;
 
+  public posX: number;
+  public posY: number;
+
   public sprite: PIXI.Sprite;
 
   constructor(obj: IGameObject, mapName: string) {
@@ -40,18 +43,21 @@ export class GameObject implements IGameObject {
     this.mapOffsetX = offset.x;
     this.mapOffsetY = offset.y;
 
-    this.sprite = new PIXI.TilingSprite(getMemberTexture(this.member)!);
-
     const offsetX = this.mapOffsetX * 32 * 13;
     const offsetY = this.mapOffsetY * 32 * 10;
-    this.sprite.position.x = this.location[0] * 16 + offsetX + this.WSHIFT;
-    this.sprite.position.y = this.location[1] * 16 + offsetY + this.HSHIFT;
+    this.posX = this.location[0] * 16 + offsetX + this.WSHIFT;
+    this.posY = this.location[1] * 16 + offsetY + this.HSHIFT;
 
     if (this.member.includes("tile") === false) {
-      this.sprite.position.x -= Math.round(this.width / 2);
-      this.sprite.position.y -= Math.round(this.height / 2);
+      this.posX -= Math.round(this.width / 2);
+      this.posY -= Math.round(this.height / 2);
     }
 
+    this.sprite = this.isStatic()
+      ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
+      : new PIXI.Sprite(getMemberTexture(this.member)!);
+
+    this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;
     this.sprite.height = this.height;
   }

@@ -23,6 +23,7 @@ export class Game {
       antialias: false,
       resizeTo: window,
     });
+
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
     this.viewport = new Viewport({
@@ -94,6 +95,13 @@ export class Game {
     this.backgroundSprite.texture = this.backgroundTexture;
     this.backgroundSprite.texture.update();
     this.worldContainer.addChild(this.backgroundSprite);
+
+    // Now add all of the dyanmic sprites to the scene.
+    this.gameObjects
+      .filter((x) => !x.isStatic())
+      .map((obj) => {
+        this.worldContainer.addChild(obj.sprite);
+      });
 
     console.log("Game Objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
