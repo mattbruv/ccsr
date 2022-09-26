@@ -3,7 +3,10 @@ import json
 import os
 import pathlib
 import re
+import shutil
+from typing import final
 from PyTexturePacker import Packer
+from PIL import Image
 
 
 def mkdir(path):
@@ -141,28 +144,41 @@ def cleanSymbols(jsonString):
     return jsonString
 
 
-def fileToLower(p):
-    path = pathlib.Path(p)
-    a = path.parents[0]
-    b = path.name.lower()
-    out = pathlib.Path(str(a) + "/" + str(b))
-    os.rename(p, out)
-
-
 def packImages(episodeNumber):
     print(f"Packing images for episode {episodeNumber}")
     images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
 
-    # rename images to use all lowercase filenames for consistency
     for img in images:
-        fileToLower(img)
+        out = pathlib.Path(img).name.lower()
+        outPath = f"public/assets/{episodeNumber}/temp/"
+        mkdir(outPath)
+        finalPath = pathlib.Path(outPath + out)
+        shutil.copy(img, finalPath)
+        makeWhiteTransparent(finalPath)
 
-    images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
+    images = glob.glob(f"public/assets/{episodeNumber}/temp/*.png")
+
     print(f"Found {len(images)} images, packing them now.")
     packer = Packer.create(enable_rotated=False,
                            atlas_format="json")
     packer.pack(images, "ep{}".format(episodeNumber),
                 "public/assets/{}".format(episodeNumber))
+
+
+def makeWhiteTransparent(imagePath):
+    img = Image.open(imagePath)
+    img = img.convert("RGBA")
+    datas = img.getdata()
+
+    newData = []
+    for item in datas:
+        if item[0] == 255 and item[1] == 255 and item[2] == 255:
+            newData.append((255, 255, 255, 0))
+        else:
+            newData.append(item)
+
+    img.putdata(newData)
+    img.save(imagePath, "PNG")
 
 
 def parseMapData(episodeNumber):
