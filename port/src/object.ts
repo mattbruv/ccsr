@@ -43,8 +43,8 @@ export class GameObject implements IGameObject {
 
     const offsetX = this.mapOffsetX * 32 * 13;
     const offsetY = this.mapOffsetY * 32 * 10;
-    this.sprite.position.x = this.location[0] * 16 + this.WSHIFT + offsetX;
-    this.sprite.position.y = this.location[1] * 16 + this.HSHIFT + offsetY;
+    this.sprite.position.x = this.location[0] * 16 + offsetX + this.WSHIFT;
+    this.sprite.position.y = this.location[1] * 16 + offsetY + this.HSHIFT;
 
     if (this.member.includes("tile") === false) {
       this.sprite.position.x -= Math.round(this.width / 2);
