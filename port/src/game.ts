@@ -58,19 +58,27 @@ export class Game {
     this.viewport.addChild(this.worldContainer);
     //this.app.stage.addChild(this.worldContainer);
 
-    loadAssets(() => {
+    loadAssets(1, () => {
       console.log("Done loading assets!");
       this.init();
     });
   }
 
   private init() {
-    document.body.appendChild(this.app.view);
+    document.getElementById("app")!.appendChild(this.app.view);
     this.initObjects();
   }
 
-  private initObjects() {
-    const data: GameMapArea[] = Loader.shared.resources["map1"].data;
+  public initObjects() {
+    this.backgroundTexture = PIXI.RenderTexture.create({
+      width: 4000,
+      height: 4000,
+    });
+    this.viewport.removeChild(this.worldContainer);
+    this.worldContainer = new PIXI.Container();
+    this.viewport.addChild(this.worldContainer);
+    this.gameObjects = [];
+    const data: GameMapArea[] = Loader.shared.resources["map"].data;
 
     // Convert all objects in map data to GameObjects
     for (const area of data) {
@@ -124,7 +132,7 @@ export function getMemberTexture(memberName: string) {
   let name = memberName.toLowerCase();
   name = name + ".png";
   name = name.replace(".x.", ".");
-  return PIXI.Loader.shared.resources["textures1"].spritesheet?.textures[name];
+  return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
 }
 
 /*
