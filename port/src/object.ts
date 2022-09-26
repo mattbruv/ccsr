@@ -40,7 +40,7 @@ export class GameObject implements IGameObject {
     this.mapOffsetX = offset.x;
     this.mapOffsetY = offset.y;
 
-    this.sprite = new PIXI.Sprite(getMemberTexture(this.member)!);
+    this.sprite = new PIXI.TilingSprite(getMemberTexture(this.member)!);
 
     const offsetX = this.mapOffsetX * 32 * 13;
     const offsetY = this.mapOffsetY * 32 * 10;

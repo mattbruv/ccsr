@@ -16,10 +16,10 @@ export class Game {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
       backgroundColor: 0xff00ff,
-      width: 1416,
-      height: 320,
+      width: 2496, // 1416, // 2496
+      height: 2080, // 320,
       antialias: false,
-      //resizeTo: window,
+      resizeTo: window,
     });
 
     //PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
