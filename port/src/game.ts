@@ -1,14 +1,15 @@
 import * as PIXI from "pixi.js";
-import { Loader, Sprite } from "pixi.js";
+import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea, GameObjectType } from "./types";
+import { GameMapArea } from "./types";
 
 export class Game {
   public app;
   private gameObjects: GameObject[] = [];
   private worldContainer: PIXI.Container;
   private backgroundTexture: PIXI.RenderTexture;
+  private backgroundSprite: PIXI.Sprite;
 
   constructor() {
     this.app = new PIXI.Application({
@@ -36,6 +37,7 @@ export class Game {
       width: 4000,
       height: 4000,
     });
+    this.backgroundSprite = new PIXI.Sprite();
 
     this.app.stage.addChild(this.worldContainer);
 
@@ -53,8 +55,7 @@ export class Game {
   private initObjects() {
     const data: GameMapArea[] = Loader.shared.resources["map1"].data;
 
-    const infoSet = new Set();
-
+    // Convert all objects in map data to GameObjects
     for (const area of data) {
       for (const obj of area.data) {
         const gameObject = new GameObject(obj, area.name);
@@ -63,10 +64,23 @@ export class Game {
     }
 
     // Loop through all static objects and render them to the background
+    this.gameObjects
+      .filter((x) => x.isStatic())
+      .map((obj) => {
+        // Draw the object to the background texture
+        this.app.renderer.render(obj.sprite, {
+          clear: false,
+          renderTexture: this.backgroundTexture,
+        });
+      });
 
-    console.log(this.gameObjects.length);
-    console.log(this.worldContainer.children.length);
-    console.log(infoSet);
+    // Update background sprite texture and add it to scene
+    this.backgroundSprite.texture = this.backgroundTexture;
+    this.backgroundSprite.texture.update();
+    this.worldContainer.addChild(this.backgroundSprite);
+
+    console.log("Game Objects: " + this.gameObjects.length);
+    console.log("Scene objects: " + this.worldContainer.children.length);
   }
 }
 
