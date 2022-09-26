@@ -156,13 +156,15 @@ def packImages(episodeNumber):
         shutil.copy(img, finalPath)
         makeWhiteTransparent(finalPath)
 
-    images = glob.glob(f"public/assets/{episodeNumber}/temp/*.png")
+    tempPath = f"public/assets/{episodeNumber}/temp/"
+    images = glob.glob(tempPath + "*.png")
 
     print(f"Found {len(images)} images, packing them now.")
     packer = Packer.create(enable_rotated=False,
                            atlas_format="json")
     packer.pack(images, "ep{}".format(episodeNumber),
                 "public/assets/{}".format(episodeNumber))
+    shutil.rmtree(tempPath)
 
 
 def makeWhiteTransparent(imagePath):
