@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { getMemberTexture } from "./game";
 import { GameObjectData, GameObjectType, IGameObject } from "./types";
 
 /**
@@ -49,8 +50,6 @@ export class GameObject implements IGameObject {
     if (this.member.includes("tile") === false) {
       this.sprite.position.x -= Math.round(this.width / 2);
       this.sprite.position.y -= Math.round(this.height / 2);
-      //console.log(this.member);
-      //this.sprite.anchor.set(0.5, 0.5);
     }
 
     this.sprite.width = this.width;
@@ -72,11 +71,4 @@ function getMapOffset(mapName: string) {
     x: parseInt(xIndex) - 1,
     y: parseInt(yIndex) - 1,
   };
-}
-
-function getMemberTexture(memberName: string) {
-  let name = memberName;
-  name = name + ".png";
-  name = name.replace(".x.", ".");
-  return PIXI.Loader.shared.resources["textures1"].spritesheet?.textures[name];
 }
