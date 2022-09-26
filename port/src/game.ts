@@ -75,6 +75,11 @@ export class Game {
     // Convert all objects in map data to GameObjects
     for (const area of data) {
       for (const obj of area.data) {
+        // Either the parser is bugged or there is a bug in the map data
+        // for episode 2, there's an object which is bad. Skip past it.
+        if (obj.member === undefined) {
+          continue;
+        }
         const gameObject = new GameObject(obj, area.name);
         this.gameObjects.push(gameObject);
       }
@@ -83,12 +88,12 @@ export class Game {
     // Loop through all static objects and render them to the background
     this.gameObjects
       .filter((x) => x.isStatic())
+      .sort((a, b) =>
+        // We have to sort here to draw the objects that use tiles first
+        a.member.includes("tile") && !b.member.includes("tile") ? -1 : 1
+      )
       .map((obj) => {
-        // Draw the object to the background texture
-        this.app.renderer.render(obj.sprite, {
-          clear: false,
-          renderTexture: this.backgroundTexture,
-        });
+        this.drawObjectToBackground(obj);
       });
 
     // Update background sprite texture and add it to scene
@@ -105,6 +110,13 @@ export class Game {
 
     console.log("Game Objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
+  }
+
+  private drawObjectToBackground(object: GameObject) {
+    this.app.renderer.render(object.sprite, {
+      clear: false,
+      renderTexture: this.backgroundTexture,
+    });
   }
 }
 
