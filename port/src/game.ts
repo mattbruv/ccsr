@@ -51,7 +51,7 @@ export class Game {
 
     this.app.stage.addChild(this.viewport);
     this.viewport.drag().pinch().wheel();
-    this.enableDebugControls(false);
+    this.enableDebugControls(true);
 
     this.worldContainer = new PIXI.Container();
 
@@ -156,6 +156,11 @@ export class Game {
 
   public getMap(): string {
     return this.currentMap;
+  }
+
+  public setCameraOnMap(mapName: string) {
+    const data = getMapRect(mapName);
+    this.setCamera(-data.x, -data.y);
   }
 
   public setCamera(x: number, y: number) {

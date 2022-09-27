@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { getMapOffset, getMapRect } from "./game";
 
 export enum PlayerStatus {
   MOVE,
@@ -29,6 +30,8 @@ export class Player {
   public state: PlayerState;
   public direction: PlayerDirection;
   public frameOfAnimation: number;
+  private posX: number;
+  private posY: number;
 
   constructor() {
     this.sprite = new PIXI.Sprite();
@@ -40,10 +43,28 @@ export class Player {
     this.state = PlayerState.NORMAL;
     this.direction = PlayerDirection.RIGHT;
     this.frameOfAnimation = 1;
+
+    this.posX = 0;
+    this.posY = 0;
   }
 
   public init() {
     this.sprite = PIXI.Sprite.from(this.getTextureString());
+    this.sprite.anchor.set(0.5, 0.5);
+  }
+
+  public setPosition(x: number, y: number) {
+    this.posX = x;
+    this.posY = y;
+    this.sprite.position.set(this.posX, this.posY);
+  }
+
+  public setMapAndPosition(map: string, xIndex: number, yIndex: number) {
+    // sprite(pSprite).loc = point(gPlayerStartLoc[1] * 16, gPlayerStartLoc[2] * 16)
+    const offset = getMapRect(map);
+    const x = xIndex * 16 + offset.x;
+    const y = yIndex * 16 + offset.y;
+    this.setPosition(x, y);
   }
 
   private getTextureString() {
