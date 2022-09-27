@@ -3,9 +3,10 @@ import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea, Rect } from "./types";
+import { GameMapArea, GameObjectType, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
+import { Player } from "./player";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -13,7 +14,10 @@ export const MAP_HEIGHT = 320;
 export class Game {
   public app;
   public viewport: Viewport;
+
+  public player: Player = new Player();
   public gameObjects: GameObject[] = [];
+
   public worldContainer: PIXI.Container;
   public backgroundTexture: PIXI.RenderTexture;
   public backgroundSprite: PIXI.Sprite;
@@ -78,7 +82,11 @@ export class Game {
   }
 
   private init() {
+    this.player.init();
+
     this.initObjects();
+    this.viewport.addChild(this.player.sprite);
+
     this.script.init();
 
     document.getElementById("app")!.appendChild(this.app.view);
@@ -105,6 +113,9 @@ export class Game {
         }
         const gameObject = new GameObject(obj, area.name);
         this.gameObjects.push(gameObject);
+        if (gameObject.data.item.type == GameObjectType.DOOR) {
+          console.log(obj);
+        }
       }
     }
 
