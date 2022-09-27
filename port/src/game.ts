@@ -113,9 +113,6 @@ export class Game {
         }
         const gameObject = new GameObject(obj, area.name);
         this.gameObjects.push(gameObject);
-        if (gameObject.data.item.type == GameObjectType.DOOR) {
-          console.log(obj);
-        }
       }
     }
 
