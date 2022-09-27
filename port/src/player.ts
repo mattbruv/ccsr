@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { getMapOffset, getMapRect } from "./game";
+import { getMapRect } from "./game";
 
 export enum PlayerStatus {
   MOVE,
@@ -60,7 +60,6 @@ export class Player {
   }
 
   public setMapAndPosition(map: string, xIndex: number, yIndex: number) {
-    // sprite(pSprite).loc = point(gPlayerStartLoc[1] * 16, gPlayerStartLoc[2] * 16)
     const offset = getMapRect(map);
     const x = xIndex * 16 + offset.x;
     const y = yIndex * 16 + offset.y;
