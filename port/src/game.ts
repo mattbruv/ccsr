@@ -4,24 +4,27 @@ import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
 import { GameMapArea } from "./types";
+import { EpisodeScript } from "./scripts/episodeScript";
+import { Episode1 } from "./scripts/episode1";
 
 export class Game {
-  private app;
-  private viewport: Viewport;
-  private gameObjects: GameObject[] = [];
-  private worldContainer: PIXI.Container;
-  private backgroundTexture: PIXI.RenderTexture;
-  private backgroundSprite: PIXI.Sprite;
+  public app;
+  public viewport: Viewport;
+  public gameObjects: GameObject[] = [];
+  public worldContainer: PIXI.Container;
+  public backgroundTexture: PIXI.RenderTexture;
+  public backgroundSprite: PIXI.Sprite;
+  private script: EpisodeScript;
 
   constructor() {
     this.app = new PIXI.Application({
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
       backgroundColor: 0xff00ff,
-      width: 2496, // 1416, // 2496
-      height: 2080, // 320,
+      width: 416,
+      height: 320,
       antialias: false,
-      resizeTo: window,
+      //resizeTo: window,
     });
 
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -38,7 +41,8 @@ export class Game {
     });
 
     this.app.stage.addChild(this.viewport);
-    this.viewport.drag().pinch().wheel(); //.decelerate();
+    this.viewport.drag().pinch().wheel();
+    this.enableDebugControls(false);
 
     this.worldContainer = new PIXI.Container();
 
@@ -56,7 +60,11 @@ export class Game {
     this.backgroundSprite = new PIXI.Sprite();
 
     this.viewport.addChild(this.worldContainer);
+
     //this.app.stage.addChild(this.worldContainer);
+
+    // Load Episode 1 assets/scripts
+    this.script = new Episode1(this);
 
     loadAssets(1, () => {
       console.log("Done loading assets!");
@@ -65,11 +73,13 @@ export class Game {
   }
 
   private init() {
-    document.getElementById("app")!.appendChild(this.app.view);
     this.initObjects();
+    this.script.init();
+
+    document.getElementById("app")!.appendChild(this.app.view);
   }
 
-  public initObjects() {
+  private initObjects() {
     this.backgroundTexture = PIXI.RenderTexture.create({
       width: 4000,
       height: 4000,
@@ -116,7 +126,7 @@ export class Game {
         this.worldContainer.addChild(obj.sprite);
       });
 
-    console.log("Game Objects: " + this.gameObjects.length);
+    console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
   }
 
@@ -126,6 +136,22 @@ export class Game {
       renderTexture: this.backgroundTexture,
     });
   }
+
+  public setCamera(x: number, y: number) {
+    this.viewport.position.set(x, y);
+  }
+
+  private enableDebugControls(enabled: boolean) {
+    if (enabled) {
+      this.viewport.plugins.resume("drag");
+      this.viewport.plugins.resume("pinch");
+      this.viewport.plugins.resume("wheel");
+    } else {
+      this.viewport.plugins.pause("drag");
+      this.viewport.plugins.pause("pinch");
+      this.viewport.plugins.pause("wheel");
+    }
+  }
 }
 
 export function getMemberTexture(memberName: string) {
@@ -133,6 +159,21 @@ export function getMemberTexture(memberName: string) {
   name = name + ".png";
   name = name.replace(".x.", ".");
   return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
+}
+/*
+    Maps are laid out in a grid pattern, and named XXYY
+    X increases left to right, starting at 01
+    Y increases top to bottom, starting at 01.
+*/
+export function getMapOffset(mapName: string) {
+  const xIndex = mapName.substring(0, 2);
+  const yIndex = mapName.substring(2, 4);
+
+  // Subtract 1 to convert to zero based indexing.
+  return {
+    x: parseInt(xIndex) - 1,
+    y: parseInt(yIndex) - 1,
+  };
 }
 
 /*

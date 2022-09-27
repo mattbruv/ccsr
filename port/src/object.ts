@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { getMemberTexture } from "./game";
+import { getMapOffset, getMemberTexture } from "./game";
 import { GameObjectData, GameObjectType, IGameObject } from "./types";
 
 /**
@@ -85,24 +85,6 @@ export class GameObject implements IGameObject {
       return false;
     }
 
-    // TODO: vis objects
-
     return true;
   }
-}
-
-/*
-    Maps are laid out in a grid pattern, and named XXYY
-    X increases left to right, starting at 01
-    Y increases top to bottom, starting at 01.
-*/
-function getMapOffset(mapName: string) {
-  const xIndex = mapName.substring(0, 2);
-  const yIndex = mapName.substring(2, 4);
-
-  // Subtract 1 to convert to zero based indexing.
-  return {
-    x: parseInt(xIndex) - 1,
-    y: parseInt(yIndex) - 1,
-  };
 }

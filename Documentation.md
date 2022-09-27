@@ -15,3 +15,8 @@ char,
 item,
 WATER,
 DOOR
+
+
+# Misc. Notes
+
+https://web.archive.org/web/20000815213945/http://www.cartoonnetwork.com/games/summer.resort/
