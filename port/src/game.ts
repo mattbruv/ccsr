@@ -3,9 +3,12 @@ import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea } from "./types";
+import { GameMapArea, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
+
+export const MAP_WIDTH = 416;
+export const MAP_HEIGHT = 320;
 
 export class Game {
   public app;
@@ -14,6 +17,8 @@ export class Game {
   public worldContainer: PIXI.Container;
   public backgroundTexture: PIXI.RenderTexture;
   public backgroundSprite: PIXI.Sprite;
+  private currentMap: string = "";
+
   private script: EpisodeScript;
 
   constructor() {
@@ -137,20 +142,25 @@ export class Game {
     });
   }
 
+  public setMap(mapName: string) {
+    this.currentMap = mapName;
+  }
+
+  public getMap(): string {
+    return this.currentMap;
+  }
+
   public setCamera(x: number, y: number) {
     this.viewport.position.set(x, y);
   }
 
   private enableDebugControls(enabled: boolean) {
-    if (enabled) {
-      this.viewport.plugins.resume("drag");
-      this.viewport.plugins.resume("pinch");
-      this.viewport.plugins.resume("wheel");
-    } else {
-      this.viewport.plugins.pause("drag");
-      this.viewport.plugins.pause("pinch");
-      this.viewport.plugins.pause("wheel");
-    }
+    const cb = enabled
+      ? (x: string) => this.viewport.plugins.resume(x)
+      : (x: string) => this.viewport.plugins.pause(x);
+    cb("drag");
+    cb("pinch");
+    cb("wheel");
   }
 }
 
@@ -160,6 +170,17 @@ export function getMemberTexture(memberName: string) {
   name = name.replace(".x.", ".");
   return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
 }
+
+export function getMapRect(mapName: string): Rect {
+  const offset = getMapOffset(mapName);
+  return {
+    x: offset.x * MAP_WIDTH,
+    y: offset.y * MAP_HEIGHT,
+    width: MAP_WIDTH,
+    height: MAP_HEIGHT,
+  };
+}
+
 /*
     Maps are laid out in a grid pattern, and named XXYY
     X increases left to right, starting at 01
