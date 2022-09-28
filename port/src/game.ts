@@ -22,6 +22,9 @@ export class Game {
   public worldContainer: PIXI.Container;
   public backgroundTexture: PIXI.RenderTexture;
   public backgroundSprite: PIXI.Sprite;
+
+  public debugGraphics: PIXI.Graphics;
+
   private currentMap: string = "";
 
   private script: EpisodeScript;
@@ -71,13 +74,11 @@ export class Game {
       I tried rendering everything as tiling sprites,
       but it is was too resource demanding.
     */
-    this.backgroundTexture = PIXI.RenderTexture.create({
-      width: 4000,
-      height: 4000,
-    });
+    this.backgroundTexture = this.newRenderTexture();
     this.backgroundSprite = new PIXI.Sprite();
 
     this.viewport.addChild(this.worldContainer);
+    this.debugGraphics = new PIXI.Graphics();
 
     //this.app.stage.addChild(this.worldContainer);
 
@@ -91,6 +92,13 @@ export class Game {
 
     // Add our update function to run every browser frame
     this.app.ticker.add((dt) => this.update(dt));
+  }
+
+  private newRenderTexture() {
+    return PIXI.RenderTexture.create({
+      width: 4000,
+      height: 4000,
+    });
   }
 
   private update(delta: number) {
@@ -141,6 +149,18 @@ export class Game {
     );
 
     if (collisionObject) {
+      const g = this.debugGraphics;
+      g.clear();
+      const r = newPlayerRect;
+      const d = collisionObject.getRect();
+      const n = this.player.getRectAtPoint(pos.x, pos.y);
+      g.lineStyle({ width: 1, color: 0x00ff00, alignment: 0 });
+      g.drawRect(n.x, n.y, n.width, n.height);
+      g.lineStyle({ width: 1, color: 0xffff00, alignment: 0 });
+      g.drawRect(r.x, r.y, r.width, r.height);
+      g.lineStyle({ width: 1, color: 0xff0000, alignment: 0 });
+      g.drawRect(d.x, d.y, d.width, d.height);
+      console.log("draiwngw!");
       console.log("Player attempted to walk in rect:", newPlayerRect);
       console.log("But hit: ", collisionObject.getRect());
       console.log(collisionObject);
@@ -183,6 +203,7 @@ export class Game {
 
     this.initObjects();
     this.viewport.addChild(this.player.sprite);
+    this.viewport.addChild(this.debugGraphics);
 
     this.script.init();
 
@@ -190,10 +211,7 @@ export class Game {
   }
 
   private initObjects() {
-    this.backgroundTexture = PIXI.RenderTexture.create({
-      width: 4000,
-      height: 4000,
-    });
+    this.backgroundTexture = this.newRenderTexture();
     this.viewport.removeChild(this.worldContainer);
     this.worldContainer = new PIXI.Container();
     this.viewport.addChild(this.worldContainer);
