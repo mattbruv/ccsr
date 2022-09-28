@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getMapOffset, getMemberTexture } from "./game";
-import { GameObjectData, GameObjectType, IGameObject } from "./types";
+import { GameObjectData, GameObjectType, IGameObject, Rect } from "./types";
 
 /**
  * Generic class for a game Object.
@@ -60,6 +60,15 @@ export class GameObject implements IGameObject {
     this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;
     this.sprite.height = this.height;
+  }
+
+  public getRect(): Rect {
+    return {
+      x: this.posX,
+      y: this.posY,
+      width: this.width,
+      height: this.height,
+    };
   }
 
   /**

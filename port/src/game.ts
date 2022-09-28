@@ -3,7 +3,7 @@ import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea, Key, Rect } from "./types";
+import { GameMapArea, GameObjectType, Key, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
@@ -133,14 +133,18 @@ export class Game {
     // This could be a tiny bug if the player's texture is
     //  supposed to change and it's not a 32x32 size
     const newPlayerRect = this.player.getRectAtPoint(newX, newY);
-    console.log(newX, newY, newPlayerRect);
 
-    const testRect: Rect = { x: 32, y: 0, width: 32, height: 32 };
+    const collisionObject = this.gameObjects.find(
+      (obj) =>
+        obj.data.item.type != GameObjectType.FLOR &&
+        intersect(newPlayerRect, obj.getRect())
+    );
 
-    if (intersect(newPlayerRect, testRect)) {
-      this.player.sprite.alpha = 0.5;
-    } else {
-      this.player.sprite.alpha = 1;
+    if (collisionObject) {
+      console.log("Player attempted to walk in rect:", newPlayerRect);
+      console.log("But hit: ", collisionObject.getRect());
+      console.log(collisionObject);
+      return;
     }
 
     // If we find an object...
