@@ -6,7 +6,7 @@ import { GameObject } from "./object";
 import { GameMapArea, Key, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
-import { Player, PlayerStatus } from "./player";
+import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -113,12 +113,29 @@ export class Game {
     // player isn't moving, stop the walking sound
     if (dx == 0 && dy == 0) {
       // TODO
+      return;
     }
 
     const pos = this.player.getPosition();
     const newX = pos.x + dx * this.player.speed;
     const newY = pos.y + dy * this.player.speed;
     this.player.setPosition(newX, newY);
+
+    const nextFrame = this.player.frameOfAnimation + 1;
+    this.player.frameOfAnimation = nextFrame > 2 ? 1 : nextFrame;
+
+    if (dx > 0) this.player.characterDirection = PlayerDirection.RIGHT;
+    if (dx < 0) this.player.characterDirection = PlayerDirection.LEFT;
+    if (dx == 0)
+      this.player.characterDirection = this.player.horizontalDirection;
+
+    if (this.player.state == PlayerState.NORMAL)
+      this.player.horizontalDirection = this.player.characterDirection;
+
+    if (dy > 0) this.player.characterDirection = PlayerDirection.DOWN;
+    if (dy < 0) this.player.characterDirection = PlayerDirection.UP;
+
+    this.player.refreshTexture();
   }
 
   private keyPressed(key: Key) {

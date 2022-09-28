@@ -28,7 +28,8 @@ export class Player {
   public lastMove: number;
   public pocket: string[];
   public state: PlayerState;
-  public direction: PlayerDirection;
+  public horizontalDirection: PlayerDirection;
+  public characterDirection: PlayerDirection;
   public frameOfAnimation: number;
   private posX: number;
   private posY: number;
@@ -41,7 +42,8 @@ export class Player {
     this.lastMove = 0;
     this.pocket = [];
     this.state = PlayerState.NORMAL;
-    this.direction = PlayerDirection.RIGHT;
+    this.horizontalDirection = PlayerDirection.RIGHT;
+    this.characterDirection = PlayerDirection.RIGHT;
     this.frameOfAnimation = 1;
 
     this.posX = 0;
@@ -73,9 +75,21 @@ export class Player {
     this.setPosition(x, y);
   }
 
+  public refreshTexture() {
+    const texStr = this.getTextureString();
+    const texture =
+      PIXI.Loader.shared.resources["textures"].spritesheet?.textures[texStr]!;
+    this.sprite.texture = texture;
+    this.sprite.texture.update();
+  }
+
   private getTextureString() {
-    const normal = [this.state, this.direction, this.frameOfAnimation];
-    const boat = [this.state, this.direction];
+    const normal = [
+      this.state,
+      this.horizontalDirection,
+      this.frameOfAnimation,
+    ];
+    const boat = [this.state, this.characterDirection];
     const arr = this.state == PlayerState.NORMAL ? normal : boat;
     return arr.join(".") + ".png";
   }
