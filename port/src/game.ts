@@ -119,6 +119,24 @@ export class Game {
     const pos = this.player.getPosition();
     const newX = pos.x + dx * this.player.speed;
     const newY = pos.y + dy * this.player.speed;
+
+    // TODO
+
+    // Check to see if we need to scroll the map
+    // This should be a toggleable setting in the future
+
+    // Check interaction with game objects
+    // Search through objects in reverse order
+    // Get the first object that we collide with
+
+    // If we find an object...
+
+    // First loop through its messages
+
+    // If the person has a COND, give them an item
+
+    // Switch over object type and handle each case differently
+
     this.player.setPosition(newX, newY);
 
     const nextFrame = this.player.frameOfAnimation + 1;
