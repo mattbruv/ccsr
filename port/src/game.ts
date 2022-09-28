@@ -6,7 +6,7 @@ import { GameObject } from "./object";
 import { GameMapArea, Key, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
-import { Player } from "./player";
+import { Player, PlayerStatus } from "./player";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -28,6 +28,11 @@ export class Game {
   // Key input
   public readonly keysPressed = new Set<string>();
 
+  // frame timing
+  private lastUpdate = Date.now();
+  private readonly targetFPS = 30;
+  private readonly MSperTick = 1000 / this.targetFPS;
+
   constructor() {
     this.app = new PIXI.Application({
       resolution: window.devicePixelRatio || 1,
@@ -36,7 +41,7 @@ export class Game {
       width: 416,
       height: 320,
       antialias: false,
-      //resizeTo: window,
+      resizeTo: window,
     });
 
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -88,8 +93,32 @@ export class Game {
   }
 
   private update(delta: number) {
-    if (this.keyPressed(Key.DOWN)) {
+    const now = Date.now();
+
+    if (this.lastUpdate + this.MSperTick > now) {
+      return;
     }
+    this.lastUpdate = now;
+
+    if (this.player.status == PlayerStatus.MOVE) {
+      const left = this.keyPressed(Key.LEFT) ? -1 : 0;
+      const right = this.keyPressed(Key.RIGHT) ? 1 : 0;
+      const up = this.keyPressed(Key.UP) ? -1 : 0;
+      const down = this.keyPressed(Key.DOWN) ? 1 : 0;
+      this.movePlayer(left + right, up + down);
+    }
+  }
+
+  private movePlayer(dx: number, dy: number) {
+    // player isn't moving, stop the walking sound
+    if (dx == 0 && dy == 0) {
+      // TODO
+    }
+
+    const pos = this.player.getPosition();
+    const newX = pos.x + dx * this.player.speed;
+    const newY = pos.y + dy * this.player.speed;
+    this.player.setPosition(newX, newY);
   }
 
   private keyPressed(key: Key) {

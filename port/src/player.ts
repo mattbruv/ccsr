@@ -59,6 +59,13 @@ export class Player {
     this.sprite.position.set(this.posX, this.posY);
   }
 
+  public getPosition() {
+    return {
+      x: this.posX,
+      y: this.posY,
+    };
+  }
+
   public setMapAndPosition(map: string, xIndex: number, yIndex: number) {
     const offset = getMapRect(map);
     const x = xIndex * 16 + offset.x;
