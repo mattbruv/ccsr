@@ -7,6 +7,7 @@ import { GameMapArea, Key, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
+import { intersect } from "./collision";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -128,6 +129,19 @@ export class Game {
     // Check interaction with game objects
     // Search through objects in reverse order
     // Get the first object that we collide with
+
+    // This could be a tiny bug if the player's texture is
+    //  supposed to change and it's not a 32x32 size
+    const newPlayerRect = this.player.getRectAtPoint(newX, newY);
+    console.log(newX, newY, newPlayerRect);
+
+    const testRect: Rect = { x: 32, y: 0, width: 32, height: 32 };
+
+    if (intersect(newPlayerRect, testRect)) {
+      this.player.sprite.alpha = 0.5;
+    } else {
+      this.player.sprite.alpha = 1;
+    }
 
     // If we find an object...
 

@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getMapRect } from "./game";
+import { Rect } from "./types";
 
 export enum PlayerStatus {
   MOVE,
@@ -81,6 +82,15 @@ export class Player {
       PIXI.Loader.shared.resources["textures"].spritesheet?.textures[texStr]!;
     this.sprite.texture = texture;
     this.sprite.texture.update();
+  }
+
+  public getRectAtPoint(x: number, y: number): Rect {
+    return {
+      x: x - Math.round(this.sprite.width / 2),
+      y: y - Math.round(this.sprite.height / 2),
+      width: this.sprite.width,
+      height: this.sprite.height,
+    };
   }
 
   private getTextureString() {

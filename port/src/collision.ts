@@ -5,7 +5,7 @@ export function intersect(a: Rect, b: Rect): boolean {
   const n1 = Math.min(a.x + a.width, b.x + b.width);
   const y = Math.max(a.y, b.y);
   const n2 = Math.min(a.y + a.height, b.y + b.height);
-  return n1 >= x && n2 >= y;
+  return n1 > x && n2 > y;
 }
 
 export function pointInRect(x: number, y: number, rect: Rect) {
