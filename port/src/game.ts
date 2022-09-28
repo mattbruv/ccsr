@@ -3,7 +3,7 @@ import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea, Rect } from "./types";
+import { GameMapArea, Key, Rect } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player } from "./player";
@@ -24,6 +24,9 @@ export class Game {
   private currentMap: string = "";
 
   private script: EpisodeScript;
+
+  // Key input
+  public readonly keysPressed = new Set<string>();
 
   constructor() {
     this.app = new PIXI.Application({
@@ -79,6 +82,18 @@ export class Game {
       console.log("Done loading assets!");
       this.init();
     });
+
+    // Add our update function to run every browser frame
+    this.app.ticker.add((dt) => this.update(dt));
+  }
+
+  private update(delta: number) {
+    if (this.keyPressed(Key.DOWN)) {
+    }
+  }
+
+  private keyPressed(key: Key) {
+    return this.keysPressed.has(key);
   }
 
   private init() {

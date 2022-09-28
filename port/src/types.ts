@@ -1,3 +1,11 @@
+export enum Key {
+  UP = "ArrowUp",
+  DOWN = "ArrowDown",
+  LEFT = "ArrowLeft",
+  RIGHT = "ArrowRight",
+  ENTER = "Enter",
+}
+
 export interface Rect {
   x: number;
   y: number;
