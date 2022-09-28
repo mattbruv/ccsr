@@ -30,7 +30,7 @@ export class Game {
 
   // frame timing
   private lastUpdate = Date.now();
-  private readonly targetFPS = 30;
+  private readonly targetFPS = 12;
   private readonly MSperTick = 1000 / this.targetFPS;
 
   constructor() {
