@@ -223,8 +223,10 @@ export class Game {
     }
 
     // Loop through all static objects and render them to the background
-    this.gameObjects
-      .filter((x) => x.isStatic())
+    // We must sort them by objects that use tiles first to render it properly,
+    // but we don't want to actually mess up the order of the original data.
+    const objs = this.gameObjects.filter((x) => x.isStatic());
+    [...objs]
       .sort((a, b) =>
         // We have to sort here to draw the objects that use tiles first
         a.member.includes("tile") && !b.member.includes("tile") ? -1 : 1
