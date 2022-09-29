@@ -151,6 +151,7 @@ export class Game {
       const objRect = collisionObject.getRect();
       const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
       this.debug.drawCollision(currRect, newPlayerRect, objRect);
+      console.log(collisionObject);
 
       return;
     }
