@@ -150,6 +150,8 @@ export class Game {
       return;
     }
 
+    let inWater = false;
+
     // Switch over object type and handle each case differently
     switch (collisionObject.data.item.type) {
       case GameObjectType.FLOR:
@@ -161,10 +163,18 @@ export class Game {
         console.log(collisionObject);
         return;
       }
+      case GameObjectType.WATER: {
+        // TODO: only allow water travel if you have a boat
+        inWater = true;
+        break;
+      }
       default:
         console.log(collisionObject);
         break;
     }
+
+    const newState = inWater ? PlayerState.BOAT : PlayerState.NORMAL;
+    this.player.state = newState;
 
     this.player.setPosition(newX, newY);
 
