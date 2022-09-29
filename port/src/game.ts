@@ -141,28 +141,30 @@ export class Game {
     //  supposed to change and it's not a 32x32 size
     const newPlayerRect = this.player.getCollisionRectAtPoint(newX, newY);
 
-    const collisionObject = this.gameObjects.find(
-      (obj) =>
-        obj.data.item.type != GameObjectType.FLOR &&
-        intersect(newPlayerRect, obj.getRect())
+    const collisionObject = this.gameObjects.find((obj) =>
+      intersect(newPlayerRect, obj.getRect())
     );
 
-    if (collisionObject) {
-      const objRect = collisionObject.getRect();
-      const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
-      this.debug.drawCollision(currRect, newPlayerRect, objRect);
-      console.log(collisionObject);
-
+    if (collisionObject === undefined) {
+      console.log("No game object was found where you tried to walk!");
       return;
     }
 
-    // If we find an object...
-
-    // First loop through its messages
-
-    // If the person has a COND, give them an item
-
     // Switch over object type and handle each case differently
+    switch (collisionObject.data.item.type) {
+      case GameObjectType.FLOR:
+        break;
+      case GameObjectType.WALL: {
+        const objRect = collisionObject.getRect();
+        const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
+        this.debug.drawCollision(currRect, newPlayerRect, objRect);
+        console.log(collisionObject);
+        return;
+      }
+      default:
+        console.log(collisionObject);
+        break;
+    }
 
     this.player.setPosition(newX, newY);
 
@@ -242,6 +244,10 @@ export class Game {
       .map((obj) => {
         this.worldContainer.addChild(obj.sprite);
       });
+
+    // Reverse the order of game objects from bottom to top
+    // THIS IS IMPORTANT FOR HOW THE COLLISION IS DETERMINED
+    this.gameObjects.reverse();
 
     console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
