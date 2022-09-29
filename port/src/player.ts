@@ -84,12 +84,13 @@ export class Player {
     this.sprite.texture.update();
   }
 
-  public getRectAtPoint(x: number, y: number): Rect {
+  public getCollisionRectAtPoint(x: number, y: number): Rect {
+    const padding = 2;
     return {
-      x: x - Math.round(this.sprite.width / 2),
-      y: y - Math.round(this.sprite.height / 2),
-      width: this.sprite.width,
-      height: this.sprite.height,
+      x: x - Math.round(this.sprite.width / 2) + padding,
+      y: y - Math.round(this.sprite.height / 2) + padding,
+      width: this.sprite.width - padding * 2,
+      height: this.sprite.height - padding * 2,
     };
   }
 

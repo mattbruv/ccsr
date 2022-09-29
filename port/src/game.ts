@@ -140,7 +140,7 @@ export class Game {
 
     // This could be a tiny bug if the player's texture is
     //  supposed to change and it's not a 32x32 size
-    const newPlayerRect = this.player.getRectAtPoint(newX, newY);
+    const newPlayerRect = this.player.getCollisionRectAtPoint(newX, newY);
 
     const collisionObject = this.gameObjects.find(
       (obj) =>
@@ -153,7 +153,7 @@ export class Game {
       g.clear();
       const r = newPlayerRect;
       const d = collisionObject.getRect();
-      const n = this.player.getRectAtPoint(pos.x, pos.y);
+      const n = this.player.getCollisionRectAtPoint(pos.x, pos.y);
       g.lineStyle({ width: 1, color: 0x00ff00, alignment: 0 });
       g.drawRect(n.x, n.y, n.width, n.height);
       g.lineStyle({ width: 1, color: 0xffff00, alignment: 0 });
