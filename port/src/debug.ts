@@ -13,6 +13,17 @@ export class Debugger {
 
   public init() {
     this.game.viewport.addChild(this.g);
+
+    this.game.viewport.interactive = true;
+    this.game.viewport.on("mousedown", (e: PIXI.InteractionEvent) => {
+      if (e.data.button == 4) {
+        const out = this.game.viewport.toLocal(e.data.global);
+        const x = Math.round(out.x / 8) * 8;
+        const y = Math.round(out.y / 8) * 8;
+        this.game.player.setPosition(x, y);
+        console.log(x, y);
+      }
+    });
   }
 
   public drawCollision(posCurr: Rect, posNew: Rect, obj: Rect) {
