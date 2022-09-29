@@ -8,6 +8,7 @@ import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
 import { intersect } from "./collision";
+import { Debugger } from "./debug";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -19,11 +20,11 @@ export class Game {
   public player: Player = new Player();
   public gameObjects: GameObject[] = [];
 
+  private debug: Debugger;
+
   public worldContainer: PIXI.Container;
   public backgroundTexture: PIXI.RenderTexture;
   public backgroundSprite: PIXI.Sprite;
-
-  public debugGraphics: PIXI.Graphics;
 
   private currentMap: string = "";
 
@@ -78,9 +79,7 @@ export class Game {
     this.backgroundSprite = new PIXI.Sprite();
 
     this.viewport.addChild(this.worldContainer);
-    this.debugGraphics = new PIXI.Graphics();
-
-    //this.app.stage.addChild(this.worldContainer);
+    this.debug = new Debugger(this);
 
     // Load Episode 1 assets/scripts
     this.script = new Episode1(this);
@@ -149,21 +148,10 @@ export class Game {
     );
 
     if (collisionObject) {
-      const g = this.debugGraphics;
-      g.clear();
-      const r = newPlayerRect;
-      const d = collisionObject.getRect();
-      const n = this.player.getCollisionRectAtPoint(pos.x, pos.y);
-      g.lineStyle({ width: 1, color: 0x00ff00, alignment: 0 });
-      g.drawRect(n.x, n.y, n.width, n.height);
-      g.lineStyle({ width: 1, color: 0xffff00, alignment: 0 });
-      g.drawRect(r.x, r.y, r.width, r.height);
-      g.lineStyle({ width: 1, color: 0xff0000, alignment: 0 });
-      g.drawRect(d.x, d.y, d.width, d.height);
-      console.log("draiwngw!");
-      console.log("Player attempted to walk in rect:", newPlayerRect);
-      console.log("But hit: ", collisionObject.getRect());
-      console.log(collisionObject);
+      const objRect = collisionObject.getRect();
+      const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
+      this.debug.drawCollision(currRect, newPlayerRect, objRect);
+
       return;
     }
 
@@ -203,9 +191,9 @@ export class Game {
 
     this.initObjects();
     this.viewport.addChild(this.player.sprite);
-    this.viewport.addChild(this.debugGraphics);
 
     this.script.init();
+    this.debug.init();
 
     document.getElementById("app")!.appendChild(this.app.view);
   }
