@@ -35,6 +35,9 @@ export class Player {
   private posX: number;
   private posY: number;
 
+  public currentMap: string = "";
+  public lastMap: string = "";
+
   constructor() {
     this.sprite = new PIXI.Sprite();
     this.status = PlayerStatus.MOVE;
@@ -70,6 +73,8 @@ export class Player {
   }
 
   public setMapAndPosition(map: string, xIndex: number, yIndex: number) {
+    this.currentMap = map;
+    this.lastMap = map;
     const offset = getMapRect(map);
     const x = xIndex * 16 + offset.x;
     const y = yIndex * 16 + offset.y;

@@ -249,6 +249,14 @@ export class Game {
 
     this.player.setPosition(newX, newY);
 
+    // Update map and do bookkeeping when leaving a zone
+    if (this.player.currentMap != collisionObject.mapName) {
+      //
+      this.player.lastMap = this.player.currentMap;
+      this.player.currentMap = collisionObject.mapName;
+      this.resetMovableObjects(this.player.lastMap);
+    }
+
     const nextFrame = this.player.frameOfAnimation + 1;
     this.player.frameOfAnimation = nextFrame > 2 ? 1 : nextFrame;
 
@@ -264,6 +272,17 @@ export class Game {
     if (dy < 0) this.player.characterDirection = PlayerDirection.UP;
 
     this.player.refreshTexture();
+  }
+
+  private resetMovableObjects(mapName: string) {
+    this.gameObjects
+      .filter(
+        (obj) =>
+          obj.data.move.COND == GameObjectMoveCond.PUSH &&
+          obj.mapName == mapName &&
+          (obj.posX != obj.originalPosX || obj.posY != obj.originalPosY)
+      )
+      .map((obj) => obj.setPos(obj.originalPosX, obj.originalPosY));
   }
 
   private keyPressed(key: Key) {
