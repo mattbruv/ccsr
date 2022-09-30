@@ -192,6 +192,7 @@ def parseMapData(episodeNumber):
     for m in maps:
         print(f"Parsing map: {m}")
         data = open(m).read()
+        data = data.replace("\n", "\\n")
         jsonData = parseMapDataToJson(data)
         jsonData = separateTileStrings(jsonData)
         jsonData = jsonLoadTileData(jsonData)
