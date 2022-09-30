@@ -53,7 +53,7 @@ export class Game {
 
   constructor() {
     this.app = new PIXI.Application({
-      resolution: window.devicePixelRatio || 1,
+      resolution: 1,
       autoDensity: true,
       backgroundColor: 0xff00ff,
       width: 416,
