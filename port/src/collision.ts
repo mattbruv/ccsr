@@ -8,7 +8,7 @@ export function intersect(a: Rect, b: Rect): boolean {
   return n1 > x && n2 > y;
 }
 
-export function pointInRect(x: number, y: number, rect: Rect) {
+export function pointInRect(x: number, y: number, rect: Rect): boolean {
   return (
     x >= rect.x &&
     x <= rect.x + rect.width &&

@@ -13,7 +13,7 @@ import {
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
-import { intersect } from "./collision";
+import { intersect, pointInRect } from "./collision";
 import { Debugger } from "./debug";
 
 export const MAP_WIDTH = 416;
@@ -25,6 +25,10 @@ export class Game {
 
   public player: Player = new Player();
   public gameObjects: GameObject[] = [];
+
+  public numMapsX: number = 0;
+  public numMapsY: number = 0;
+  public worldRect: Rect | undefined;
 
   private debug: Debugger;
 
@@ -147,6 +151,19 @@ export class Game {
       height: gameObj.height,
     };
 
+    const mapRect = getMapRect(gameObj.mapName);
+    const boundCheck1 = pointInRect(newRect.x, newRect.y, mapRect);
+    const boundCheck2 = pointInRect(
+      newRect.x + newRect.width,
+      newRect.y + newRect.height,
+      mapRect
+    );
+
+    // If the new position is outside of the current map, disallow pushing
+    if ((boundCheck1 && boundCheck2) == false) {
+      return false;
+    }
+
     const collisionObject = this.gameObjects.find(
       (obj) =>
         obj !== gameObj &&
@@ -205,7 +222,6 @@ export class Game {
         break;
       case GameObjectType.WALL: {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
-          console.log(collisionObject);
           const didMove = this.moveGameObject(collisionObject, dx, dy);
           if (didMove == false) {
             return;
@@ -258,6 +274,8 @@ export class Game {
     this.player.init();
 
     this.initObjects();
+    this.initWorldInfo();
+
     this.viewport.addChild(this.player.sprite);
 
     this.script.init();
@@ -342,6 +360,25 @@ export class Game {
 
   public setCamera(x: number, y: number) {
     this.viewport.position.set(x, y);
+  }
+
+  private initWorldInfo() {
+    const mapSet = new Set<string>();
+    this.gameObjects.map((obj) => mapSet.add(obj.mapName));
+    const xMax = Math.max(
+      ...Array.from(mapSet).map((s) => parseInt(s.slice(0, 2)))
+    );
+    const yMax = Math.max(
+      ...Array.from(mapSet).map((s) => parseInt(s.slice(2, 4)))
+    );
+    this.numMapsX = xMax;
+    this.numMapsY = yMax;
+    this.worldRect = {
+      x: 0,
+      y: 0,
+      width: this.numMapsX * MAP_WIDTH,
+      height: this.numMapsY * MAP_HEIGHT,
+    };
   }
 
   private enableDebugControls(enabled: boolean) {

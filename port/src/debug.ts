@@ -29,18 +29,10 @@ export class Debugger {
     });
 
     // Draw map grid
-    const mapSet = new Set<string>();
-    this.game.gameObjects.map((obj) => mapSet.add(obj.mapName));
-    const xMax = Math.max(
-      ...Array.from(mapSet).map((s) => parseInt(s.slice(0, 2)))
-    );
-    const yMax = Math.max(
-      ...Array.from(mapSet).map((s) => parseInt(s.slice(2, 4)))
-    );
 
     this.mapGrid.lineStyle({ width: 1, color: 0xbb00bb, alignment: 0 });
-    for (let x = 0; x < xMax; x++) {
-      for (let y = 0; y < yMax; y++) {
+    for (let x = 0; x < this.game.numMapsX; x++) {
+      for (let y = 0; y < this.game.numMapsY; y++) {
         this.mapGrid.drawRect(
           x * MAP_WIDTH,
           y * MAP_HEIGHT,
@@ -50,8 +42,10 @@ export class Debugger {
       }
     }
 
-    console.log(xMax * MAP_WIDTH, yMax * MAP_HEIGHT);
-    console.log(mapSet);
+    console.log(
+      this.game.numMapsX * MAP_WIDTH,
+      this.game.numMapsY * MAP_HEIGHT
+    );
   }
 
   public drawCollision(posCurr: Rect, posNew: Rect, obj: Rect) {

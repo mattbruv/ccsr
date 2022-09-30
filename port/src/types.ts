@@ -71,7 +71,7 @@ export interface GameObjectMove {
   D: number;
   L: number;
   R: number;
-  COND: number;
+  COND: GameObjectMoveCond;
   TIMEA: number;
   TIMEB: number;
 }
