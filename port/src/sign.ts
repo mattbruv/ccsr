@@ -5,6 +5,10 @@ export class GameSign {
   private sprite: PIXI.Sprite | undefined;
   private textElement: HTMLParagraphElement;
 
+  private adaptiveScale: boolean = false;
+  private originalHeight: number = 0;
+  private originalWidth: number = 0;
+
   constructor(game: Game) {
     this.game = game;
 
@@ -22,6 +26,8 @@ export class GameSign {
     this.textElement.style.whiteSpace = "break-spaces"; // don't compress whitespace
     this.textElement.style.fontFamily = "arial";
 
+    this.adaptiveScale = true;
+
     document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
@@ -29,6 +35,8 @@ export class GameSign {
     this.sprite = new PIXI.Sprite(getMemberTexture("sign.bkg"));
     this.sprite.anchor.set(0.5, 0.5);
     this.game.app.stage.addChild(this.sprite);
+    this.originalHeight = this.sprite.height;
+    this.originalWidth = this.sprite.width;
     this.resize();
   }
 
@@ -39,7 +47,20 @@ export class GameSign {
     const y = Math.round(height / 2);
     this.sprite?.position.set(x, y);
 
-    const scale = 1;
+    console.log(this.sprite?.height);
+
+    // In the original game, the message takes up
+    // 65% of the screen's height more or less
+    const targetHeight = height * 0.65;
+    const targetWidth = width * 0.73;
+    const scaleY = targetHeight / this.originalHeight;
+    const scaleX = targetWidth / this.originalWidth;
+
+    let scale = 1;
+    if (this.adaptiveScale) {
+      scale = width > height ? scaleY : scaleX;
+    }
+
     this.sprite?.scale.set(scale, scale);
 
     this.textElement.style.fontSize = 100 * scale + "%";

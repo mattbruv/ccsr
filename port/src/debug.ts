@@ -41,11 +41,6 @@ export class Debugger {
         );
       }
     }
-
-    console.log(
-      this.game.numMapsX * MAP_WIDTH,
-      this.game.numMapsY * MAP_HEIGHT
-    );
   }
 
   public drawCollision(posCurr: Rect, posNew: Rect, obj: Rect) {
