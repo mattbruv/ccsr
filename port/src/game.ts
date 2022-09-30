@@ -320,7 +320,6 @@ export class Game {
     this.script.init();
     this.debug.init();
     this.sign.init();
-    this.sign.showCharacterMessage("block.67", "Oooh!");
 
     this.app.renderer.addListener("resize", () => {
       this.resize();

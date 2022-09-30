@@ -40,7 +40,7 @@ export class GameSign {
     this.sprite.visible = false;
 
     this.characterSprite = new PIXI.Sprite();
-    //this.characterSprite.anchor.set(0.5, 0.5);
+    this.characterSprite.anchor.set(0.5, 0.5);
     this.characterSprite.visible = false;
 
     this.game.app.stage.addChild(this.sprite);
@@ -52,7 +52,6 @@ export class GameSign {
   }
 
   public showCharacterMessage(charName: string, message: string) {
-    this.characterSprite?.anchor.set(0.5, 0.5);
     this.game.showingMessage = true;
     this.setTextDimensions(false);
 
@@ -117,7 +116,7 @@ export class GameSign {
     const x = Math.round(width / 2);
     const y = Math.round(height / 2);
     this.sprite?.position.set(x, y);
-    this.characterSprite?.position.set(275, 325);
+    this.characterSprite?.position.set(285, 320);
 
     console.log(this.sprite?.height);
 
