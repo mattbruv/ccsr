@@ -254,6 +254,8 @@ export class Game {
       }
       case GameObjectType.WATER: {
         // TODO: only allow water travel if you have a boat
+        this.sign.showMessage("You can't just walk into water!!!");
+        return;
         inWater = true;
         break;
       }
