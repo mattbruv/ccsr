@@ -42,6 +42,7 @@ export class GameSign {
   }
 
   public showMessage(message: string) {
+    this.game.showingMessage = true;
     this.sprite!.visible = true;
     this.textElement.innerText = message;
     this.textElement.style.display = "block";

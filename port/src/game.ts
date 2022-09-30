@@ -40,6 +40,7 @@ export class Game {
   public sign: GameSign;
 
   private currentMap: string = "";
+  public showingMessage = false;
 
   private script: EpisodeScript;
 
@@ -125,14 +126,22 @@ export class Game {
     if (this.lastUpdate + this.MSperTick > now) {
       return;
     }
+
     this.lastUpdate = now;
 
-    if (this.player.status == PlayerStatus.MOVE) {
-      const left = this.keyPressed(Key.LEFT) ? -1 : 0;
-      const right = this.keyPressed(Key.RIGHT) ? 1 : 0;
-      const up = this.keyPressed(Key.UP) ? -1 : 0;
-      const down = this.keyPressed(Key.DOWN) ? 1 : 0;
-      this.movePlayer(left + right, up + down);
+    if (this.showingMessage) {
+      if (this.keyPressed(Key.ENTER)) {
+        this.showingMessage = false;
+        this.sign.closeMessage();
+      }
+    } else {
+      if (this.player.status == PlayerStatus.MOVE) {
+        const left = this.keyPressed(Key.LEFT) ? -1 : 0;
+        const right = this.keyPressed(Key.RIGHT) ? 1 : 0;
+        const up = this.keyPressed(Key.UP) ? -1 : 0;
+        const down = this.keyPressed(Key.DOWN) ? 1 : 0;
+        this.movePlayer(left + right, up + down);
+      }
     }
   }
 
@@ -309,6 +318,7 @@ export class Game {
     this.script.init();
     this.debug.init();
     this.sign.init();
+    this.sign.showMessage("test!");
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
