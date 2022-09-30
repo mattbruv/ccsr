@@ -12,11 +12,11 @@ export class GameSign {
     this.textElement = document.createElement("p");
     this.textElement.textContent = "hello world ".repeat(100);
     this.textElement.style.position = "absolute";
+    this.textElement.style.display = "block";
     this.textElement.style.top = "0";
     this.textElement.style.left = "0";
     this.textElement.style.backgroundColor = "white";
     this.textElement.style.overflowY = "scroll";
-    this.textElement.style.display = "none";
     this.textElement.style.border = "1px solid black";
     this.textElement.style.userSelect = "none";
     this.textElement.style.whiteSpace = "break-spaces"; // don't compress whitespace
@@ -45,13 +45,13 @@ export class GameSign {
     this.textElement.style.fontSize = 100 * scale + "%";
 
     const boxWidth = 242 * scale;
-    const boxHeight = 140 * scale;
+    const boxHeight = 136 * scale;
 
-    const halfWidth = this.sprite!.width / 2;
-    const halfHeight = this.sprite!.height / 2;
+    const halfWidth = Math.round(this.sprite!.width / 2);
+    const halfHeight = Math.round(this.sprite!.height / 2);
 
     const leftAdjust = 30 * scale;
-    const topAdjust = 30 * scale;
+    const topAdjust = 34 * scale;
 
     const left = this.sprite!.position.x - halfWidth + leftAdjust;
     const top = this.sprite!.position.y - halfHeight + topAdjust;
@@ -60,6 +60,5 @@ export class GameSign {
     this.textElement.style.height = boxHeight + "px";
     this.textElement.style.left = left + "px";
     this.textElement.style.top = top + "px";
-    this.textElement.style.display = "block";
   }
 }
