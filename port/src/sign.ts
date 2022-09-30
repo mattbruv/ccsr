@@ -14,9 +14,9 @@ export class GameSign {
 
     // Initialize and style the text HTML element
     this.textElement = document.createElement("p");
-    this.textElement.textContent = "hello world ".repeat(100);
+    this.textElement.textContent = "";
     this.textElement.style.position = "absolute";
-    this.textElement.style.display = "block";
+    this.textElement.style.display = "none";
     this.textElement.style.top = "0";
     this.textElement.style.left = "0";
     this.textElement.style.backgroundColor = "white";
@@ -34,10 +34,24 @@ export class GameSign {
   public init() {
     this.sprite = new PIXI.Sprite(getMemberTexture("sign.bkg"));
     this.sprite.anchor.set(0.5, 0.5);
+    this.sprite.visible = false;
     this.game.app.stage.addChild(this.sprite);
     this.originalHeight = this.sprite.height;
     this.originalWidth = this.sprite.width;
     this.resize();
+  }
+
+  public showMessage(message: string) {
+    this.sprite!.visible = true;
+    this.textElement.innerText = message;
+    this.textElement.style.display = "block";
+  }
+
+  public closeMessage() {
+    this.sprite!.visible = false;
+    this.textElement.innerText =
+      "I see you, poking around in the developer console";
+    this.textElement.style.display = "none";
   }
 
   public resize() {
