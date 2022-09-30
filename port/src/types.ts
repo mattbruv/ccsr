@@ -76,6 +76,17 @@ export interface GameObjectMove {
   TIMEB: number;
 }
 
+export enum GameObjectMoveCond {
+  NONE = 1,
+  AUTO,
+  PUSH,
+  // The following conditions are in the engine but are not implemented
+  // and are not present in the map data
+  // PULL
+  // MOVEX
+  // MOVEY
+}
+
 export interface GameObjectVisibility {
   visiObj: string;
   visiAct: string;

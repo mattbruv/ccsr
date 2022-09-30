@@ -3,7 +3,13 @@ import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
-import { GameMapArea, GameObjectType, Key, Rect } from "./types";
+import {
+  GameMapArea,
+  GameObjectMoveCond,
+  GameObjectType,
+  Key,
+  Rect,
+} from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
@@ -117,6 +123,47 @@ export class Game {
     }
   }
 
+  /*
+    Move a game object in x, y direction.
+    This is affected by the collision bug with FLORs.
+    That being, if a FLOR tile comes before a pushable WALL,
+    the floor tile gets preference and everything below it
+    is treated like it is a walkable surface, even if it
+    is a pushabale wall.
+
+    It probably never appeared in the original game
+    becuase objects weren't allowed to be pushed
+    outside of the maps that they reside in
+  */
+  private moveGameObject(gameObj: GameObject, dx: number, dy: number): boolean {
+    const pos = gameObj.getRect();
+    const newX = pos.x + dx * this.player.speed;
+    const newY = pos.y + dy * this.player.speed;
+
+    const newRect: Rect = {
+      x: newX,
+      y: newY,
+      width: gameObj.width,
+      height: gameObj.height,
+    };
+
+    const collisionObject = this.gameObjects.find(
+      (obj) =>
+        obj !== gameObj &&
+        obj.data.item.type != GameObjectType.ITEM &&
+        obj.data.item.type != GameObjectType.FLOR &&
+        intersect(newRect, obj.getRect())
+    );
+
+    // If we aren't going to hit anything, move the object
+    if (collisionObject === undefined) {
+      gameObj.setPos(newX, newY);
+      return true;
+    }
+
+    return false;
+  }
+
   private movePlayer(dx: number, dy: number) {
     // player isn't moving, stop the walking sound
     if (dx == 0 && dy == 0) {
@@ -157,6 +204,14 @@ export class Game {
       case GameObjectType.FLOR:
         break;
       case GameObjectType.WALL: {
+        if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
+          console.log(collisionObject);
+          const didMove = this.moveGameObject(collisionObject, dx, dy);
+          if (didMove == false) {
+            return;
+          }
+          break;
+        }
         const objRect = collisionObject.getRect();
         const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
         this.debug.drawCollision(currRect, newPlayerRect, objRect);

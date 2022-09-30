@@ -23,7 +23,7 @@ export enum PlayerDirection {
 
 export class Player {
   public sprite: PIXI.Sprite;
-  public speed: number;
+  public readonly speed: number;
   public status: PlayerStatus;
   public animNum: number;
   public lastMove: number;

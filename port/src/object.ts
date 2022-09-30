@@ -26,6 +26,9 @@ export class GameObject implements IGameObject {
   public posX: number;
   public posY: number;
 
+  public readonly originalPosX: number;
+  public readonly originalPosY: number;
+
   public sprite: PIXI.Sprite;
 
   constructor(obj: IGameObject, mapName: string) {
@@ -53,6 +56,9 @@ export class GameObject implements IGameObject {
       this.posY -= Math.round(this.height / 2);
     }
 
+    this.originalPosX = this.posX;
+    this.originalPosY = this.posY;
+
     this.sprite = this.isStatic()
       ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
       : new PIXI.Sprite(getMemberTexture(this.member)!);
@@ -60,6 +66,12 @@ export class GameObject implements IGameObject {
     this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;
     this.sprite.height = this.height;
+  }
+
+  public setPos(x: number, y: number) {
+    this.posX = x;
+    this.posY = y;
+    this.sprite.position.set(x, y);
   }
 
   public getRect(): Rect {

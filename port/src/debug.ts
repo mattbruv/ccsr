@@ -67,8 +67,8 @@ export class Debugger {
       alignment: 0,
     });
     this.drawRect(obj, { width: 1, color: 0xff0000, alignment: 0 });
-    console.log("Player attempted to walk in rect:", posNew);
-    console.log("But hit: ", obj);
+    //console.log("Player attempted to walk in rect:", posNew);
+    //console.log("But hit: ", obj);
   }
 
   public drawRect(rect: Rect, options?: PIXI.ILineStyleOptions) {
