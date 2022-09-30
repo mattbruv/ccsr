@@ -314,7 +314,7 @@ export class Game {
       this.resize();
     });
 
-    document.getElementById("app")!.appendChild(this.app.view);
+    document.getElementById("game-container")!.appendChild(this.app.view);
   }
 
   private initObjects() {

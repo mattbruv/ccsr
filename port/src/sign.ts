@@ -16,13 +16,13 @@ export class GameSign {
     this.textElement.style.left = "0";
     this.textElement.style.backgroundColor = "white";
     this.textElement.style.overflowY = "scroll";
-    this.textElement.style.display = "block";
+    this.textElement.style.display = "none";
     this.textElement.style.border = "1px solid black";
     this.textElement.style.userSelect = "none";
     this.textElement.style.whiteSpace = "break-spaces"; // don't compress whitespace
     this.textElement.style.fontFamily = "arial";
 
-    document.body.appendChild(this.textElement);
+    document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
   public init() {
@@ -60,5 +60,6 @@ export class GameSign {
     this.textElement.style.height = boxHeight + "px";
     this.textElement.style.left = left + "px";
     this.textElement.style.top = top + "px";
+    this.textElement.style.display = "block";
   }
 }
