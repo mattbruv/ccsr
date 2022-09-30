@@ -15,6 +15,7 @@ import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
 import { intersect, pointInRect } from "./collision";
 import { Debugger } from "./debug";
+import { GameSign } from "./sign";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -35,6 +36,8 @@ export class Game {
   public worldContainer: PIXI.Container;
   public backgroundTexture: PIXI.RenderTexture;
   public backgroundSprite: PIXI.Sprite;
+
+  public sign: GameSign;
 
   private currentMap: string = "";
 
@@ -94,6 +97,8 @@ export class Game {
     // Load Episode 1 assets/scripts
     this.script = new Episode1(this);
 
+    this.sign = new GameSign(this);
+
     loadAssets(1, () => {
       console.log("Done loading assets!");
       this.init();
@@ -101,6 +106,10 @@ export class Game {
 
     // Add our update function to run every browser frame
     this.app.ticker.add((dt) => this.update(dt));
+  }
+
+  public resize() {
+    this.sign.resize();
   }
 
   private newRenderTexture() {
@@ -299,6 +308,11 @@ export class Game {
 
     this.script.init();
     this.debug.init();
+    this.sign.init();
+
+    this.app.renderer.addListener("resize", () => {
+      this.resize();
+    });
 
     document.getElementById("app")!.appendChild(this.app.view);
   }
