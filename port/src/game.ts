@@ -16,6 +16,7 @@ import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
 import { intersect, pointInRect } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
+import { GameInventory } from "./inventory";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -38,6 +39,7 @@ export class Game {
   public backgroundSprite: PIXI.Sprite;
 
   public sign: GameSign;
+  public inventory: GameInventory;
 
   private currentMap: string = "";
   public showingMessage = false;
@@ -99,6 +101,7 @@ export class Game {
     this.script = new Episode1(this);
 
     this.sign = new GameSign(this);
+    this.inventory = new GameInventory(this);
 
     loadAssets(1, () => {
       console.log("Done loading assets!");
@@ -111,6 +114,7 @@ export class Game {
 
   public resize() {
     this.sign.resize();
+    this.inventory.resize();
   }
 
   private newRenderTexture() {
@@ -320,6 +324,8 @@ export class Game {
     this.script.init();
     this.debug.init();
     this.sign.init();
+    this.inventory.init();
+    this.inventory.openInventory();
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
