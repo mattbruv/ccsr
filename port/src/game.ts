@@ -21,6 +21,9 @@ import { GameInventory } from "./inventory";
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
 
+export const UI_WIDTH_PERCENT = 0.6;
+export const UI_HEIGHT_PERCENT = 0.5;
+
 export class Game {
   public app;
   public viewport: Viewport;
@@ -321,9 +324,11 @@ export class Game {
         return;
       }
       case GameObjectType.WATER: {
-        // TODO: only allow water travel if you have a boat
-        this.sign.showMessage("You can't just walk into water!!!");
-        return;
+        // only allow water travel if you have a boat
+        if (!this.inventory.hasItem("scuba")) {
+          this.sign.showMessage("You can't just walk into water!!!");
+          return;
+        }
         inWater = true;
         break;
       }

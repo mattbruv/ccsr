@@ -1,5 +1,10 @@
 import * as PIXI from "pixi.js";
-import { Game, getMemberTexture } from "./game";
+import {
+  Game,
+  getMemberTexture,
+  UI_HEIGHT_PERCENT,
+  UI_WIDTH_PERCENT,
+} from "./game";
 export class GameSign {
   private game: Game;
   private sprite: PIXI.Sprite | undefined;
@@ -127,8 +132,8 @@ export class GameSign {
 
     // In the original game, the message takes up
     // 65% of the screen's height more or less
-    const targetHeight = height * 0.65;
-    const targetWidth = width * 0.73;
+    const targetHeight = height * UI_HEIGHT_PERCENT;
+    const targetWidth = width * UI_WIDTH_PERCENT;
     const scaleY = targetHeight / this.originalHeight;
     const scaleX = targetWidth / this.originalWidth;
 
