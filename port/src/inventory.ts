@@ -190,6 +190,23 @@ export class GameInventory {
     }
   }
 
+  public addItem(itemKey: string) {
+    this.items.push(itemKey);
+  }
+
+  public removeItem(itemKey: string) {
+    const index = this.items.findIndex((i) => i == itemKey);
+    if (index) {
+      this.items.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  public hasItem(itemKey: string) {
+    return this.items.filter((i) => i == itemKey).length;
+  }
+
   public closeInventory() {
     this.isInventoryOpen = false;
     this.sprite.visible = false;
