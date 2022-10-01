@@ -1,5 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture } from "./game";
+
+export interface GameInventoryItemData {
+  key: string;
+  name: string;
+  description: string;
+}
+
 export class GameInventory {
   private game: Game;
   private sprite: PIXI.Sprite;
@@ -14,6 +21,8 @@ export class GameInventory {
   private scale = 1;
 
   private readonly FONT_SCALE = 0.72;
+
+  private itemData: GameInventoryItemData[] = [];
 
   constructor(game: Game) {
     this.game = game;
@@ -53,6 +62,10 @@ export class GameInventory {
     this.originalWidth = this.sprite.width;
 
     this.resize();
+  }
+
+  public initItems(itemData: GameInventoryItemData[]) {
+    this.itemData = itemData;
   }
 
   public openInventory() {
