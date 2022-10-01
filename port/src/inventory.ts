@@ -57,27 +57,23 @@ export class GameInventory {
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
 
+    this.originalHeight = this.sprite.height;
+    this.originalWidth = this.sprite.width;
+
     this.spriteInstructions.texture = getMemberTexture("inventory.instruct")!;
     this.spriteInstructions.anchor.set(0.5, 0.5);
     this.spriteInstructions.visible = true;
 
     this.spriteSelectedItem.texture = getMemberTexture("inventory.square")!;
     this.spriteSelectedItem.anchor.set(0.5, 0.5);
-    this.spriteSelectedItem.visible = true;
+    this.spriteSelectedItem.visible = false;
 
-    const point = this.getItemLocationPoints()[0];
-    this.spriteSelectedItem.position.set(
-      point.topLeft.x - 1,
-      point.topLeft.y - 1
-    );
+    this.debugGraphics.beginFill(0xff0000, 1);
 
     this.game.app.stage.addChild(this.sprite);
     this.sprite.addChild(this.spriteInstructions);
     this.sprite.addChild(this.debugGraphics);
     this.sprite.addChild(this.spriteSelectedItem);
-
-    this.originalHeight = this.sprite.height;
-    this.originalWidth = this.sprite.width;
 
     this.resize();
   }
