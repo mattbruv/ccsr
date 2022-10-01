@@ -31,6 +31,8 @@ export class GameInventory {
 
   private debugGraphics: PIXI.Graphics = new PIXI.Graphics();
 
+  private isInventoryOpen: boolean = false;
+
   constructor(game: Game) {
     this.game = game;
     this.sprite = new PIXI.Sprite();
@@ -52,6 +54,10 @@ export class GameInventory {
     this.adaptiveScale = true;
 
     document.getElementById("game-container")?.appendChild(this.textElement);
+  }
+
+  public isOpen() {
+    return this.isInventoryOpen;
   }
 
   private selectItem(key: string, index: number) {
@@ -169,6 +175,7 @@ export class GameInventory {
   }
 
   public openInventory() {
+    this.isInventoryOpen = true;
     this.sprite.visible = true;
     this.textElement.style.display = "block";
 
@@ -184,6 +191,7 @@ export class GameInventory {
   }
 
   public closeInventory() {
+    this.isInventoryOpen = false;
     this.sprite.visible = false;
 
     this.textElement.innerText =

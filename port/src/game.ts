@@ -138,6 +138,10 @@ export class Game {
         this.showingMessage = false;
         this.sign.closeMessage();
       }
+    } else if (this.inventory.isOpen()) {
+      if (this.keyPressed(Key.ENTER)) {
+        this.inventory.closeInventory();
+      }
     } else {
       if (this.player.status == PlayerStatus.MOVE) {
         const left = this.keyPressed(Key.LEFT) ? -1 : 0;
@@ -145,6 +149,9 @@ export class Game {
         const up = this.keyPressed(Key.UP) ? -1 : 0;
         const down = this.keyPressed(Key.DOWN) ? 1 : 0;
         this.movePlayer(left + right, up + down);
+      }
+      if (this.keyPressed(Key.ENTER)) {
+        this.inventory.openInventory();
       }
     }
   }
