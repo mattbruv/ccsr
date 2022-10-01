@@ -304,10 +304,20 @@ export class Game {
           }
           break;
         }
-        const objRect = collisionObject.getRect();
-        const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
-        this.debug.drawCollision(currRect, newPlayerRect, objRect);
-        console.log(collisionObject);
+        //const objRect = collisionObject.getRect();
+        //const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
+        //this.debug.drawCollision(currRect, newPlayerRect, objRect);
+        //console.log(collisionObject);
+        return;
+      }
+      case GameObjectType.CHAR: {
+        if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
+          const didMove = this.moveGameObject(collisionObject, dx, dy);
+          if (didMove == false) {
+            return;
+          }
+          break;
+        }
         return;
       }
       case GameObjectType.WATER: {
