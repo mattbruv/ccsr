@@ -42,7 +42,6 @@ export class Game {
   public inventory: GameInventory;
 
   private currentMap: string = "";
-  public showingMessage = false;
 
   private script: EpisodeScript;
 
@@ -133,9 +132,8 @@ export class Game {
 
     this.lastUpdate = now;
 
-    if (this.showingMessage) {
+    if (this.sign.isOpen()) {
       if (this.keyPressed(Key.ENTER)) {
-        this.showingMessage = false;
         this.sign.closeMessage();
       }
     } else if (this.inventory.isOpen()) {

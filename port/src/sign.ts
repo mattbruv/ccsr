@@ -10,6 +10,8 @@ export class GameSign {
   private originalHeight: number = 0;
   private originalWidth: number = 0;
 
+  private isMessageShowing = false;
+
   private scale = 1;
 
   constructor(game: Game) {
@@ -34,6 +36,10 @@ export class GameSign {
     document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
+  public isOpen() {
+    return this.isMessageShowing;
+  }
+
   public init() {
     this.sprite = new PIXI.Sprite(getMemberTexture("sign.bkg"));
     this.sprite.anchor.set(0.5, 0.5);
@@ -52,7 +58,7 @@ export class GameSign {
   }
 
   public showCharacterMessage(charName: string, message: string) {
-    this.game.showingMessage = true;
+    this.isMessageShowing = true;
     this.setTextDimensions(false);
 
     this.sprite!.texture = getMemberTexture("talk.bkg")!;
@@ -67,7 +73,7 @@ export class GameSign {
   }
 
   public showMessage(message: string) {
-    this.game.showingMessage = true;
+    this.isMessageShowing = true;
     this.setTextDimensions(true);
 
     this.sprite!.texture = getMemberTexture("sign.bkg")!;
@@ -103,6 +109,7 @@ export class GameSign {
   }
 
   public closeMessage() {
+    this.isMessageShowing = false;
     this.sprite!.visible = false;
     this.characterSprite!.visible = false;
     this.textElement.innerText =
