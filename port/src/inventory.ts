@@ -54,20 +54,41 @@ export class GameInventory {
     document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
+  private selectItem(index: number) {
+    if (index > 16) return;
+
+    this.spriteSelectedItem.visible = true;
+    const points = this.getItemLocationPoints();
+    const p = points[index];
+    this.spriteSelectedItem.position.set(p.center.x - 1, p.center.y - 1);
+    this.textElement.innerText = this.itemData[index].description;
+  }
+
   private renderItems() {
-    this.itemSprites.map((sprite) => sprite.parent.removeChild(sprite));
+    this.itemSprites.map((s) => s.parent.removeChild(s));
     this.itemSprites = [];
 
+    if (this.items.length > 16) {
+      alert("Warning! Items > 16");
+    }
     const items = this.items.slice(0, 16);
-    console.log(items);
+    const points = this.getItemLocationPoints();
+
+    items.map((item, index) => {
+      const itemSprite = PIXI.Sprite.from(item + ".png");
+      itemSprite.anchor.set(0.5, 0.5);
+      itemSprite.position.set(points[index].center.x, points[index].center.y);
+
+      // Add to the itemSprites array so we can keep track of references
+      // And release them when the inventory is opened next time.
+      this.itemSprites.push(itemSprite);
+      this.sprite.addChild(itemSprite);
+    });
+
+    this.selectItem(0);
   }
 
   public init() {
-    this.items.push("chicken");
-    this.items.push("bananas");
-    this.items.push("deedee");
-    this.items.push("ducktape");
-
     this.sprite.texture = getMemberTexture("inventory")!;
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
@@ -95,6 +116,9 @@ export class GameInventory {
 
   public initItems(itemData: GameInventoryItemData[]) {
     this.itemData = itemData;
+
+    this.itemData.map((x) => this.items.push(x.key));
+    console.log(this.items);
   }
 
   /**

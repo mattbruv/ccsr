@@ -324,9 +324,9 @@ export class Game {
     this.debug.init();
     this.sign.init();
     this.inventory.init();
-    this.inventory.openInventory();
 
     this.script.init();
+    this.inventory.openInventory();
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
