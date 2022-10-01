@@ -3,7 +3,7 @@ import { Game, getMemberTexture } from "./game";
 
 export interface GameInventoryItemData {
   key: string;
-  name: string;
+  name: string; // at first glance, it seems like this isn't used in the game.
   description: string;
 }
 
@@ -25,7 +25,9 @@ export class GameInventory {
 
   private readonly FONT_SCALE = 0.72;
 
+  private items: string[] = [];
   private itemData: GameInventoryItemData[] = [];
+  private itemSprites: PIXI.Sprite[] = [];
 
   private debugGraphics: PIXI.Graphics = new PIXI.Graphics();
 
@@ -52,7 +54,20 @@ export class GameInventory {
     document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
+  private renderItems() {
+    this.itemSprites.map((sprite) => sprite.parent.removeChild(sprite));
+    this.itemSprites = [];
+
+    const items = this.items.slice(0, 16);
+    console.log(items);
+  }
+
   public init() {
+    this.items.push("chicken");
+    this.items.push("bananas");
+    this.items.push("deedee");
+    this.items.push("ducktape");
+
     this.sprite.texture = getMemberTexture("inventory")!;
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
@@ -119,11 +134,10 @@ export class GameInventory {
 
   public openInventory() {
     this.setTextDimensions();
-
     this.sprite.visible = true;
-
     this.textElement.innerText = "Hello world!";
     this.textElement.style.display = "block";
+    this.renderItems();
   }
 
   public closeInventory() {
