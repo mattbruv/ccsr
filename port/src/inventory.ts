@@ -54,14 +54,15 @@ export class GameInventory {
     document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
-  private selectItem(index: number) {
+  private selectItem(key: string, index: number) {
     if (index > 16) return;
 
     this.spriteSelectedItem.visible = true;
     const points = this.getItemLocationPoints();
     const p = points[index];
     this.spriteSelectedItem.position.set(p.center.x - 1, p.center.y - 1);
-    this.textElement.innerText = this.itemData[index].description;
+    const desc = this.itemData.find((data) => data.key == key)!.description;
+    this.textElement.innerText = desc;
   }
 
   private clearItemSprites() {
@@ -90,7 +91,7 @@ export class GameInventory {
       itemSprite.buttonMode = true;
 
       itemSprite.on("pointerdown", () => {
-        this.selectItem(index);
+        this.selectItem(item, index);
       });
 
       // Add to the itemSprites array so we can keep track of references
@@ -99,7 +100,7 @@ export class GameInventory {
       this.sprite.addChild(itemSprite);
     });
 
-    this.selectItem(0);
+    this.selectItem(this.items[0], 0);
   }
 
   public init() {
@@ -130,9 +131,6 @@ export class GameInventory {
 
   public initItems(itemData: GameInventoryItemData[]) {
     this.itemData = itemData;
-
-    this.itemData.map((x) => this.items.push(x.key));
-    console.log(this.items);
   }
 
   /**
@@ -171,11 +169,18 @@ export class GameInventory {
   }
 
   public openInventory() {
-    this.setTextDimensions();
     this.sprite.visible = true;
-    this.textElement.innerText = "Hello world!";
     this.textElement.style.display = "block";
-    this.renderItems();
+
+    this.setTextDimensions();
+
+    if (this.items.length == 0) {
+      this.spriteSelectedItem.visible = false;
+      this.textElement.innerText = "You have no items.";
+    } else {
+      this.spriteSelectedItem.visible = true;
+      this.renderItems();
+    }
   }
 
   public closeInventory() {
