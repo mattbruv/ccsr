@@ -64,9 +64,17 @@ export class GameInventory {
     this.textElement.innerText = this.itemData[index].description;
   }
 
-  private renderItems() {
-    this.itemSprites.map((s) => s.parent.removeChild(s));
+  private clearItemSprites() {
+    this.itemSprites.map((s) => {
+      s.removeAllListeners();
+      s.parent.removeChild(s);
+    });
+
     this.itemSprites = [];
+  }
+
+  private renderItems() {
+    this.clearItemSprites();
 
     if (this.items.length > 16) {
       alert("Warning! Items > 16");
@@ -78,6 +86,12 @@ export class GameInventory {
       const itemSprite = PIXI.Sprite.from(item + ".png");
       itemSprite.anchor.set(0.5, 0.5);
       itemSprite.position.set(points[index].center.x, points[index].center.y);
+      itemSprite.interactive = true;
+      itemSprite.buttonMode = true;
+
+      itemSprite.on("pointerdown", () => {
+        this.selectItem(index);
+      });
 
       // Add to the itemSprites array so we can keep track of references
       // And release them when the inventory is opened next time.
