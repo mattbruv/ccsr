@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
-import { Loader } from "pixi.js";
+import { CountLimiter, Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
 import {
@@ -241,6 +241,55 @@ export class Game {
       return;
     }
 
+    // Determine if this object has a message to show.
+    const messages = collisionObject.data.message;
+
+    // TODO: possibly try to clean up this mess in the future
+    // It just looks sloppy, but I wrote it this way to match
+    // the logic of the original game.
+    let message = "";
+
+    if (messages.length > 0) {
+      // Find the message which is relavant to our player's state
+      for (const m of messages) {
+        if (!m.plrAct && !m.plrObj) {
+          message = m.text;
+          continue;
+        }
+        if (!m.plrObj && m.plrAct) {
+          if (this.inventory.hasAct(m.plrAct)) {
+            message = m.text;
+            break;
+          }
+          continue;
+        }
+        if (m.plrObj && !m.plrAct) {
+          if (this.inventory.hasItem(m.plrObj)) {
+            message = m.text;
+            break;
+          }
+          continue;
+        }
+        if (m.plrObj && m.plrAct) {
+          if (
+            this.inventory.hasItem(m.plrObj) &&
+            this.inventory.hasAct(m.plrAct)
+          ) {
+            message = m.text;
+            break;
+          }
+        }
+      }
+    }
+
+    if (message) {
+      if (collisionObject.data.item.type == GameObjectType.CHAR) {
+        this.sign.showCharacterMessage(collisionObject.member, message);
+      } else {
+        this.sign.showMessage(message);
+      }
+    }
+
     let inWater = false;
 
     // Switch over object type and handle each case differently
@@ -331,7 +380,6 @@ export class Game {
     this.inventory.init();
 
     this.script.init();
-    this.inventory.openInventory();
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
