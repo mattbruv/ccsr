@@ -44,7 +44,7 @@ export class GameInventory {
 
     this.spriteInstructions.texture = getMemberTexture("inventory.instruct")!;
     this.spriteInstructions.anchor.set(0.5, 0.5);
-    this.spriteInstructions.visible = false;
+    this.spriteInstructions.visible = true;
 
     this.game.app.stage.addChild(this.sprite);
     this.sprite.addChild(this.spriteInstructions);
@@ -59,15 +59,13 @@ export class GameInventory {
     this.setTextDimensions();
 
     this.sprite.visible = true;
-    this.spriteInstructions.visible = true;
 
-    this.textElement.innerText = "Yes, we have some Bananas!";
+    this.textElement.innerText = "Hello world!";
     this.textElement.style.display = "block";
   }
 
   public closeInventory() {
     this.sprite.visible = false;
-    this.spriteInstructions.visible = false;
 
     this.textElement.innerText =
       "I see you, poking around in the developer console";

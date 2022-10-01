@@ -27,7 +27,6 @@ export class Player {
   public status: PlayerStatus;
   public animNum: number;
   public lastMove: number;
-  public pocket: string[];
   public state: PlayerState;
   public horizontalDirection: PlayerDirection;
   public characterDirection: PlayerDirection;
@@ -44,7 +43,6 @@ export class Player {
     this.speed = 8;
     this.animNum = 1;
     this.lastMove = 0;
-    this.pocket = [];
     this.state = PlayerState.NORMAL;
     this.horizontalDirection = PlayerDirection.RIGHT;
     this.characterDirection = PlayerDirection.RIGHT;
