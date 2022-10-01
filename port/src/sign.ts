@@ -7,8 +7,8 @@ import {
 } from "./game";
 export class GameSign {
   private game: Game;
-  private sprite: PIXI.Sprite | undefined;
-  private characterSprite: PIXI.Sprite | undefined;
+  private sprite: PIXI.Sprite;
+  private characterSprite: PIXI.Sprite;
   private textElement: HTMLParagraphElement;
 
   private adaptiveScale: boolean = false;
@@ -21,6 +21,9 @@ export class GameSign {
 
   constructor(game: Game) {
     this.game = game;
+
+    this.sprite = new PIXI.Sprite();
+    this.characterSprite = new PIXI.Sprite();
 
     // Initialize and style the text HTML element
     this.textElement = document.createElement("p");
@@ -46,16 +49,16 @@ export class GameSign {
   }
 
   public init() {
-    this.sprite = new PIXI.Sprite(getMemberTexture("sign.bkg"));
+    this.sprite.texture = getMemberTexture("sign.bkg")!;
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
 
     this.characterSprite = new PIXI.Sprite();
     this.characterSprite.anchor.set(0.5, 0.5);
-    this.characterSprite.visible = false;
+    this.characterSprite.visible = true;
 
     this.game.app.stage.addChild(this.sprite);
-    this.game.app.stage.addChild(this.characterSprite);
+    this.sprite.addChild(this.characterSprite);
 
     this.originalHeight = this.sprite.height;
     this.originalWidth = this.sprite.width;
@@ -66,11 +69,11 @@ export class GameSign {
     this.isMessageShowing = true;
     this.setTextDimensions(false);
 
-    this.sprite!.texture = getMemberTexture("talk.bkg")!;
-    this.sprite!.visible = true;
+    this.sprite.texture = getMemberTexture("talk.bkg")!;
+    this.sprite.visible = true;
 
-    this.characterSprite!.texture = getMemberTexture(charName + ".face")!;
-    this.characterSprite!.visible = true;
+    this.characterSprite.texture = getMemberTexture(charName + ".face")!;
+    this.characterSprite.visible = true;
     console.log(this.characterSprite);
 
     this.textElement.innerText = message;
@@ -81,8 +84,8 @@ export class GameSign {
     this.isMessageShowing = true;
     this.setTextDimensions(true);
 
-    this.sprite!.texture = getMemberTexture("sign.bkg")!;
-    this.sprite!.visible = true;
+    this.sprite.texture = getMemberTexture("sign.bkg")!;
+    this.sprite.visible = true;
 
     this.textElement.innerText = message;
     this.textElement.style.display = "block";
@@ -95,8 +98,8 @@ export class GameSign {
     const boxWidth = width * this.scale;
     const boxHeight = height * this.scale;
 
-    const halfWidth = Math.round(this.sprite!.width / 2);
-    const halfHeight = Math.round(this.sprite!.height / 2);
+    const halfWidth = Math.round(this.sprite.width / 2);
+    const halfHeight = Math.round(this.sprite.height / 2);
 
     const l = isSign ? 30 : 120;
     const t = isSign ? 34 : 18;
@@ -104,8 +107,8 @@ export class GameSign {
     const leftAdjust = l * this.scale;
     const topAdjust = t * this.scale;
 
-    const left = this.sprite!.position.x - halfWidth + leftAdjust;
-    const top = this.sprite!.position.y - halfHeight + topAdjust;
+    const left = this.sprite.position.x - halfWidth + leftAdjust;
+    const top = this.sprite.position.y - halfHeight + topAdjust;
 
     this.textElement.style.width = boxWidth + "px";
     this.textElement.style.height = boxHeight + "px";
@@ -115,8 +118,8 @@ export class GameSign {
 
   public closeMessage() {
     this.isMessageShowing = false;
-    this.sprite!.visible = false;
-    this.characterSprite!.visible = false;
+    this.sprite.visible = false;
+    this.characterSprite.visible = false;
     this.textElement.innerText =
       "I see you, poking around in the developer console";
     this.textElement.style.display = "none";
@@ -127,8 +130,8 @@ export class GameSign {
     const height = this.game.app.renderer.screen.height;
     const x = Math.round(width / 2);
     const y = Math.round(height / 2);
-    this.sprite?.position.set(x, y);
-    this.characterSprite?.position.set(285, 320);
+    this.sprite.position.set(x, y);
+    this.characterSprite.position.set(-88, -25);
 
     // In the original game, the message takes up
     // 65% of the screen's height more or less
@@ -142,8 +145,7 @@ export class GameSign {
       this.scale = width > height ? scaleY : scaleX;
     }
 
-    this.sprite?.scale.set(this.scale, this.scale);
-    this.characterSprite?.scale.set(this.scale, this.scale);
+    this.sprite.scale.set(this.scale, this.scale);
 
     this.textElement.style.fontSize = 100 * this.scale + "%";
     this.setTextDimensions(true);
