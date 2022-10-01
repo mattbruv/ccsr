@@ -13,6 +13,8 @@ export class GameInventory {
 
   private scale = 1;
 
+  private readonly FONT_SCALE = 0.72;
+
   constructor(game: Game) {
     this.game = game;
     this.sprite = new PIXI.Sprite();
@@ -25,16 +27,14 @@ export class GameInventory {
     this.textElement.style.display = "none";
     this.textElement.style.top = "0";
     this.textElement.style.left = "0";
-    this.textElement.style.backgroundColor = "white";
-    this.textElement.style.overflowY = "scroll";
-    this.textElement.style.border = "1px solid black";
+    //this.textElement.style.backgroundColor = "red";
     this.textElement.style.userSelect = "none";
-    this.textElement.style.whiteSpace = "break-spaces"; // don't compress whitespace
-    this.textElement.style.fontFamily = "arial";
+    this.textElement.style.fontFamily = "arial narrow";
+    this.textElement.style.fontStretch = "condensed";
 
     this.adaptiveScale = true;
 
-    //document.getElementById("game-container")?.appendChild(this.textElement);
+    document.getElementById("game-container")?.appendChild(this.textElement);
   }
 
   public init() {
@@ -61,7 +61,7 @@ export class GameInventory {
     this.sprite.visible = true;
     this.spriteInstructions.visible = true;
 
-    this.textElement.innerText = "test";
+    this.textElement.innerText = "Yes, we have some Bananas!";
     this.textElement.style.display = "block";
   }
 
@@ -75,8 +75,8 @@ export class GameInventory {
   }
 
   private setTextDimensions() {
-    const width = 242;
-    const height = 136;
+    const width = 260;
+    const height = 20;
 
     const boxWidth = width * this.scale;
     const boxHeight = height * this.scale;
@@ -84,8 +84,8 @@ export class GameInventory {
     const halfWidth = Math.round(this.sprite.width / 2);
     const halfHeight = Math.round(this.sprite.height / 2);
 
-    const l = 30;
-    const t = 34;
+    const l = 25;
+    const t = 21;
 
     const leftAdjust = l * this.scale;
     const topAdjust = t * this.scale;
@@ -107,8 +107,6 @@ export class GameInventory {
     this.sprite.position.set(x, y);
     this.spriteInstructions.position.set(0, 90);
 
-    console.log(this.sprite.height);
-
     // In the original game, the message takes up
     // 65% of the screen's height more or less
     const targetHeight = height * 0.65;
@@ -123,7 +121,7 @@ export class GameInventory {
 
     this.sprite.scale.set(this.scale, this.scale);
 
-    this.textElement.style.fontSize = 100 * this.scale + "%";
+    this.textElement.style.fontSize = 100 * this.scale * this.FONT_SCALE + "%";
     this.setTextDimensions();
   }
 }

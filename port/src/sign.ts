@@ -118,8 +118,6 @@ export class GameSign {
     this.sprite?.position.set(x, y);
     this.characterSprite?.position.set(285, 320);
 
-    console.log(this.sprite?.height);
-
     // In the original game, the message takes up
     // 65% of the screen's height more or less
     const targetHeight = height * 0.65;
