@@ -337,6 +337,26 @@ export class Game {
       this.resize();
     });
 
+    const setA = new Set();
+    const setB = new Set();
+    const setC = new Set();
+    const setD = new Set();
+    this.gameObjects.map((obj) => {
+      obj.data.message.map((m) => {
+        setA.add(m.plrAct);
+        setB.add(m.plrObj);
+      });
+      obj.data.item.COND.map((c) => {
+        setC.add(c?.giveAct);
+        setD.add(c?.hasAct);
+      });
+    });
+
+    console.log(setA);
+    console.log(setB);
+    console.log(setC);
+    console.log(setD);
+
     document.getElementById("game-container")!.appendChild(this.app.view);
   }
 

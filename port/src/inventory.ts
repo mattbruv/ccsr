@@ -26,6 +26,7 @@ export class GameInventory {
   private readonly FONT_SCALE = 0.72;
 
   private items: string[] = [];
+  private acts: string[] = [];
   private itemData: GameInventoryItemData[] = [];
   private itemSprites: PIXI.Sprite[] = [];
 
@@ -188,6 +189,23 @@ export class GameInventory {
       this.spriteSelectedItem.visible = true;
       this.renderItems();
     }
+  }
+
+  public addAct(actKey: string) {
+    this.acts.push(actKey);
+  }
+
+  public removeAct(actKey: string) {
+    const index = this.acts.findIndex((i) => i == actKey);
+    if (index) {
+      this.acts.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  public hasAct(actKey: string) {
+    return this.acts.filter((i) => i == actKey).length;
   }
 
   public addItem(itemKey: string) {
