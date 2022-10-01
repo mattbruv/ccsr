@@ -9,8 +9,11 @@ export interface GameInventoryItemData {
 
 export class GameInventory {
   private game: Game;
+
   private sprite: PIXI.Sprite;
   private spriteInstructions: PIXI.Sprite;
+  private spriteSelectedItem: PIXI.Sprite;
+
   private textElement: HTMLParagraphElement;
 
   private adaptiveScale: boolean = false;
@@ -24,10 +27,13 @@ export class GameInventory {
 
   private itemData: GameInventoryItemData[] = [];
 
+  private debugGraphics: PIXI.Graphics = new PIXI.Graphics();
+
   constructor(game: Game) {
     this.game = game;
     this.sprite = new PIXI.Sprite();
     this.spriteInstructions = new PIXI.Sprite();
+    this.spriteSelectedItem = new PIXI.Sprite();
 
     // Initialize and style the text HTML element
     this.textElement = document.createElement("p");
@@ -55,8 +61,20 @@ export class GameInventory {
     this.spriteInstructions.anchor.set(0.5, 0.5);
     this.spriteInstructions.visible = true;
 
+    this.spriteSelectedItem.texture = getMemberTexture("inventory.square")!;
+    this.spriteSelectedItem.anchor.set(0.5, 0.5);
+    this.spriteSelectedItem.visible = true;
+
+    const point = this.getItemLocationPoints()[0];
+    this.spriteSelectedItem.position.set(
+      point.topLeft.x - 1,
+      point.topLeft.y - 1
+    );
+
     this.game.app.stage.addChild(this.sprite);
     this.sprite.addChild(this.spriteInstructions);
+    this.sprite.addChild(this.debugGraphics);
+    this.sprite.addChild(this.spriteSelectedItem);
 
     this.originalHeight = this.sprite.height;
     this.originalWidth = this.sprite.width;
@@ -66,6 +84,41 @@ export class GameInventory {
 
   public initItems(itemData: GameInventoryItemData[]) {
     this.itemData = itemData;
+  }
+
+  /**
+   * Mathematically generate a list of X,Y locations for each
+   * inventory slot, excluding the top corners
+   *
+   * @returns An array of 16 points to use as graphic coordinates
+   */
+  private getItemLocationPoints() {
+    const originX = -Math.round(this.originalWidth / 2) + 24;
+    const originY = -Math.round(this.originalHeight / 2) + 51;
+    const squarePadding = 44;
+    const squareWidth = 35;
+
+    const points = Array.from(Array(6 * 3).keys()).map((index) => {
+      const column = index % 6;
+      const row = Math.floor(index / 6);
+      const topLeft = {
+        x: originX + column * squarePadding,
+        y: originY + row * squarePadding,
+      };
+      const center = {
+        x: topLeft.x + Math.round(squareWidth / 2),
+        y: topLeft.y + Math.round(squareWidth / 2),
+      };
+
+      return { center, topLeft };
+    });
+
+    // Remove the top left and top right inventory slots
+    // because they are not shown on the graphic
+    points.splice(0, 1);
+    points.splice(4, 1);
+
+    return points;
   }
 
   public openInventory() {

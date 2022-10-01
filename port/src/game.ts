@@ -321,11 +321,12 @@ export class Game {
 
     this.viewport.addChild(this.player.sprite);
 
-    this.script.init();
     this.debug.init();
     this.sign.init();
     this.inventory.init();
     this.inventory.openInventory();
+
+    this.script.init();
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
