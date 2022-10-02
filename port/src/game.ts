@@ -54,7 +54,7 @@ export class Game {
 
   // frame timing
   private lastUpdate = Date.now();
-  private readonly targetFPS = 12;
+  private readonly targetFPS = 60;
   private readonly MSperTick = 1000 / this.targetFPS;
 
   constructor() {
@@ -290,7 +290,10 @@ export class Game {
     }
 
     if (message) {
-      if (collisionObject.data.item.type == GameObjectType.CHAR) {
+      if (
+        collisionObject.data.item.type == GameObjectType.CHAR ||
+        collisionObject.data.item.type == GameObjectType.ITEM
+      ) {
         this.sign.showCharacterMessage(collisionObject.member, message);
       } else {
         this.sign.showMessage(message);
