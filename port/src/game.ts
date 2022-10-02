@@ -5,6 +5,7 @@ import { loadAssets } from "./load";
 import { GameObject } from "./object";
 import {
   GameMapArea,
+  GameObjectCond,
   GameObjectMoveCond,
   GameObjectType,
   Key,
@@ -253,6 +254,7 @@ export class Game {
     let message = "";
 
     if (messages.length > 0) {
+      console.log(collisionObject);
       // Find the message which is relavant to our player's state
       for (const m of messages) {
         if (!m.plrAct && !m.plrObj) {
@@ -290,6 +292,64 @@ export class Game {
         this.sign.showCharacterMessage(collisionObject.member, message);
       } else {
         this.sign.showMessage(message);
+      }
+    }
+
+    const conds = collisionObject.data.item.COND.filter(
+      (c): c is GameObjectCond => c !== null
+    );
+
+    let getItem = false;
+    let condIndex = -1;
+
+    if (conds.length > 0) {
+      for (const c of conds) {
+        condIndex++;
+        if (!c.hasObj && !c.hasAct) {
+          getItem = true;
+          continue;
+        }
+        if (!c.hasObj && c.hasAct) {
+          if (this.inventory.hasAct(c.hasAct)) {
+            getItem = true;
+          }
+          break;
+          // Possible bug? Check this if there are problems in game
+          // continue;
+        }
+        if (c.hasObj && !c.hasAct) {
+          if (this.inventory.hasItem(c.hasObj)) {
+            getItem = true;
+            this.inventory.removeItem(c.hasObj);
+          }
+          break;
+        }
+        if (c.hasObj && c.hasAct) {
+          if (
+            this.inventory.hasItem(c.hasObj) &&
+            this.inventory.hasAct(c.hasAct)
+          ) {
+            getItem = true;
+            this.inventory.removeItem(c.hasObj);
+          }
+          break;
+        }
+      }
+    }
+
+    if (getItem) {
+      const c = conds[condIndex];
+      if (
+        c.giveObj &&
+        !this.inventory.hasItem(c.giveObj) &&
+        !this.inventory.hasAct("got" + c.giveObj)
+      ) {
+        this.inventory.addItem(c.giveObj);
+        // TODO: gItemLog?
+      }
+      if (c.giveAct && !this.inventory.hasAct(c.giveAct)) {
+        this.inventory.addAct(c.giveAct);
+        // TODO: gActionLog?
       }
     }
 

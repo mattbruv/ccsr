@@ -74,7 +74,6 @@ export class GameSign {
 
     this.characterSprite.texture = getMemberTexture(charName + ".face")!;
     this.characterSprite.visible = true;
-    console.log(this.characterSprite);
 
     this.textElement.innerText = message;
     this.textElement.style.display = "block";
