@@ -57,6 +57,8 @@ export class Game {
   private readonly targetFPS = 12;
   private readonly MSperTick = 1000 / this.targetFPS;
 
+  public smoothAnimations = true;
+
   constructor() {
     this.app = new PIXI.Application({
       resolution: 1,
@@ -131,7 +133,7 @@ export class Game {
     const now = Date.now();
 
     if (this.lastUpdate + this.MSperTick > now) {
-      if (this.player.inWalkingAnimation) {
+      if (this.smoothAnimations && this.player.inWalkingAnimation) {
         const endTime = this.player.walkAnimStartMS + this.MSperTick;
         const completed = this.MSperTick - (endTime - now);
         const percentage = completed / this.MSperTick;

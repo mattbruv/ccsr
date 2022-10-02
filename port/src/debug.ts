@@ -50,6 +50,12 @@ export class Debugger {
       }
     });
 
+    document.addEventListener("keydown", (event) => {
+      if (event.key == "p") {
+        this.game.smoothAnimations = !this.game.smoothAnimations;
+      }
+    });
+
     // Draw map grid
 
     this.mapGrid.lineStyle({ width: 1, color: 0xbb00bb, alignment: 0 });
