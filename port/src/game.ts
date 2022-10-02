@@ -266,14 +266,14 @@ export class Game {
         if (!m.plrObj && m.plrAct) {
           if (this.inventory.hasAct(m.plrAct)) {
             message = m.text;
-            break;
+            //break;
           }
           continue;
         }
         if (m.plrObj && !m.plrAct) {
           if (this.inventory.hasItem(m.plrObj)) {
             message = m.text;
-            break;
+            //break;
           }
           continue;
         }
@@ -283,7 +283,7 @@ export class Game {
             this.inventory.hasAct(m.plrAct)
           ) {
             message = m.text;
-            break;
+            //break;
           }
         }
       }
