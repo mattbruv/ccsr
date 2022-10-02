@@ -223,6 +223,7 @@ export class Game {
     const collisionObject = this.gameObjects.find(
       (obj) =>
         obj !== gameObj &&
+        obj.isVisible() &&
         obj.data.item.type != GameObjectType.ITEM &&
         obj.data.item.type != GameObjectType.FLOR &&
         intersect(newRect, obj.getRect())
@@ -266,8 +267,8 @@ export class Game {
     //  supposed to change and it's not a 32x32 size
     const newPlayerRect = this.player.getCollisionRectAtPoint(newX, newY);
 
-    const collisionObject = this.gameObjects.find((obj) =>
-      intersect(newPlayerRect, obj.getRect())
+    const collisionObject = this.gameObjects.find(
+      (obj) => obj.isVisible() && intersect(newPlayerRect, obj.getRect())
     );
 
     if (collisionObject === undefined) {
@@ -495,7 +496,7 @@ export class Game {
       showObj = hasItem || hasAct ? false : true;
     }
     // TODO: If secret and sprite is visible, play secret sound
-    object.sprite.visible = showObj;
+    object.setVisible(showObj);
   }
 
   private removeGameObject(object: GameObject) {

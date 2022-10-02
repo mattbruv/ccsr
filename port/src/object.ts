@@ -29,6 +29,8 @@ export class GameObject implements IGameObject {
   public readonly originalPosX: number;
   public readonly originalPosY: number;
 
+  private visible = true;
+
   public sprite: PIXI.Sprite;
 
   constructor(obj: IGameObject, mapName: string) {
@@ -67,6 +69,15 @@ export class GameObject implements IGameObject {
     this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;
     this.sprite.height = this.height;
+  }
+
+  public isVisible() {
+    return this.visible;
+  }
+
+  public setVisible(isVisible: boolean) {
+    this.visible = isVisible;
+    this.sprite.visible = isVisible;
   }
 
   public setPos(x: number, y: number) {
