@@ -16,6 +16,7 @@ export class GameSign {
   private originalWidth: number = 0;
 
   private isMessageShowing = false;
+  private isCharacterMessage = false;
 
   private scale = 1;
 
@@ -66,6 +67,7 @@ export class GameSign {
   }
 
   public showCharacterMessage(charName: string, message: string) {
+    this.isCharacterMessage = true;
     this.isMessageShowing = true;
     this.setTextDimensions(false);
 
@@ -80,6 +82,7 @@ export class GameSign {
   }
 
   public showMessage(message: string) {
+    this.isCharacterMessage = false;
     this.isMessageShowing = true;
     this.setTextDimensions(true);
 
@@ -147,6 +150,6 @@ export class GameSign {
     this.sprite.scale.set(this.scale, this.scale);
 
     this.textElement.style.fontSize = 100 * this.scale + "%";
-    this.setTextDimensions(true);
+    this.setTextDimensions(!this.isCharacterMessage);
   }
 }
