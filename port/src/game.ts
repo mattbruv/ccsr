@@ -146,10 +146,13 @@ export class Game {
       }
     } else {
       if (this.player.status == PlayerStatus.MOVE) {
-        const left = this.keyPressed(Key.LEFT) ? -1 : 0;
-        const right = this.keyPressed(Key.RIGHT) ? 1 : 0;
-        const up = this.keyPressed(Key.UP) ? -1 : 0;
-        const down = this.keyPressed(Key.DOWN) ? 1 : 0;
+        const left =
+          this.keyPressed(Key.LEFT) || this.keyPressed(Key.A) ? -1 : 0;
+        const right =
+          this.keyPressed(Key.RIGHT) || this.keyPressed(Key.D) ? 1 : 0;
+        const up = this.keyPressed(Key.UP) || this.keyPressed(Key.W) ? -1 : 0;
+        const down =
+          this.keyPressed(Key.DOWN) || this.keyPressed(Key.S) ? 1 : 0;
         this.movePlayer(left + right, up + down);
       }
       if (this.keyPressed(Key.ENTER)) {

@@ -4,6 +4,10 @@ export enum Key {
   LEFT = "ArrowLeft",
   RIGHT = "ArrowRight",
   ENTER = "Enter",
+  W = "w",
+  A = "a",
+  S = "s",
+  D = "d",
 }
 
 export interface Rect {
