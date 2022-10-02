@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
-import { CountLimiter, Loader } from "pixi.js";
+import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject } from "./object";
 import {
@@ -427,6 +427,16 @@ export class Game {
     if (dy < 0) this.player.characterDirection = PlayerDirection.UP;
 
     this.player.refreshTexture();
+    this.centerCameraOnPlayer();
+  }
+
+  private centerCameraOnPlayer() {
+    const pos = this.player.getPosition();
+    const x =
+      -pos.x * this.viewport.scale.x + this.app.renderer.screen.width / 2;
+    const y =
+      -pos.y * this.viewport.scale.y + this.app.renderer.screen.height / 2;
+    this.viewport.position.set(x, y);
   }
 
   private resetMovableObjects(mapName: string) {
