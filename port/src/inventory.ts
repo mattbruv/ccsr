@@ -198,6 +198,7 @@ export class GameInventory {
 
   public addAct(actKey: string) {
     this.acts.push(actKey);
+    this.game.updateAllVisibility();
   }
 
   public removeAct(actKey: string) {
@@ -215,6 +216,7 @@ export class GameInventory {
 
   public addItem(itemKey: string) {
     this.items.push(itemKey);
+    this.game.updateAllVisibility();
   }
 
   public removeItem(itemKey: string) {

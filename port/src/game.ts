@@ -437,6 +437,34 @@ export class Game {
     this.centerCameraOnPlayer();
   }
 
+  public updateAllVisibility() {
+    this.gameObjects.map((obj) => this.updateVisibility(obj));
+  }
+
+  private updateVisibility(object: GameObject) {
+    let showObj = true;
+    let secret = false;
+    const v = object.data.item.visi;
+
+    if (v.visiObj || v.visiAct) {
+      if (
+        this.inventory.hasItem(v.visiObj) ||
+        this.inventory.hasAct(v.visiAct)
+      ) {
+        showObj = true;
+        secret = true;
+      } else {
+        showObj = false;
+      }
+    } else {
+      const hasItem = this.inventory.hasItem(v.inviObj);
+      const hasAct = this.inventory.hasAct(v.inviAct);
+      showObj = hasItem || hasAct ? false : true;
+    }
+    // TODO: If secret and sprite is visible, play secret sound
+    object.sprite.visible = showObj;
+  }
+
   private removeGameObject(object: GameObject) {
     object.sprite.parent.removeChild(object.sprite);
     const index = this.gameObjects.findIndex((o) => o === object);
@@ -557,6 +585,8 @@ export class Game {
     // Reverse the order of game objects from bottom to top
     // THIS IS IMPORTANT FOR HOW THE COLLISION IS DETERMINED
     this.gameObjects.reverse();
+
+    this.updateAllVisibility();
 
     console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
