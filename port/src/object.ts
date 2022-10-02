@@ -59,9 +59,10 @@ export class GameObject implements IGameObject {
     this.originalPosX = this.posX;
     this.originalPosY = this.posY;
 
-    this.sprite = this.isStatic()
-      ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
-      : new PIXI.Sprite(getMemberTexture(this.member)!);
+    this.sprite =
+      this.isStatic() && this.member.toLowerCase().includes("tile")
+        ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
+        : new PIXI.Sprite(getMemberTexture(this.member)!);
 
     this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;

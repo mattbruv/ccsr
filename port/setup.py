@@ -161,7 +161,7 @@ def packImages(episodeNumber):
 
     print(f"Found {len(images)} images, packing them now.")
     packer = Packer.create(enable_rotated=False,
-                           atlas_format="json")
+                           atlas_format="json", force_square=True, inner_padding=2)
     packer.pack(images, "ep{}".format(episodeNumber),
                 "public/assets/{}".format(episodeNumber))
     shutil.rmtree(tempPath)
