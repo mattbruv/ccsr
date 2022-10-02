@@ -54,7 +54,7 @@ export class Game {
 
   // frame timing
   private lastUpdate = Date.now();
-  private readonly targetFPS = 60;
+  private readonly targetFPS = 12;
   private readonly MSperTick = 1000 / this.targetFPS;
 
   constructor() {
@@ -388,6 +388,10 @@ export class Game {
         }
         return;
       }
+      case GameObjectType.ITEM: {
+        this.removeGameObject(collisionObject);
+        break;
+      }
       case GameObjectType.WATER: {
         // only allow water travel if you have a boat
         if (!this.inventory.hasItem("scuba")) {
@@ -431,6 +435,12 @@ export class Game {
 
     this.player.refreshTexture();
     this.centerCameraOnPlayer();
+  }
+
+  private removeGameObject(object: GameObject) {
+    object.sprite.parent.removeChild(object.sprite);
+    const index = this.gameObjects.findIndex((o) => o === object);
+    this.gameObjects.splice(index, 1);
   }
 
   private centerCameraOnPlayer() {
