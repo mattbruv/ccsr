@@ -10,6 +10,11 @@ export enum Key {
   D = "d",
 }
 
+export interface Pos {
+  x: number;
+  y: number;
+}
+
 export interface Rect {
   x: number;
   y: number;

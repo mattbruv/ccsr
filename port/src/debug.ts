@@ -44,6 +44,8 @@ export class Debugger {
         const x = Math.round(out.x / 8) * 8;
         const y = Math.round(out.y / 8) * 8;
         this.game.player.setPosition(x, y);
+        this.game.player.lastPoint = { x, y };
+        this.game.player.nextPoint = { x, y };
         console.log(x, y);
       }
     });

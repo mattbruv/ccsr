@@ -131,8 +131,25 @@ export class Game {
     const now = Date.now();
 
     if (this.lastUpdate + this.MSperTick > now) {
+      if (this.player.inWalkingAnimation) {
+        const endTime = this.player.walkAnimStartMS + this.MSperTick;
+        const completed = this.MSperTick - (endTime - now);
+        const percentage = completed / this.MSperTick;
+        const dx =
+          percentage * (this.player.nextPoint.x - this.player.lastPoint.x);
+        const dy =
+          percentage * (this.player.nextPoint.y - this.player.lastPoint.y);
+        this.player.setPosition(
+          this.player.lastPoint.x + dx,
+          this.player.lastPoint.y + dy
+        );
+        this.centerCameraOnPlayer();
+      }
+
       return;
     }
+
+    this.player.inWalkingAnimation = false;
 
     this.lastUpdate = now;
 
@@ -145,7 +162,10 @@ export class Game {
         this.inventory.closeInventory();
       }
     } else {
-      if (this.player.status == PlayerStatus.MOVE) {
+      if (
+        !this.player.inWalkingAnimation &&
+        this.player.status == PlayerStatus.MOVE
+      ) {
         const left =
           this.keyPressed(Key.LEFT) || this.keyPressed(Key.A) ? -1 : 0;
         const right =
@@ -223,6 +243,9 @@ export class Game {
       // TODO
       return;
     }
+
+    this.player.setPosition(this.player.nextPoint.x, this.player.nextPoint.y);
+    this.centerCameraOnPlayer();
 
     const pos = this.player.getPosition();
     const newX = pos.x + dx * this.player.speed;
@@ -412,7 +435,12 @@ export class Game {
     const newState = inWater ? PlayerState.BOAT : PlayerState.NORMAL;
     this.player.state = newState;
 
-    this.player.setPosition(newX, newY);
+    // this.player.setPosition(newX, newY);
+    this.player.inWalkingAnimation = true;
+    this.player.lastPoint = this.player.getPosition();
+    this.player.nextPoint = { x: newX, y: newY };
+    this.player.walkAnimStartMS = Date.now();
+    // console.log(this.player.lastPoint, this.player.nextPoint);
 
     // Update map and do bookkeeping when leaving a zone
     if (this.player.currentMap != collisionObject.mapName) {
@@ -474,7 +502,7 @@ export class Game {
     this.gameObjects.splice(index, 1);
   }
 
-  private centerCameraOnPlayer() {
+  public centerCameraOnPlayer() {
     const pos = this.player.getPosition();
     const x =
       -pos.x * this.viewport.scale.x + this.app.renderer.screen.width / 2;

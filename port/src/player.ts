@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getMapRect } from "./game";
-import { Rect } from "./types";
+import { Pos, Rect } from "./types";
 
 export enum PlayerStatus {
   MOVE,
@@ -37,6 +37,11 @@ export class Player {
   public currentMap: string = "";
   public lastMap: string = "";
 
+  public inWalkingAnimation: boolean = false;
+  public walkAnimStartMS: number = 0;
+  public lastPoint: Pos = { x: 0, y: 0 };
+  public nextPoint: Pos = { x: 0, y: 0 };
+
   constructor() {
     this.sprite = new PIXI.Sprite();
     this.status = PlayerStatus.MOVE;
@@ -63,7 +68,7 @@ export class Player {
     this.sprite.position.set(this.posX, this.posY);
   }
 
-  public getPosition() {
+  public getPosition(): Pos {
     return {
       x: this.posX,
       y: this.posY,
@@ -77,6 +82,9 @@ export class Player {
     const x = xIndex * 16 + offset.x;
     const y = yIndex * 16 + offset.y;
     this.setPosition(x, y);
+    this.inWalkingAnimation = false;
+    this.lastPoint = { x, y };
+    this.nextPoint = { x, y };
   }
 
   public refreshTexture() {
