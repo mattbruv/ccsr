@@ -7,10 +7,30 @@ export class Debugger {
   private g: PIXI.Graphics;
   private mapGrid: PIXI.Graphics;
 
+  private pItems: HTMLParagraphElement;
+
   constructor(game: Game) {
     this.game = game;
     this.g = new PIXI.Graphics();
     this.mapGrid = new PIXI.Graphics();
+    this.pItems = document.createElement("p");
+    this.pItems.style.display = "block";
+    this.pItems.style.position = "absolute";
+    this.pItems.style.top = "0";
+    this.pItems.style.left = "0";
+    this.pItems.style.fontWeight = "bold";
+    this.pItems.style.backgroundColor = "white";
+    this.pItems.style.padding = "10px";
+    this.pItems.textContent = "Items";
+
+    document.body.appendChild(this.pItems);
+  }
+
+  public updateItemText() {
+    const itemString = this.game.inventory.items.join("\n");
+    const acts = this.game.inventory.acts.join("\n");
+    const out = "Items:\n\n" + itemString + "\n\n" + "Actions:\n\n" + acts;
+    this.pItems.innerText = out;
   }
 
   public init() {

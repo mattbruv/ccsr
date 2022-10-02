@@ -30,8 +30,8 @@ export class GameInventory {
 
   private readonly FONT_SCALE = 0.72;
 
-  private items: string[] = [];
-  private acts: string[] = [];
+  public items: string[] = [];
+  public acts: string[] = [];
   private itemData: GameInventoryItemData[] = [];
   private itemSprites: PIXI.Sprite[] = [];
 

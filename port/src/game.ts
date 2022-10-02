@@ -213,6 +213,8 @@ export class Game {
   }
 
   private movePlayer(dx: number, dy: number) {
+    this.debug.updateItemText();
+
     // player isn't moving, stop the walking sound
     if (dx == 0 && dy == 0) {
       // TODO
