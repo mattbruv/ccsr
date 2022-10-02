@@ -127,6 +127,12 @@ export class GameInventory {
     this.spriteInstructions.anchor.set(0.5, 0.5);
     this.spriteInstructions.visible = true;
 
+    this.spriteInstructions.buttonMode = true;
+    this.spriteInstructions.interactive = true;
+    this.spriteInstructions.on("pointerdown", () => {
+      this.closeInventory();
+    });
+
     this.spriteSelectedItem.texture = getMemberTexture("inventory.square")!;
     this.spriteSelectedItem.anchor.set(0.5, 0.5);
     this.spriteSelectedItem.visible = false;
