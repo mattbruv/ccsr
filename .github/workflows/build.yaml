@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       token: ${{ secrets.ACCESS_TOKEN }}
-    with:
-      token: ${{ secrets.ACCESS_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
