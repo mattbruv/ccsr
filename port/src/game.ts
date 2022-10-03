@@ -114,7 +114,23 @@ export class Game {
     });
 
     // Add our update function to run every browser frame
-    this.app.ticker.add((dt) => this.update(dt));
+    this.app.ticker.add((dt) => {
+      try {
+        this.update(dt);
+      } catch (error) {
+        this.inventory.closeInventory();
+        const message = [
+          "Runtime Error! This shouldn't happen! Report this error and what you were doing to GitHub.",
+          "",
+          "The game might not work as expected from now on.",
+          "",
+          "Error:",
+          (error as Error).message,
+        ];
+        this.sign.showMessage(message.join("\n"));
+        console.log(error);
+      }
+    });
   }
 
   public resize() {
