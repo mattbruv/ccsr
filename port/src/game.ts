@@ -10,6 +10,7 @@ import {
   GameObjectType,
   Key,
   MovableGameObject,
+  Pos,
   Rect,
 } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
@@ -152,7 +153,11 @@ export class Game {
   private update(delta: number) {
     const now = Date.now();
 
-    const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
+    const moveables: MovableGameObject[] = [
+      this.player,
+      ...this.movingObjects,
+      ...this.pushedObjects,
+    ];
 
     if (now < this.lastUpdate + this.MSperTick) {
       if (this.smoothAnimations) {
@@ -216,6 +221,13 @@ export class Game {
     console.log(this.movingObjects.length);
   }
 
+  private posAfterDeltaMove(obj: GameObject, dx: number, dy: number): Pos {
+    const pos = obj.getRect();
+    const newX = pos.x + dx * obj.speed;
+    const newY = pos.y + dy * obj.speed;
+    return { x: newX, y: newY };
+  }
+
   /*
     Move a game object in x, y direction.
     This is affected by the collision bug with FLORs.
@@ -228,19 +240,10 @@ export class Game {
     becuase objects weren't allowed to be pushed
     outside of the maps that they reside in
   */
-  private moveGameObject(
-    gameObj: GameObject,
-    dx: number,
-    dy: number,
-    applyMove: boolean
-  ): boolean {
-    const pos = gameObj.getRect();
-    const newX = pos.x + dx * gameObj.speed;
-    const newY = pos.y + dy * gameObj.speed;
-
+  private canMoveGameObject(gameObj: GameObject, toPos: Pos): boolean {
     const newRect: Rect = {
-      x: newX,
-      y: newY,
+      x: toPos.x,
+      y: toPos.y,
       width: gameObj.width,
       height: gameObj.height,
     };
@@ -262,14 +265,7 @@ export class Game {
     );
 
     // If we aren't going to hit anything, return true
-    if (collisionObject === undefined) {
-      if (applyMove) {
-        gameObj.setPosition(newX, newY);
-      }
-      return true;
-    }
-
-    return false;
+    return collisionObject === undefined;
   }
 
   private movePlayer(dx: number, dy: number) {
@@ -426,11 +422,17 @@ export class Game {
         break;
       case GameObjectType.WALL: {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
-          const didMove = this.moveGameObject(collisionObject, dx, dy, true);
-          if (didMove == false) {
-            return;
+          const toPos = this.posAfterDeltaMove(collisionObject, dx, dy);
+          if (this.canMoveGameObject(collisionObject, toPos)) {
+            const lastPos = {
+              x: collisionObject.posX,
+              y: collisionObject.posY,
+            };
+            collisionObject.initMove(lastPos, toPos);
+            this.pushedObjects.push(collisionObject);
+            break;
           }
-          break;
+          return;
         }
         //const objRect = collisionObject.getRect();
         //const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
@@ -440,11 +442,17 @@ export class Game {
       }
       case GameObjectType.CHAR: {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
-          const didMove = this.moveGameObject(collisionObject, dx, dy, true);
-          if (didMove == false) {
-            return;
+          const toPos = this.posAfterDeltaMove(collisionObject, dx, dy);
+          if (this.canMoveGameObject(collisionObject, toPos)) {
+            const fromPos = {
+              x: collisionObject.posX,
+              y: collisionObject.posY,
+            };
+            collisionObject.initMove(fromPos, toPos);
+            this.pushedObjects.push(collisionObject);
+            break;
           }
-          break;
+          return;
         }
         return;
       }
@@ -469,12 +477,9 @@ export class Game {
     const newState = inWater ? PlayerState.BOAT : PlayerState.NORMAL;
     this.player.state = newState;
 
-    // this.player.setPosition(newX, newY);
-    this.player.inWalkingAnimation = true;
-    this.player.lastPos = this.player.getPosition();
-    this.player.nextPos = { x: newX, y: newY };
-    this.player.walkAnimStartMS = Date.now();
-    // console.log(this.player.lastPos, this.player.nextPos);
+    const lastPos = this.player.getPosition();
+    const nextPos = { x: newX, y: newY };
+    this.player.initMove(lastPos, nextPos);
 
     // Update map and do bookkeeping when leaving a zone
     if (this.player.currentMap != collisionObject.mapName) {

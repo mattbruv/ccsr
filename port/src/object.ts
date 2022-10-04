@@ -86,6 +86,14 @@ export class GameObject implements IGameObject, MovableGameObject {
     this.sprite.height = this.height;
   }
 
+  public initMove(fromPos: Pos, toPos: Pos) {
+    this.inWalkingAnimation = true;
+    this.lastPos = fromPos;
+    this.nextPos = toPos;
+    this.walkAnimStartMS = Date.now();
+  }
+  public endMove() {}
+
   public getMoveBounds(): Rect {
     // bounds for each side seem to be taken from
     // the edge of the sprite + n * 16
