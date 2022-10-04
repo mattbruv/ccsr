@@ -67,6 +67,7 @@ export class GameSign {
   }
 
   public showCharacterMessage(charName: string, message: string) {
+    this.game.inventory.closeInventory();
     this.isCharacterMessage = true;
     this.isMessageShowing = true;
     this.setTextDimensions(false);
@@ -82,6 +83,7 @@ export class GameSign {
   }
 
   public showMessage(message: string) {
+    this.game.inventory.closeInventory();
     this.isCharacterMessage = false;
     this.isMessageShowing = true;
     this.setTextDimensions(true);

@@ -54,6 +54,7 @@ export class Game {
 
   // Key input
   public readonly keysPressed = new Set<string>();
+  public readonly keysFlag = new Set<string>();
 
   // frame timing
   private lastUpdate = Date.now();
@@ -215,6 +216,7 @@ export class Game {
         this.inventory.openInventory();
       }
     }
+    this.keysPressed.delete(Key.ENTER);
   }
 
   private updateAutoMoveObjects() {
