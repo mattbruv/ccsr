@@ -11,6 +11,7 @@ export enum Key {
 }
 
 export interface MovableGameObject {
+  setPosition(x: number, y: number): void;
   speed: number;
   inWalkingAnimation: boolean;
   walkAnimStartMS: number;

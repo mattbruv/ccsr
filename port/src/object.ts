@@ -119,7 +119,7 @@ export class GameObject implements IGameObject, MovableGameObject {
     this.sprite.visible = isVisible;
   }
 
-  public setPos(x: number, y: number) {
+  public setPosition(x: number, y: number) {
     this.posX = x;
     this.posY = y;
     this.sprite.position.set(x, y);

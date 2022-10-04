@@ -9,6 +9,7 @@ import {
   GameObjectMoveCond,
   GameObjectType,
   Key,
+  MovableGameObject,
   Rect,
 } from "./types";
 import { EpisodeScript } from "./scripts/episodeScript";
@@ -150,18 +151,23 @@ export class Game {
   private update(delta: number) {
     const now = Date.now();
 
+    const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
+
     if (this.lastUpdate + this.MSperTick > now) {
-      if (this.smoothAnimations && this.player.inWalkingAnimation) {
-        const endTime = this.player.walkAnimStartMS + this.MSperTick;
-        const completed = this.MSperTick - (endTime - now);
-        const percentage = completed / this.MSperTick;
-        const dx = percentage * (this.player.nextPos.x - this.player.lastPos.x);
-        const dy = percentage * (this.player.nextPos.y - this.player.lastPos.y);
-        this.player.setPosition(
-          this.player.lastPos.x + dx,
-          this.player.lastPos.y + dy
-        );
-        this.centerCameraOnPlayer();
+      if (this.smoothAnimations) {
+        for (const obj of moveables) {
+          if (obj.inWalkingAnimation) {
+            const endTime = obj.walkAnimStartMS + this.MSperTick;
+            const completed = this.MSperTick - (endTime - now);
+            const percentage = completed / this.MSperTick;
+            const dx = percentage * (obj.nextPos.x - obj.lastPos.x);
+            const dy = percentage * (obj.nextPos.y - obj.lastPos.y);
+            obj.setPosition(obj.lastPos.x + dx, obj.lastPos.y + dy);
+          }
+        }
+        if (this.player.inWalkingAnimation) {
+          this.centerCameraOnPlayer();
+        }
       }
 
       return;
@@ -245,7 +251,7 @@ export class Game {
 
     // If we aren't going to hit anything, move the object
     if (collisionObject === undefined) {
-      gameObj.setPos(newX, newY);
+      gameObj.setPosition(newX, newY);
       return true;
     }
 
@@ -533,7 +539,7 @@ export class Game {
           obj.mapName == mapName &&
           (obj.posX != obj.originalPosX || obj.posY != obj.originalPosY)
       )
-      .map((obj) => obj.setPos(obj.originalPosX, obj.originalPosY));
+      .map((obj) => obj.setPosition(obj.originalPosX, obj.originalPosY));
   }
 
   private keyPressed(key: Key) {
