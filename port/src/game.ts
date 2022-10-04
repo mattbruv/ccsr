@@ -190,13 +190,16 @@ export class Game {
 
     this.lastUpdate = now;
 
-    if (this.sign.isOpen()) {
-      if (this.keyPressed(Key.ENTER)) {
-        this.sign.closeMessage();
+    if (this.sign.isOpen() || this.inventory.isOpen()) {
+      if (this.sign.isOpen()) {
+        if (this.keyPressed(Key.ENTER)) {
+          this.sign.closeMessage();
+        }
       }
-    } else if (this.inventory.isOpen()) {
-      if (this.keyPressed(Key.ENTER)) {
-        this.inventory.closeInventory();
+      if (this.inventory.isOpen()) {
+        if (this.keyPressed(Key.ENTER)) {
+          this.inventory.closeInventory();
+        }
       }
     } else {
       if (
