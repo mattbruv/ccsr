@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { getMapOffset, getMemberTexture } from "./game";
+import { Game, getMapOffset, getMemberTexture } from "./game";
 import { GameObjectData, GameObjectType, IGameObject, Rect } from "./types";
 
 /**
@@ -69,6 +69,30 @@ export class GameObject implements IGameObject {
     this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;
     this.sprite.height = this.height;
+  }
+
+  public getMoveBounds(): Rect {
+    // bounds for each side seem to be taken from
+    // the edge of the sprite + n * 16
+    // where n is the move number
+    const move = this.data.move;
+
+    const t = 16;
+
+    const top = this.originalPosY - move.U * t;
+    const bottom = this.originalPosY + this.height + move.D * t;
+
+    const left = this.originalPosX - move.L * t;
+    const right = this.originalPosX + this.width + move.R * t;
+
+    const bounds: Rect = {
+      x: left,
+      y: top,
+      height: bottom - top,
+      width: right - left,
+    };
+
+    return bounds;
   }
 
   public isVisible() {

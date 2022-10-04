@@ -31,6 +31,7 @@ export class Game {
 
   public player: Player = new Player();
   public gameObjects: GameObject[] = [];
+  public movingObjects: GameObject[] = [];
 
   public numMapsX: number = 0;
   public numMapsY: number = 0;
@@ -564,26 +565,6 @@ export class Game {
       this.resize();
     });
 
-    const setA = new Set();
-    const setB = new Set();
-    const setC = new Set();
-    const setD = new Set();
-    this.gameObjects.map((obj) => {
-      obj.data.message.map((m) => {
-        setA.add(m.plrAct);
-        setB.add(m.plrObj);
-      });
-      obj.data.item.COND.map((c) => {
-        setC.add(c?.giveAct);
-        setD.add(c?.hasAct);
-      });
-    });
-
-    console.log(setA);
-    console.log(setB);
-    console.log(setC);
-    console.log(setD);
-
     document.getElementById("game-container")!.appendChild(this.app.view);
   }
 
@@ -639,8 +620,29 @@ export class Game {
 
     this.updateAllVisibility();
 
+    // Get a collection of movable objects to update each frame
+    this.movingObjects = this.gameObjects.filter((obj) => {
+      return obj.data.move.COND === GameObjectMoveCond.AUTO;
+    });
+
     console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
+    console.log(this.movingObjects);
+
+    this.movingObjects.map((m) => {
+      const rect = m.getMoveBounds();
+      this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
+      const halfWidth = Math.round(m.width / 2);
+      const halfHeight = Math.round(m.height / 2);
+      const originX = m.originalPosX + halfWidth;
+      const originY = m.originalPosY + halfHeight;
+      this.debug.drawRect(
+        { x: originX, y: originY, width: 1, height: 1 },
+        { width: 3, color: 0x00ff00, alignment: 0 }
+      );
+      console.log(rect);
+    });
+    this.debug.drawRect({ x: 0, y: 0, width: 100, height: 100 });
   }
 
   private drawObjectToBackground(object: GameObject) {
