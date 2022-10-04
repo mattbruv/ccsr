@@ -169,7 +169,11 @@ export class Game {
       return;
     }
 
-    this.player.inWalkingAnimation = false;
+    if (this.player.inWalkingAnimation) {
+      this.player.inWalkingAnimation = false;
+      this.player.setPosition(this.player.nextPoint.x, this.player.nextPoint.y);
+      this.centerCameraOnPlayer();
+    }
 
     this.lastUpdate = now;
 
@@ -258,9 +262,6 @@ export class Game {
       // TODO
       return;
     }
-
-    this.player.setPosition(this.player.nextPoint.x, this.player.nextPoint.y);
-    this.centerCameraOnPlayer();
 
     const pos = this.player.getPosition();
     const newX = pos.x + dx * this.player.speed;
