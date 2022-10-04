@@ -9,6 +9,13 @@ import {
   Rect,
 } from "./types";
 
+export const MOVE_DIRECTIONS: [number, number][] = [
+  [0, -1],
+  [-1, 0],
+  [0, 1],
+  [1, 0],
+];
+
 /**
  * Generic class for a game Object.
  *
@@ -45,6 +52,9 @@ export class GameObject implements IGameObject, MovableGameObject {
   public lastPos: Pos;
   public nextPos: Pos;
 
+  public moveDirection = -1;
+  public movePos: Pos = { x: 0, y: 0 };
+
   constructor(obj: IGameObject, mapName: string) {
     this.member = obj.member.toLowerCase();
     this.type = obj.type;
@@ -75,6 +85,7 @@ export class GameObject implements IGameObject, MovableGameObject {
 
     this.lastPos = { x: this.originalPosX, y: this.originalPosY };
     this.nextPos = this.lastPos;
+    this.movePos = this.lastPos;
 
     this.sprite =
       this.isStatic() && this.member.toLowerCase().includes("tile")

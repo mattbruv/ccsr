@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
-import { GameObject } from "./object";
+import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
   GameMapArea,
   GameObjectCond,
@@ -222,8 +222,31 @@ export class Game {
     this.keysPressed.delete(Key.ENTER);
   }
 
-  private updateAutoMoveObjects() {
-    console.log(this.movingObjects.length);
+  public updateAutoMoveObjects() {
+    // Direction is always incremented counter clockwise
+    for (const obj of this.movingObjects) {
+      // Initialize movers
+      if (obj.moveDirection == -1) {
+        obj.speed = 4;
+        obj.moveDirection = randBetween(0, MOVE_DIRECTIONS.length - 1);
+      }
+
+      // If we have reached our destination
+      if (obj.posX == obj.movePos.x && obj.posY == obj.movePos.y) {
+        const i = obj.moveDirection + 1;
+        obj.moveDirection = i >= MOVE_DIRECTIONS.length ? 0 : i;
+        const bounds = obj.getMoveBounds();
+        const dx =
+          randBetween(0, Math.floor(bounds.width / obj.speed)) * obj.speed;
+        const dy =
+          randBetween(0, Math.floor(bounds.width / obj.speed)) * obj.speed;
+        const movePos = {
+          x: obj.posX + MOVE_DIRECTIONS[obj.moveDirection][0] * dx,
+          y: obj.posY + MOVE_DIRECTIONS[obj.moveDirection][1] * dy,
+        };
+        console.log("from", obj.posX, obj.posY, "to", movePos, "in", bounds);
+      }
+    }
   }
 
   private posAfterDeltaMove(obj: GameObject, dx: number, dy: number): Pos {
@@ -721,6 +744,10 @@ export function getMapOffset(mapName: string) {
     x: parseInt(xIndex) - 1,
     y: parseInt(yIndex) - 1,
   };
+}
+
+export function randBetween(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 /*

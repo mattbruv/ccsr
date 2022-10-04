@@ -53,6 +53,7 @@ export class Debugger {
     document.addEventListener("keydown", (event) => {
       if (event.key == "p") {
         this.game.smoothAnimations = !this.game.smoothAnimations;
+        this.game.updateAutoMoveObjects();
       }
     });
 
