@@ -15,7 +15,7 @@ import {
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
-import { intersect, pointInRect, rectAinRectB } from "./collision";
+import { intersect, rectAinRectB } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
 import { GameInventory } from "./inventory";
@@ -173,10 +173,12 @@ export class Game {
       return;
     }
 
-    if (this.player.inWalkingAnimation) {
-      this.player.inWalkingAnimation = false;
-      this.player.setPosition(this.player.nextPos.x, this.player.nextPos.y);
-      this.centerCameraOnPlayer();
+    for (const obj of moveables) {
+      if (obj.inWalkingAnimation) {
+        obj.inWalkingAnimation = false;
+        obj.setPosition(obj.nextPos.x, obj.nextPos.y);
+        this.centerCameraOnPlayer();
+      }
     }
 
     this.lastUpdate = now;
@@ -207,6 +209,10 @@ export class Game {
         this.inventory.openInventory();
       }
     }
+  }
+
+  private updateAutoMoveObjects() {
+    console.log(this.movingObjects.length);
   }
 
   /*
