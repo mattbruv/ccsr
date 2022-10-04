@@ -627,22 +627,11 @@ export class Game {
 
     console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
-    console.log(this.movingObjects);
 
     this.movingObjects.map((m) => {
       const rect = m.getMoveBounds();
       this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
-      const halfWidth = Math.round(m.width / 2);
-      const halfHeight = Math.round(m.height / 2);
-      const originX = m.originalPosX + halfWidth;
-      const originY = m.originalPosY + halfHeight;
-      this.debug.drawRect(
-        { x: originX, y: originY, width: 1, height: 1 },
-        { width: 3, color: 0x00ff00, alignment: 0 }
-      );
-      console.log(rect);
     });
-    this.debug.drawRect({ x: 0, y: 0, width: 100, height: 100 });
   }
 
   private drawObjectToBackground(object: GameObject) {
