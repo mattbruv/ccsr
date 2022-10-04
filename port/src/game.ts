@@ -440,7 +440,7 @@ export class Game {
       }
       case GameObjectType.CHAR: {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
-          const didMove = this.moveGameObject(collisionObject, dx, dy);
+          const didMove = this.moveGameObject(collisionObject, dx, dy, true);
           if (didMove == false) {
             return;
           }
