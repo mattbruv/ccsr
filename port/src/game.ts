@@ -190,6 +190,8 @@ export class Game {
 
     this.lastUpdate = now;
 
+    this.updateAutoMoveObjects();
+
     if (this.sign.isOpen() || this.inventory.isOpen()) {
       if (this.sign.isOpen()) {
         if (this.keyPressed(Key.ENTER)) {
@@ -244,7 +246,26 @@ export class Game {
           x: obj.posX + MOVE_DIRECTIONS[obj.moveDirection][0] * dx,
           y: obj.posY + MOVE_DIRECTIONS[obj.moveDirection][1] * dy,
         };
-        console.log("from", obj.posX, obj.posY, "to", movePos, "in", bounds);
+        obj.movePos = movePos;
+      } else {
+        // We are not where we want to be, try to step forward.
+        const [dx, dy] = MOVE_DIRECTIONS[obj.moveDirection];
+        const bounds = obj.getMoveBounds();
+        const nextPos = this.posAfterDeltaMove(obj, dx, dy);
+        const nextRect: Rect = {
+          x: nextPos.x,
+          y: nextPos.y,
+          width: obj.width,
+          height: obj.height,
+        };
+        if (
+          rectAinRectB(nextRect, bounds) &&
+          this.canMoveGameObject(obj, nextPos)
+        ) {
+          obj.initMove(obj.nextPos, nextPos);
+        } else {
+          obj.movePos = obj.nextPos;
+        }
       }
     }
   }
