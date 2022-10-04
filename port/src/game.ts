@@ -31,7 +31,7 @@ export class Game {
   public app;
   public viewport: Viewport;
 
-  public player: Player = new Player();
+  public player: Player;
   public gameObjects: GameObject[] = [];
   public movingObjects: GameObject[] = [];
 
@@ -86,6 +86,8 @@ export class Game {
       // the interaction module is important for wheel to work properly
       // when renderer.view is placed or scaled
     });
+
+    this.player = new Player(this);
 
     this.app.stage.addChild(this.viewport);
     this.viewport.drag().pinch().wheel();
@@ -155,7 +157,6 @@ export class Game {
     const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
 
     if (now < this.lastUpdate + this.MSperTick) {
-      console.log(this.movingObjects.length);
       if (this.smoothAnimations) {
         for (const obj of moveables) {
           if (obj.inWalkingAnimation) {
@@ -419,6 +420,7 @@ export class Game {
     switch (collisionObject.data.item.type) {
       case GameObjectType.FLOR:
         break;
+      case GameObjectType.CHAR:
       case GameObjectType.WALL: {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
           const toPos = this.posAfterDeltaMove(collisionObject, dx, dy);
@@ -431,27 +433,6 @@ export class Game {
             this.movingObjects.push(collisionObject);
             break;
           }
-          return;
-        }
-        //const objRect = collisionObject.getRect();
-        //const currRect = this.player.getCollisionRectAtPoint(pos.x, pos.y);
-        //this.debug.drawCollision(currRect, newPlayerRect, objRect);
-        //console.log(collisionObject);
-        return;
-      }
-      case GameObjectType.CHAR: {
-        if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
-          const toPos = this.posAfterDeltaMove(collisionObject, dx, dy);
-          if (this.canMoveGameObject(collisionObject, toPos)) {
-            const fromPos = {
-              x: collisionObject.posX,
-              y: collisionObject.posY,
-            };
-            collisionObject.initMove(fromPos, toPos);
-            this.movingObjects.push(collisionObject);
-            break;
-          }
-          return;
         }
         return;
       }

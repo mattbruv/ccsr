@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { getMapRect } from "./game";
+import { Game, getMapRect } from "./game";
 import { MovableGameObject, Pos, Rect } from "./types";
 
 export enum PlayerStatus {
@@ -22,6 +22,8 @@ export enum PlayerDirection {
 }
 
 export class Player implements MovableGameObject {
+  private game: Game;
+
   public sprite: PIXI.Sprite;
   public speed: number;
   public status: PlayerStatus;
@@ -42,7 +44,8 @@ export class Player implements MovableGameObject {
   public lastPos: Pos = { x: 0, y: 0 };
   public nextPos: Pos = { x: 0, y: 0 };
 
-  constructor() {
+  constructor(game: Game) {
+    this.game = game;
     this.sprite = new PIXI.Sprite();
     this.status = PlayerStatus.MOVE;
     this.speed = 8;
@@ -78,6 +81,7 @@ export class Player implements MovableGameObject {
   public endMove() {
     this.inWalkingAnimation = false;
     this.setPosition(this.nextPos.x, this.nextPos.y);
+    this.game.centerCameraOnPlayer();
   }
 
   public getPosition(): Pos {
