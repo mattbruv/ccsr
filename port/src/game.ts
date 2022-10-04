@@ -71,6 +71,7 @@ export class Game {
     });
 
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+    PIXI.settings.ROUND_PIXELS = true;
 
     this.viewport = new Viewport({
       screenWidth: window.innerWidth,
