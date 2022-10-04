@@ -75,7 +75,10 @@ export class Player implements MovableGameObject {
     this.walkAnimStartMS = Date.now();
   }
 
-  public endMove() {}
+  public endMove() {
+    this.inWalkingAnimation = false;
+    this.setPosition(this.nextPos.x, this.nextPos.y);
+  }
 
   public getPosition(): Pos {
     return {

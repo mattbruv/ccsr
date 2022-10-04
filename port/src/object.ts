@@ -92,7 +92,10 @@ export class GameObject implements IGameObject, MovableGameObject {
     this.nextPos = toPos;
     this.walkAnimStartMS = Date.now();
   }
-  public endMove() {}
+  public endMove() {
+    this.inWalkingAnimation = false;
+    this.setPosition(this.nextPos.x, this.nextPos.y);
+  }
 
   public getMoveBounds(): Rect {
     // bounds for each side seem to be taken from

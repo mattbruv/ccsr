@@ -34,7 +34,6 @@ export class Game {
   public player: Player = new Player();
   public gameObjects: GameObject[] = [];
   public movingObjects: GameObject[] = [];
-  public pushedObjects: GameObject[] = [];
 
   public numMapsX: number = 0;
   public numMapsY: number = 0;
@@ -153,13 +152,10 @@ export class Game {
   private update(delta: number) {
     const now = Date.now();
 
-    const moveables: MovableGameObject[] = [
-      this.player,
-      ...this.movingObjects,
-      ...this.pushedObjects,
-    ];
+    const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
 
     if (now < this.lastUpdate + this.MSperTick) {
+      console.log(this.movingObjects.length);
       if (this.smoothAnimations) {
         for (const obj of moveables) {
           if (obj.inWalkingAnimation) {
@@ -181,11 +177,14 @@ export class Game {
 
     for (const obj of moveables) {
       if (obj.inWalkingAnimation) {
-        obj.inWalkingAnimation = false;
-        obj.setPosition(obj.nextPos.x, obj.nextPos.y);
-        this.centerCameraOnPlayer();
+        obj.endMove();
       }
     }
+
+    // Remove any non auto-walking entities
+    this.movingObjects = this.movingObjects.filter(
+      (obj) => obj.data.move.COND == GameObjectMoveCond.AUTO
+    );
 
     this.lastUpdate = now;
 
@@ -429,7 +428,7 @@ export class Game {
               y: collisionObject.posY,
             };
             collisionObject.initMove(lastPos, toPos);
-            this.pushedObjects.push(collisionObject);
+            this.movingObjects.push(collisionObject);
             break;
           }
           return;
@@ -449,7 +448,7 @@ export class Game {
               y: collisionObject.posY,
             };
             collisionObject.initMove(fromPos, toPos);
-            this.pushedObjects.push(collisionObject);
+            this.movingObjects.push(collisionObject);
             break;
           }
           return;
