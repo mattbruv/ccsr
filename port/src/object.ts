@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Game, getMapOffset, getMemberTexture } from "./game";
+import { getMapOffset, getMemberTexture } from "./game";
 import { GameObjectData, GameObjectType, IGameObject, Rect } from "./types";
 
 /**

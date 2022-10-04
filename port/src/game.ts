@@ -14,7 +14,7 @@ import {
 import { EpisodeScript } from "./scripts/episodeScript";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
-import { intersect, pointInRect } from "./collision";
+import { intersect, pointInRect, rectAinRectB } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
 import { GameInventory } from "./inventory";
@@ -226,15 +226,9 @@ export class Game {
     };
 
     const mapRect = getMapRect(gameObj.mapName);
-    const boundCheck1 = pointInRect(newRect.x, newRect.y, mapRect);
-    const boundCheck2 = pointInRect(
-      newRect.x + newRect.width,
-      newRect.y + newRect.height,
-      mapRect
-    );
 
     // If the new position is outside of the current map, disallow pushing
-    if ((boundCheck1 && boundCheck2) == false) {
+    if (rectAinRectB(newRect, mapRect) == false) {
       return false;
     }
 

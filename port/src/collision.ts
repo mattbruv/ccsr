@@ -1,4 +1,4 @@
-import { Rect } from "./types";
+import { Pos, Rect } from "./types";
 
 export function intersect(a: Rect, b: Rect): boolean {
   const x = Math.max(a.x, b.x);
@@ -8,11 +8,22 @@ export function intersect(a: Rect, b: Rect): boolean {
   return n1 > x && n2 > y;
 }
 
-export function pointInRect(x: number, y: number, rect: Rect): boolean {
+export function rectAinRectB(rectA: Rect, rectB: Rect): boolean {
+  const a = rectA;
+  const points: Pos[] = [
+    { x: a.x, y: a.y },
+    { x: a.x + a.width, y: a.y },
+    { x: a.x, y: a.y + a.height },
+    { x: a.x + a.width, y: a.y + a.height },
+  ];
+  return points.every((p) => pointInRect(p, rectB));
+}
+
+export function pointInRect(point: Pos, rect: Rect): boolean {
   return (
-    x >= rect.x &&
-    x <= rect.x + rect.width &&
-    y >= rect.y &&
-    y <= rect.y + rect.height
+    point.x >= rect.x &&
+    point.x <= rect.x + rect.width &&
+    point.y >= rect.y &&
+    point.y <= rect.y + rect.height
   );
 }
