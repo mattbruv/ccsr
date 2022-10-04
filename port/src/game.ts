@@ -258,8 +258,11 @@ export class Game {
           width: obj.width,
           height: obj.height,
         };
+        const pp = this.player.getPosition();
+        const playerRect = this.player.getCollisionRectAtPoint(pp.x, pp.y);
         if (
           rectAinRectB(nextRect, bounds) &&
+          intersect(nextRect, playerRect) == false &&
           this.canMoveGameObject(obj, nextPos)
         ) {
           obj.initMove(obj.nextPos, nextPos);
