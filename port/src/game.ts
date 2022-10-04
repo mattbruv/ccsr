@@ -190,7 +190,9 @@ export class Game {
 
     this.lastUpdate = now;
 
-    this.updateAutoMoveObjects();
+    if (this.player.status == PlayerStatus.MOVE) {
+      this.updateAutoMoveObjects();
+    }
 
     if (this.sign.isOpen() || this.inventory.isOpen()) {
       if (this.sign.isOpen()) {

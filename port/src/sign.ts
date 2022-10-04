@@ -5,6 +5,7 @@ import {
   UI_HEIGHT_PERCENT,
   UI_WIDTH_PERCENT,
 } from "./game";
+import { PlayerStatus } from "./player";
 export class GameSign {
   private game: Game;
   private sprite: PIXI.Sprite;
@@ -68,6 +69,7 @@ export class GameSign {
 
   public showCharacterMessage(charName: string, message: string) {
     this.game.inventory.closeInventory();
+    this.game.player.setStatus(PlayerStatus.READ);
     this.isCharacterMessage = true;
     this.isMessageShowing = true;
     this.setTextDimensions(false);
@@ -84,6 +86,7 @@ export class GameSign {
 
   public showMessage(message: string) {
     this.game.inventory.closeInventory();
+    this.game.player.setStatus(PlayerStatus.READ);
     this.isCharacterMessage = false;
     this.isMessageShowing = true;
     this.setTextDimensions(true);
@@ -121,6 +124,7 @@ export class GameSign {
   }
 
   public closeMessage() {
+    this.game.player.setStatus(PlayerStatus.MOVE);
     this.isMessageShowing = false;
     this.sprite.visible = false;
     this.characterSprite.visible = false;

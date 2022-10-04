@@ -65,6 +65,10 @@ export class Player implements MovableGameObject {
     this.sprite.anchor.set(0.5, 0.5);
   }
 
+  public setStatus(status: PlayerStatus) {
+    this.status = status;
+  }
+
   public setPosition(x: number, y: number) {
     this.posX = x;
     this.posY = y;

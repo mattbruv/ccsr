@@ -5,6 +5,7 @@ import {
   UI_HEIGHT_PERCENT,
   UI_WIDTH_PERCENT,
 } from "./game";
+import { PlayerStatus } from "./player";
 
 export interface GameInventoryItemData {
   key: string;
@@ -187,6 +188,7 @@ export class GameInventory {
   }
 
   public openInventory() {
+    this.game.player.setStatus(PlayerStatus.STOP);
     this.isInventoryOpen = true;
     this.sprite.visible = true;
     this.textElement.style.display = "block";
@@ -239,6 +241,7 @@ export class GameInventory {
   }
 
   public closeInventory() {
+    this.game.player.setStatus(PlayerStatus.MOVE);
     this.isInventoryOpen = false;
     this.sprite.visible = false;
 
