@@ -153,7 +153,7 @@ export class Game {
 
     const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
 
-    if (this.lastUpdate + this.MSperTick > now) {
+    if (now < this.lastUpdate + this.MSperTick) {
       if (this.smoothAnimations) {
         for (const obj of moveables) {
           if (obj.inWalkingAnimation) {
