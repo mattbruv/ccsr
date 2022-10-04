@@ -155,13 +155,11 @@ export class Game {
         const endTime = this.player.walkAnimStartMS + this.MSperTick;
         const completed = this.MSperTick - (endTime - now);
         const percentage = completed / this.MSperTick;
-        const dx =
-          percentage * (this.player.nextPoint.x - this.player.lastPoint.x);
-        const dy =
-          percentage * (this.player.nextPoint.y - this.player.lastPoint.y);
+        const dx = percentage * (this.player.nextPos.x - this.player.lastPos.x);
+        const dy = percentage * (this.player.nextPos.y - this.player.lastPos.y);
         this.player.setPosition(
-          this.player.lastPoint.x + dx,
-          this.player.lastPoint.y + dy
+          this.player.lastPos.x + dx,
+          this.player.lastPos.y + dy
         );
         this.centerCameraOnPlayer();
       }
@@ -171,7 +169,7 @@ export class Game {
 
     if (this.player.inWalkingAnimation) {
       this.player.inWalkingAnimation = false;
-      this.player.setPosition(this.player.nextPoint.x, this.player.nextPoint.y);
+      this.player.setPosition(this.player.nextPos.x, this.player.nextPos.y);
       this.centerCameraOnPlayer();
     }
 
@@ -453,10 +451,10 @@ export class Game {
 
     // this.player.setPosition(newX, newY);
     this.player.inWalkingAnimation = true;
-    this.player.lastPoint = this.player.getPosition();
-    this.player.nextPoint = { x: newX, y: newY };
+    this.player.lastPos = this.player.getPosition();
+    this.player.nextPos = { x: newX, y: newY };
     this.player.walkAnimStartMS = Date.now();
-    // console.log(this.player.lastPoint, this.player.nextPoint);
+    // console.log(this.player.lastPos, this.player.nextPos);
 
     // Update map and do bookkeeping when leaving a zone
     if (this.player.currentMap != collisionObject.mapName) {

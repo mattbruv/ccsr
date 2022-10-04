@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getMapRect } from "./game";
-import { Pos, Rect } from "./types";
+import { MovableGameObject, Pos, Rect } from "./types";
 
 export enum PlayerStatus {
   MOVE,
@@ -21,9 +21,9 @@ export enum PlayerDirection {
   DOWN = "down",
 }
 
-export class Player {
+export class Player implements MovableGameObject {
   public sprite: PIXI.Sprite;
-  public readonly speed: number;
+  public speed: number;
   public status: PlayerStatus;
   public animNum: number;
   public lastMove: number;
@@ -39,8 +39,8 @@ export class Player {
 
   public inWalkingAnimation: boolean = false;
   public walkAnimStartMS: number = 0;
-  public lastPoint: Pos = { x: 0, y: 0 };
-  public nextPoint: Pos = { x: 0, y: 0 };
+  public lastPos: Pos = { x: 0, y: 0 };
+  public nextPos: Pos = { x: 0, y: 0 };
 
   constructor() {
     this.sprite = new PIXI.Sprite();
@@ -83,8 +83,8 @@ export class Player {
     const y = yIndex * 16 + offset.y;
     this.setPosition(x, y);
     this.inWalkingAnimation = false;
-    this.lastPoint = { x, y };
-    this.nextPoint = { x, y };
+    this.lastPos = { x, y };
+    this.nextPos = { x, y };
   }
 
   public refreshTexture() {

@@ -1,6 +1,13 @@
 import * as PIXI from "pixi.js";
 import { getMapOffset, getMemberTexture } from "./game";
-import { GameObjectData, GameObjectType, IGameObject, Rect } from "./types";
+import {
+  GameObjectData,
+  GameObjectType,
+  IGameObject,
+  MovableGameObject,
+  Pos,
+  Rect,
+} from "./types";
 
 /**
  * Generic class for a game Object.
@@ -9,7 +16,7 @@ import { GameObjectData, GameObjectType, IGameObject, Rect } from "./types";
  * whether they are used or not, the structure
  * of every object in the game is the same.
  */
-export class GameObject implements IGameObject {
+export class GameObject implements IGameObject, MovableGameObject {
   member: string;
   type: GameObjectType;
   location: number[];
@@ -32,6 +39,11 @@ export class GameObject implements IGameObject {
   private visible = true;
 
   public sprite: PIXI.Sprite;
+  public speed: number = 8;
+  public inWalkingAnimation: boolean = false;
+  public walkAnimStartMS: number = 0;
+  public lastPos: Pos;
+  public nextPos: Pos;
 
   constructor(obj: IGameObject, mapName: string) {
     this.member = obj.member.toLowerCase();
@@ -60,6 +72,9 @@ export class GameObject implements IGameObject {
 
     this.originalPosX = this.posX;
     this.originalPosY = this.posY;
+
+    this.lastPos = { x: this.originalPosX, y: this.originalPosY };
+    this.nextPos = this.lastPos;
 
     this.sprite =
       this.isStatic() && this.member.toLowerCase().includes("tile")

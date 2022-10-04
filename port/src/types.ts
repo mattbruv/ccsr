@@ -10,6 +10,14 @@ export enum Key {
   D = "d",
 }
 
+export interface MovableGameObject {
+  speed: number;
+  inWalkingAnimation: boolean;
+  walkAnimStartMS: number;
+  lastPos: Pos;
+  nextPos: Pos;
+}
+
 export interface Pos {
   x: number;
   y: number;
