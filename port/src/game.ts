@@ -33,6 +33,7 @@ export class Game {
   public player: Player = new Player();
   public gameObjects: GameObject[] = [];
   public movingObjects: GameObject[] = [];
+  public pushedObjects: GameObject[] = [];
 
   public numMapsX: number = 0;
   public numMapsY: number = 0;
@@ -227,10 +228,15 @@ export class Game {
     becuase objects weren't allowed to be pushed
     outside of the maps that they reside in
   */
-  private moveGameObject(gameObj: GameObject, dx: number, dy: number): boolean {
+  private moveGameObject(
+    gameObj: GameObject,
+    dx: number,
+    dy: number,
+    applyMove: boolean
+  ): boolean {
     const pos = gameObj.getRect();
-    const newX = pos.x + dx * this.player.speed;
-    const newY = pos.y + dy * this.player.speed;
+    const newX = pos.x + dx * gameObj.speed;
+    const newY = pos.y + dy * gameObj.speed;
 
     const newRect: Rect = {
       x: newX,
@@ -255,9 +261,11 @@ export class Game {
         intersect(newRect, obj.getRect())
     );
 
-    // If we aren't going to hit anything, move the object
+    // If we aren't going to hit anything, return true
     if (collisionObject === undefined) {
-      gameObj.setPosition(newX, newY);
+      if (applyMove) {
+        gameObj.setPosition(newX, newY);
+      }
       return true;
     }
 
@@ -418,7 +426,7 @@ export class Game {
         break;
       case GameObjectType.WALL: {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
-          const didMove = this.moveGameObject(collisionObject, dx, dy);
+          const didMove = this.moveGameObject(collisionObject, dx, dy, true);
           if (didMove == false) {
             return;
           }
