@@ -20,6 +20,7 @@ import { intersect, rectAinRectB } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
 import { GameInventory } from "./inventory";
+import { GameCamera } from "./camera";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -40,6 +41,8 @@ export class Game {
   public worldRect: Rect | undefined;
 
   private debug: Debugger;
+
+  public camera: GameCamera;
 
   public worldContainer: PIXI.Container;
   public backgroundTexture: PIXI.RenderTexture;
@@ -89,6 +92,7 @@ export class Game {
     });
 
     this.player = new Player(this);
+    this.camera = new GameCamera(this);
 
     this.app.stage.addChild(this.viewport);
     this.viewport.drag().pinch().wheel();
@@ -170,7 +174,7 @@ export class Game {
           }
         }
         if (this.player.inWalkingAnimation) {
-          this.centerCameraOnPlayer();
+          this.camera.update();
         }
       }
 
@@ -516,7 +520,7 @@ export class Game {
             const y = coords[3];
             this.setMap(map);
             this.player.setMapAndPosition(map, x, y);
-            this.centerCameraOnPlayer();
+            this.camera.update();
             return;
           }
         }
@@ -559,7 +563,7 @@ export class Game {
     if (dy < 0) this.player.characterDirection = PlayerDirection.UP;
 
     this.player.refreshTexture();
-    this.centerCameraOnPlayer();
+    this.camera.update();
   }
 
   public updateAllVisibility() {
@@ -591,15 +595,6 @@ export class Game {
     object.sprite.parent.removeChild(object.sprite);
     const index = this.gameObjects.findIndex((o) => o === object);
     this.gameObjects.splice(index, 1);
-  }
-
-  public centerCameraOnPlayer() {
-    const pos = this.player.getPosition();
-    const x =
-      -pos.x * this.viewport.scale.x + this.app.renderer.screen.width / 2;
-    const y =
-      -pos.y * this.viewport.scale.y + this.app.renderer.screen.height / 2;
-    this.viewport.position.set(x, y);
   }
 
   private resetMovableObjects(mapName: string) {
@@ -723,15 +718,6 @@ export class Game {
 
   public getMap(): string {
     return this.currentMap;
-  }
-
-  public setCameraOnMap(mapName: string) {
-    const data = getMapRect(mapName);
-    this.setCamera(-data.x, -data.y);
-  }
-
-  public setCamera(x: number, y: number) {
-    this.viewport.position.set(x, y);
   }
 
   private initWorldInfo() {

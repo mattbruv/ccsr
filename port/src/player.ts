@@ -89,7 +89,7 @@ export class Player implements MovableGameObject {
   public endMove() {
     this.inWalkingAnimation = false;
     this.setPosition(this.nextPos.x, this.nextPos.y);
-    this.game.centerCameraOnPlayer();
+    this.game.camera.update();
   }
 
   public getPosition(): Pos {
