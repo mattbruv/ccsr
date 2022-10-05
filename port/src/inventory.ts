@@ -218,7 +218,11 @@ export class GameInventory {
     return false;
   }
 
-  public hasAct(actKey: string) {
+  public has(thing: string) {
+    return this.hasAct(thing) || this.hasItem(thing);
+  }
+
+  private hasAct(actKey: string) {
     return this.acts.filter((i) => i == actKey).length;
   }
 
@@ -236,7 +240,7 @@ export class GameInventory {
     return false;
   }
 
-  public hasItem(itemKey: string) {
+  private hasItem(itemKey: string) {
     return this.items.filter((i) => i == itemKey).length;
   }
 

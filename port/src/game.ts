@@ -115,7 +115,7 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    loadAssets(4, () => {
+    loadAssets(2, () => {
       console.log("Done loading assets!");
       this.init();
     });
@@ -374,24 +374,21 @@ export class Game {
           continue;
         }
         if (!m.plrObj && m.plrAct) {
-          if (this.inventory.hasAct(m.plrAct)) {
+          if (this.inventory.has(m.plrAct)) {
             message = m.text;
             //break;
           }
           continue;
         }
         if (m.plrObj && !m.plrAct) {
-          if (this.inventory.hasItem(m.plrObj)) {
+          if (this.inventory.has(m.plrObj)) {
             message = m.text;
             //break;
           }
           continue;
         }
         if (m.plrObj && m.plrAct) {
-          if (
-            this.inventory.hasItem(m.plrObj) &&
-            this.inventory.hasAct(m.plrAct)
-          ) {
+          if (this.inventory.has(m.plrObj) && this.inventory.has(m.plrAct)) {
             message = m.text;
             //break;
           }
@@ -425,7 +422,7 @@ export class Game {
           continue;
         }
         if (!c.hasObj && c.hasAct) {
-          if (this.inventory.hasAct(c.hasAct)) {
+          if (this.inventory.has(c.hasAct)) {
             getItem = true;
           }
           break;
@@ -433,17 +430,14 @@ export class Game {
           // continue;
         }
         if (c.hasObj && !c.hasAct) {
-          if (this.inventory.hasItem(c.hasObj)) {
+          if (this.inventory.has(c.hasObj)) {
             getItem = true;
             this.inventory.removeItem(c.hasObj);
           }
           break;
         }
         if (c.hasObj && c.hasAct) {
-          if (
-            this.inventory.hasItem(c.hasObj) &&
-            this.inventory.hasAct(c.hasAct)
-          ) {
+          if (this.inventory.has(c.hasObj) && this.inventory.has(c.hasAct)) {
             getItem = true;
             this.inventory.removeItem(c.hasObj);
           }
@@ -456,13 +450,13 @@ export class Game {
       const c = conds[condIndex];
       if (
         c.giveObj &&
-        !this.inventory.hasItem(c.giveObj) &&
-        !this.inventory.hasAct("got" + c.giveObj)
+        !this.inventory.has(c.giveObj) &&
+        !this.inventory.has("got" + c.giveObj)
       ) {
         this.inventory.addItem(c.giveObj);
         // TODO: gItemLog?
       }
-      if (c.giveAct && !this.inventory.hasAct(c.giveAct)) {
+      if (c.giveAct && !this.inventory.has(c.giveAct)) {
         this.inventory.addAct(c.giveAct);
         // TODO: gActionLog?
       }
@@ -496,7 +490,7 @@ export class Game {
       }
       case GameObjectType.WATER: {
         // only allow water travel if you have a boat
-        if (!this.inventory.hasItem("scuba")) {
+        if (!this.inventory.has("scuba")) {
           this.sign.showMessage("You can't just walk into water!!!");
           return;
         }
@@ -572,23 +566,20 @@ export class Game {
   }
 
   private updateVisibility(object: GameObject) {
-    let showObj = true;
+    let showObj = false;
     let secret = false;
     const v = object.data.item.visi;
 
     if (v.visiObj || v.visiAct) {
-      if (
-        this.inventory.hasItem(v.visiObj) ||
-        this.inventory.hasAct(v.visiAct)
-      ) {
+      if (this.inventory.has(v.visiObj) || this.inventory.has(v.visiAct)) {
         showObj = true;
         secret = true;
       } else {
         showObj = false;
       }
     } else {
-      const hasItem = this.inventory.hasItem(v.inviObj);
-      const hasAct = this.inventory.hasAct(v.inviAct);
+      const hasItem = this.inventory.has(v.inviObj);
+      const hasAct = this.inventory.has(v.inviAct);
       showObj = hasItem || hasAct ? false : true;
     }
     // TODO: If secret and sprite is visible, play secret sound
