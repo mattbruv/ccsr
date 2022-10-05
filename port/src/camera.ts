@@ -7,7 +7,23 @@ export class GameCamera {
     this.game = game;
   }
 
+  public setScale() {
+    const w = this.game.app.renderer.screen.width;
+    const h = this.game.app.renderer.screen.height;
+    console.log(this.game.viewport.scale);
+    const rect = getMapRect(this.game.player.currentMap);
+    console.log(w, h, w > h, w / h, rect);
+    const scaleX = w / rect.width;
+    const scaleY = h / rect.height;
+    this.game.viewport.scale.set(scaleY);
+  }
+
   public update() {
+    const map = this.game.player.currentMap;
+    this.setScale();
+    this.setCameraOnMap(map);
+    //console.log(w, h, w > h);
+    /*
     const pos = this.game.player.getPosition();
     const x =
       -pos.x * this.game.viewport.scale.x +
@@ -16,11 +32,16 @@ export class GameCamera {
       -pos.y * this.game.viewport.scale.y +
       this.game.app.renderer.screen.height / 2;
     this.game.viewport.position.set(x, y);
+    */
   }
 
   public setCameraOnMap(mapName: string) {
     const data = getMapRect(mapName);
-    this.setCamera(-data.x, -data.y);
+
+    const x = -data.x * this.game.viewport.scale.x;
+    const y = -data.y * this.game.viewport.scale.y;
+
+    this.setCamera(x, y);
   }
 
   public setCamera(x: number, y: number) {
