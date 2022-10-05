@@ -354,6 +354,10 @@ export class Game {
     //  supposed to change and it's not a 32x32 size
     const newPlayerRect = this.player.getCollisionRectAtPoint(newX, newY);
 
+    if (!rectAinRectB(newPlayerRect, this.worldRect!)) {
+      return;
+    }
+
     const collisionObject = this.gameObjects.find(
       (obj) => obj.isVisible() && intersect(newPlayerRect, obj.getRect())
     );
