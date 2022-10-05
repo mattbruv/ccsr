@@ -35,7 +35,7 @@ export class Debugger {
   }
 
   public init() {
-    //this.game.viewport.addChild(this.mapGrid);
+    this.game.viewport.addChild(this.mapGrid);
     //this.game.viewport.addChild(this.g);
 
     this.game.viewport.interactive = true;
