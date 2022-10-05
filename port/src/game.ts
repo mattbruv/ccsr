@@ -115,7 +115,7 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    loadAssets(2, () => {
+    loadAssets(1, () => {
       console.log("Done loading assets!");
       this.init();
     });
@@ -647,6 +647,12 @@ export class Game {
 
     // Convert all objects in map data to GameObjects
     for (const area of data) {
+      // Do not load unused maps.
+      // They have a suffix and are longer than 4 characters
+      if (area.name.length > 4) {
+        continue;
+      }
+
       for (const obj of area.data) {
         // Either the parser is bugged or there is a bug in the map data
         // for episode 2, there's an object which is bad. Skip past it.
