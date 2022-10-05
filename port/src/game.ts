@@ -315,6 +315,7 @@ export class Game {
         obj.isVisible() &&
         obj.data.item.type != GameObjectType.ITEM &&
         obj.data.item.type != GameObjectType.FLOR &&
+        obj.data.item.type != GameObjectType.WATER &&
         intersect(newRect, obj.getRect())
     );
 
