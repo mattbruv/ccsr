@@ -179,6 +179,10 @@ export class GameObject implements IGameObject, MovableGameObject {
       return false;
     }
 
+    if (Object.values(this.data.item.visi).join("") !== "") {
+      return false;
+    }
+
     return true;
   }
 }
