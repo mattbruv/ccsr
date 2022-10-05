@@ -1,4 +1,5 @@
 import { Game, getMapRect } from "./game";
+import { Pos } from "./types";
 
 export class GameCamera {
   private game: Game;
@@ -35,8 +36,8 @@ export class GameCamera {
 
   public update() {
     const map = this.game.player.currentMap;
-    //this.setScale();
-    this.setCameraOnMap(map);
+    const pos = this.getMapCameraXY(map);
+    this.setCamera(pos.x, pos.y);
     //console.log(w, h, w > h);
     /*
     const pos = this.game.player.getPosition();
@@ -50,7 +51,7 @@ export class GameCamera {
     */
   }
 
-  public setCameraOnMap(mapName: string) {
+  public getMapCameraXY(mapName: string): Pos {
     const data = getMapRect(mapName);
 
     let x = -data.x * this.game.viewport.scale.x;
@@ -90,10 +91,10 @@ export class GameCamera {
       }
     }
 
-    this.setCamera(x, y);
+    return { x, y };
   }
 
-  public setCamera(x: number, y: number) {
+  private setCamera(x: number, y: number) {
     this.game.viewport.position.set(x, y);
   }
 }
