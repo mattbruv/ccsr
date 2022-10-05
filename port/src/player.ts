@@ -67,6 +67,10 @@ export class Player implements MovableGameObject {
 
   public setStatus(status: PlayerStatus) {
     this.status = status;
+
+    if (this.status == PlayerStatus.MOVE) {
+      this.game.updateAllVisibility();
+    }
   }
 
   public setPosition(x: number, y: number) {
