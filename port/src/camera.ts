@@ -10,17 +10,18 @@ export class GameCamera {
   public setScale() {
     const w = this.game.app.renderer.screen.width;
     const h = this.game.app.renderer.screen.height;
-    console.log(this.game.viewport.scale);
+    //console.log(this.game.viewport.scale);
     const rect = getMapRect(this.game.player.currentMap);
-    console.log(w, h, w > h, w / h, rect);
+    // console.log(w, h, w > h, w / h, rect);
     const scaleX = w / rect.width;
     const scaleY = h / rect.height;
-    this.game.viewport.scale.set(scaleY);
+    const scale = w > h ? scaleY : scaleX;
+    this.game.viewport.scale.set(scale);
   }
 
   public update() {
     const map = this.game.player.currentMap;
-    this.setScale();
+    //this.setScale();
     this.setCameraOnMap(map);
     //console.log(w, h, w > h);
     /*

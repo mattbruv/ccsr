@@ -145,6 +145,7 @@ export class Game {
   }
 
   public resize() {
+    this.camera.setScale();
     this.sign.resize();
     this.inventory.resize();
   }
@@ -701,7 +702,7 @@ export class Game {
 
     this.movingObjects.map((m) => {
       const rect = m.getMoveBounds();
-      this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
+      // this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
     });
   }
 

@@ -23,10 +23,11 @@ export class Debugger {
     this.pItems.style.padding = "10px";
     this.pItems.textContent = "Items";
 
-    document.body.appendChild(this.pItems);
+    //document.body.appendChild(this.pItems);
   }
 
   public updateItemText() {
+    return;
     const itemString = this.game.inventory.items.join("\n");
     const acts = this.game.inventory.acts.join("\n");
     const out = "Items:\n\n" + itemString + "\n\n" + "Actions:\n\n" + acts;
@@ -34,8 +35,8 @@ export class Debugger {
   }
 
   public init() {
-    this.game.viewport.addChild(this.mapGrid);
-    this.game.viewport.addChild(this.g);
+    //this.game.viewport.addChild(this.mapGrid);
+    //this.game.viewport.addChild(this.g);
 
     this.game.viewport.interactive = true;
     this.game.viewport.on("mousedown", (e: PIXI.InteractionEvent) => {
