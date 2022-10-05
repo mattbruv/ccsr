@@ -115,7 +115,7 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    loadAssets(1, () => {
+    loadAssets(4, () => {
       console.log("Done loading assets!");
       this.init();
     });
@@ -501,6 +501,32 @@ export class Game {
           return;
         }
         inWater = true;
+        break;
+      }
+      case GameObjectType.DOOR: {
+        const data = collisionObject.data.item.name.split("=");
+        const action = data[0].toUpperCase();
+
+        switch (action) {
+          case "FRAME": {
+            alert("Door -> Frame unimplemented!");
+            break;
+          }
+          case "ROOM": {
+            const coords = data[1].split(".").map((x) => parseInt(x));
+            const mapX = coords[0].toString().padStart(2, "0");
+            const mapY = coords[1].toString().padStart(2, "0");
+            const map = mapX + mapY;
+            const x = coords[2];
+            const y = coords[3];
+            this.setMap(map);
+            this.player.setMapAndPosition(map, x, y);
+            this.centerCameraOnPlayer();
+            return;
+          }
+        }
+
+        console.log(data);
         break;
       }
       default:
