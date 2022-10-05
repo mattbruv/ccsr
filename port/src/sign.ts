@@ -155,7 +155,7 @@ export class GameSign {
 
     this.sprite.scale.set(this.scale, this.scale);
 
-    this.textElement.style.fontSize = 100 * this.scale + "%";
+    this.textElement.style.fontSize = 90 * this.scale + "%";
     this.setTextDimensions(!this.isCharacterMessage);
   }
 }
