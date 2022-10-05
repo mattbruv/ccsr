@@ -503,7 +503,7 @@ export class Game {
 
         switch (action) {
           case "FRAME": {
-            alert("Door -> Frame unimplemented!");
+            console.log("Door -> Frame unimplemented!");
             break;
           }
           case "ROOM": {
