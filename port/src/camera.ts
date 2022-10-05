@@ -59,20 +59,34 @@ export class GameCamera {
     const w = this.game.app.renderer.screen.width;
     const h = this.game.app.renderer.screen.height;
 
-    const padX = this.screenWidth - this.mapWidthPixels * this.scaleX;
-    const padY = this.screenHeight - this.mapHeightPixels * this.scaleY;
+    const mapWidth = this.mapWidthPixels * this.scaleX;
+    const mapHeight = this.mapHeightPixels * this.scaleY;
+
+    const padX = this.screenWidth - mapWidth;
+    const padY = this.screenHeight - mapHeight;
 
     if (w > h) {
       const half = Math.round(padX / 2);
       const test = Math.abs(x) - half;
+      // Only center the map if no area outside the world would be seen
       if (test >= 0) {
         x += half;
+        const worldWidth = this.game.worldRect!.width * this.scaleX;
+        const finalX = Math.abs(x) + this.screenWidth;
+        if (finalX > worldWidth) {
+          x += finalX - worldWidth;
+        }
       }
     } else {
       const half = Math.round(padY / 2);
       const test = Math.abs(y) - half;
       if (test >= 0) {
         y += half;
+        const worldHeight = this.game.worldRect!.height * this.scaleY;
+        const finalY = Math.abs(y) + this.screenHeight;
+        if (finalY > worldHeight) {
+          y += finalY - worldHeight;
+        }
       }
     }
 
