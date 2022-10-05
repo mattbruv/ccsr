@@ -54,6 +54,21 @@ export class Debugger {
       if (event.key == "p") {
         this.game.smoothAnimations = !this.game.smoothAnimations;
       }
+      if (event.key == " ") {
+        const map = this.game.player.currentMap;
+        const objs = this.game.movingObjects.filter((o) => o.mapName == map);
+        console.log(objs);
+      }
+      if (event.key == "t") {
+        const map = this.game.player.currentMap;
+        const objs = this.game.gameObjects.filter((o) => o.mapName === map);
+        objs.map((o) => {
+          o.data.message.map((m) => {
+            console.log(m);
+          });
+        });
+        console.log(objs);
+      }
     });
 
     // Draw map grid
