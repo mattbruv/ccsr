@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture } from "../game";
-import { GameScene } from "../scene";
+import { GameScene, MoveAnimation } from "../scene";
 
 export class Scene1 extends GameScene {
   public pumpHouse: PIXI.Container;
@@ -116,8 +116,39 @@ export class Scene1 extends GameScene {
 
     this.items.map((i) => (i.visible = false));
     this.waters.map((w) => (w.visible = false));
+
+    // keyframe movement/events
+    const moveLeft: MoveAnimation = {
+      sprite: this.buttercup,
+      from: { x: 192, y: 272 },
+      to: { x: 64, y: 272 },
+      startFrame: 1,
+      endFrame: 11,
+    };
+
+    const moveUp: MoveAnimation = {
+      sprite: this.buttercup,
+      from: { x: 64, y: 272 },
+      to: { x: 64, y: 159 },
+      startFrame: 11,
+      endFrame: 12 + 11,
+    };
+
+    this.moveAnims.push(moveLeft);
+    this.moveAnims.push(moveUp);
+
+    this.currentFrame = -1;
   }
+
   public play(): void {
+    this.playing = true;
     console.log("play pool");
+  }
+
+  protected onFrame(): void {
+    if (this.currentFrame == 50) {
+      this.playing = false;
+      this.currentFrame = 0;
+    }
   }
 }

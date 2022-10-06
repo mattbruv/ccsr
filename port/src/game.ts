@@ -57,6 +57,7 @@ export class Game {
   private script: EpisodeScript;
 
   private scenes: { name: string; scene: GameScene }[] = [];
+  private currentScene: GameScene | undefined;
 
   // Key input
   public readonly keysPressed = new Set<string>();
@@ -158,10 +159,11 @@ export class Game {
 
     if (entry) {
       this.player.setStatus(PlayerStatus.STOP);
-      console.log(this.app.stage.position);
       this.viewport.visible = false;
       entry.scene.container.visible = true;
       entry.scene.init();
+      entry.scene.play();
+      this.currentScene = entry.scene;
     } else {
       console.log("Scene not found!", name);
     }
@@ -182,6 +184,17 @@ export class Game {
 
   private update(delta: number) {
     const now = Date.now();
+    const scene = this.currentScene;
+
+    if (scene) {
+      if (scene.isPlaying()) {
+        if (now < scene.lastUpdate + scene.frameRate) {
+          scene.tick(now);
+        } else {
+          scene.nextFrame(now);
+        }
+      }
+    }
 
     const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
 
