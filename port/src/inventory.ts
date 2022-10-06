@@ -7,6 +7,11 @@ import {
 } from "./game";
 import { PlayerStatus } from "./player";
 
+export enum InventoryMode {
+  NORMAL,
+  SELECT,
+}
+
 export interface GameInventoryItemData {
   key: string;
   name: string; // at first glance, it seems like this isn't used in the game.
@@ -31,6 +36,8 @@ export class GameInventory {
 
   private readonly FONT_SCALE = 0.72;
 
+  private mode = InventoryMode.NORMAL;
+
   public items: string[] = [];
   public acts: string[] = [];
   public names: string[] = [];
@@ -42,11 +49,17 @@ export class GameInventory {
 
   private isInventoryOpen: boolean = false;
 
+  private onCloseCallback: (() => void) | undefined;
+
+  public selection: Set<string> = new Set();
+
   constructor(game: Game) {
     this.game = game;
     this.sprite = new PIXI.Sprite();
     this.spriteInstructions = new PIXI.Sprite();
     this.spriteSelectedItem = new PIXI.Sprite();
+
+    this.onCloseCallback = undefined;
 
     // Initialize and style the text HTML element
     this.textElement = document.createElement("p");
@@ -72,7 +85,6 @@ export class GameInventory {
   private selectItem(key: string, index: number) {
     if (index > 16) return;
 
-    this.spriteSelectedItem.visible = true;
     const points = this.getItemLocationPoints();
     const p = points[index];
     this.spriteSelectedItem.position.set(p.center.x - 1, p.center.y - 1);
@@ -106,7 +118,24 @@ export class GameInventory {
       itemSprite.buttonMode = true;
 
       itemSprite.on("pointerdown", () => {
-        this.selectItem(item, index);
+        if (this.mode == InventoryMode.NORMAL) {
+          this.selectItem(item, index);
+        } else {
+          const data = this.itemData.find((i) => i.key == item);
+          if (this.selection.has(item)) {
+            this.selection.delete(item);
+          } else {
+            if (this.selection.size < 5) {
+              this.selection.add(item);
+            }
+          }
+
+          const description = [...this.selection].map((item) => {
+            return this.itemData.find((i) => i.key == item)?.name;
+          });
+
+          this.textElement.innerText = description.join(", ");
+        }
       });
 
       // Add to the itemSprites array so we can keep track of references
@@ -115,7 +144,25 @@ export class GameInventory {
       this.sprite.addChild(itemSprite);
     });
 
-    this.selectItem(this.items[0], 0);
+    if (this.mode == InventoryMode.NORMAL) {
+      this.selectItem(this.items[0], 0);
+    } else {
+      this.textElement.innerText = "";
+    }
+  }
+
+  public setMode(mode: InventoryMode) {
+    this.mode = mode;
+
+    if (mode == InventoryMode.SELECT) {
+      this.textElement.innerText = "";
+      this.selection.clear();
+      this.spriteInstructions.visible = false;
+      this.spriteSelectedItem.visible = false;
+    } else {
+      this.spriteInstructions.visible = true;
+      this.spriteSelectedItem.visible = true;
+    }
   }
 
   public init() {
@@ -130,8 +177,9 @@ export class GameInventory {
     this.spriteInstructions.anchor.set(0.5, 0.5);
     this.spriteInstructions.visible = true;
 
-    this.spriteInstructions.buttonMode = true;
-    this.spriteInstructions.interactive = true;
+    // this.spriteInstructions.buttonMode = true;
+    // this.spriteInstructions.interactive = true;
+
     this.spriteInstructions.on("pointerdown", () => {
       this.closeInventory();
     });
@@ -202,9 +250,12 @@ export class GameInventory {
       this.textElement.innerText = "You have no items.";
       this.clearItemSprites();
     } else {
-      this.spriteSelectedItem.visible = true;
       this.renderItems();
     }
+  }
+
+  public setOnClose(callback: () => void) {
+    this.onCloseCallback = callback;
   }
 
   private updateVisIfWalking() {
@@ -265,6 +316,11 @@ export class GameInventory {
     this.textElement.innerText =
       "I see you, poking around in the developer console";
     this.textElement.style.display = "none";
+
+    if (this.onCloseCallback) {
+      this.onCloseCallback();
+      this.onCloseCallback = undefined;
+    }
   }
 
   private setTextDimensions() {

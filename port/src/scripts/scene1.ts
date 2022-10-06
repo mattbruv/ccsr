@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture } from "../game";
+import { InventoryMode } from "../inventory";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
 
@@ -215,6 +216,7 @@ export class Scene1 extends GameScene {
       frame: 81,
       callback: () => {
         this.game.sign.setOnClose(() => {
+          this.game.inventory.setMode(InventoryMode.SELECT);
           this.game.inventory.openInventory();
         });
         this.game.sign.showCharacterMessage("block.38", "Oh shit, oh fuck!");
