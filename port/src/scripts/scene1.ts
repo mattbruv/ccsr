@@ -4,6 +4,7 @@ import { GameScene } from "../scene";
 
 export class Scene1 extends GameScene {
   public pumpHouse: PIXI.Container;
+  public poolArea: PIXI.Container;
 
   private pumpBG: PIXI.Sprite;
   private buttercup: PIXI.Sprite;
@@ -11,6 +12,9 @@ export class Scene1 extends GameScene {
   private wheel: PIXI.Sprite;
   private waters: PIXI.Sprite[] = [];
   private items: PIXI.Sprite[] = [];
+
+  private poolWater: PIXI.Sprite;
+  private exitButton: PIXI.Sprite;
 
   constructor(game: Game) {
     super(game);
@@ -31,10 +35,10 @@ export class Scene1 extends GameScene {
     this.wheel.position.set(64, 121);
 
     this.pumpHouse.addChild(this.pumpBG);
-    this.container.addChild(this.pumpHouse);
-    this.container.addChild(this.buttercup);
-    this.container.addChild(this.gus);
-    this.container.addChild(this.wheel);
+    this.pumpHouse.addChild(this.pumpHouse);
+    this.pumpHouse.addChild(this.buttercup);
+    this.pumpHouse.addChild(this.gus);
+    this.pumpHouse.addChild(this.wheel);
 
     for (let i = 0; i < 5; i++) {
       const water = new PIXI.Sprite(getMemberTexture("Spray4"));
@@ -45,7 +49,7 @@ export class Scene1 extends GameScene {
       water.scale.set(scaleX, scaleY);
       water.position.set(130 + i * 64, 106 + 28);
       this.waters.push(water);
-      this.container.addChild(water);
+      this.pumpHouse.addChild(water);
 
       const it = ["ducktape", "tape", "sock", "gum", "bandaid"];
 
@@ -53,8 +57,59 @@ export class Scene1 extends GameScene {
       item.anchor.set(0.5);
       item.position.set(128 + i * 64, 135);
       this.items.push(item);
-      this.container.addChild(item);
+      this.pumpHouse.addChild(item);
     }
+
+    // Initialize pool area objects
+    this.poolArea = new PIXI.Container();
+
+    const bgTop = new PIXI.Sprite(getMemberTexture("poolside01"));
+    const bgBottom = new PIXI.Sprite(getMemberTexture("poolside02"));
+    bgBottom.position.set(75, 173);
+    this.poolWater = new PIXI.Sprite(getMemberTexture("poolwater"));
+    this.poolWater.alpha = 0.5;
+    this.poolWater.anchor.set(0.5);
+    this.poolWater.position.set(258, 150);
+    const diveboard = new PIXI.Sprite(getMemberTexture("diveboardnew"));
+    diveboard.anchor.set(0.5);
+    diveboard.position.set(132, 138);
+
+    this.poolArea.addChild(bgTop);
+    this.poolArea.addChild(this.poolWater);
+    this.poolArea.addChild(bgBottom);
+    this.poolArea.addChild(diveboard);
+    this.addPoolChar("block.45", 222, 206);
+    this.addPoolChar("block.43", 178, 208);
+    this.addPoolChar("block.42", 112, 171);
+    this.addPoolChar("block.39", 111, 96);
+    this.addPoolChar("block.37", 111, 48);
+    this.addPoolChar("block.41", 159, 16);
+    this.addPoolChar("block.40", 230, 12);
+    this.addPoolChar("block.47", 289, 16);
+    this.addPoolChar("block.36", 337, 16);
+    this.addPoolChar("block.46", 401, 63);
+    this.addPoolChar("block.44", 401, 131);
+    this.addPoolChar("block.35", 400, 191);
+    this.addPoolChar("block.48", 307, 272);
+    this.exitButton = new PIXI.Sprite(getMemberTexture("exit.pool"));
+    this.exitButton.anchor.set(0.5);
+    this.exitButton.position.set(99, 290);
+    this.exitButton.interactive = true;
+    this.exitButton.buttonMode = true;
+    this.poolArea.addChild(this.exitButton);
+
+    // Append scenes
+    this.container.addChild(this.pumpHouse);
+    this.container.addChild(this.poolArea);
+
+    //this.poolArea.visible = false;
+  }
+
+  private addPoolChar(member: string, x: number, y: number) {
+    const sprite = new PIXI.Sprite(getMemberTexture(member));
+    sprite.anchor.set(0.5);
+    sprite.position.set(x, y);
+    this.poolArea.addChild(sprite);
   }
 
   public init(): void {
