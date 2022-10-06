@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { interactiveTarget } from "pixi.js";
 import { Game, getMemberTexture } from "../game";
 import { GameScene, MoveAnimation } from "../scene";
 
@@ -12,6 +13,7 @@ export class Scene1 extends GameScene {
   private wheel: PIXI.Sprite;
   private waters: PIXI.Sprite[] = [];
   private items: PIXI.Sprite[] = [];
+  private waterIntervals: number[] = [];
 
   private poolWater: PIXI.Sprite;
   private exitButton: PIXI.Sprite;
@@ -179,6 +181,34 @@ export class Scene1 extends GameScene {
       callback: () => (this.turningWheel = false),
     });
 
+    // create water callbacks
+    for (let i = 0; i < this.waters.length; i++) {
+      this.frameCallbacks.push({
+        frame: 54 + i * 3,
+        callback: () => {
+          this.waters[i].visible = true;
+          this.waters[i].texture = getMemberTexture("Spray1")!;
+
+          let size = 1;
+          let j = 0;
+          const interval = window.setInterval(() => {
+            if (size > 8) {
+              j = j + 1 >= 4 ? 0 : j + 1;
+              this.waters[i].texture = getMemberTexture("Spray" + (j + 5))!;
+              return;
+            }
+            this.waters[i].texture = getMemberTexture("Spray" + size)!;
+            size++;
+          }, this.frameRate);
+          this.waterIntervals.push(interval);
+        },
+      });
+      this.frameCallbacks.push({
+        frame: 54 + i * 3 + 1,
+        callback: () => {},
+      });
+    }
+
     this.currentFrame = -1;
   }
 
@@ -193,7 +223,7 @@ export class Scene1 extends GameScene {
       this.wheel.texture = getMemberTexture(ts[this.currentFrame % 2])!;
     }
 
-    if (this.currentFrame == 50) {
+    if (this.currentFrame == 200) {
       this.playing = false;
       this.currentFrame = 0;
     }
