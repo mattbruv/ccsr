@@ -163,7 +163,7 @@ export class Game {
     const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
 
     if (now < this.lastUpdate + this.MSperTick) {
-      this.camera.update();
+      this.camera.tick();
       if (this.smoothAnimations) {
         for (const obj of moveables) {
           if (obj.inWalkingAnimation) {
@@ -174,9 +174,6 @@ export class Game {
             const dy = percentage * (obj.nextPos.y - obj.lastPos.y);
             obj.setPosition(obj.lastPos.x + dx, obj.lastPos.y + dy);
           }
-        }
-        if (this.player.inWalkingAnimation) {
-          this.camera.update();
         }
       }
 
@@ -526,7 +523,7 @@ export class Game {
             const y = coords[3];
             this.setMap(map);
             this.player.setMapAndPosition(map, x, y);
-            this.camera.update();
+            this.camera.snapCameraToMap(map);
             return;
           }
         }
@@ -552,7 +549,7 @@ export class Game {
       this.player.lastMap = this.player.currentMap;
       this.player.currentMap = collisionObject.mapName;
       this.resetMovableObjects(this.player.lastMap);
-      this.camera.panToMap(this.player.currentMap);
+      this.camera.panToMap(this.player.lastMap, this.player.currentMap);
     }
 
     const nextFrame = this.player.frameOfAnimation + 1;
@@ -570,7 +567,6 @@ export class Game {
     if (dy < 0) this.player.characterDirection = PlayerDirection.UP;
 
     this.player.refreshTexture();
-    this.camera.update();
   }
 
   public updateAllVisibility() {

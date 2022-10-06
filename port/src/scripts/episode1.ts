@@ -27,7 +27,6 @@ export class Episode1 extends EpisodeScript {
     this.game.player.setMapAndPosition(startMap, 6, 8);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
-    this.game.camera.update();
 
     const invData = this.parseInventory();
     this.game.inventory.initItems(invData);

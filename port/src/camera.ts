@@ -44,16 +44,18 @@ export class GameCamera {
     this.scaleY = scale;
   }
 
-  public panToMap(nextMap: string) {
+  public panToMap(fromMap: string, nextMap: string) {
     // disable player movement while panning
     this.game.player.setStatus(PlayerStatus.STOP);
 
     this.isPanning = true;
+    const lastPos = this.getMapCameraXY(fromMap);
+    this.currentCameraPos = lastPos;
     this.nextCameraPos = this.getMapCameraXY(nextMap);
     //console.log("from", this.currentCameraPos, "to", this.nextCameraPos);
 
-    const deltaX = this.nextCameraPos.x - this.currentCameraPos.x;
-    const deltaY = this.nextCameraPos.y - this.currentCameraPos.y;
+    const deltaX = this.nextCameraPos.x - lastPos.x;
+    const deltaY = this.nextCameraPos.y - lastPos.y;
 
     const delta = deltaX ? deltaX : deltaY;
 
@@ -64,14 +66,13 @@ export class GameCamera {
     this.panEndMS = now + panTimeMS;
   }
 
-  public update() {
+  public tick() {
     if (this.isPanning) {
       //console.log("panning!");
       const now = Date.now();
 
       if (now > this.panEndMS) {
         this.isPanning = false;
-        this.currentCameraPos = this.nextCameraPos;
         this.game.player.setStatus(PlayerStatus.MOVE);
         this.setCamera(this.nextCameraPos.x, this.nextCameraPos.y);
         return;
@@ -87,19 +88,9 @@ export class GameCamera {
       this.setCamera(p.x - dx, p.y - dy);
       return;
     }
+  }
 
-    // Don't update the camera if the map hasn't changed
-    if (this.game.player.currentMap != this.game.player.lastMap) {
-      return;
-    }
-
-    console.log("updating map camera");
-
-    const map = this.game.player.currentMap;
-    const pos = this.getMapCameraXY(map);
-    this.currentCameraPos = pos;
-    this.setCamera(pos.x, pos.y);
-    /*
+  /*
     const pos = this.game.player.getPosition();
     const x =
       -pos.x * this.game.viewport.scale.x +
@@ -109,7 +100,6 @@ export class GameCamera {
       this.game.app.renderer.screen.height / 2;
     this.game.viewport.position.set(x, y);
     */
-  }
 
   public snapCameraToMap(mapName: string) {
     const pos = this.getMapCameraXY(mapName);
