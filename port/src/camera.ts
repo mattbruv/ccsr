@@ -50,11 +50,15 @@ export class GameCamera {
 
     this.isPanning = true;
     this.nextCameraPos = this.getMapCameraXY(nextMap);
+    //console.log("from", this.currentCameraPos, "to", this.nextCameraPos);
 
     const deltaX = this.nextCameraPos.x - this.currentCameraPos.x;
     const deltaY = this.nextCameraPos.y - this.currentCameraPos.y;
 
-    const panTimeMS = (deltaX / this.SCROLL_SPEED) * this.game.targetFPS;
+    const delta = deltaX ? deltaX : deltaY;
+
+    const panTimeMS =
+      (Math.abs(delta) / this.SCROLL_SPEED) * this.game.targetFPS;
     const now = Date.now();
     this.panStartMS = now;
     this.panEndMS = now + panTimeMS;
@@ -62,17 +66,14 @@ export class GameCamera {
 
   public update() {
     if (this.isPanning) {
-      console.log("panning!");
+      //console.log("panning!");
       const now = Date.now();
-      console.log("STATUS:", this.game.player.status);
 
       if (now > this.panEndMS) {
         this.isPanning = false;
         this.currentCameraPos = this.nextCameraPos;
         this.game.player.setStatus(PlayerStatus.MOVE);
-        console.log("DONE PANNING");
         this.setCamera(this.nextCameraPos.x, this.nextCameraPos.y);
-        console.log(this.nextCameraPos);
         return;
       }
 
@@ -81,15 +82,9 @@ export class GameCamera {
       const percentage = diff / totalTime;
       const dx = percentage * (this.nextCameraPos.x - this.currentCameraPos.x);
       const dy = percentage * (this.nextCameraPos.y - this.currentCameraPos.y);
-      console.log(percentage, dx, dy);
 
       const p = this.nextCameraPos;
       this.setCamera(p.x - dx, p.y - dy);
-      //       const completed = this.MSperTick - (endTime - now);
-      //       const percentage = completed / this.MSperTick;
-      //       const dx = percentage * (obj.nextPos.x - obj.lastPos.x);
-      //       const dy = percentage * (obj.nextPos.y - obj.lastPos.y);
-      //       obj.setPosition(obj.lastPos.x + dx, obj.lastPos.y + dy);
       return;
     }
 
@@ -97,7 +92,6 @@ export class GameCamera {
     const pos = this.getMapCameraXY(map);
     this.currentCameraPos = pos;
     this.setCamera(pos.x, pos.y);
-    //console.log(w, h, w > h);
     /*
     const pos = this.game.player.getPosition();
     const x =
