@@ -46,6 +46,8 @@ export class Game {
   public camera: GameCamera;
 
   public worldContainer: PIXI.Container;
+  public sceneContainer: PIXI.Container;
+
   public backgroundTexture: PIXI.RenderTexture;
   public backgroundSprite: PIXI.Sprite;
 
@@ -98,11 +100,14 @@ export class Game {
     this.player = new Player(this);
     this.camera = new GameCamera(this);
 
-    this.app.stage.addChild(this.viewport);
     this.viewport.drag().pinch().wheel();
     this.enableDebugControls(true);
 
     this.worldContainer = new PIXI.Container();
+    this.sceneContainer = new PIXI.Container();
+
+    this.app.stage.addChild(this.viewport);
+    this.app.stage.addChild(this.sceneContainer);
 
     /*
       We need to create a giant map texture to render
@@ -150,7 +155,7 @@ export class Game {
 
   public addScene(name: string, scene: GameScene) {
     this.scenes.push({ name, scene });
-    this.app.stage.addChild(scene.container);
+    this.sceneContainer.addChild(scene.container);
   }
 
   public playScene(name: string) {

@@ -105,6 +105,8 @@ export class Scene1 extends GameScene {
     // Append scenes
     this.container.addChild(this.pumpHouse);
     this.container.addChild(this.poolArea);
+
+    this.container.scale.set(2);
   }
 
   private addPoolChar(member: string, x: number, y: number) {
@@ -208,6 +210,13 @@ export class Scene1 extends GameScene {
         callback: () => {},
       });
     }
+
+    this.frameCallbacks.push({
+      frame: 81,
+      callback: () => {
+        this.game.sign.showCharacterMessage("block.38", "Oh shit, oh fuck!");
+      },
+    });
 
     this.currentFrame = -1;
   }
