@@ -61,8 +61,8 @@ export class Game {
 
   // frame timing
   private lastUpdate = Date.now();
-  private readonly targetFPS = 12;
-  private readonly MSperTick = 1000 / this.targetFPS;
+  public readonly targetFPS = 12;
+  public readonly MSperTick = 1000 / this.targetFPS;
 
   public smoothAnimations = true;
 
@@ -163,6 +163,7 @@ export class Game {
     const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
 
     if (now < this.lastUpdate + this.MSperTick) {
+      this.camera.update();
       if (this.smoothAnimations) {
         for (const obj of moveables) {
           if (obj.inWalkingAnimation) {
@@ -551,6 +552,7 @@ export class Game {
       this.player.lastMap = this.player.currentMap;
       this.player.currentMap = collisionObject.mapName;
       this.resetMovableObjects(this.player.lastMap);
+      this.camera.panToMap(this.player.currentMap);
     }
 
     const nextFrame = this.player.frameOfAnimation + 1;
