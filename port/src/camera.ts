@@ -20,8 +20,6 @@ export class GameCamera {
   private panStartMS: number = 0;
   private panEndMS: number = 0;
 
-  private readonly SCROLL_SPEED = 16;
-
   constructor(game: Game) {
     this.game = game;
   }

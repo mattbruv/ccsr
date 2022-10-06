@@ -426,10 +426,12 @@ export class Game {
       for (const c of conds) {
         condIndex++;
         if (!c.hasObj && !c.hasAct) {
+          // console.log("!hasObj && !hasAct");
           getItem = true;
           continue;
         }
         if (!c.hasObj && c.hasAct) {
+          // console.log("!hasObj && hasAct");
           if (this.inventory.has(c.hasAct)) {
             getItem = true;
           }
@@ -438,6 +440,7 @@ export class Game {
           // continue;
         }
         if (c.hasObj && !c.hasAct) {
+          // console.log("hasObj && !hasAct");
           if (this.inventory.has(c.hasObj)) {
             getItem = true;
             this.inventory.removeItem(c.hasObj);
@@ -445,6 +448,7 @@ export class Game {
           break;
         }
         if (c.hasObj && c.hasAct) {
+          // console.log("hasObj && hasAct");
           if (this.inventory.has(c.hasObj) && this.inventory.has(c.hasAct)) {
             getItem = true;
             this.inventory.removeItem(c.hasObj);
@@ -702,10 +706,10 @@ export class Game {
     console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
 
-    this.movingObjects.map((m) => {
-      const rect = m.getMoveBounds();
-      // this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
-    });
+    // this.movingObjects.map((m) => {
+    // const rect = m.getMoveBounds();
+    // this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
+    // });
   }
 
   private drawObjectToBackground(object: GameObject) {

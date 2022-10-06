@@ -198,6 +198,7 @@ export class GameInventory {
     if (this.items.length == 0) {
       this.spriteSelectedItem.visible = false;
       this.textElement.innerText = "You have no items.";
+      this.clearItemSprites();
     } else {
       this.spriteSelectedItem.visible = true;
       this.renderItems();
@@ -210,7 +211,7 @@ export class GameInventory {
 
   public removeAct(actKey: string) {
     const index = this.acts.findIndex((i) => i == actKey);
-    if (index) {
+    if (index !== -1) {
       this.acts.splice(index, 1);
       return true;
     }
@@ -231,7 +232,7 @@ export class GameInventory {
 
   public removeItem(itemKey: string) {
     const index = this.items.findIndex((i) => i == itemKey);
-    if (index) {
+    if (index !== -1) {
       this.items.splice(index, 1);
       return true;
     }
