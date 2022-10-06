@@ -131,11 +131,29 @@ export class Scene1 extends GameScene {
       from: { x: 64, y: 272 },
       to: { x: 64, y: 159 },
       startFrame: 11,
-      endFrame: 12 + 11,
+      endFrame: 23,
+    };
+
+    const moveGusUp: MoveAnimation = {
+      sprite: this.gus,
+      from: { x: this.gus.position.x, y: this.gus.position.y },
+      to: { x: 192, y: 255 },
+      startFrame: 1,
+      endFrame: 6,
+    };
+
+    const moveGusRight: MoveAnimation = {
+      sprite: this.gus,
+      from: { x: 192, y: 255 },
+      to: { x: 240, y: 255 },
+      startFrame: 6,
+      endFrame: 12,
     };
 
     this.moveAnims.push(moveLeft);
     this.moveAnims.push(moveUp);
+    this.moveAnims.push(moveGusUp);
+    this.moveAnims.push(moveGusRight);
 
     this.currentFrame = -1;
   }
