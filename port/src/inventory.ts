@@ -205,14 +205,22 @@ export class GameInventory {
     }
   }
 
+  private updateVisIfWalking() {
+    if (this.game.player.status == PlayerStatus.MOVE) {
+      this.game.updateAllVisibility();
+    }
+  }
+
   public addAct(actKey: string) {
     this.acts.push(actKey);
+    this.updateVisIfWalking();
   }
 
   public removeAct(actKey: string) {
     const index = this.acts.findIndex((i) => i == actKey);
     if (index !== -1) {
       this.acts.splice(index, 1);
+      this.updateVisIfWalking();
       return true;
     }
     return false;
@@ -228,12 +236,14 @@ export class GameInventory {
 
   public addItem(itemKey: string) {
     this.items.push(itemKey);
+    this.updateVisIfWalking();
   }
 
   public removeItem(itemKey: string) {
     const index = this.items.findIndex((i) => i == itemKey);
     if (index !== -1) {
       this.items.splice(index, 1);
+      this.updateVisIfWalking();
       return true;
     }
     return false;

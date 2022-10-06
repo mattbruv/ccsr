@@ -549,7 +549,6 @@ export class Game {
 
     // Update map and do bookkeeping when leaving a zone
     if (this.player.currentMap != collisionObject.mapName) {
-      //
       this.player.lastMap = this.player.currentMap;
       this.player.currentMap = collisionObject.mapName;
       this.resetMovableObjects(this.player.lastMap);
