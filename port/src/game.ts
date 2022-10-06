@@ -489,7 +489,7 @@ export class Game {
     const name = collisionObject.data.item.name;
     if (name && !name.includes("=")) {
       if (!this.inventory.has(name)) {
-        this.inventory.addItem(name);
+        this.inventory.names.push(name);
         this.inventory.addAct("got" + name);
       }
     }

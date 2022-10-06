@@ -33,6 +33,8 @@ export class GameInventory {
 
   public items: string[] = [];
   public acts: string[] = [];
+  public names: string[] = [];
+
   private itemData: GameInventoryItemData[] = [];
   private itemSprites: PIXI.Sprite[] = [];
 
@@ -227,7 +229,9 @@ export class GameInventory {
   }
 
   public has(thing: string) {
-    return this.hasAct(thing) || this.hasItem(thing);
+    return (
+      this.names.includes(thing) || this.hasAct(thing) || this.hasItem(thing)
+    );
   }
 
   private hasAct(actKey: string) {
