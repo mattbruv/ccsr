@@ -88,6 +88,13 @@ export class GameCamera {
       return;
     }
 
+    // Don't update the camera if the map hasn't changed
+    if (this.game.player.currentMap != this.game.player.lastMap) {
+      return;
+    }
+
+    console.log("updating map camera");
+
     const map = this.game.player.currentMap;
     const pos = this.getMapCameraXY(map);
     this.currentCameraPos = pos;
@@ -102,6 +109,11 @@ export class GameCamera {
       this.game.app.renderer.screen.height / 2;
     this.game.viewport.position.set(x, y);
     */
+  }
+
+  public snapCameraToMap(mapName: string) {
+    const pos = this.getMapCameraXY(mapName);
+    this.setCamera(pos.x, pos.y);
   }
 
   private getMapCameraXY(mapName: string): Pos {

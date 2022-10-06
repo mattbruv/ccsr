@@ -37,7 +37,7 @@ export class Player implements MovableGameObject {
   private posY: number;
 
   public currentMap: string = "";
-  public lastMap: string = "";
+  public lastMap: string = "0101";
 
   public inWalkingAnimation: boolean = false;
   public walkAnimStartMS: number = 0;
@@ -100,8 +100,8 @@ export class Player implements MovableGameObject {
   }
 
   public setMapAndPosition(map: string, xIndex: number, yIndex: number) {
+    this.lastMap = this.currentMap;
     this.currentMap = map;
-    this.lastMap = map;
     const offset = getMapRect(map);
     const x = xIndex * 16 + offset.x;
     const y = yIndex * 16 + offset.y;
