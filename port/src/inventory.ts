@@ -121,7 +121,6 @@ export class GameInventory {
         if (this.mode == InventoryMode.NORMAL) {
           this.selectItem(item, index);
         } else {
-          const data = this.itemData.find((i) => i.key == item);
           if (this.selection.has(item)) {
             this.selection.delete(item);
           } else {

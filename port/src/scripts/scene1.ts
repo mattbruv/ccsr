@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Game, getMemberTexture } from "../game";
+import { equalSets, Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
@@ -231,21 +231,61 @@ export class Scene1 extends GameScene {
     console.log("play pool");
   }
 
+  private displayEnd(selected: Set<string>, required: Set<string>) {
+    console.log(selected, required);
+    const rating = Math.max(
+      1,
+      [...selected].filter((i) => required.has(i)).length
+    );
+  }
+
+  private calculateEnd() {
+    const selected = this.game.inventory.selection;
+    const required = new Set(["gum", "ducktape", "bandaid", "sock", "tape"]);
+
+    const arr = [...selected];
+
+    for (let i = 0; i < required.size; i++) {
+      if (i < arr.length) {
+        // if this is a correct item, stop water.
+        this.items[i].texture = getMemberTexture(arr[i])!;
+      } else {
+        this.items[i].texture = getMemberTexture("wrong")!;
+      }
+
+      setTimeout(() => {
+        if (i < arr.length) {
+          if (required.has(arr[i])) {
+            this.waters[i].visible = false;
+          }
+        }
+        this.items[i].visible = true;
+
+        if (i == 4) {
+          setTimeout(() => {
+            this.displayEnd(selected, required);
+          }, 1000);
+        }
+      }, i * 1000 + 1000);
+    }
+  }
+
   protected onFrame(): void {
     if (this.game.keyPressed(Key.ENTER)) {
       if (this.game.sign.isOpen()) {
         this.game.sign.closeMessage();
+        this.game.keysPressed.delete(Key.ENTER);
+      } else {
+        if (this.game.inventory.isOpen()) {
+          this.game.inventory.closeInventory();
+          this.calculateEnd();
+        }
       }
     }
 
     if (this.turningWheel) {
       const ts = ["wheel", "block.121"];
       this.wheel.texture = getMemberTexture(ts[this.currentFrame % 2])!;
-    }
-
-    if (this.currentFrame == 200) {
-      this.playing = false;
-      this.currentFrame = 0;
     }
   }
 }
