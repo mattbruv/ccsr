@@ -21,6 +21,7 @@ import { Debugger } from "./debug";
 import { GameSign } from "./sign";
 import { GameInventory } from "./inventory";
 import { GameCamera } from "./camera";
+import { GameScene } from "./scene";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -54,6 +55,8 @@ export class Game {
   private currentMap: string = "";
 
   private script: EpisodeScript;
+
+  private scenes: { name: string; scene: GameScene }[] = [];
 
   // Key input
   public readonly keysPressed = new Set<string>();
@@ -142,6 +145,26 @@ export class Game {
         console.log(error);
       }
     });
+  }
+
+  public addScene(name: string, scene: GameScene) {
+    this.scenes.push({ name, scene });
+    this.app.stage.addChild(scene.container);
+  }
+
+  public playScene(name: string) {
+    console.log("Playing scene: ", name);
+    const entry = this.scenes.find((s) => s.name == name);
+
+    if (entry) {
+      this.player.setStatus(PlayerStatus.STOP);
+      console.log(this.app.stage.position);
+      this.viewport.visible = false;
+      entry.scene.container.visible = true;
+      entry.scene.init();
+    } else {
+      console.log("Scene not found!", name);
+    }
   }
 
   public resize() {
@@ -533,8 +556,8 @@ export class Game {
 
         switch (action) {
           case "FRAME": {
-            console.log("Door -> Frame unimplemented!");
-            break;
+            this.playScene(data[1]);
+            return;
           }
           case "ROOM": {
             const coords = data[1].split(".").map((x) => parseInt(x));
