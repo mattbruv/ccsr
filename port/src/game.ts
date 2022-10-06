@@ -194,6 +194,7 @@ export class Game {
           scene.nextFrame(now);
         }
       }
+      return;
     }
 
     const moveables: MovableGameObject[] = [this.player, ...this.movingObjects];
