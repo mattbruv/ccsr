@@ -55,12 +55,11 @@ export class GameCamera {
     //console.log("from", this.currentCameraPos, "to", this.nextCameraPos);
 
     const deltaX = this.nextCameraPos.x - lastPos.x;
-    const deltaY = this.nextCameraPos.y - lastPos.y;
 
-    const delta = deltaX ? deltaX : deltaY;
+    const panSpeedX = (416 / 16) * 12 + 100;
+    const panSpeedY = (320 / 16) * 12 + 100;
+    const panTimeMS = deltaX ? panSpeedX : panSpeedY;
 
-    const panTimeMS =
-      (Math.abs(delta) / this.SCROLL_SPEED) * this.game.targetFPS;
     const now = Date.now();
     this.panStartMS = now;
     this.panEndMS = now + panTimeMS;
