@@ -10,6 +10,7 @@ export class Scene1 extends GameScene {
   private gus: PIXI.Sprite;
   private wheel: PIXI.Sprite;
   private waters: PIXI.Sprite[] = [];
+  private items: PIXI.Sprite[] = [];
 
   constructor(game: Game) {
     super(game);
@@ -45,6 +46,14 @@ export class Scene1 extends GameScene {
       water.position.set(130 + i * 64, 106 + 28);
       this.waters.push(water);
       this.container.addChild(water);
+
+      const it = ["ducktape", "tape", "sock", "gum", "bandaid"];
+
+      const item = new PIXI.Sprite(getMemberTexture(it[i]));
+      item.anchor.set(0.5);
+      item.position.set(128 + i * 64, 135);
+      this.items.push(item);
+      this.container.addChild(item);
     }
   }
 
