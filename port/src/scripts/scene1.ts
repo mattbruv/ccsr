@@ -101,8 +101,6 @@ export class Scene1 extends GameScene {
     // Append scenes
     this.container.addChild(this.pumpHouse);
     this.container.addChild(this.poolArea);
-
-    this.poolArea.visible = false;
   }
 
   private addPoolChar(member: string, x: number, y: number) {
@@ -113,7 +111,11 @@ export class Scene1 extends GameScene {
   }
 
   public init(): void {
-    console.log("init pool");
+    this.pumpHouse.visible = true;
+    this.poolArea.visible = false;
+
+    this.items.map((i) => (i.visible = false));
+    this.waters.map((w) => (w.visible = false));
   }
   public play(): void {
     console.log("play pool");
