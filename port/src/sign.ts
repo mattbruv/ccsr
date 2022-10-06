@@ -19,6 +19,8 @@ export class GameSign {
   private isMessageShowing = false;
   private isCharacterMessage = false;
 
+  private onCloseCallback: (() => void) | undefined;
+
   private scale = 1;
 
   constructor(game: Game) {
@@ -26,6 +28,8 @@ export class GameSign {
 
     this.sprite = new PIXI.Sprite();
     this.characterSprite = new PIXI.Sprite();
+
+    this.onCloseCallback = undefined;
 
     // Initialize and style the text HTML element
     this.textElement = document.createElement("p");
@@ -48,6 +52,10 @@ export class GameSign {
 
   public isOpen() {
     return this.isMessageShowing;
+  }
+
+  public setOnClose(callback: () => void) {
+    this.onCloseCallback = callback;
   }
 
   public init() {
@@ -131,6 +139,11 @@ export class GameSign {
     this.textElement.innerText =
       "I see you, poking around in the developer console";
     this.textElement.style.display = "none";
+
+    if (this.onCloseCallback !== undefined) {
+      this.onCloseCallback();
+      this.onCloseCallback = undefined;
+    }
   }
 
   public resize() {

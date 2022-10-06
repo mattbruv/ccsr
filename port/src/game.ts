@@ -674,7 +674,7 @@ export class Game {
       .map((obj) => obj.setPosition(obj.originalPosX, obj.originalPosY));
   }
 
-  private keyPressed(key: Key) {
+  public keyPressed(key: Key) {
     return this.keysPressed.has(key);
   }
 

@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
-import { interactiveTarget } from "pixi.js";
 import { Game, getMemberTexture } from "../game";
 import { GameScene, MoveAnimation } from "../scene";
+import { Key } from "../types";
 
 export class Scene1 extends GameScene {
   public pumpHouse: PIXI.Container;
@@ -214,6 +214,9 @@ export class Scene1 extends GameScene {
     this.frameCallbacks.push({
       frame: 81,
       callback: () => {
+        this.game.sign.setOnClose(() => {
+          this.game.inventory.openInventory();
+        });
         this.game.sign.showCharacterMessage("block.38", "Oh shit, oh fuck!");
       },
     });
@@ -227,6 +230,12 @@ export class Scene1 extends GameScene {
   }
 
   protected onFrame(): void {
+    if (this.game.keyPressed(Key.ENTER)) {
+      if (this.game.sign.isOpen()) {
+        this.game.sign.closeMessage();
+      }
+    }
+
     if (this.turningWheel) {
       const ts = ["wheel", "block.121"];
       this.wheel.texture = getMemberTexture(ts[this.currentFrame % 2])!;
