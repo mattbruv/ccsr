@@ -45,16 +45,15 @@ export class GameCamera {
   }
 
   public panToMap(nextMap: string) {
+    // disable player movement while panning
     this.game.player.setStatus(PlayerStatus.STOP);
+
     this.isPanning = true;
     this.nextCameraPos = this.getMapCameraXY(nextMap);
-    console.log("Pan to: ", this.nextCameraPos, "from", this.currentCameraPos);
+
     const deltaX = this.nextCameraPos.x - this.currentCameraPos.x;
     const deltaY = this.nextCameraPos.y - this.currentCameraPos.y;
 
-    // disable player movement while panning
-    this.game.player.status = PlayerStatus.STOP;
-    this.game.player.status = PlayerStatus.MOVE;
     const panTimeMS = (deltaX / this.SCROLL_SPEED) * this.game.targetFPS;
     const now = Date.now();
     this.panStartMS = now;
@@ -65,7 +64,7 @@ export class GameCamera {
     if (this.isPanning) {
       console.log("panning!");
       const now = Date.now();
-      console.log(this.game.player.status);
+      console.log("STATUS:", this.game.player.status);
 
       if (now > this.panEndMS) {
         this.isPanning = false;
