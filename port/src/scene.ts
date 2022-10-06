@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Game } from "./game";
 
 export abstract class GameScene {
-  private game: Game;
+  protected game: Game;
 
   public container = new PIXI.Container();
 

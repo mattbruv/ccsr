@@ -102,7 +102,7 @@ export class Scene1 extends GameScene {
     this.container.addChild(this.pumpHouse);
     this.container.addChild(this.poolArea);
 
-    //this.poolArea.visible = false;
+    this.poolArea.visible = false;
   }
 
   private addPoolChar(member: string, x: number, y: number) {
