@@ -10,10 +10,16 @@ export interface MoveAnimation {
   endFrame: number;
 }
 
+export interface FrameCallback {
+  frame: number;
+  callback: () => void;
+}
+
 export abstract class GameScene {
   protected game: Game;
 
   protected moveAnims: MoveAnimation[];
+  protected frameCallbacks: FrameCallback[];
 
   protected currentFrame = 0;
 
@@ -28,6 +34,7 @@ export abstract class GameScene {
     this.game = game;
     this.container.visible = false;
     this.moveAnims = [];
+    this.frameCallbacks = [];
   }
 
   public isPlaying(): boolean {
@@ -80,6 +87,13 @@ export abstract class GameScene {
       const y = anim.from.y + dy;
       anim.sprite.position.set(x, y);
     });
+
+    // Call any callbacks for this specific frame
+    this.frameCallbacks
+      .filter((cb) => cb.frame === this.currentFrame)
+      .map((cb) => {
+        cb.callback();
+      });
 
     this.onFrame();
   }

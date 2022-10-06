@@ -16,6 +16,8 @@ export class Scene1 extends GameScene {
   private poolWater: PIXI.Sprite;
   private exitButton: PIXI.Sprite;
 
+  private turningWheel = false;
+
   constructor(game: Game) {
     super(game);
     this.pumpHouse = new PIXI.Container();
@@ -155,6 +157,28 @@ export class Scene1 extends GameScene {
     this.moveAnims.push(moveGusUp);
     this.moveAnims.push(moveGusRight);
 
+    // turn gus right
+    this.frameCallbacks.push({
+      frame: 6,
+      callback: () => (this.gus.scale.x = -1),
+    });
+
+    // turn gus left
+    this.frameCallbacks.push({
+      frame: 12,
+      callback: () => (this.gus.scale.x = 1),
+    });
+
+    this.frameCallbacks.push({
+      frame: 23,
+      callback: () => (this.turningWheel = true),
+    });
+
+    this.frameCallbacks.push({
+      frame: 40,
+      callback: () => (this.turningWheel = false),
+    });
+
     this.currentFrame = -1;
   }
 
@@ -164,6 +188,11 @@ export class Scene1 extends GameScene {
   }
 
   protected onFrame(): void {
+    if (this.turningWheel) {
+      const ts = ["wheel", "block.121"];
+      this.wheel.texture = getMemberTexture(ts[this.currentFrame % 2])!;
+    }
+
     if (this.currentFrame == 50) {
       this.playing = false;
       this.currentFrame = 0;
