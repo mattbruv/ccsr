@@ -70,7 +70,7 @@ export class Game {
     this.app = new PIXI.Application({
       resolution: 1,
       autoDensity: true,
-      backgroundColor: 0xff00ff,
+      backgroundColor: 0x000000,
       width: 416,
       height: 320,
       antialias: false,
