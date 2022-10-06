@@ -60,6 +60,11 @@ export class Debugger {
         const objs = this.game.movingObjects.filter((o) => o.mapName == map);
         console.log(objs);
       }
+      if (event.key == "c") {
+        const s = new Set();
+        this.game.gameObjects.map((o) => s.add(o.data.item.name));
+        console.log(s);
+      }
       if (event.key == "t") {
         const map = this.game.player.currentMap;
         const objs = this.game.gameObjects.filter((o) => o.mapName === map);

@@ -476,6 +476,24 @@ export class Game {
 
     let inWater = false;
 
+    /*
+      Name check
+      the engine has a feature where if you interact
+      with an object that has something in 'name',
+      you get it added to your inventory.
+
+      From what I can tell, this is only ever utilized
+      in episode 1 in map 0501 where you push the tree
+      to get the bananas.
+    */
+    const name = collisionObject.data.item.name;
+    if (name && !name.includes("=")) {
+      if (!this.inventory.has(name)) {
+        this.inventory.addItem(name);
+        this.inventory.addAct("got" + name);
+      }
+    }
+
     // Switch over object type and handle each case differently
     switch (collisionObject.data.item.type) {
       case GameObjectType.FLOR:
