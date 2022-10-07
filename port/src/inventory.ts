@@ -102,6 +102,11 @@ export class GameInventory {
   }
 
   private renderItems() {
+    if (this.mode == InventoryMode.NORMAL) {
+      this.spriteSelectedItem.visible = true;
+    } else {
+      this.spriteSelectedItem.visible = false;
+    }
     this.clearItemSprites();
 
     if (this.items.length > 16) {
