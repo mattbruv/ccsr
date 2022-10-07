@@ -264,6 +264,15 @@ export class Scene1 extends GameScene {
     this.poolWater.position.set(waterPos[count].x, waterPos[count].y);
     this.poolWater.width = waterPos[count].w;
     this.poolWater.height = waterPos[count].h;
+
+    if (count == 5) {
+      this.exitButton.texture = getMemberTexture("play.next.episode")!;
+    } else {
+      this.exitButton.texture = getMemberTexture("exit.pool")!;
+      this.exitButton.on("pointerdown", () => {
+        // TODO
+      });
+    }
   }
 
   private calculateEnd() {
