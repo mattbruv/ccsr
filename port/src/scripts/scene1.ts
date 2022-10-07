@@ -245,14 +245,25 @@ export class Scene1 extends GameScene {
   }
 
   private displayEnd(selected: Set<string>, required: Set<string>) {
-    console.log(selected, required);
     const count = [...selected].filter((i) => required.has(i)).length;
-    const rating = Math.max(6 - count, 1);
-    console.log(rating);
+    const rating = Math.max(Math.min(6 - count, 5), 1);
+
+    const waterPos = [
+      { x: 258, y: 159, w: 225, h: 193 },
+      { x: 258, y: 159, w: 225, h: 193 },
+      { x: 258, y: 158, w: 229, h: 197 },
+      { x: 258, y: 155, w: 235, h: 203 },
+      { x: 258, y: 151, w: 241, h: 209 },
+    ];
+
     this.message.texture = getMemberTexture("rating." + rating)!;
     this.sign.visible = true;
     this.pumpHouse.visible = false;
     this.poolArea.visible = true;
+    this.poolWater.visible = count > 0;
+    this.poolWater.position.set(waterPos[count].x, waterPos[count].y);
+    this.poolWater.width = waterPos[count].w;
+    this.poolWater.height = waterPos[count].h;
   }
 
   private calculateEnd() {
