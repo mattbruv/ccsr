@@ -158,6 +158,16 @@ export class Game {
     this.sceneContainer.addChild(scene.container);
   }
 
+  public closeScene() {
+    if (this.currentScene) {
+      this.currentScene.exit();
+      this.player.setStatus(PlayerStatus.MOVE);
+      this.viewport.visible = true;
+      this.currentScene.container.visible = false;
+      this.currentScene = undefined;
+    }
+  }
+
   public playScene(name: string) {
     console.log("Playing scene: ", name);
     const entry = this.scenes.find((s) => s.name == name);

@@ -23,10 +23,9 @@ const inventoryDescriptions = [
 
 export class Episode1 extends EpisodeScript {
   public init(): void {
-    //const startMap = "0106";
-    const startMap = "0304";
+    const startMap = "0106";
     this.game.setMap(startMap);
-    this.game.player.setMapAndPosition(startMap, 8, 17);
+    this.game.player.setMapAndPosition(startMap, 6, 10);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
 
@@ -45,7 +44,7 @@ export class Episode1 extends EpisodeScript {
       "bananas",
     ].map((i) => this.game.inventory.addItem(i));
     this.game.inventory.addAct("gotwrench");
-    this.game.playScene("ending");
+    //this.game.playScene("ending");
   }
 
   private parseInventory(): GameInventoryItemData[] {

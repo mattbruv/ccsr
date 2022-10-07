@@ -41,6 +41,10 @@ export abstract class GameScene {
     return this.playing;
   }
 
+  public stopPlaying() {
+    this.playing = false;
+  }
+
   public tick(timeNow: number) {
     const anims = this.moveAnims.filter(
       (anim) =>
@@ -100,5 +104,6 @@ export abstract class GameScene {
 
   public abstract init(): void;
   public abstract play(): void;
+  public abstract exit(): void;
   protected abstract onFrame(): void;
 }

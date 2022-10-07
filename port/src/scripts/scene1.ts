@@ -131,12 +131,22 @@ export class Scene1 extends GameScene {
     this.poolArea.addChild(sprite);
   }
 
+  public exit(): void {
+    this.game.player.setMapAndPosition("0304", 10, 17);
+  }
+
   public init(): void {
+    this.buttercup.position.set(192, 272);
+    this.gus.position.set(192, 272 + 32);
+
     this.pumpHouse.visible = true;
     this.poolArea.visible = false;
 
     this.items.map((i) => (i.visible = false));
     this.waters.map((w) => (w.visible = false));
+
+    this.waterIntervals.map((i) => window.clearInterval(i));
+    this.waterIntervals = [];
 
     // keyframe movement/events
     const moveLeft: MoveAnimation = {
@@ -171,10 +181,13 @@ export class Scene1 extends GameScene {
       endFrame: 12,
     };
 
+    this.moveAnims = [];
     this.moveAnims.push(moveLeft);
     this.moveAnims.push(moveUp);
     this.moveAnims.push(moveGusUp);
     this.moveAnims.push(moveGusRight);
+
+    this.frameCallbacks = [];
 
     // turn gus right
     this.frameCallbacks.push({
@@ -267,10 +280,11 @@ export class Scene1 extends GameScene {
 
     if (count == 5) {
       this.exitButton.texture = getMemberTexture("play.next.episode")!;
+      alert("You won, nothing else to go back to!");
     } else {
       this.exitButton.texture = getMemberTexture("exit.pool")!;
       this.exitButton.on("pointerdown", () => {
-        // TODO
+        this.game.closeScene();
       });
     }
   }
