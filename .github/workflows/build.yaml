@@ -32,4 +32,5 @@ jobs:
           folder: port/dist # The folder the action should deploy.
           repository-name: mattbruv/ccsr-port-test
           token: ${{ secrets.ACCESS_TOKEN }}
+          force: true
           single-commit: true
