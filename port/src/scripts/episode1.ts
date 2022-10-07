@@ -33,18 +33,6 @@ export class Episode1 extends EpisodeScript {
 
     const invData = this.parseInventory();
     this.game.inventory.initItems(invData);
-    [
-      //
-      "ducktape",
-      "wrench",
-      "gum",
-      "bandaid",
-      "sock",
-      "tape",
-      "bananas",
-    ].map((i) => this.game.inventory.addItem(i));
-    this.game.inventory.addAct("gotwrench");
-    //this.game.playScene("ending");
   }
 
   private parseInventory(): GameInventoryItemData[] {
