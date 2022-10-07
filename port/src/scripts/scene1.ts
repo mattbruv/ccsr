@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { equalSets, Game, getMemberTexture } from "../game";
+import { Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
@@ -18,6 +18,9 @@ export class Scene1 extends GameScene {
 
   private poolWater: PIXI.Sprite;
   private exitButton: PIXI.Sprite;
+
+  private sign: PIXI.Sprite;
+  private message: PIXI.Sprite;
 
   private turningWheel = false;
 
@@ -103,9 +106,20 @@ export class Scene1 extends GameScene {
     this.exitButton.buttonMode = true;
     this.poolArea.addChild(this.exitButton);
 
+    this.sign = new PIXI.Sprite(getMemberTexture("sign.bkg"));
+    this.sign.anchor.set(0.5);
+    this.message = new PIXI.Sprite(getMemberTexture("rating.1"));
+    this.message.anchor.set(0.5);
+    this.message.position.y -= 5;
+    this.sign.position.set(this.poolArea.width / 2, this.poolArea.height / 2);
+    this.sign.addChild(this.message);
+    this.poolArea.addChild(this.sign);
+
     // Append scenes
     this.container.addChild(this.pumpHouse);
     this.container.addChild(this.poolArea);
+
+    this.exitButton.visible = false;
 
     this.container.scale.set(2);
   }
@@ -228,15 +242,17 @@ export class Scene1 extends GameScene {
 
   public play(): void {
     this.playing = true;
-    console.log("play pool");
   }
 
   private displayEnd(selected: Set<string>, required: Set<string>) {
     console.log(selected, required);
-    const rating = Math.max(
-      1,
-      [...selected].filter((i) => required.has(i)).length
-    );
+    const count = [...selected].filter((i) => required.has(i)).length;
+    const rating = Math.max(6 - count, 1);
+    console.log(rating);
+    this.message.texture = getMemberTexture("rating." + rating)!;
+    this.sign.visible = true;
+    this.pumpHouse.visible = false;
+    this.poolArea.visible = true;
   }
 
   private calculateEnd() {
@@ -274,13 +290,16 @@ export class Scene1 extends GameScene {
     if (this.game.keyPressed(Key.ENTER)) {
       if (this.game.sign.isOpen()) {
         this.game.sign.closeMessage();
-        this.game.keysPressed.delete(Key.ENTER);
       } else {
         if (this.game.inventory.isOpen()) {
           this.game.inventory.closeInventory();
           this.calculateEnd();
+        } else if (this.sign.visible) {
+          this.sign.visible = false;
+          this.exitButton.visible = true;
         }
       }
+      this.game.keysPressed.delete(Key.ENTER);
     }
 
     if (this.turningWheel) {

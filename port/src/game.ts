@@ -852,10 +852,6 @@ export function randBetween(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function equalSets<T>(a: Set<T>, b: Set<T>) {
-  return a.size === b.size && [...a].every((item) => b.has(item));
-}
-
 /*
   GPU PROFILING TESTS
 
