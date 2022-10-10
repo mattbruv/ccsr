@@ -4,7 +4,6 @@ import os
 import pathlib
 import re
 import shutil
-from typing import final
 from PyTexturePacker import Packer
 from PIL import Image
 
@@ -215,6 +214,8 @@ def setup():
                      ).mkdir(parents=True, exist_ok=True)
         parseMapData(i)
         packImages(i)
+    dirs = glob.glob("translations/")
+    shutil.copytree(dirs[0], "public/assets", dirs_exist_ok=True)
 
 
 setup()
