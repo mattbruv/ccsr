@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 assets
+inv.py
+out.txt
