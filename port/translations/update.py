@@ -1,7 +1,7 @@
-from email import message
 import glob
 import json
 import hashlib
+import codecs
 
 
 def getHash(string: str):
@@ -21,7 +21,7 @@ jsons = glob.glob(g)
 for f in jsons:
     data.append({
         "file": f,
-        "data": json.loads(open(f).read())
+        "data": json.loads(codecs.open(f, "r", "utf-8").read())
     })
 
 replace = {}
@@ -42,4 +42,5 @@ for file in data:
             data[i]["data"][key] = replace[key]
     i += 1
 
-    open(file["file"], "w").write(json.dumps(file["data"], indent=4))
+    codecs.open(file["file"], "w",
+                "utf-8").write(json.dumps(file["data"], indent=4, ensure_ascii=False))
