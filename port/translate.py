@@ -24,6 +24,8 @@ def genTranslationFile(path):
     for d in data:
         mapData = d["data"]
         for obj in mapData:
+            if not "data" in obj:
+                continue
             msg = obj["data"]["message"]
             if msg:
                 for m in msg:
@@ -43,9 +45,10 @@ def genTranslationFile(path):
 
     for d in translate:
         print(d, translate[d])
+    translate = {k: v for k, v in sorted(
+        translate.items(), key=lambda item: item[1])}
     open(p.name, "w").write(json.dumps(translate, indent=4))
 
 
 for f in files:
     genTranslationFile(f)
-    break
