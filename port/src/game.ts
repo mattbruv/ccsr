@@ -578,7 +578,7 @@ export class Game {
       case GameObjectType.WATER: {
         // only allow water travel if you have a boat
         if (!this.inventory.has("scuba")) {
-          this.sign.showMessage("You can't just walk into water!!!");
+          this.sign.showMessage(this.gameData!.walkIntoWater);
           return;
         }
         inWater = true;
