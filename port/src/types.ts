@@ -1,3 +1,5 @@
+import { GameInventoryItemData } from "./inventory";
+
 export enum Key {
   UP = "ArrowUp",
   DOWN = "ArrowDown",
@@ -8,6 +10,12 @@ export enum Key {
   A = "a",
   S = "s",
   D = "d",
+}
+
+export interface GameData {
+  walkIntoWater: string;
+  scene: GameMessages;
+  inventory: GameInventoryItemData[];
 }
 
 export interface GameMessages {

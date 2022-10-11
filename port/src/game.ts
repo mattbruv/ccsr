@@ -4,6 +4,7 @@ import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
+  GameData,
   GameMapArea,
   GameMessages,
   GameObjectCond,
@@ -20,7 +21,7 @@ import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
 import { intersect, rectAinRectB } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
-import { GameInventory } from "./inventory";
+import { GameInventory, GameInventoryItemData } from "./inventory";
 import { GameCamera } from "./camera";
 import { GameScene } from "./scene";
 import * as hash from "hash.js";
@@ -73,6 +74,8 @@ export class Game {
   public readonly MSperTick = 1000 / this.targetFPS;
 
   public smoothAnimations = true;
+
+  public gameData: GameData | undefined;
 
   constructor() {
     this.app = new PIXI.Application({
@@ -701,6 +704,10 @@ export class Game {
     this.debug.init();
     this.sign.init();
     this.inventory.init();
+
+    this.gameData = Loader.shared.resources["game"].data;
+
+    this.inventory.initItems(this.gameData!.inventory);
 
     this.script.init();
 

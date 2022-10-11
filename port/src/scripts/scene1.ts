@@ -132,6 +132,7 @@ export class Scene1 extends GameScene {
   }
 
   public exit(): void {
+    this.game.inventory.setMode(InventoryMode.NORMAL);
     this.game.player.setMapAndPosition("0304", 10, 17);
   }
 

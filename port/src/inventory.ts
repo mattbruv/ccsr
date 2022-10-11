@@ -164,6 +164,7 @@ export class GameInventory {
       this.spriteInstructions.visible = false;
       this.spriteSelectedItem.visible = false;
     } else {
+      this.selection.clear();
       this.spriteInstructions.visible = true;
       this.spriteSelectedItem.visible = true;
     }
