@@ -247,7 +247,10 @@ export class Scene1 extends GameScene {
           this.game.inventory.setMode(InventoryMode.SELECT);
           this.game.inventory.openInventory();
         });
-        this.game.sign.showCharacterMessage("block.38", "Oh shit, oh fuck!");
+        this.game.sign.showCharacterMessage(
+          "block.38",
+          this.game.gameData!.scene["plugMyHoles"]
+        );
       },
     });
 

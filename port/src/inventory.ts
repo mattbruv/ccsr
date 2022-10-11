@@ -252,7 +252,7 @@ export class GameInventory {
 
     if (this.items.length == 0) {
       this.spriteSelectedItem.visible = false;
-      this.textElement.innerText = "You have no items.";
+      this.textElement.innerText = this.game.gameData!.noItems;
       this.clearItemSprites();
     } else {
       this.renderItems();

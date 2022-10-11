@@ -14,6 +14,7 @@ export enum Key {
 
 export interface GameData {
   walkIntoWater: string;
+  noItems: string;
   scene: GameMessages;
   inventory: GameInventoryItemData[];
 }
