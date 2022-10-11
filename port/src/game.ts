@@ -5,6 +5,7 @@ import { loadAssets } from "./load";
 import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
   GameMapArea,
+  GameMessages,
   GameObjectCond,
   GameObjectMoveCond,
   GameObjectType,
@@ -22,6 +23,7 @@ import { GameSign } from "./sign";
 import { GameInventory } from "./inventory";
 import { GameCamera } from "./camera";
 import { GameScene } from "./scene";
+import * as hash from "hash.js";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -716,6 +718,7 @@ export class Game {
     this.viewport.addChild(this.worldContainer);
     this.gameObjects = [];
     const data: GameMapArea[] = Loader.shared.resources["map"].data;
+    const messages: GameMessages = Loader.shared.resources["messages"].data;
 
     // Convert all objects in map data to GameObjects
     for (const area of data) {
@@ -731,6 +734,21 @@ export class Game {
         if (obj.member === undefined) {
           continue;
         }
+
+        // Replace the message text with the translation for the chosen language
+        if (messages) {
+          for (const msg of obj.data.message) {
+            const msgHash = hash
+              .sha256()
+              .update(msg.text)
+              .digest("hex")
+              .slice(0, 4);
+            if (msgHash in messages) {
+              msg.text = messages[msgHash];
+            }
+          }
+        }
+
         const gameObject = new GameObject(obj, area.name);
         this.gameObjects.push(gameObject);
       }

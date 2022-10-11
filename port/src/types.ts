@@ -10,6 +10,10 @@ export enum Key {
   D = "d",
 }
 
+export interface GameMessages {
+  [key: string]: string;
+}
+
 export interface MovableGameObject {
   setPosition(x: number, y: number): void;
   initMove(fromPos: Pos, toPos: Pos): void;
