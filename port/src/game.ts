@@ -15,13 +15,13 @@ import {
   Pos,
   Rect,
 } from "./types";
-import { EpisodeScript } from "./scripts/episodeScript";
+import { EpisodeScript } from "./script";
 import { Episode1 } from "./scripts/episode1";
 import { Player, PlayerDirection, PlayerState, PlayerStatus } from "./player";
 import { intersect, rectAinRectB } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
-import { GameInventory, GameInventoryItemData } from "./inventory";
+import { GameInventory } from "./inventory";
 import { GameCamera } from "./camera";
 import { GameScene } from "./scene";
 import * as hash from "hash.js";
