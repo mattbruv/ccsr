@@ -1,15 +1,28 @@
 import * as PIXI from "pixi.js";
 
-export function loadAssets(episodeNumber: number, doneCallback: () => void) {
+export function loadAssets(
+  episodeNumber: number,
+  language: string,
+  doneCallback: () => void
+) {
   PIXI.utils.clearTextureCache();
+  const root = "./assets/" + episodeNumber + "/";
   const assets = [
     {
       name: `textures`,
-      url: `./assets/${episodeNumber}/ep${episodeNumber}.json`,
+      url: root + "ep" + episodeNumber + ".json",
     },
     {
       name: `map`,
-      url: `./assets/${episodeNumber}/map${episodeNumber}.json`,
+      url: root + "map" + episodeNumber + ".json",
+    },
+    {
+      name: "game",
+      url: root + language + "/game.json",
+    },
+    {
+      name: "messages",
+      url: root + language + "/messages.json",
     },
   ];
 
