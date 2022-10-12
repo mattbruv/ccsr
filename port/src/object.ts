@@ -63,6 +63,7 @@ export class GameObject implements IGameObject, MovableGameObject {
     and have the engine update the textures of those every frame.
   */
   public frame = 0;
+  public isFrameObject = false;
 
   constructor(obj: IGameObject, mapName: string) {
     this.member = obj.member.toLowerCase();
@@ -189,6 +190,10 @@ export class GameObject implements IGameObject, MovableGameObject {
     }
 
     if (Object.values(this.data.item.visi).join("") !== "") {
+      return false;
+    }
+
+    if (this.isFrameObject) {
       return false;
     }
 

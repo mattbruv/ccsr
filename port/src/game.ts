@@ -66,7 +66,7 @@ export class Game {
   private script: EpisodeScript;
 
   public filmLoopObjects: GameObject[] = [];
-  public filmLoopData: FilmLoopData[] = [];
+  public filmLoopData: FilmLoopData = {};
 
   private scenes: { name: string; scene: GameScene }[] = [];
   private currentScene: GameScene | undefined;
@@ -259,6 +259,9 @@ export class Game {
 
     this.lastUpdate = now;
 
+    // Update film loop objects with next frame texture
+    this.updateFilmLoopObjects();
+
     if (this.player.status == PlayerStatus.MOVE) {
       this.updateAutoMoveObjects();
     }
@@ -342,6 +345,16 @@ export class Game {
         }
       }
     }
+  }
+
+  private updateFilmLoopObjects() {
+    this.filmLoopObjects.map((obj) => {
+      const frames = this.filmLoopData[obj.member];
+      const tex = getMemberTexture(frames[obj.frame]);
+      obj.sprite.texture = tex!;
+
+      obj.frame = obj.frame + 1 >= frames.length ? 0 : obj.frame + 1;
+    });
   }
 
   private posAfterDeltaMove(obj: GameObject, dx: number, dy: number): Pos {
@@ -704,19 +717,8 @@ export class Game {
 
   private init(episode: number) {
     this.player.init();
-
     this.initObjects();
     this.initWorldInfo();
-
-    this.viewport.addChild(this.player.sprite);
-
-    this.debug.init();
-    this.sign.init();
-    this.inventory.init();
-
-    this.gameData = Loader.shared.resources["game"].data;
-
-    this.inventory.initItems(this.gameData!.inventory);
 
     switch (episode) {
       case 2:
@@ -733,6 +735,17 @@ export class Game {
         break;
     }
     this.script.init();
+    this.initRenderObjects();
+
+    this.viewport.addChild(this.player.sprite);
+
+    this.debug.init();
+    this.sign.init();
+    this.inventory.init();
+
+    this.gameData = Loader.shared.resources["game"].data;
+
+    this.inventory.initItems(this.gameData!.inventory);
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
@@ -783,7 +796,9 @@ export class Game {
         this.gameObjects.push(gameObject);
       }
     }
+  }
 
+  private initRenderObjects() {
     // Loop through all static objects and render them to the background
     // We must sort them by objects that use tiles first to render it properly,
     // but we don't want to actually mess up the order of the original data.
@@ -822,11 +837,6 @@ export class Game {
 
     console.log("Game objects: " + this.gameObjects.length);
     console.log("Scene objects: " + this.worldContainer.children.length);
-
-    // this.movingObjects.map((m) => {
-    // const rect = m.getMoveBounds();
-    // this.debug.drawRect(rect, { width: 1, color: 0xff0000, alignment: 0 });
-    // });
   }
 
   private drawObjectToBackground(object: GameObject) {

@@ -7,5 +7,20 @@ export class Episode4 extends EpisodeScript {
     this.game.player.setMapAndPosition(startMap, 11, 10);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
+
+    this.game.filmLoopData = {
+      "block.165": ["orange", "yellow", "green", "purple", "red"],
+      "block.166": ["yellow", "green", "purple", "red", "orange"],
+      "block.167": ["green", "purple", "red", "orange", "yellow"],
+      "block.168": ["purple", "red", "orange", "yellow", "green"],
+      "block.169": ["red", "orange", "yellow", "green", "purple"],
+    };
+
+    this.game.gameObjects.map((obj) => {
+      if (obj.member in this.game.filmLoopData) {
+        obj.isFrameObject = true;
+        this.game.filmLoopObjects.push(obj);
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Game } from "../game";
+import { Game } from "./game";
 
 export abstract class EpisodeScript {
   public game: Game;
