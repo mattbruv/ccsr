@@ -140,7 +140,7 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    const episode = 4;
+    const episode = 2;
 
     loadAssets(episode, "en", () => {
       console.log("Done loading assets!");
@@ -345,6 +345,15 @@ export class Game {
         }
       }
     }
+  }
+
+  public setFilmLoopObjects() {
+    this.gameObjects.map((obj) => {
+      if (obj.member in this.filmLoopData) {
+        obj.isFrameObject = true;
+        this.filmLoopObjects.push(obj);
+      }
+    });
   }
 
   private updateFilmLoopObjects() {

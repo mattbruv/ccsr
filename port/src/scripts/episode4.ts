@@ -16,11 +16,6 @@ export class Episode4 extends EpisodeScript {
       "block.169": ["red", "orange", "yellow", "green", "purple"],
     };
 
-    this.game.gameObjects.map((obj) => {
-      if (obj.member in this.game.filmLoopData) {
-        obj.isFrameObject = true;
-        this.game.filmLoopObjects.push(obj);
-      }
-    });
+    this.game.setFilmLoopObjects();
   }
 }
