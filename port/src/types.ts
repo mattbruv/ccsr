@@ -12,6 +12,10 @@ export enum Key {
   D = "d",
 }
 
+export interface FilmLoopData {
+  [key: string]: string[];
+}
+
 export interface GameData {
   walkIntoWater: string;
   noItems: string;

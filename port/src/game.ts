@@ -4,6 +4,7 @@ import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
+  FilmLoopData,
   GameData,
   GameMapArea,
   GameMessages,
@@ -25,6 +26,9 @@ import { GameInventory } from "./inventory";
 import { GameCamera } from "./camera";
 import { GameScene } from "./scene";
 import * as hash from "hash.js";
+import { Episode2 } from "./scripts/episode2";
+import { Episode3 } from "./scripts/episode3";
+import { Episode4 } from "./scripts/episode4";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -60,6 +64,9 @@ export class Game {
   private currentMap: string = "";
 
   private script: EpisodeScript;
+
+  public filmLoopObjects: GameObject[] = [];
+  public filmLoopData: FilmLoopData[] = [];
 
   private scenes: { name: string; scene: GameScene }[] = [];
   private currentScene: GameScene | undefined;
@@ -133,9 +140,11 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    loadAssets(3, "en", () => {
+    const episode = 4;
+
+    loadAssets(episode, "en", () => {
       console.log("Done loading assets!");
-      this.init();
+      this.init(episode);
     });
 
     // Add our update function to run every browser frame
@@ -693,7 +702,7 @@ export class Game {
     return this.keysPressed.has(key);
   }
 
-  private init() {
+  private init(episode: number) {
     this.player.init();
 
     this.initObjects();
@@ -709,6 +718,20 @@ export class Game {
 
     this.inventory.initItems(this.gameData!.inventory);
 
+    switch (episode) {
+      case 2:
+        this.script = new Episode2(this);
+        break;
+      case 3:
+        this.script = new Episode3(this);
+        break;
+      case 4:
+        this.script = new Episode4(this);
+        break;
+      default:
+        this.script = new Episode1(this);
+        break;
+    }
     this.script.init();
 
     this.app.renderer.addListener("resize", () => {

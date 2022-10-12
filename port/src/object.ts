@@ -55,6 +55,15 @@ export class GameObject implements IGameObject, MovableGameObject {
   public moveDirection = -1;
   public movePos: Pos = { x: 0, y: 0 };
 
+  /*
+    Some objects in the original game were "Film Loops"
+    which is just a keyframed animation wrapped up in a cast member.
+    We can mimic this behavior by telling the game which objects
+    are animated on startup, and what their animation frames are,
+    and have the engine update the textures of those every frame.
+  */
+  public frame = 0;
+
   constructor(obj: IGameObject, mapName: string) {
     this.member = obj.member.toLowerCase();
     this.type = obj.type;
