@@ -133,7 +133,7 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    loadAssets(2, "en", () => {
+    loadAssets(3, "en", () => {
       console.log("Done loading assets!");
       this.init();
     });

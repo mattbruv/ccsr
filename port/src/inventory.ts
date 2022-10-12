@@ -52,6 +52,7 @@ export class GameInventory {
   private onCloseCallback: (() => void) | undefined;
 
   public selection: Set<string> = new Set();
+  public banned: Set<string> = new Set();
 
   constructor(game: Game) {
     this.game = game;
@@ -84,6 +85,7 @@ export class GameInventory {
 
   private selectItem(key: string, index: number) {
     if (index > 16) return;
+    console.log("SELECT", key);
 
     const points = this.getItemLocationPoints();
     const p = points[index];
@@ -112,7 +114,9 @@ export class GameInventory {
     if (this.items.length > 16) {
       alert("Warning! Items > 16");
     }
-    const items = this.items.slice(0, 16);
+    const items = this.items
+      .filter((i) => this.banned.has(i) == false)
+      .slice(0, 16);
     const points = this.getItemLocationPoints();
 
     items.map((item, index) => {
@@ -171,6 +175,7 @@ export class GameInventory {
   }
 
   public init() {
+    this.banned.add("getanimal");
     this.sprite.texture = getMemberTexture("inventory")!;
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
@@ -250,7 +255,9 @@ export class GameInventory {
 
     this.setTextDimensions();
 
-    if (this.items.length == 0) {
+    const items = this.items.filter((i) => !this.banned.has(i));
+
+    if (items.length == 0) {
       this.spriteSelectedItem.visible = false;
       this.textElement.innerText = this.game.gameData!.noItems;
       this.clearItemSprites();
