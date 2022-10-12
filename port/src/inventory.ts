@@ -153,7 +153,7 @@ export class GameInventory {
     });
 
     if (this.mode == InventoryMode.NORMAL) {
-      this.selectItem(this.items[0], 0);
+      this.selectItem(items[0], 0);
     } else {
       this.textElement.innerText = "";
     }
