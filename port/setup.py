@@ -214,6 +214,12 @@ def setup():
                      ).mkdir(parents=True, exist_ok=True)
         parseMapData(i)
         packImages(i)
+
+        # copy sound files
+        dir = "../ccsr/" + str(i) + "/sound/"
+        shutil.copytree(dir, "public/assets/" + str(i) +
+                        "/sound/", dirs_exist_ok=True)
+
     dirs = glob.glob("translations/")
     shutil.copytree(dirs[0], "public/assets", dirs_exist_ok=True)
 
