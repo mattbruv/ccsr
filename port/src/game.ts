@@ -143,7 +143,7 @@ export class Game {
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
 
-    const episode = 3;
+    const episode = 1;
 
     this.sound = new GameSound(episode);
 
@@ -718,8 +718,11 @@ export class Game {
       const hasAct = this.inventory.has(v.inviAct);
       showObj = hasItem || hasAct ? false : true;
     }
-    // TODO: If secret and sprite is visible, play secret sound
     object.setVisible(showObj);
+
+    if (secret && showObj) {
+      this.sound.once(this.sound.secret);
+    }
   }
 
   private removeGameObject(object: GameObject) {

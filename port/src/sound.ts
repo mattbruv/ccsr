@@ -6,6 +6,7 @@ export class GameSound {
   public push: Howl;
   public chimes: Howl;
   public message: Howl;
+  public secret: Howl;
 
   constructor(episode: number) {
     const root = "./assets/" + episode + "/sound/";
@@ -29,6 +30,9 @@ export class GameSound {
     });
     this.message = new Howl({
       src: root + "message.wav",
+    });
+    this.secret = new Howl({
+      src: root + "discover.wav",
     });
   }
 
