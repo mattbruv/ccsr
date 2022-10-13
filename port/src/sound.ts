@@ -1,4 +1,4 @@
-import { Howl, Howler } from "howler";
+import { Howl } from "howler";
 export class GameSound {
   public walk: Howl;
   public boat: Howl;
@@ -7,6 +7,11 @@ export class GameSound {
   public chimes: Howl;
   public message: Howl;
   public secret: Howl;
+  public correct: Howl;
+  public incorrect: Howl;
+  public click: Howl;
+  public win: Howl;
+  public lose: Howl;
 
   constructor(episode: number) {
     const root = "./assets/" + episode + "/sound/";
@@ -33,6 +38,21 @@ export class GameSound {
     });
     this.secret = new Howl({
       src: root + "discover.wav",
+    });
+    this.correct = new Howl({
+      src: root + "correct.wav",
+    });
+    this.incorrect = new Howl({
+      src: root + "incorrect.wav",
+    });
+    this.click = new Howl({
+      src: root + "click.wav",
+    });
+    this.win = new Howl({
+      src: root + "win.wav",
+    });
+    this.lose = new Howl({
+      src: root + "lose.wav",
     });
   }
 
