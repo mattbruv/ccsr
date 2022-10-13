@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+body {
+  /*background-color: #000099;*/
+}
+
 #main {
   display: flex;
   justify-content: center;

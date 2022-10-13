@@ -1,5 +1,6 @@
 import React from "react";
 import { Game } from "../src/game";
+import { SelectEpisode } from "./Select";
 
 let game: Game; //  = new Game();
 
@@ -22,9 +23,12 @@ class App extends React.Component {
 
   render(): React.ReactNode {
     return (
+      <SelectEpisode />
+      /*
       <div id="main">
         <div id="game-container"></div>
       </div>
+      */
     );
   }
 }
