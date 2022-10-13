@@ -13,6 +13,12 @@ export class GameSound {
   public win: Howl;
   public lose: Howl;
 
+  private theme: Howl;
+  private theme1: Howl;
+  private theme2: Howl;
+  private themeSelect = 1;
+  private currentTheme: Howl;
+
   constructor(episode: number) {
     const root = "./assets/" + episode + "/sound/";
     this.walk = new Howl({
@@ -54,11 +60,61 @@ export class GameSound {
     this.lose = new Howl({
       src: root + "lose.wav",
     });
+    this.theme = new Howl({
+      src: root + "theme.main.wav",
+    });
+    this.theme1 = new Howl({
+      src: root + "theme.change.1.wav",
+    });
+    this.theme2 = new Howl({
+      src: root + "theme.change.2.wav",
+    });
+
+    this.currentTheme = this.theme;
+
+    this.initTheme();
   }
 
   public once(sound: Howl) {
     if (sound.playing() == false) {
       sound.play();
     }
+  }
+
+  private initTheme() {
+    this.theme.stop();
+    this.theme1.stop();
+    this.theme2.stop();
+    this.theme.play();
+
+    const playMain = () => {
+      this.theme.play();
+      this.currentTheme = this.theme;
+    };
+
+    this.theme.on("end", () => {
+      console.log("ON END", this.themeSelect);
+      const t = [this.theme1, this.theme2][this.themeSelect - 1];
+      this.currentTheme = t;
+      t.play();
+      this.themeSelect = this.themeSelect == 1 ? 2 : 1;
+    });
+
+    this.theme1.on("end", playMain);
+    this.theme2.on("end", playMain);
+  }
+
+  public playTheme() {
+    this.currentTheme.play();
+  }
+
+  public isThemePlaying() {
+    return (
+      this.theme.playing() || this.theme1.playing() || this.theme2.playing()
+    );
+  }
+
+  public pauseTheme() {
+    this.currentTheme.pause();
   }
 }
