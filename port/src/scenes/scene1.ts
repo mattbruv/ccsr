@@ -315,9 +315,11 @@ export class Scene1 extends GameScene {
     this.poolWater.height = waterPos[count].h;
 
     if (count == 5) {
+      this.game.sound.win.play();
       this.exitButton.texture = getMemberTexture("play.next.episode")!;
       alert("You won, nothing else to go back to!");
     } else {
+      this.game.sound.lose.play();
       this.exitButton.texture = getMemberTexture("exit.pool")!;
       this.exitButton.on("pointerdown", () => {
         this.game.closeScene();
