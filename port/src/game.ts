@@ -262,6 +262,14 @@ export class Game {
       (obj) => obj.data.move.COND == GameObjectMoveCond.AUTO
     );
 
+    const pushers = this.movingObjects.filter(
+      (o) => o.data.move.COND == GameObjectMoveCond.PUSH
+    );
+
+    if (pushers.length == 0) {
+      this.sound.push.pause();
+    }
+
     this.lastUpdate = now;
 
     // Update film loop objects with next frame texture
@@ -602,6 +610,7 @@ export class Game {
             };
             collisionObject.initMove(lastPos, toPos);
             this.movingObjects.push(collisionObject);
+            this.sound.push.play();
             break;
           }
         }
