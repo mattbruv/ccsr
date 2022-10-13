@@ -1,8 +1,25 @@
+import { Howl } from "howler";
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
+
+const root = "./assets/1/sound/";
+
+const soundPop = new Howl({
+  src: root + "pop.wav",
+});
+
+const soundWater = new Howl({
+  src: root + "water.wav",
+  loop: true,
+});
+
+const soundWheel = new Howl({
+  src: root + "squeak.wav",
+  loop: true,
+});
 
 export class Scene1 extends GameScene {
   public pumpHouse: PIXI.Container;
@@ -132,6 +149,7 @@ export class Scene1 extends GameScene {
   }
 
   public exit(): void {
+    this.game.sound.playTheme();
     this.game.inventory.setMode(InventoryMode.NORMAL);
     this.game.player.setMapAndPosition("0304", 10, 17);
   }
@@ -190,6 +208,9 @@ export class Scene1 extends GameScene {
 
     this.frameCallbacks = [];
 
+    this.game.sound.pauseTheme();
+    this.game.sound.walk.play();
+
     // turn gus right
     this.frameCallbacks.push({
       frame: 6,
@@ -204,12 +225,20 @@ export class Scene1 extends GameScene {
 
     this.frameCallbacks.push({
       frame: 23,
-      callback: () => (this.turningWheel = true),
+      callback: () => {
+        this.game.sound.walk.pause();
+        this.turningWheel = true;
+        soundWheel.play();
+      },
     });
 
     this.frameCallbacks.push({
       frame: 40,
-      callback: () => (this.turningWheel = false),
+      callback: () => {
+        this.turningWheel = false;
+        soundWheel.stop();
+        soundWater.play();
+      },
     });
 
     // create water callbacks
@@ -217,6 +246,7 @@ export class Scene1 extends GameScene {
       this.frameCallbacks.push({
         frame: 54 + i * 3,
         callback: () => {
+          soundPop.play();
           this.waters[i].visible = true;
           this.waters[i].texture = getMemberTexture("Spray1")!;
 
@@ -262,6 +292,8 @@ export class Scene1 extends GameScene {
   }
 
   private displayEnd(selected: Set<string>, required: Set<string>) {
+    soundWater.stop();
+
     const count = [...selected].filter((i) => required.has(i)).length;
     const rating = Math.max(Math.min(6 - count, 5), 1);
 
@@ -308,10 +340,17 @@ export class Scene1 extends GameScene {
       }
 
       setTimeout(() => {
+        let correct = false;
         if (i < arr.length) {
           if (required.has(arr[i])) {
+            correct = true;
             this.waters[i].visible = false;
           }
+        }
+        if (correct) {
+          this.game.sound.correct.play();
+        } else {
+          this.game.sound.incorrect.play();
         }
         this.items[i].visible = true;
 

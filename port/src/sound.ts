@@ -85,7 +85,7 @@ export class GameSound {
     this.theme.stop();
     this.theme1.stop();
     this.theme2.stop();
-    this.theme.play();
+    //this.theme.play();
 
     const playMain = () => {
       this.theme.play();
