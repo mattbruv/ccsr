@@ -84,13 +84,21 @@ export class Player implements MovableGameObject {
     this.lastPos = fromPos;
     this.nextPos = toPos;
     this.walkAnimStartMS = Date.now();
-    this.game.sound.walk.play();
+    this.game.sound.boat.pause();
+    this.game.sound.walk.pause();
+
+    if (this.state == PlayerState.BOAT) {
+      this.game.sound.boat.play();
+    } else {
+      this.game.sound.walk.play();
+    }
   }
 
   public endMove() {
     this.inWalkingAnimation = false;
     this.setPosition(this.nextPos.x, this.nextPos.y);
     this.game.sound.walk.pause();
+    this.game.sound.boat.pause();
   }
 
   public getPosition(): Pos {

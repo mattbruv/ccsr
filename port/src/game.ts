@@ -605,6 +605,12 @@ export class Game {
             break;
           }
         }
+        if (
+          collisionObject.data.item.type == GameObjectType.WALL &&
+          !this.sound.bump.playing()
+        ) {
+          this.sound.bump.play();
+        }
         return;
       }
       case GameObjectType.ITEM: {
