@@ -127,10 +127,10 @@ export class GameInventory {
       itemSprite.buttonMode = true;
 
       itemSprite.on("pointerdown", () => {
+        this.game.sound.click.play();
         if (this.mode == InventoryMode.NORMAL) {
           this.selectItem(item, index);
         } else {
-          this.game.sound.click.play();
           if (this.selection.has(item)) {
             this.selection.delete(item);
           } else {
