@@ -88,6 +88,7 @@ export class Game {
   public sound: GameSound;
 
   constructor() {
+    const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
       resolution: 1,
       autoDensity: true,
@@ -95,7 +96,7 @@ export class Game {
       width: 416,
       height: 320,
       antialias: false,
-      resizeTo: window,
+      resizeTo: div,
     });
 
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
