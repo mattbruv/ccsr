@@ -29,6 +29,7 @@ import * as hash from "hash.js";
 import { Episode2 } from "./scripts/episode2";
 import { Episode3 } from "./scripts/episode3";
 import { Episode4 } from "./scripts/episode4";
+import { GameSound } from "./sound";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -83,6 +84,8 @@ export class Game {
   public smoothAnimations = true;
 
   public gameData: GameData | undefined;
+
+  public sound: GameSound;
 
   constructor() {
     this.app = new PIXI.Application({
@@ -141,6 +144,8 @@ export class Game {
     this.inventory = new GameInventory(this);
 
     const episode = 3;
+
+    this.sound = new GameSound(episode);
 
     loadAssets(episode, "en", () => {
       console.log("Done loading assets!");
