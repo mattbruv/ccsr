@@ -718,11 +718,12 @@ export class Game {
       const hasAct = this.inventory.has(v.inviAct);
       showObj = hasItem || hasAct ? false : true;
     }
-    object.setVisible(showObj);
 
-    if (secret && showObj) {
+    if (secret && !object.isVisible()) {
       this.sound.once(this.sound.secret);
     }
+
+    object.setVisible(showObj);
   }
 
   private removeGameObject(object: GameObject) {
