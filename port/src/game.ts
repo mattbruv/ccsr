@@ -639,6 +639,8 @@ export class Game {
         const data = collisionObject.data.item.name.split("=");
         const action = data[0].toUpperCase();
 
+        this.sound.chimes.play();
+
         switch (action) {
           case "FRAME": {
             this.playScene(data[1]);
