@@ -248,6 +248,7 @@ export class GameInventory {
   }
 
   public openInventory() {
+    this.game.sound.once(this.game.sound.message);
     this.game.player.setStatus(PlayerStatus.STOP);
     this.isInventoryOpen = true;
     this.sprite.visible = true;

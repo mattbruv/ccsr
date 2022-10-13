@@ -614,11 +614,8 @@ export class Game {
             break;
           }
         }
-        if (
-          collisionObject.data.item.type == GameObjectType.WALL &&
-          !this.sound.bump.playing()
-        ) {
-          this.sound.bump.play();
+        if (collisionObject.data.item.type == GameObjectType.WALL) {
+          this.sound.once(this.sound.bump);
         }
         return;
       }

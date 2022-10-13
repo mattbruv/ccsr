@@ -76,6 +76,7 @@ export class GameSign {
   }
 
   public showCharacterMessage(charName: string, message: string) {
+    this.game.sound.once(this.game.sound.message);
     this.game.inventory.closeInventory();
     this.game.player.setStatus(PlayerStatus.READ);
     this.isCharacterMessage = true;
@@ -93,6 +94,7 @@ export class GameSign {
   }
 
   public showMessage(message: string) {
+    this.game.sound.once(this.game.sound.message);
     this.game.inventory.closeInventory();
     this.game.player.setStatus(PlayerStatus.READ);
     this.isCharacterMessage = false;
