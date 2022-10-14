@@ -3,17 +3,22 @@ import {
   AppBar,
   Typography,
   Toolbar,
+  Box,
   IconButton,
   Link,
   SvgIcon,
   Tooltip,
+  Button,
+  Stack,
 } from "@mui/material";
 import Settings from "@mui/icons-material/Settings";
 import Github from "@mui/icons-material/GitHub";
 import Discord from "@mui/icons-material/Forum";
 
 type NavbarProps = {
+  openPageCB: (page: string) => void;
   openSettingsCB: () => void;
+  page: string;
 };
 
 type NavbarState = {};
@@ -24,11 +29,26 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
   }
   render(): React.ReactNode {
     return (
-      <AppBar position="fixed">
+      <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Cartoon Cartoon Summer Resort
-          </Typography>
+          <Stack sx={{ flexGrow: 1 }} direction="row">
+            <Button
+              disabled={this.props.page == "home"}
+              onClick={() => this.props.openPageCB("home")}
+              key="home"
+              sx={{ mx: 1, my: 2, color: "inherit", display: "block" }}
+            >
+              Home
+            </Button>
+            <Button
+              disabled={this.props.page == "about"}
+              key="about"
+              onClick={() => this.props.openPageCB("about")}
+              sx={{ mx: 1, my: 2, color: "inherit", display: "block" }}
+            >
+              About
+            </Button>
+          </Stack>
           <Tooltip arrow title="Join us on Discord!">
             <Link
               color="inherit"

@@ -37,12 +37,7 @@ function EpisodeCard(props: EpisodeCardProps) {
 
 export function SelectEpisode() {
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-    >
+    <Box display="flex" justifyContent="center" alignItems="center">
       <Container maxWidth={false}>
         <Grid container spacing={1}>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>

@@ -2,6 +2,7 @@ import React from "react";
 import { Game } from "../src/game";
 import { SelectEpisode } from "./Select";
 import { Navbar } from "./Navbar";
+import { About } from "./About";
 import { Settings } from "./Settings";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,6 +19,7 @@ type AppProps = {};
 
 type AppState = {
   settingsOpen: boolean;
+  page: string;
 };
 
 class App extends React.Component<AppProps, AppState> {
@@ -25,7 +27,12 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.state = {
       settingsOpen: false,
+      page: "about",
     };
+  }
+
+  loadPage(page: string) {
+    this.setState(() => ({ page }));
   }
 
   componentDidMount(): void {
@@ -44,11 +51,22 @@ class App extends React.Component<AppProps, AppState> {
     });
   }
 
+  getPage() {
+    switch (this.state.page) {
+      case "about":
+        return <About />;
+      default:
+        return <SelectEpisode />;
+    }
+  }
+
   render(): React.ReactNode {
     return (
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Navbar
+          openPageCB={(page: string) => this.loadPage(page)}
+          page={this.state.page}
           openSettingsCB={() => {
             console.log(this.state.settingsOpen);
             this.setState(() => {
@@ -64,7 +82,7 @@ class App extends React.Component<AppProps, AppState> {
           }}
           open={this.state.settingsOpen}
         />
-        <SelectEpisode />
+        {this.getPage()}
       </ThemeProvider>
       /*
       <div id="main">
