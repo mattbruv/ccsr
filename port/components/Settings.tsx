@@ -28,11 +28,32 @@ import IconVolume from "@mui/icons-material/VolumeUp";
 import IconVideo from "@mui/icons-material/PersonalVideo";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export class Settings extends React.Component {
+type SettingsProps = {};
+
+type SettingsState = {
+  open: boolean;
+};
+
+export class Settings extends React.Component<SettingsProps, SettingsState> {
+  constructor(props: SettingsProps) {
+    super(props);
+    this.state = {
+      open: true,
+    };
+  }
+
+  setOpen(isOpen: boolean) {
+    this.setState(() => ({ open: isOpen }));
+  }
+
   render(): React.ReactNode {
     return (
-      <Drawer anchor="right" open={true}>
-        <Box>
+      <Drawer
+        onClose={() => this.setOpen(false)}
+        anchor="right"
+        open={this.state.open}
+      >
+        <Box sx={{ minWidth: 350 }} role="presentation">
           <List>
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -79,7 +100,7 @@ export class Settings extends React.Component {
                     />
                     <Tooltip
                       arrow
-                      title="The original game renders at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
+                      title="The original game runs at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
                     >
                       <FormControlLabel
                         control={<Checkbox defaultChecked />}
@@ -90,7 +111,7 @@ export class Settings extends React.Component {
                       control={<Checkbox />}
                       label="Use original aspect ratio"
                     />
-                    <FormControl>
+                    <FormControl fullWidth>
                       <InputLabel id="">Camera Mode</InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
