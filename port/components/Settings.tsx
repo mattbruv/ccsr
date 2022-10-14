@@ -22,36 +22,31 @@ import {
   Typography,
   Divider,
   Tooltip,
+  Slide,
 } from "@mui/material";
 
 import IconVolume from "@mui/icons-material/VolumeUp";
 import IconVideo from "@mui/icons-material/PersonalVideo";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-type SettingsProps = {};
-
-type SettingsState = {
+type SettingsProps = {
   open: boolean;
+  closeCB: () => void;
 };
+
+type SettingsState = {};
 
 export class Settings extends React.Component<SettingsProps, SettingsState> {
   constructor(props: SettingsProps) {
     super(props);
-    this.state = {
-      open: true,
-    };
-  }
-
-  setOpen(isOpen: boolean) {
-    this.setState(() => ({ open: isOpen }));
   }
 
   render(): React.ReactNode {
     return (
       <Drawer
-        onClose={() => this.setOpen(false)}
+        onClose={this.props.closeCB}
         anchor="right"
-        open={this.state.open}
+        open={this.props.open}
       >
         <Box sx={{ minWidth: 350 }} role="presentation">
           <List>
