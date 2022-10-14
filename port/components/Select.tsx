@@ -10,12 +10,18 @@ import { Card, CardMedia, Grid } from "@mui/material";
 interface EpisodeCardProps {
   img: string;
   episode: number;
+  playEpisodeCB: (episode: number) => void;
 }
 
 function EpisodeCard(props: EpisodeCardProps) {
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia component="img" image={props.img} alt="" />
+      <CardMedia
+        onClick={() => props.playEpisodeCB(props.episode)}
+        component="img"
+        image={props.img}
+        alt=""
+      />
       {/*
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -35,22 +41,42 @@ function EpisodeCard(props: EpisodeCardProps) {
   );
 }
 
-export function SelectEpisode() {
+interface SelectProps {
+  playCB: (episode: number) => void;
+}
+
+export function SelectEpisode(props: SelectProps) {
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
       <Container maxWidth={false}>
         <Grid container spacing={1}>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
-            <EpisodeCard episode={1} img={ImgEp1} />
+            <EpisodeCard
+              playEpisodeCB={props.playCB}
+              episode={1}
+              img={ImgEp1}
+            />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
-            <EpisodeCard episode={2} img={ImgEp2} />
+            <EpisodeCard
+              playEpisodeCB={props.playCB}
+              episode={2}
+              img={ImgEp2}
+            />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
-            <EpisodeCard episode={3} img={ImgEp3} />
+            <EpisodeCard
+              playEpisodeCB={props.playCB}
+              episode={3}
+              img={ImgEp3}
+            />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
-            <EpisodeCard episode={4} img={ImgEp4} />
+            <EpisodeCard
+              playEpisodeCB={props.playCB}
+              episode={4}
+              img={ImgEp4}
+            />
           </Grid>
         </Grid>
       </Container>

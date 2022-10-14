@@ -18,6 +18,7 @@ let game: Game; //  = new Game();
 type AppProps = {};
 
 type AppState = {
+  isPlaying: boolean;
   settingsOpen: boolean;
   page: string;
 };
@@ -26,6 +27,7 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
+      isPlaying: false,
       settingsOpen: false,
       page: "home",
     };
@@ -33,6 +35,15 @@ class App extends React.Component<AppProps, AppState> {
 
   loadPage(page: string) {
     this.setState(() => ({ page }));
+  }
+
+  loadGame(episode: number) {
+    this.setState(
+      () => ({ isPlaying: true }),
+      () => {
+        game = new Game(episode);
+      }
+    );
   }
 
   componentDidMount(): void {
@@ -56,7 +67,13 @@ class App extends React.Component<AppProps, AppState> {
       case "about":
         return <About />;
       default:
-        return <SelectEpisode />;
+        return (
+          <SelectEpisode
+            playCB={(episode: number) => {
+              this.loadGame(episode);
+            }}
+          />
+        );
     }
   }
 
@@ -65,6 +82,7 @@ class App extends React.Component<AppProps, AppState> {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Navbar
+          position={this.state.isPlaying ? "fixed" : "static"}
           openPageCB={(page: string) => this.loadPage(page)}
           page={this.state.page}
           openSettingsCB={() => {
@@ -82,13 +100,14 @@ class App extends React.Component<AppProps, AppState> {
           }}
           open={this.state.settingsOpen}
         />
-        {this.getPage()}
+        {!this.state.isPlaying ? (
+          this.getPage()
+        ) : (
+          <div id="main">
+            <div id="game-container"></div>
+          </div>
+        )}
       </ThemeProvider>
-      /*
-      <div id="main">
-        <div id="game-container"></div>
-      </div>
-      */
     );
   }
 }

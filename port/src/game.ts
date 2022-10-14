@@ -87,7 +87,7 @@ export class Game {
 
   public sound: GameSound;
 
-  constructor() {
+  constructor(episode: number) {
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
       resolution: 1,
@@ -143,8 +143,6 @@ export class Game {
 
     this.sign = new GameSign(this);
     this.inventory = new GameInventory(this);
-
-    const episode = 1;
 
     this.sound = new GameSound(episode);
 
@@ -785,6 +783,8 @@ export class Game {
     });
 
     document.getElementById("game-container")!.appendChild(this.app.view);
+
+    this.sound.playTheme();
   }
 
   private initObjects() {

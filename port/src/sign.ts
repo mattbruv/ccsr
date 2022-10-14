@@ -39,11 +39,14 @@ export class GameSign {
     this.textElement.style.top = "0";
     this.textElement.style.left = "0";
     this.textElement.style.backgroundColor = "white";
+    this.textElement.style.color = "black";
     this.textElement.style.overflowY = "scroll";
     this.textElement.style.border = "1px solid black";
     this.textElement.style.userSelect = "none";
     this.textElement.style.whiteSpace = "break-spaces"; // don't compress whitespace
     this.textElement.style.fontFamily = "arial";
+
+    this.textElement.style.lineHeight = "normal";
 
     this.adaptiveScale = true;
 

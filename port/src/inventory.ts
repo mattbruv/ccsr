@@ -69,7 +69,7 @@ export class GameInventory {
     this.textElement.style.display = "none";
     this.textElement.style.top = "0";
     this.textElement.style.left = "0";
-    //this.textElement.style.backgroundColor = "red";
+    this.textElement.style.color = "black";
     this.textElement.style.userSelect = "none";
     this.textElement.style.fontFamily = "arial narrow";
     this.textElement.style.fontStretch = "condensed";

@@ -16,6 +16,7 @@ type NavbarProps = {
   openPageCB: (page: string) => void;
   openSettingsCB: () => void;
   page: string;
+  position: "fixed" | "absolute" | "sticky" | "static" | "relative" | undefined;
 };
 
 type NavbarState = {};
@@ -26,7 +27,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
   }
   render(): React.ReactNode {
     return (
-      <AppBar position="static">
+      <AppBar position={this.props.position}>
         <Toolbar>
           <Stack sx={{ flexGrow: 1 }} direction="row">
             <Button
