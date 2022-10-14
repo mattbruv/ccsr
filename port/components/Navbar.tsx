@@ -1,6 +1,7 @@
 import React from "react";
-import { AppBar, Typography, Toolbar, IconButton } from "@mui/material";
+import { AppBar, Typography, Toolbar, IconButton, Link } from "@mui/material";
 import Settings from "@mui/icons-material/Settings";
+import Github from "@mui/icons-material/GitHub";
 
 type NavbarProps = {
   openSettingsCB: () => void;
@@ -19,14 +20,20 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Cartoon Cartoon Summer Resort
           </Typography>
+          <Link
+            color="inherit"
+            href="https://github.com/mattbruv/ccsr-port"
+            target="_blank"
+          >
+            <IconButton size="large" color="inherit">
+              <Github />
+            </IconButton>
+          </Link>
           <IconButton
             onClick={() => {
               this.props.openSettingsCB();
             }}
             size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
             color="inherit"
           >
             <Settings />
