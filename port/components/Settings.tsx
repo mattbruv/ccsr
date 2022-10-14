@@ -4,15 +4,24 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Checkbox,
   Drawer,
+  FormControlLabel,
+  FormGroup,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
+  FormControl,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
   Slider,
   Stack,
   Typography,
+  Divider,
+  Tooltip,
 } from "@mui/material";
 
 import IconVolume from "@mui/icons-material/VolumeUp";
@@ -26,11 +35,7 @@ export class Settings extends React.Component {
         <Box>
           <List>
             <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <ListItem key="volume" disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
@@ -55,11 +60,7 @@ export class Settings extends React.Component {
             </Accordion>
 
             <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <ListItem key="video" disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
@@ -70,9 +71,40 @@ export class Settings extends React.Component {
                 </ListItem>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </Typography>
+                <ListItem disablePadding>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={<Checkbox defaultChecked />}
+                      label="Fit canvas to screen"
+                    />
+                    <Tooltip
+                      arrow
+                      title="The original game renders at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
+                    >
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked />}
+                        label="Smooth animations"
+                      />
+                    </Tooltip>
+                    <FormControlLabel
+                      control={<Checkbox />}
+                      label="Use original aspect ratio"
+                    />
+                    <FormControl>
+                      <InputLabel id="">Camera Mode</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={10}
+                        label="Camera Mode"
+                        onChange={undefined}
+                      >
+                        <MenuItem value={10}>Pan Between Maps</MenuItem>
+                        <MenuItem value={20}>Center On Player</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </FormGroup>
+                </ListItem>
               </AccordionDetails>
             </Accordion>
           </List>
