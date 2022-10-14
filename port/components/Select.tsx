@@ -4,18 +4,8 @@ import ImgEp3 from "./images/title3.png";
 import ImgEp4 from "./images/title4.png";
 
 import * as React from "react";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import { Box, Container } from "@mui/system";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardMedia, Grid } from "@mui/material";
 
 interface EpisodeCardProps {
   img: string;
