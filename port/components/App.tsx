@@ -27,7 +27,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.state = {
       settingsOpen: false,
-      page: "about",
+      page: "home",
     };
   }
 

@@ -40,6 +40,8 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
             >
               Home
             </Button>
+
+            {/*
             <Button
               disabled={this.props.page == "about"}
               key="about"
@@ -48,6 +50,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
             >
               About
             </Button>
+            */}
           </Stack>
           <Tooltip arrow title="Join us on Discord!">
             <Link
