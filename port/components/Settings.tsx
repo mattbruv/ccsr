@@ -19,10 +19,7 @@ import {
   Select,
   Slider,
   Stack,
-  Typography,
-  Divider,
   Tooltip,
-  Slide,
 } from "@mui/material";
 
 import IconVolume from "@mui/icons-material/VolumeUp";
