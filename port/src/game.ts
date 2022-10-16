@@ -923,6 +923,21 @@ export function getMemberTexture(memberName: string) {
   return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
 }
 
+export function getMapsRect(topLeft: string, bottomRight: string): Rect {
+  const TL = getMapRect(topLeft);
+  const BR = getMapRect(bottomRight);
+
+  const width = BR.x + BR.width;
+  const height = BR.y + BR.height;
+
+  return {
+    x: TL.x,
+    y: TL.y,
+    width,
+    height,
+  };
+}
+
 export function getMapRect(mapName: string): Rect {
   const offset = getMapOffset(mapName);
   return {
