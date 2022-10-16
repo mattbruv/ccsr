@@ -87,7 +87,6 @@ class App extends React.Component<AppProps, AppState> {
           playing={this.state.isPlaying}
           page={this.state.page}
           openSettingsCB={() => {
-            console.log(this.state.settingsOpen);
             this.setState(() => {
               return {
                 settingsOpen: true,

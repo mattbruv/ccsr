@@ -95,7 +95,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
                       title="The original game runs at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
                     >
                       <FormControlLabel
-                        control={<Checkbox defaultChecked />}
+                        control={<Checkbox checked={true} />}
                         label="Smooth animations"
                       />
                     </Tooltip>
