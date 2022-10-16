@@ -7,6 +7,8 @@ import { Rect } from "../types";
 const maskOverworld = new PIXI.Graphics();
 
 export class Episode1 extends EpisodeScript {
+  onDoor(nextMap: string): void {}
+
   public init(): void {
     const m: Rect = getMapsRect("0101", "0606");
     maskOverworld.beginFill(0xffffff);

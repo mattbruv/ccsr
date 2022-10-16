@@ -649,6 +649,7 @@ export class Game {
             const map = mapX + mapY;
             const x = coords[2];
             const y = coords[3];
+            this.script.onDoor(map);
             this.setMap(map);
             this.player.setMapAndPosition(map, x, y);
             this.camera.snapCameraToMap(map);
@@ -927,15 +928,22 @@ export function getMapsRect(topLeft: string, bottomRight: string): Rect {
   const TL = getMapRect(topLeft);
   const BR = getMapRect(bottomRight);
 
-  const width = BR.x + BR.width;
-  const height = BR.y + BR.height;
+  const xs =
+    parseInt(bottomRight.slice(0, 2)) - parseInt(topLeft.slice(0, 2)) + 1;
+  const ys =
+    parseInt(bottomRight.slice(2, 4)) - parseInt(topLeft.slice(2, 4)) + 1;
 
-  return {
+  const width = xs * TL.width;
+  const height = ys * TL.height;
+
+  const result = {
     x: TL.x,
     y: TL.y,
     width,
     height,
   };
+  console.log(topLeft, TL, bottomRight, BR, result);
+  return result;
 }
 
 export function getMapRect(mapName: string): Rect {

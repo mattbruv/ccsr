@@ -1,6 +1,8 @@
 import { EpisodeScript } from "../script";
 
 export class Episode4 extends EpisodeScript {
+  onDoor(nextMap: string): void {}
+
   public init(): void {
     const startMap = "0703";
     this.game.setMap(startMap);

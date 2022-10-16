@@ -2,6 +2,8 @@ import { EpisodeScript } from "../script";
 import { GameObjectMoveCond } from "../types";
 
 export class Episode3 extends EpisodeScript {
+  onDoor(nextMap: string): void {}
+
   public init(): void {
     const startMap = "0706";
     this.game.setMap(startMap);
