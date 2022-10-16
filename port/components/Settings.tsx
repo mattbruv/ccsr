@@ -25,17 +25,20 @@ import {
 import IconVolume from "@mui/icons-material/VolumeUp";
 import IconVideo from "@mui/icons-material/PersonalVideo";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { GameSettings } from "./App";
+import { Game } from "../src/game";
 
 type SettingsProps = {
+  game: Game;
+  settings: GameSettings;
   open: boolean;
   closeCB: () => void;
 };
 
-type SettingsState = {};
-
-export class Settings extends React.Component<SettingsProps, SettingsState> {
+export class Settings extends React.Component<SettingsProps, GameSettings> {
   constructor(props: SettingsProps) {
     super(props);
+    this.state = props.settings;
   }
 
   render(): React.ReactNode {
@@ -87,7 +90,7 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
                 <ListItem disablePadding>
                   <FormGroup>
                     <FormControlLabel
-                      control={<Checkbox defaultChecked />}
+                      control={<Checkbox checked={this.state.fullScreen} />}
                       label="Fit canvas to screen"
                     />
                     <Tooltip
@@ -95,7 +98,9 @@ export class Settings extends React.Component<SettingsProps, SettingsState> {
                       title="The original game runs at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
                     >
                       <FormControlLabel
-                        control={<Checkbox checked={true} />}
+                        control={
+                          <Checkbox checked={this.state.smoothAnimations} />
+                        }
                         label="Smooth animations"
                       />
                     </Tooltip>

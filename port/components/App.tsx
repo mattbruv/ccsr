@@ -6,6 +6,7 @@ import { About } from "./About";
 import { Settings } from "./Settings";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Cookies from "js-cookie";
 
 const darkTheme = createTheme({
   palette: {
@@ -17,11 +18,36 @@ let game: Game; //  = new Game();
 
 type AppProps = {};
 
+export interface GameSettings {
+  smoothAnimations: boolean;
+  fullScreen: boolean;
+  forceRatio: boolean;
+
+  volumeMaster: number;
+  volumeTheme: number;
+}
+
 type AppState = {
+  settings: GameSettings;
   isPlaying: boolean;
   settingsOpen: boolean;
   page: string;
 };
+
+function getCookieBool(key: string, or: boolean) {
+  if (Cookies.get(key) === undefined) {
+    return or;
+  }
+  return Cookies.get(key) === "true";
+}
+
+function getCookieNum(key: string, or: number) {
+  const cookie = Cookies.get(key);
+  if (cookie === undefined) {
+    return or;
+  }
+  return parseInt(cookie);
+}
 
 class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
@@ -30,6 +56,14 @@ class App extends React.Component<AppProps, AppState> {
       isPlaying: false,
       settingsOpen: false,
       page: "home",
+
+      settings: {
+        smoothAnimations: getCookieBool("smooth", true),
+        fullScreen: getCookieBool("fullscreen", true),
+        forceRatio: getCookieBool("ratio", false),
+        volumeMaster: getCookieNum("volumeMaster", 100),
+        volumeTheme: getCookieNum("volumeTheme", 100),
+      },
     };
   }
 
@@ -95,6 +129,8 @@ class App extends React.Component<AppProps, AppState> {
           }}
         />
         <Settings
+          game={game}
+          settings={this.state.settings}
           closeCB={() => {
             this.setState(() => ({ settingsOpen: false }));
           }}
