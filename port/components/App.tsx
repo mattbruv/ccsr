@@ -84,6 +84,7 @@ class App extends React.Component<AppProps, AppState> {
         <Navbar
           position={this.state.isPlaying ? "fixed" : "static"}
           openPageCB={(page: string) => this.loadPage(page)}
+          playing={this.state.isPlaying}
           page={this.state.page}
           openSettingsCB={() => {
             console.log(this.state.settingsOpen);
