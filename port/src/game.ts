@@ -197,6 +197,7 @@ export class Game {
       this.viewport.visible = false;
       entry.scene.container.visible = true;
       entry.scene.init();
+      entry.scene.resize();
       entry.scene.play();
       this.currentScene = entry.scene;
     } else {
@@ -209,6 +210,9 @@ export class Game {
     this.camera.snapCameraToMap(this.currentMap);
     this.sign.resize();
     this.inventory.resize();
+    if (this.currentScene) {
+      this.currentScene.resize();
+    }
   }
 
   private newRenderTexture() {

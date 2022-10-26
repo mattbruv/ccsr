@@ -35,6 +35,16 @@ export abstract class GameScene {
     this.container.visible = false;
     this.moveAnims = [];
     this.frameCallbacks = [];
+    this.resize();
+  }
+
+  public resize() {
+    const w = this.game.app.renderer.screen.width;
+    const h = this.game.app.renderer.screen.height;
+    this.container.scale.set(this.game.camera.scaleX, this.game.camera.scaleY);
+    const x = (w - this.container.width) / 2;
+    const y = (h - this.container.height) / 2;
+    this.container.position.set(x, y);
   }
 
   public isPlaying(): boolean {

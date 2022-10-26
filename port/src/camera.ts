@@ -10,8 +10,8 @@ export class GameCamera {
   private screenWidth: number = 0;
   private screenHeight: number = 0;
 
-  private scaleX: number = 0;
-  private scaleY: number = 0;
+  public scaleX: number = 0;
+  public scaleY: number = 0;
 
   private currentCameraPos: Pos = { x: 0, y: 0 };
   private nextCameraPos: Pos = { x: 0, y: 0 };

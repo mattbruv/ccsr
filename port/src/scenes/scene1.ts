@@ -137,8 +137,6 @@ export class Scene1 extends GameScene {
     this.container.addChild(this.poolArea);
 
     this.exitButton.visible = false;
-
-    this.container.scale.set(2);
   }
 
   private addPoolChar(member: string, x: number, y: number) {
