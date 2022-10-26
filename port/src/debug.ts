@@ -55,13 +55,6 @@ export class Debugger {
       if (event.key == "p") {
         this.game.smoothAnimations = !this.game.smoothAnimations;
       }
-      if (event.key == "m") {
-        if (this.game.sound.isThemePlaying()) {
-          this.game.sound.pauseTheme();
-        } else {
-          this.game.sound.playTheme();
-        }
-      }
       if (event.key == " ") {
         const map = this.game.player.currentMap;
         const objs = this.game.movingObjects.filter((o) => o.mapName == map);
