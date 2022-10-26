@@ -16,6 +16,11 @@ const darkTheme = createTheme({
 
 let game: Game; //  = new Game();
 
+const setSmooth = (value: boolean) => {
+  Cookies.set("smooth", value.toString());
+  if (game) game.smoothAnimations = value;
+};
+
 type AppProps = {};
 
 export interface GameSettings {
@@ -49,6 +54,16 @@ function getCookieNum(key: string, or: number) {
   return parseInt(cookie);
 }
 
+function getSettings() {
+  return {
+    smoothAnimations: getCookieBool("smooth", true),
+    fullScreen: getCookieBool("fullscreen", true),
+    forceRatio: getCookieBool("ratio", false),
+    volumeMaster: getCookieNum("volumeMaster", 100),
+    volumeTheme: getCookieNum("volumeTheme", 100),
+  };
+}
+
 class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
@@ -57,13 +72,7 @@ class App extends React.Component<AppProps, AppState> {
       settingsOpen: false,
       page: "home",
 
-      settings: {
-        smoothAnimations: getCookieBool("smooth", true),
-        fullScreen: getCookieBool("fullscreen", true),
-        forceRatio: getCookieBool("ratio", false),
-        volumeMaster: getCookieNum("volumeMaster", 100),
-        volumeTheme: getCookieNum("volumeTheme", 100),
-      },
+      settings: getSettings(),
     };
   }
 
@@ -76,6 +85,8 @@ class App extends React.Component<AppProps, AppState> {
       () => ({ isPlaying: true }),
       () => {
         game = new Game(episode);
+        const s = getSettings();
+        setSmooth(s.smoothAnimations);
       }
     );
   }
@@ -129,6 +140,7 @@ class App extends React.Component<AppProps, AppState> {
           }}
         />
         <Settings
+          cbs={{ setSmooth }}
           game={game}
           settings={this.state.settings}
           closeCB={() => {

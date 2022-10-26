@@ -28,10 +28,15 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { GameSettings } from "./App";
 import { Game } from "../src/game";
 
+export interface SettingsCallbacks {
+  setSmooth: (value: boolean) => void;
+}
+
 type SettingsProps = {
   game: Game;
   settings: GameSettings;
   open: boolean;
+  cbs: SettingsCallbacks;
   closeCB: () => void;
 };
 
@@ -99,7 +104,15 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                     >
                       <FormControlLabel
                         control={
-                          <Checkbox checked={this.state.smoothAnimations} />
+                          <Checkbox
+                            onChange={(event) => {
+                              const val = event.target.checked;
+                              this.setState({ smoothAnimations: val }, () => {
+                                this.props.cbs.setSmooth(event.target.checked);
+                              });
+                            }}
+                            checked={this.state.smoothAnimations}
+                          />
                         }
                         label="Smooth animations"
                       />
