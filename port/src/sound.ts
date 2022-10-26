@@ -87,6 +87,25 @@ export class GameSound {
     this.theme2.volume(level);
   }
 
+  public setVolumeMaster(level: number) {
+    const sounds = [
+      this.walk,
+      this.boat,
+      this.bump,
+      this.push,
+      this.chimes,
+      this.message,
+      this.secret,
+      this.correct,
+      this.incorrect,
+      this.click,
+      this.win,
+      this.lose,
+    ];
+
+    sounds.map((s) => s.volume(level));
+  }
+
   private initTheme() {
     this.theme.stop();
     this.theme1.stop();
@@ -99,7 +118,7 @@ export class GameSound {
     };
 
     this.theme.on("end", () => {
-      console.log("ON END", this.themeSelect);
+      //console.log("ON END", this.themeSelect);
       const t = [this.theme1, this.theme2][this.themeSelect - 1];
       this.currentTheme = t;
       t.play();

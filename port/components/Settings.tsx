@@ -33,6 +33,7 @@ import { Game } from "../src/game";
 export interface SettingsCallbacks {
   setSmooth: (value: boolean) => void;
   setVolumeTheme: (value: number) => void;
+  setVolumeMaster: (value: number) => void;
 }
 
 type SettingsProps = {
@@ -71,7 +72,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
               </AccordionSummary>
               <AccordionDetails>
                 <Typography id="input-slider" gutterBottom>
-                  Theme Music
+                  Music
                 </Typography>
                 <Stack
                   spacing={2}
@@ -87,9 +88,33 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                   <Slider
                     value={this.state.volumeTheme}
                     onChange={(event, val) => {
-                      console.log(val);
                       this.setState({ volumeTheme: val as number }, () => {
                         this.props.cbs.setVolumeTheme(val as number);
+                      });
+                    }}
+                  />
+                  <IconVolume />
+                </Stack>
+
+                <Typography id="" gutterBottom>
+                  Everything Else
+                </Typography>
+                <Stack
+                  spacing={2}
+                  direction="row"
+                  sx={{ mb: 1 }}
+                  alignItems="center"
+                >
+                  {this.state.volumeMaster == 0 ? (
+                    <IconVolumeOff />
+                  ) : (
+                    <IconVolume />
+                  )}
+                  <Slider
+                    value={this.state.volumeMaster}
+                    onChange={(event, val) => {
+                      this.setState({ volumeMaster: val as number }, () => {
+                        this.props.cbs.setVolumeMaster(val as number);
                       });
                     }}
                   />

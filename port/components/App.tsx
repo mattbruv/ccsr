@@ -28,6 +28,13 @@ const setVolumeTheme = (value: number) => {
   }
 };
 
+const setVolumeMaster = (value: number) => {
+  Cookies.set("volumeMaster", value.toString());
+  if (game) {
+    game.sound.setVolumeMaster(value / 100);
+  }
+};
+
 function getSettings() {
   return {
     smoothAnimations: getCookieBool("smooth", true),
@@ -95,6 +102,7 @@ class App extends React.Component<AppProps, AppState> {
         const s = getSettings();
         setSmooth(s.smoothAnimations);
         setVolumeTheme(s.volumeTheme);
+        setVolumeMaster(s.volumeMaster);
       }
     );
   }
@@ -148,7 +156,7 @@ class App extends React.Component<AppProps, AppState> {
           }}
         />
         <Settings
-          cbs={{ setSmooth, setVolumeTheme }}
+          cbs={{ setSmooth, setVolumeTheme, setVolumeMaster }}
           game={game}
           settings={this.state.settings}
           closeCB={() => {
