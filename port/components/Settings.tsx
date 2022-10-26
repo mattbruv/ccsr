@@ -20,8 +20,10 @@ import {
   Slider,
   Stack,
   Tooltip,
+  Typography,
 } from "@mui/material";
 
+import IconVolumeOff from "@mui/icons-material/VolumeOff";
 import IconVolume from "@mui/icons-material/VolumeUp";
 import IconVideo from "@mui/icons-material/PersonalVideo";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -30,6 +32,7 @@ import { Game } from "../src/game";
 
 export interface SettingsCallbacks {
   setSmooth: (value: boolean) => void;
+  setVolumeTheme: (value: number) => void;
 }
 
 type SettingsProps = {
@@ -67,14 +70,29 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                 </ListItem>
               </AccordionSummary>
               <AccordionDetails>
+                <Typography id="input-slider" gutterBottom>
+                  Theme Music
+                </Typography>
                 <Stack
                   spacing={2}
                   direction="row"
                   sx={{ mb: 1 }}
                   alignItems="center"
                 >
-                  <IconVolume />
-                  <Slider aria-label="Volume" value={50} onChange={undefined} />
+                  {this.state.volumeTheme == 0 ? (
+                    <IconVolumeOff />
+                  ) : (
+                    <IconVolume />
+                  )}
+                  <Slider
+                    value={this.state.volumeTheme}
+                    onChange={(event, val) => {
+                      console.log(val);
+                      this.setState({ volumeTheme: val as number }, () => {
+                        this.props.cbs.setVolumeTheme(val as number);
+                      });
+                    }}
+                  />
                   <IconVolume />
                 </Stack>
               </AccordionDetails>

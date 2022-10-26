@@ -81,6 +81,12 @@ export class GameSound {
     }
   }
 
+  public setVolumeTheme(level: number) {
+    this.theme.volume(level);
+    this.theme1.volume(level);
+    this.theme2.volume(level);
+  }
+
   private initTheme() {
     this.theme.stop();
     this.theme1.stop();
