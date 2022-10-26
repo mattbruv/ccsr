@@ -87,6 +87,8 @@ export class Game {
 
   public sound: GameSound;
 
+  public readonly ratio = 416 / 320;
+
   constructor(episode: number) {
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
@@ -204,6 +206,7 @@ export class Game {
 
   public resize() {
     this.camera.setScale();
+    this.camera.snapCameraToMap(this.currentMap);
     this.sign.resize();
     this.inventory.resize();
   }

@@ -21,6 +21,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  Divider,
 } from "@mui/material";
 
 import IconVolumeOff from "@mui/icons-material/VolumeOff";
@@ -137,10 +138,6 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
               <AccordionDetails>
                 <ListItem disablePadding>
                   <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox checked={this.state.fullScreen} />}
-                      label="Fit canvas to screen"
-                    />
                     <Tooltip
                       arrow
                       title="The original game runs at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
@@ -161,12 +158,21 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                       />
                     </Tooltip>
                     <FormControlLabel
-                      control={<Checkbox />}
+                      control={
+                        <Checkbox disabled checked={this.state.fullScreen} />
+                      }
+                      label="Fit canvas to screen"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox disabled />}
                       label="Use original aspect ratio"
                     />
                     <FormControl fullWidth>
-                      <InputLabel id="">Camera Mode</InputLabel>
+                      <InputLabel disabled id="">
+                        Camera Mode
+                      </InputLabel>
                       <Select
+                        disabled
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={10}
