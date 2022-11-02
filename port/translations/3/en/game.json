@@ -13,12 +13,12 @@
         {
             "key": "ostrich",
             "name": "ostrich",
-            "description": "A yummy Ostrich\ufffdI mean FRIENDLY ostrich."
+            "description": "A yummy Ostrich... I mean FRIENDLY ostrich."
         },
         {
             "key": "beetle",
             "name": "beetle",
-            "description": "A beetle. It\ufffds name is Paul."
+            "description": "A beetle. It's name is Paul."
         },
         {
             "key": "koala",
@@ -38,7 +38,7 @@
         {
             "key": "sun",
             "name": "sunStone",
-            "description": "A volcano Key! It\ufffds very hot."
+            "description": "A volcano Key! It's very hot."
         },
         {
             "key": "waters",
@@ -53,7 +53,7 @@
         {
             "key": "stone",
             "name": "stoneStone",
-            "description": "A Volcano Key! It\ufffds hard and stony."
+            "description": "A Volcano Key! It's hard and stony."
         },
         {
             "key": "split",
@@ -83,7 +83,7 @@
         {
             "key": "leaf",
             "name": "eucalyptusLeaf",
-            "description": "A leaf from Australia. Who\ufffdd want this?"
+            "description": "A leaf from Australia. Who'd want this?"
         },
         {
             "key": "bag",
