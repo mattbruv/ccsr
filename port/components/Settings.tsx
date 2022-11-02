@@ -98,7 +98,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                 </Stack>
 
                 <Typography id="" gutterBottom>
-                  Everything Else
+                  Sound Effects
                 </Typography>
                 <Stack
                   spacing={2}
