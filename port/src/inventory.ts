@@ -103,6 +103,15 @@ export class GameInventory {
     this.itemSprites = [];
   }
 
+  private getDisplayItems() {
+    return this.items.filter((i) => this.banned.has(i) == false).slice(0, 16);
+  }
+
+  private getItemIndex(key: string) {
+    const items = this.getDisplayItems();
+    return items.findIndex((i) => i == key);
+  }
+
   private renderItems() {
     if (this.mode == InventoryMode.NORMAL) {
       this.spriteSelectedItem.visible = true;
@@ -114,9 +123,7 @@ export class GameInventory {
     if (this.items.length > 16) {
       alert("Warning! Items > 16");
     }
-    const items = this.items
-      .filter((i) => this.banned.has(i) == false)
-      .slice(0, 16);
+    const items = this.getDisplayItems();
     const points = this.getItemLocationPoints();
 
     items.map((item, index) => {
@@ -248,7 +255,7 @@ export class GameInventory {
     return points;
   }
 
-  public openInventory() {
+  public openInventory(selectItem?: string) {
     this.game.sound.once(this.game.sound.message);
     this.game.player.setStatus(PlayerStatus.STOP);
     this.isInventoryOpen = true;
@@ -257,7 +264,7 @@ export class GameInventory {
 
     this.setTextDimensions();
 
-    const items = this.items.filter((i) => !this.banned.has(i));
+    const items = this.getDisplayItems();
 
     if (items.length == 0) {
       this.spriteSelectedItem.visible = false;
@@ -265,6 +272,9 @@ export class GameInventory {
       this.clearItemSprites();
     } else {
       this.renderItems();
+      if (selectItem) {
+        this.selectItem(selectItem, this.getItemIndex(selectItem));
+      }
     }
   }
 

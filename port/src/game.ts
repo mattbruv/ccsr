@@ -573,11 +573,19 @@ export class Game {
         !this.inventory.has("got" + c.giveObj)
       ) {
         this.inventory.addItem(c.giveObj);
-        // TODO: gItemLog?
+        this.sign.setOnClose(() => {
+          // for some reason I have to wrap this in a timeout
+          // or else the inventory won't display...
+          // stupid bugs, but who cares at this point
+          // I'm not going to be the one who figures out
+          // why it doesn't work the normal way
+          setTimeout(() => {
+            this.inventory.openInventory(c.giveObj);
+          }, 1);
+        });
       }
       if (c.giveAct && !this.inventory.has(c.giveAct)) {
         this.inventory.addAct(c.giveAct);
-        // TODO: gActionLog?
       }
     }
 
