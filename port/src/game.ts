@@ -801,9 +801,11 @@ export class Game {
   }
 
   private init(episode: number) {
-    window.onbeforeunload = () => {
-      return "Are you sure you want to leave?";
-    };
+    if (!import.meta.env.DEV) {
+      window.onbeforeunload = () => {
+        return "Are you sure you want to leave?";
+      };
+    }
 
     this.player.init();
     this.initObjects();
