@@ -683,10 +683,6 @@ export class Game {
     const newState = inWater ? PlayerState.BOAT : PlayerState.NORMAL;
     this.player.state = newState;
 
-    const lastPos = this.player.getPosition();
-    const nextPos = { x: newX, y: newY };
-    this.player.initMove(lastPos, nextPos);
-
     // Update map and do bookkeeping when leaving a zone
     const nextMap = this.gameObjects.find(
       (obj) =>
@@ -696,10 +692,40 @@ export class Game {
     );
 
     if (nextMap) {
+      //console.log("from", this.player.currentMap, "to:", nextMap.mapName);
+      const pos = this.player.getPosition();
+      const bounds = getMapRect(nextMap.mapName);
+
+      let nextX = pos.x;
+      let nextY = pos.y;
+
+      if (nextX < bounds.x) {
+        nextX = bounds.x + 16;
+      }
+
+      if (nextY < bounds.y) {
+        nextY = bounds.y + 16;
+      }
+
+      if (nextX > bounds.x + bounds.width) {
+        nextX = bounds.x + bounds.width - 16;
+      }
+
+      if (nextY > bounds.y + bounds.height) {
+        nextY = bounds.y + bounds.height - 16;
+      }
+
+      const nextPos = { x: nextX, y: nextY };
+      this.player.initMove(pos, nextPos);
+
       this.player.lastMap = this.player.currentMap;
       this.player.currentMap = nextMap.mapName;
       this.resetMovableObjects(this.player.lastMap);
       this.camera.panToMap(this.player.lastMap, this.player.currentMap);
+    } else {
+      const lastPos = this.player.getPosition();
+      const nextPos = { x: newX, y: newY };
+      this.player.initMove(lastPos, nextPos);
     }
 
     const nextFrame = this.player.frameOfAnimation + 1;
