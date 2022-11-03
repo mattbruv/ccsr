@@ -24,6 +24,33 @@ export class GameCamera {
     this.game = game;
   }
 
+  private getViewportUnscaled(): Pos {
+    const v = this.game.viewport.position;
+    return {
+      x: (v.x / this.scaleX) * -1,
+      y: (v.y / this.scaleY) * -1,
+    };
+  }
+
+  // Snap the player so he is always fully inside the camera.
+  private alignPlayer() {
+    const snap = (x: number) => Math.ceil(x / 8) * 8;
+    const p = this.game.player.getPosition();
+    const v = this.getViewportUnscaled();
+
+    const hh = this.game.player.sprite.height / 2;
+    const hw = this.game.player.sprite.width / 2;
+
+    //console.log(p, v, hh, hw);
+    if (p.y - hh < v.y) {
+      this.game.player.setPosition(p.x, snap(v.y + hh));
+    }
+
+    if (p.x - hw < v.x) {
+      this.game.player.setPosition(snap(v.x + hw), p.y);
+    }
+  }
+
   public setScale() {
     const w = this.game.app.renderer.screen.width;
     const h = this.game.app.renderer.screen.height;
@@ -72,6 +99,7 @@ export class GameCamera {
         this.isPanning = false;
         this.game.player.setStatus(PlayerStatus.MOVE);
         this.setCamera(this.nextCameraPos.x, this.nextCameraPos.y);
+        this.alignPlayer();
         return;
       }
 
@@ -83,6 +111,8 @@ export class GameCamera {
 
       const p = this.nextCameraPos;
       this.setCamera(p.x - dx, p.y - dy);
+      this.alignPlayer();
+
       return;
     }
   }
