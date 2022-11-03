@@ -688,9 +688,16 @@ export class Game {
     this.player.initMove(lastPos, nextPos);
 
     // Update map and do bookkeeping when leaving a zone
-    if (this.player.currentMap != collisionObject.mapName) {
+    const nextMap = this.gameObjects.find(
+      (obj) =>
+        obj.mapName !== this.player.currentMap &&
+        obj.isVisible() &&
+        intersect(newPlayerRect, obj.getRect())
+    );
+
+    if (nextMap) {
       this.player.lastMap = this.player.currentMap;
-      this.player.currentMap = collisionObject.mapName;
+      this.player.currentMap = nextMap.mapName;
       this.resetMovableObjects(this.player.lastMap);
       this.camera.panToMap(this.player.lastMap, this.player.currentMap);
     }

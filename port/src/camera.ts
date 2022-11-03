@@ -49,6 +49,18 @@ export class GameCamera {
     if (p.x - hw < v.x) {
       this.game.player.setPosition(snap(v.x + hw), p.y);
     }
+
+    const vw = this.game.app.renderer.width / this.scaleX;
+    const vh = this.game.app.renderer.height / this.scaleY;
+
+    //console.log(p.x + hw, "width:", vw, v.x + vw);
+    if (p.x + hw > v.x + vw) {
+      this.game.player.setPosition(snap(v.x + vw - hw), p.y);
+    }
+
+    if (p.y + hh > v.y + vh) {
+      this.game.player.setPosition(p.x, snap(v.y + vh - hh));
+    }
   }
 
   public setScale() {
