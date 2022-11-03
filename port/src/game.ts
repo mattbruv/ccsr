@@ -78,7 +78,12 @@ export class Game {
 
   // frame timing
   private lastUpdate = Date.now();
-  public readonly targetFPS = 12;
+
+  // The original game is 12 FPS, but there is some kind of
+  // subtle bug with my walking code which makes it slightly slower
+  // changing it to 13 fps makes it almost exactly match the original game's speed.
+  // This is a hack that I don't care enough to fix at this point.
+  public readonly targetFPS = 13;
   public readonly MSperTick = 1000 / this.targetFPS;
 
   public smoothAnimations = true;
