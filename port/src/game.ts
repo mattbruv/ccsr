@@ -124,7 +124,7 @@ export class Game {
     this.camera = new GameCamera(this);
 
     this.viewport.drag().pinch().wheel();
-    this.enableDebugControls(true);
+    this.enableDebugControls(import.meta.env.DEV);
 
     this.worldContainer = new PIXI.Container();
     this.sceneContainer = new PIXI.Container();

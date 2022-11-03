@@ -35,6 +35,9 @@ export class Debugger {
   }
 
   public init() {
+    if (!import.meta.env.DEV) {
+      return;
+    }
     //this.game.viewport.addChild(this.mapGrid);
     //this.game.viewport.addChild(this.g);
 
