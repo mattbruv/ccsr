@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
-import { Loader } from "pixi.js";
+import { Loader, Rectangle } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
@@ -696,7 +696,12 @@ export class Game {
         intersect(newPlayerRect, obj.getRect())
     );
 
-    if (nextMap) {
+    const fullyInMap = rectAinRectB(
+      newPlayerRect,
+      getMapRect(this.player.currentMap)
+    );
+
+    if (nextMap && !fullyInMap) {
       //console.log("from", this.player.currentMap, "to:", nextMap.mapName);
       const pos = this.player.getPosition();
       const bounds = getMapRect(nextMap.mapName);
