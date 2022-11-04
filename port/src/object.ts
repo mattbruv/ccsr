@@ -90,6 +90,16 @@ export class GameObject implements IGameObject, MovableGameObject {
       this.posY -= Math.round(this.height / 2);
     }
 
+    // HACK to fix broken floor tile in hotel in episodes 2, 3, and 4
+    // It spans across map boundaries.
+    // In the original game this probably was cut off or didn't render at all,
+    // but in the remake where everything is rendered at once, this bad tile
+    // causes problems visually and breaks map collision detection
+    // So let's just shove it down one tile's space so it is fully in its map
+    if (this.posX == 2608 && this.posY == 1248 && this.member == "block.119") {
+      this.posY += 32;
+    }
+
     this.originalPosX = this.posX;
     this.originalPosY = this.posY;
 
