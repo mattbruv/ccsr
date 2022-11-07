@@ -7,6 +7,8 @@ import { Rect } from "../types";
 const maskOverworld = new PIXI.Graphics();
 
 export class Episode1 extends EpisodeScript {
+  onNewMap(nextMap: string): void {}
+
   onDoor(nextMap: string): void {}
 
   public init(): void {
@@ -15,6 +17,8 @@ export class Episode1 extends EpisodeScript {
     maskOverworld.drawRect(m.x, m.y, m.width, m.height);
     this.game.viewport.addChild(maskOverworld);
     this.game.worldContainer.mask = maskOverworld;
+
+    this.game.camera.setCameraBounds("0101", "0606");
 
     const startMap = "0106";
     this.game.setMap(startMap);

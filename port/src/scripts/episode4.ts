@@ -1,6 +1,8 @@
 import { EpisodeScript } from "../script";
 
 export class Episode4 extends EpisodeScript {
+  onNewMap(nextMap: string): void {}
+
   onDoor(nextMap: string): void {}
 
   public init(): void {

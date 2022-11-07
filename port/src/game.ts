@@ -728,6 +728,8 @@ export class Game {
       const nextPos = { x: nextX, y: nextY };
       this.player.initMove(pos, nextPos);
 
+      this.script.onNewMap(nextMap.mapName);
+
       this.player.lastMap = this.player.currentMap;
       this.player.currentMap = nextMap.mapName;
       this.resetMovableObjects(this.player.lastMap);

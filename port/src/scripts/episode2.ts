@@ -11,6 +11,8 @@ const maskHotel = new PIXI.Graphics();
 //this.game.worldContainer.mask = maskOverworld;
 
 export class Episode2 extends EpisodeScript {
+  onNewMap(nextMap: string): void {}
+
   onDoor(nextMap: string): void {
     switch (nextMap) {
       case "0701":

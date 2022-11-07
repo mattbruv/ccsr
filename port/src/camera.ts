@@ -1,6 +1,6 @@
-import { Game, getMapRect } from "./game";
+import { Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
 import { PlayerStatus } from "./player";
-import { Pos } from "./types";
+import { Pos, Rect } from "./types";
 
 export class GameCamera {
   private game: Game;
@@ -20,8 +20,17 @@ export class GameCamera {
   private panStartMS: number = 0;
   private panEndMS: number = 0;
 
+  private cameraBounds: Rect;
+
   constructor(game: Game) {
     this.game = game;
+
+    this.cameraBounds = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
   }
 
   private getViewportUnscaled(): Pos {
@@ -55,9 +64,11 @@ export class GameCamera {
     this.game.player.setStatus(PlayerStatus.STOP);
 
     this.isPanning = true;
-    const lastPos = this.getMapCameraXY(fromMap);
-    this.currentCameraPos = lastPos;
+    //const lastPos = this.getMapCameraXY(fromMap);
+    //this.currentCameraPos = lastPos;
+    const lastPos = this.currentCameraPos;
     this.nextCameraPos = this.getMapCameraXY(nextMap);
+    console.log(lastPos, this.nextCameraPos);
     //console.log("from", this.currentCameraPos, "to", this.nextCameraPos);
 
     const deltaX = this.nextCameraPos.x - lastPos.x;
@@ -80,6 +91,7 @@ export class GameCamera {
         this.isPanning = false;
         this.game.player.setStatus(PlayerStatus.MOVE);
         this.setCamera(this.nextCameraPos.x, this.nextCameraPos.y);
+        this.currentCameraPos = this.nextCameraPos;
         return;
       }
 
@@ -95,20 +107,22 @@ export class GameCamera {
     }
   }
 
-  /*
-    const pos = this.game.player.getPosition();
-    const x =
-      -pos.x * this.game.viewport.scale.x +
-      this.game.app.renderer.screen.width / 2;
-    const y =
-      -pos.y * this.game.viewport.scale.y +
-      this.game.app.renderer.screen.height / 2;
-    this.game.viewport.position.set(x, y);
-    */
-
   public snapCameraToMap(mapName: string) {
     const pos = this.getMapCameraXY(mapName);
+    this.currentCameraPos = pos;
     this.setCamera(pos.x, pos.y);
+  }
+
+  public setCameraBounds(mapTopLeft: string, mapBottomRight: string) {
+    const TL = getMapRect(mapTopLeft);
+    const BR = getMapRect(mapBottomRight);
+
+    this.cameraBounds = {
+      x: TL.x,
+      y: TL.y,
+      width: BR.x + MAP_WIDTH,
+      height: BR.y + MAP_HEIGHT,
+    };
   }
 
   private getMapCameraXY(mapName: string): Pos {
@@ -132,7 +146,7 @@ export class GameCamera {
       // Only center the map if no area outside the world would be seen
       if (test >= 0) {
         x += half;
-        const worldWidth = this.game.worldRect!.width * this.scaleX;
+        const worldWidth = this.cameraBounds.width * this.scaleX;
         const finalX = Math.abs(x) + this.screenWidth;
         if (finalX > worldWidth) {
           x += finalX - worldWidth;
@@ -143,7 +157,7 @@ export class GameCamera {
       const test = Math.abs(y) - half;
       if (test >= 0) {
         y += half;
-        const worldHeight = this.game.worldRect!.height * this.scaleY;
+        const worldHeight = this.cameraBounds.height * this.scaleY;
         const finalY = Math.abs(y) + this.screenHeight;
         if (finalY > worldHeight) {
           y += finalY - worldHeight;
