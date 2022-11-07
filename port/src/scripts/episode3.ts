@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getMapRect, getMapsRect } from "../game";
+import { Scene3 } from "../scenes/scene3";
 import { EpisodeScript } from "../script";
 import { GameObjectMoveCond, Rect } from "../types";
 
@@ -76,5 +77,8 @@ export class Episode3 extends EpisodeScript {
     this.game.gameObjects
       .filter((o) => o.mapName == "0702")
       .map((o) => (o.data.move.COND = GameObjectMoveCond.NONE));
+
+    this.game.addScene("ending", new Scene3(this.game));
+    this.game.playScene("ending");
   }
 }
