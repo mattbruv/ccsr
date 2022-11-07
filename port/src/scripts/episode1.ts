@@ -24,5 +24,23 @@ export class Episode1 extends EpisodeScript {
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
     this.game.addScene("ending", new Scene1(this.game));
+    /*
+    // DEBUG STUFF
+    const i = [
+      "bandaid",
+      "ducktape",
+      "gum",
+      "tape",
+      "sock",
+      "firstaid", //
+      "hammer",
+      "chocbar",
+      "sunscreen",
+      "wrench",
+      "tennis",
+    ];
+    i.map((x) => this.game.inventory.addItem(x));
+    this.game.playScene("ending");
+    */
   }
 }

@@ -283,6 +283,7 @@ export class Scene1 extends GameScene {
       { x: 258, y: 158, w: 229, h: 197 },
       { x: 258, y: 155, w: 235, h: 203 },
       { x: 258, y: 151, w: 241, h: 209 },
+      { x: 258, y: 151, w: 241, h: 209 },
     ];
 
     this.message.texture = getMemberTexture("rating." + rating)!;
@@ -297,7 +298,9 @@ export class Scene1 extends GameScene {
     if (count == 5) {
       this.game.sound.win.play();
       this.exitButton.texture = getMemberTexture("play.next.episode")!;
-      alert("You won, nothing else to go back to!");
+      this.exitButton.on("pointerdown", () => {
+        location.reload();
+      });
     } else {
       this.game.sound.lose.play();
       this.exitButton.texture = getMemberTexture("exit.pool")!;
