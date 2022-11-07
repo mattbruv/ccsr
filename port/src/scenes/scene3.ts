@@ -323,7 +323,9 @@ export class Scene3 extends GameScene {
 
   public exit(): void {}
 
-  public init(): void {}
+  public init(): void {
+    this.game.sound.pauseTheme();
+  }
 
   public play(): void {
     this.playing = true;

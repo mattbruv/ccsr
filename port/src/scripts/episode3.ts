@@ -79,6 +79,6 @@ export class Episode3 extends EpisodeScript {
       .map((o) => (o.data.move.COND = GameObjectMoveCond.NONE));
 
     this.game.addScene("ending", new Scene3(this.game));
-    this.game.playScene("ending");
+    //this.game.playScene("ending");
   }
 }
