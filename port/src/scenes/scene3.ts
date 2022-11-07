@@ -1,8 +1,26 @@
 import * as PIXI from "pixi.js";
-import { Game, getMemberTexture } from "../game";
-import { InventoryMode } from "../inventory";
+import { Game, getMemberTexture, randBetween } from "../game";
 import { GameScene, MoveAnimation } from "../scene";
-import { Key } from "../types";
+
+class Lava {
+  public sprite: PIXI.Sprite;
+  public age = 1;
+  public end = 10;
+  public start = 0;
+  public angle: number = 0;
+
+  constructor() {
+    this.sprite = new PIXI.Sprite(getMemberTexture("lava"));
+    this.sprite.anchor.set(0.5);
+    //this.sprite.scale.set(0.1);
+    this.setAngle(randBetween(-25, 25));
+  }
+
+  public setAngle(angle: number) {
+    this.angle = angle;
+    this.sprite.angle = angle + 45;
+  }
+}
 
 class Smoke {
   public sprite: PIXI.Sprite;
@@ -14,7 +32,7 @@ class Smoke {
   constructor() {
     this.sprite = new PIXI.Sprite(getMemberTexture("smoke"));
     this.sprite.anchor.set(0.5);
-    this.sprite.scale.set(0.1);
+    //this.sprite.scale.set(0.1);
     this.sprite.visible = false;
   }
 }
@@ -30,11 +48,13 @@ export class Scene3 extends GameScene {
   public inBoat = true;
   public erupting = true;
   public smoke: Smoke[];
+  public lava: Lava[];
 
   constructor(game: Game) {
     super(game);
 
     this.smoke = [];
+    this.lava = [];
 
     this.beach = new PIXI.Container();
 
@@ -86,7 +106,10 @@ export class Scene3 extends GameScene {
     this.beach.addChild(water);
     this.beach.addChild(shore);
 
-    this.beach.addChild(this.char("block.41", 20, 280));
+    const chicken = this.char("block.41", 20, 280);
+    //chicken.angle = -45;
+    chicken.rotation = -0.7853981633974483;
+    this.beach.addChild(chicken);
     this.beach.addChild(this.char("koala", 285, 298));
     this.beach.addChild(this.char("ostrich.pct", 58, 271, true));
     this.beach.addChild(this.char("monkey", 92, 288, true));
@@ -199,6 +222,38 @@ export class Scene3 extends GameScene {
       },
     });
 
+    // lava from 135 degrees to 45 degrees
+    // just gonna generate them randomly, it doesn't have to be perfectly matching
+    for (let i = 0; i < 10; i++) {
+      const lava = new Lava();
+      lava.sprite.visible = false;
+      this.lava.push(lava);
+      this.beach.addChild(lava.sprite);
+
+      const start = 42 + i * 3;
+      lava.start = start;
+
+      //lava.setAngle(-45);
+
+      const dist = randBetween(75, 120);
+
+      const radians = (lava.angle * Math.PI) / 180;
+      console.log("angle", lava.angle, "radians", radians);
+
+      const toX = 335 + Math.sin(radians) * dist;
+      const toY = 90 - Math.cos(Math.abs(radians)) * dist;
+
+      console.log("from", 335, 90, "to", toX, toY);
+
+      this.moveAnims.push({
+        sprite: lava.sprite,
+        from: { x: 335, y: 80 },
+        to: { x: toX, y: toY },
+        startFrame: start,
+        endFrame: start + 10,
+      });
+    }
+
     this.moveAnims.push(boatToBeach);
   }
 
@@ -234,6 +289,22 @@ export class Scene3 extends GameScene {
       const y = odd ? 130 : 130;
       this.volcan.position.set(x, y);
     }
+
+    this.lava
+      .filter((l) => l.age < 10 && l.start <= this.currentFrame)
+      .map((l) => {
+        l.sprite.visible = true;
+        l.age++;
+        if (l.age <= 6) {
+          const size = l.age / 5;
+          l.sprite.scale.set(size);
+        }
+        if (l.age >= 5) {
+          const alpha = 1 - l.age / 10;
+          l.sprite.alpha = alpha;
+          //console.log(l.age, 1 - l.age / 10);
+        }
+      });
 
     this.smoke
       .filter((s) => s.active)
