@@ -633,7 +633,7 @@ export class Game {
             break;
           }
         }
-        if (collisionObject.data.item.type == GameObjectType.WALL) {
+        if (collisionObject.data.item.type == GameObjectType.WALL && !message) {
           this.sound.once(this.sound.bump);
         }
         return;
