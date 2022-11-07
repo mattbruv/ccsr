@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture, randBetween } from "../game";
 import { GameScene, MoveAnimation } from "../scene";
+import { Key } from "../types";
 
 class Lava {
   public sprite: PIXI.Sprite;
@@ -45,16 +46,36 @@ export class Scene3 extends GameScene {
   public viv: PIXI.Sprite;
   public courage: PIXI.Sprite;
 
+  public message: PIXI.Sprite;
+  public button: PIXI.Sprite;
+
   public inBoat = true;
   public erupting = true;
   public smoke: Smoke[];
   public lava: Lava[];
+
+  public showingMessage = false;
 
   constructor(game: Game) {
     super(game);
 
     this.smoke = [];
     this.lava = [];
+
+    this.button = new PIXI.Sprite(getMemberTexture("play.next.episode"));
+    this.button.interactive = true;
+    this.button.buttonMode = true;
+    this.button.on("pointerdown", () => {
+      location.reload();
+    });
+    this.button.visible = false;
+    this.button.anchor.set(0.5);
+    this.button.position.set(98, 26);
+
+    this.message = new PIXI.Sprite(getMemberTexture("end.message"));
+    this.message.anchor.set(0.5);
+    this.message.position.set(209, 139);
+    this.message.visible = false;
 
     this.beach = new PIXI.Container();
 
@@ -139,6 +160,8 @@ export class Scene3 extends GameScene {
     this.beach.addChild(t);
 
     this.container.addChild(this.beach);
+    this.container.addChild(this.message);
+    this.container.addChild(this.button);
     //this.container.addChild(border);
     this.container.addChild(mask);
     this.beach.mask = mask;
@@ -237,6 +260,15 @@ export class Scene3 extends GameScene {
       },
     });
 
+    this.frameCallbacks.push({
+      frame: 75,
+      callback: () => {
+        this.game.sound.win.play();
+        this.showingMessage = true;
+        this.message.visible = true;
+      },
+    });
+
     // lava from 135 degrees to 45 degrees
     // just gonna generate them randomly, it doesn't have to be perfectly matching
     for (let i = 0; i < 10; i++) {
@@ -298,6 +330,14 @@ export class Scene3 extends GameScene {
   }
 
   protected onFrame(): void {
+    if (this.game.keyPressed(Key.ENTER)) {
+      if (this.showingMessage == true) {
+        this.message.visible = false;
+        this.showingMessage = false;
+        this.button.visible = true;
+      }
+    }
+
     if (this.erupting) {
       const odd = this.currentFrame % 2 == 0;
       const x = odd ? 327 : 329;
