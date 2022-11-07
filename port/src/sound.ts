@@ -13,6 +13,11 @@ export class GameSound {
   public win: Howl;
   public lose: Howl;
 
+  // Episode 1:
+  public pop: Howl;
+  public water: Howl;
+  public squeak: Howl;
+
   private theme: Howl;
   private theme1: Howl;
   private theme2: Howl;
@@ -70,6 +75,19 @@ export class GameSound {
       src: root + "theme.change.2.wav",
     });
 
+    // Episode 1
+    this.pop = new Howl({
+      src: root + "pop.wav",
+    });
+    this.water = new Howl({
+      src: root + "water.wav",
+      loop: true,
+    });
+    this.squeak = new Howl({
+      src: root + "squeak.wav",
+      loop: true,
+    });
+
     this.currentTheme = this.theme;
 
     this.initTheme();
@@ -101,6 +119,11 @@ export class GameSound {
       this.click,
       this.win,
       this.lose,
+
+      // Ep 1
+      this.pop,
+      this.water,
+      this.squeak,
     ];
 
     sounds.map((s) => s.volume(level));

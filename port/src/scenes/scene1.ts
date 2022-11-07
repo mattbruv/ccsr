@@ -1,25 +1,8 @@
-import { Howl } from "howler";
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
-
-const root = "./assets/1/sound/";
-
-const soundPop = new Howl({
-  src: root + "pop.wav",
-});
-
-const soundWater = new Howl({
-  src: root + "water.wav",
-  loop: true,
-});
-
-const soundWheel = new Howl({
-  src: root + "squeak.wav",
-  loop: true,
-});
 
 export class Scene1 extends GameScene {
   public pumpHouse: PIXI.Container;
@@ -226,7 +209,7 @@ export class Scene1 extends GameScene {
       callback: () => {
         this.game.sound.walk.pause();
         this.turningWheel = true;
-        soundWheel.play();
+        this.game.sound.squeak.play();
       },
     });
 
@@ -234,8 +217,8 @@ export class Scene1 extends GameScene {
       frame: 40,
       callback: () => {
         this.turningWheel = false;
-        soundWheel.stop();
-        soundWater.play();
+        this.game.sound.squeak.stop();
+        this.game.sound.water.play();
       },
     });
 
@@ -244,7 +227,7 @@ export class Scene1 extends GameScene {
       this.frameCallbacks.push({
         frame: 54 + i * 3,
         callback: () => {
-          soundPop.play();
+          this.game.sound.pop.play();
           this.waters[i].visible = true;
           this.waters[i].texture = getMemberTexture("Spray1")!;
 
@@ -290,8 +273,7 @@ export class Scene1 extends GameScene {
   }
 
   private displayEnd(selected: Set<string>, required: Set<string>) {
-    soundWater.stop();
-
+    this.game.sound.water.stop();
     const count = [...selected].filter((i) => required.has(i)).length;
     const rating = Math.max(Math.min(6 - count, 5), 1);
 
