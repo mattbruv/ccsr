@@ -4,7 +4,6 @@ export abstract class EpisodeScript {
   public game: Game;
 
   abstract init(): void;
-  abstract onDoor(nextMap: string): void;
   abstract onNewMap(nextMap: string): void;
 
   constructor(game: Game) {

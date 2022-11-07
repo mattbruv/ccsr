@@ -7,9 +7,6 @@ const maskOverworld = new PIXI.Graphics();
 const maskCrab = new PIXI.Graphics();
 const maskHotel = new PIXI.Graphics();
 
-//this.game.viewport.addChild(maskOverworld);
-//this.game.worldContainer.mask = maskOverworld;
-
 export class Episode2 extends EpisodeScript {
   onNewMap(nextMap: string): void {
     switch (nextMap) {
@@ -38,8 +35,6 @@ export class Episode2 extends EpisodeScript {
       }
     }
   }
-
-  onDoor(nextMap: string): void {}
 
   public init(): void {
     let m: Rect = getMapsRect("0101", "0606");

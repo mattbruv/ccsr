@@ -669,7 +669,6 @@ export class Game {
             const map = mapX + mapY;
             const x = coords[2];
             const y = coords[3];
-            this.script.onDoor(map);
             this.script.onNewMap(map);
             this.setMap(map);
             this.player.setMapAndPosition(map, x, y);

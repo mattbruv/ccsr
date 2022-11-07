@@ -14,42 +14,22 @@ export class Episode3 extends EpisodeScript {
       case "0703":
       case "0702": {
         this.game.camera.setCameraBounds("0701", "0703");
+        this.game.viewport.mask = maskMaze;
         break;
       }
       case "0705":
       case "0704": {
         this.game.camera.setCameraBounds("0704", "0705");
-        break;
-      }
-      case "0706": {
-        this.game.camera.setCameraBounds("0101", "0706");
-        break;
-      }
-      default: {
-        this.game.camera.setCameraBounds("0101", "0606");
-        break;
-      }
-    }
-    console.log("next map!", nextMap);
-  }
-
-  onDoor(nextMap: string): void {
-    switch (nextMap) {
-      case "0701":
-      case "0703":
-      case "0702": {
-        this.game.viewport.mask = maskMaze;
-        break;
-      }
-      case "0704":
-      case "0705": {
         this.game.viewport.mask = maskHotel;
         break;
       }
       case "0706": {
+        this.game.camera.setCameraBounds("0101", "0706");
         this.game.viewport.mask = maskOverworld;
+        break;
       }
       default: {
+        this.game.camera.setCameraBounds("0101", "0606");
         this.game.viewport.mask = maskOverworld;
         break;
       }
@@ -78,12 +58,12 @@ export class Episode3 extends EpisodeScript {
 
     this.game.viewport.mask = maskOverworld;
 
+    this.game.camera.setCameraBounds("0101", "0706");
     const startMap = "0706";
     this.game.setMap(startMap);
     this.game.player.setMapAndPosition(startMap, 13, 11);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
-    this.game.camera.setCameraBounds("0101", "0706");
 
     this.game.filmLoopData = {
       "block.100": ["a", "b"].map((n) => "block.100 " + n),

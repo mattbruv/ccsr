@@ -9,8 +9,6 @@ const maskOverworld = new PIXI.Graphics();
 export class Episode1 extends EpisodeScript {
   onNewMap(nextMap: string): void {}
 
-  onDoor(nextMap: string): void {}
-
   public init(): void {
     const m: Rect = getMapsRect("0101", "0606");
     maskOverworld.beginFill(0xffffff);
