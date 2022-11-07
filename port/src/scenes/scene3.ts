@@ -222,6 +222,21 @@ export class Scene3 extends GameScene {
       },
     });
 
+    // play lava sound
+    this.frameCallbacks.push({
+      frame: 42,
+      callback: () => {
+        this.game.sound.volcano.play();
+      },
+    });
+
+    this.frameCallbacks.push({
+      frame: 67,
+      callback: () => {
+        this.game.sound.volcano.fade(1, 0, 1000);
+      },
+    });
+
     // lava from 135 degrees to 45 degrees
     // just gonna generate them randomly, it doesn't have to be perfectly matching
     for (let i = 0; i < 10; i++) {
