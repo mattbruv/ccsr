@@ -129,6 +129,13 @@ export class Scene3 extends GameScene {
     };
 
     this.frameCallbacks.push({
+      frame: 1,
+      callback: () => {
+        this.game.sound.rumble.play();
+      },
+    });
+
+    this.frameCallbacks.push({
       frame: 28,
       callback: () => {
         this.inBoat = false;
@@ -185,9 +192,10 @@ export class Scene3 extends GameScene {
     }
 
     this.frameCallbacks.push({
-      frame: 75,
+      frame: 65,
       callback: () => {
         this.erupting = false;
+        this.game.sound.rumble.fade(1, 0, 1000);
       },
     });
 
