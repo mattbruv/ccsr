@@ -1,6 +1,6 @@
 import { EpisodeScript } from "../script";
 import { Scene1 } from "../scenes/scene1";
-import { getMapRect, getMapsRect } from "../game";
+import { getMapsRect } from "../game";
 import * as PIXI from "pixi.js";
 import { Rect } from "../types";
 

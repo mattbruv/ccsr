@@ -33,14 +33,6 @@ export class GameCamera {
     };
   }
 
-  private getViewportUnscaled(): Pos {
-    const v = this.game.viewport.position;
-    return {
-      x: (v.x / this.scaleX) * -1,
-      y: (v.y / this.scaleY) * -1,
-    };
-  }
-
   public setScale() {
     const w = this.game.app.renderer.screen.width;
     const h = this.game.app.renderer.screen.height;
@@ -59,7 +51,7 @@ export class GameCamera {
     this.scaleY = scale;
   }
 
-  public panToMap(fromMap: string, nextMap: string) {
+  public panToMap(nextMap: string) {
     // disable player movement while panning
     this.game.player.setStatus(PlayerStatus.STOP);
 
@@ -109,6 +101,7 @@ export class GameCamera {
 
   public snapCameraToMap(mapName: string) {
     const pos = this.getMapCameraXY(mapName);
+    console.log("SNAP TO ", mapName, pos);
     this.currentCameraPos = pos;
     this.setCamera(pos.x, pos.y);
   }
@@ -120,9 +113,11 @@ export class GameCamera {
     this.cameraBounds = {
       x: TL.x,
       y: TL.y,
-      width: BR.x + MAP_WIDTH,
-      height: BR.y + MAP_HEIGHT,
+      width: BR.x - TL.x + MAP_WIDTH,
+      height: BR.y - TL.y + MAP_HEIGHT,
     };
+
+    console.log("BOUNDS: ", this.cameraBounds);
   }
 
   private getMapCameraXY(mapName: string): Pos {
@@ -140,32 +135,42 @@ export class GameCamera {
     const padX = this.screenWidth - mapWidth;
     const padY = this.screenHeight - mapHeight;
 
-    if (w > h) {
-      const half = Math.round(padX / 2);
-      const test = Math.abs(x) - half;
-      // Only center the map if no area outside the world would be seen
-      if (test >= 0) {
-        x += half;
-        const worldWidth = this.cameraBounds.width * this.scaleX;
-        const finalX = Math.abs(x) + this.screenWidth;
-        if (finalX > worldWidth) {
-          x += finalX - worldWidth;
+    // only make special adjustments to the camera if the world is bigger than our
+    // user's screen
+    if (this.cameraBounds.width > w) {
+      if (w > h) {
+        const half = Math.round(padX / 2);
+        const test = Math.abs(x) - half;
+        // Only center the map if no area outside the world would be seen
+        if (test >= 0) {
+          x += half;
+          const worldWidth = this.cameraBounds.width * this.scaleX;
+          const finalX = Math.abs(x) + this.screenWidth;
+          if (finalX > worldWidth) {
+            x += finalX - worldWidth;
+          }
+        }
+      } else {
+        const half = Math.round(padY / 2);
+        const test = Math.abs(y) - half;
+        if (test >= 0) {
+          y += half;
+          const worldHeight = this.cameraBounds.height * this.scaleY;
+          const finalY = Math.abs(y) + this.screenHeight;
+          if (finalY > worldHeight) {
+            y += finalY - worldHeight;
+          }
         }
       }
     } else {
-      const half = Math.round(padY / 2);
-      const test = Math.abs(y) - half;
-      if (test >= 0) {
-        y += half;
-        const worldHeight = this.cameraBounds.height * this.scaleY;
-        const finalY = Math.abs(y) + this.screenHeight;
-        if (finalY > worldHeight) {
-          y += finalY - worldHeight;
-        }
-      }
+      // center map on screen
+      x += this.screenWidth / this.scaleX / 2;
     }
 
-    return { x: Math.round(x), y: Math.round(y) };
+    const newX = Math.round(x);
+    const newY = Math.round(y);
+
+    return { x: newX, y: newY };
   }
 
   private setCamera(x: number, y: number) {

@@ -10,6 +10,17 @@ const maskHotel = new PIXI.Graphics();
 export class Episode3 extends EpisodeScript {
   onNewMap(nextMap: string): void {
     switch (nextMap) {
+      case "0701":
+      case "0703":
+      case "0702": {
+        this.game.camera.setCameraBounds("0701", "0703");
+        break;
+      }
+      case "0705":
+      case "0704": {
+        this.game.camera.setCameraBounds("0704", "0705");
+        break;
+      }
       case "0706": {
         this.game.camera.setCameraBounds("0101", "0706");
         break;
@@ -46,8 +57,6 @@ export class Episode3 extends EpisodeScript {
   }
 
   public init(): void {
-    this.game.camera.setCameraBounds("0706", "0706");
-
     let m: Rect = getMapsRect("0101", "0606");
     maskOverworld.beginFill(0xffffff);
     maskOverworld.drawRect(m.x, m.y, m.width, m.height);
@@ -74,6 +83,7 @@ export class Episode3 extends EpisodeScript {
     this.game.player.setMapAndPosition(startMap, 13, 11);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
+    this.game.camera.setCameraBounds("0101", "0706");
 
     this.game.filmLoopData = {
       "block.100": ["a", "b"].map((n) => "block.100 " + n),

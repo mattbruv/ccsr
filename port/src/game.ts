@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
-import { Loader, Rectangle } from "pixi.js";
+import { Loader } from "pixi.js";
 import { loadAssets } from "./load";
 import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
@@ -670,6 +670,7 @@ export class Game {
             const x = coords[2];
             const y = coords[3];
             this.script.onDoor(map);
+            this.script.onNewMap(map);
             this.setMap(map);
             this.player.setMapAndPosition(map, x, y);
             this.camera.snapCameraToMap(map);
@@ -733,7 +734,7 @@ export class Game {
       this.player.lastMap = this.player.currentMap;
       this.player.currentMap = nextMap.mapName;
       this.resetMovableObjects(this.player.lastMap);
-      this.camera.panToMap(this.player.lastMap, this.player.currentMap);
+      this.camera.panToMap(this.player.currentMap);
     } else {
       const lastPos = this.player.getPosition();
       const nextPos = { x: newX, y: newY };
