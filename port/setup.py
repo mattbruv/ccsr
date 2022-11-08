@@ -148,6 +148,7 @@ def packImages(episodeNumber):
     images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
 
     for img in images:
+        print(img)
         out = pathlib.Path(img).name.lower()
         outPath = f"public/assets/{episodeNumber}/temp/"
         mkdir(outPath)
