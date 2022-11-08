@@ -2,6 +2,7 @@ import { EpisodeScript } from "../script";
 import * as PIXI from "pixi.js";
 import { getMapRect, getMapsRect } from "../game";
 import { Rect } from "../types";
+import { Scene2 } from "../scenes/scene2";
 
 const maskOverworld = new PIXI.Graphics();
 const maskCrab = new PIXI.Graphics();
@@ -68,5 +69,8 @@ export class Episode2 extends EpisodeScript {
     };
 
     this.game.setFilmLoopObjects();
+
+    this.game.addScene("ending", new Scene2(this.game));
+    this.game.playScene("ending");
   }
 }
