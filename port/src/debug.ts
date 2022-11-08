@@ -42,6 +42,7 @@ export class Debugger {
     //this.game.viewport.addChild(this.g);
 
     this.game.viewport.interactive = true;
+
     this.game.viewport.on("mousedown", (e: PIXI.InteractionEvent) => {
       if (e.data.button == 4) {
         const out = this.game.viewport.toLocal(e.data.global);

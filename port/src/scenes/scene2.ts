@@ -11,10 +11,32 @@ export class Scene2 extends GameScene {
   public head: PIXI.Sprite;
 
   public ballLeftArm: PIXI.Sprite;
+  public LA = [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ];
+
   public ballLeftLeg: PIXI.Sprite;
+  public LL = [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ];
 
   public ballRightArm: PIXI.Sprite;
+  public RA = [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ];
+
   public ballRightLeg: PIXI.Sprite;
+  public RL = [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ];
 
   public ballHead: PIXI.Sprite;
 
@@ -43,6 +65,33 @@ export class Scene2 extends GameScene {
     this.ballLeftLeg = new PIXI.Sprite(getMemberTexture("tennis"));
     this.ballRightArm = new PIXI.Sprite(getMemberTexture("tennis"));
     this.ballRightLeg = new PIXI.Sprite(getMemberTexture("tennis"));
+
+    this.ballHead.anchor.set(0.5);
+    this.ballLeftArm.anchor.set(0.5);
+    this.ballLeftLeg.anchor.set(0.5);
+    this.ballRightLeg.anchor.set(0.5);
+    this.ballRightArm.anchor.set(0.5);
+
+    this.ballHead.scale.set(0.6);
+    this.ballLeftArm.scale.set(0.6);
+    this.ballLeftLeg.scale.set(0.5);
+    this.ballRightArm.scale.set(0.6);
+    this.ballRightLeg.scale.set(0.5);
+
+    this.court.interactive = true;
+    this.court.on("pointerdown", (e: PIXI.InteractionEvent) => {
+      const pos = e.data.global;
+      console.log(
+        pos.x / this.game.camera.scaleX - 8,
+        pos.y / this.game.camera.scaleY
+      );
+    });
+
+    this.ballHead.position.set(204, 59);
+    this.ballLeftArm.position.set(128, 96);
+    this.ballLeftLeg.position.set(154, 114);
+    this.ballRightArm.position.set(282, 96);
+    this.ballRightLeg.position.set(254, 114);
 
     this.dexter = new PIXI.Sprite(getMemberTexture("dexter.armor"));
     this.dexter.anchor.set(0.5);
@@ -87,7 +136,7 @@ export class Scene2 extends GameScene {
     this.moveAnims.push({
       sprite: this.dexter,
       from: { x: 171, y: 319 },
-      to: { x: 171, y: 191 },
+      to: { x: 171, y: 193 },
       startFrame: 10,
       endFrame: 75 - 45,
     });
