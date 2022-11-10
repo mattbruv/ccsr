@@ -75,6 +75,18 @@ export class Episode4 extends EpisodeScript {
     this.game.setFilmLoopObjects();
     this.game.addScene("ending", new Scene4(this.game));
 
+    const i = [
+      "keys",
+      "scuba",
+      "courage",
+      "chicken",
+      "baboon",
+      "edd",
+      "dexter",
+      "johnny",
+    ];
+    i.map((it) => this.game.inventory.addItem(it));
+
     this.game.playScene("ending");
   }
 }

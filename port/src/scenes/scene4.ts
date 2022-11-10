@@ -69,6 +69,12 @@ export class Scene4 extends GameScene {
   public courage: Char;
   public baboon: Char;
 
+  public deedee: Char;
+  public suzie: Char;
+  public buttercup: Char;
+  public blossom: Char;
+  public bubbles: Char;
+
   public chars: Char[] = [];
 
   constructor(game: Game) {
@@ -132,6 +138,12 @@ export class Scene4 extends GameScene {
     this.courage = new Char("block.37");
     this.dexter = new Char("block.36");
 
+    this.deedee = new Char("block.39");
+    this.buttercup = new Char("block.38");
+    this.bubbles = new Char("block.127");
+    this.blossom = new Char("block.126");
+    this.suzie = new Char("block.47");
+
     this.chars = [
       this.prickles,
       this.baboon,
@@ -140,6 +152,12 @@ export class Scene4 extends GameScene {
       this.chicken,
       this.courage,
       this.dexter,
+
+      this.deedee,
+      this.buttercup,
+      this.bubbles,
+      this.blossom,
+      this.suzie,
     ];
 
     this.chars.map((c) => {
@@ -201,6 +219,26 @@ export class Scene4 extends GameScene {
     this.preWalk(this.chicken, { x: 248, y: 320 }, { x: 231, y: 271 }, 45, 59);
     this.preWalk(this.courage, { x: 278, y: 318 }, { x: 288, y: 284 }, 45, 60);
     this.preWalk(this.dexter, { x: 330, y: 322 }, { x: 303, y: 220 }, 45, 53);
+
+    this.preWalk(this.deedee, { x: -9, y: 105 }, { x: 157, y: 125 }, 70, 85);
+    this.preWalk(this.bubbles, { x: 411, y: 106 }, { x: 206, y: 126 }, 70, 85);
+    this.preWalk(this.buttercup, { x: -7, y: 53 }, { x: 111, y: 126 }, 70, 85);
+    this.preWalk(this.blossom, { x: 468, y: 65 }, { x: 303, y: 125 }, 70, 85);
+    this.preWalk(this.suzie, { x: -10, y: 140 }, { x: 256, y: 125 }, 70, 85);
+
+    this.frameCallbacks.push({
+      frame: 100 - 45,
+      callback: () => {
+        this.game.sign.setOnClose(() => {
+          this.game.inventory.setMode(InventoryMode.SELECT);
+          this.game.inventory.openInventory();
+        });
+        this.game.sign.showCharacterMessage(
+          "block.35",
+          this.game.gameData!.scene["plugMyHoles"]
+        );
+      },
+    });
   }
 
   public play(): void {
@@ -221,10 +259,24 @@ export class Scene4 extends GameScene {
 
   private lose() {}
 
-  private calculateEnd() {}
+  private calculateEnd() {
+    const chars = [
+      this.baboon,
+      this.bravo,
+      this.ed,
+      this.chicken,
+      this.dexter,
+      this.courage,
+    ];
+
+    chars.map((c) => (c.sprite.visible = false));
+
+    const selected = this.game.inventory.selection;
+    console.log(selected);
+  }
 
   protected onFrame(): void {
-    //this.floor.tick();
+    this.floor.tick();
 
     if (this.game.keyPressed(Key.ENTER)) {
       if (this.endMessage) {
