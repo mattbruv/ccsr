@@ -19,6 +19,7 @@ function EpisodeCard(props: EpisodeCardProps) {
       <CardMedia
         onClick={() => props.playEpisodeCB(props.episode)}
         component="img"
+        className="episode"
         image={props.img}
         alt=""
       />

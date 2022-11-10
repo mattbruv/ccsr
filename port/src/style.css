@@ -7,6 +7,10 @@ body {
   /*background-color: #000099;*/
 }
 
+.episode {
+  cursor: pointer;
+}
+
 #main {
   display: flex;
   justify-content: center;
