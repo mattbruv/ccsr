@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { Sprite } from "pixi.js";
 import { Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
+import { PlayerDirection } from "../player";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
 
@@ -56,6 +57,13 @@ export class Scene2 extends GameScene {
 
   public itemSprites: PIXI.Sprite[] = [];
 
+  public msgBG: PIXI.Sprite;
+  public msgTxt: PIXI.Sprite;
+
+  public buttonExit: PIXI.Sprite;
+
+  public endMessage = false;
+
   constructor(game: Game) {
     super(game);
     this.court = new PIXI.Container();
@@ -71,6 +79,22 @@ export class Scene2 extends GameScene {
     this.head.width = this.head.width * 1.2;
     this.head.anchor.set(0.5, 0.5);
     this.head.position.set(416 / 2 - 4, 35);
+
+    this.msgBG = new PIXI.Sprite(getMemberTexture("sign.bkg"));
+    this.msgTxt = new PIXI.Sprite(getMemberTexture("2end.message.lose"));
+    this.msgBG.visible = false;
+    this.msgTxt.visible = false;
+    this.msgBG.anchor.set(0.5);
+    this.msgTxt.anchor.set(0.5);
+    this.msgBG.position.set(208, 160);
+    this.msgTxt.position.set(208, 153);
+
+    this.buttonExit = new PIXI.Sprite(getMemberTexture("exit.tennis"));
+    this.buttonExit.interactive = true;
+    this.buttonExit.buttonMode = true;
+    this.buttonExit.visible = false;
+    this.buttonExit.anchor.set(0.5);
+    this.buttonExit.position.set(102, 290);
 
     //this.head.visible = false;
 
@@ -108,13 +132,7 @@ export class Scene2 extends GameScene {
     this.ballRightLeg.position.set(254, 114);
 
     this.dexter = new PIXI.Sprite(getMemberTexture("dexter.armor"));
-    this.dexter.anchor.set(0.5);
-    this.dexter.position.set(171, 319);
-    this.dexter.visible = false;
-
     this.longhair = new PIXI.Sprite(getMemberTexture("player.normal.right.1"));
-    this.longhair.anchor.set(0.5);
-    this.longhair.position.set(232, 340);
 
     const mask = new PIXI.Graphics();
     mask.beginFill(0xff00ff);
@@ -145,7 +163,45 @@ export class Scene2 extends GameScene {
 
     this.container.addChild(this.court);
     this.container.addChild(mask);
+
+    this.container.addChild(this.msgBG);
+    this.container.addChild(this.msgTxt);
+    this.container.addChild(this.buttonExit);
     this.court.mask = mask;
+
+    const itemlocs = [
+      [158, 122], //
+      [253, 126],
+      [128, 88],
+      [288, 86],
+      [204, 48],
+    ];
+
+    itemlocs.map((pos) => {
+      const s = new Sprite(getMemberTexture("wrong"));
+      s.anchor.set(0.5);
+      s.position.set(pos[0], pos[1] - 10);
+      this.itemSprites.push(s);
+      this.court.addChild(s);
+    });
+  }
+
+  public exit(): void {
+    this.game.sound.playTheme();
+    this.game.inventory.setMode(InventoryMode.NORMAL);
+    this.game.player.characterDirection = PlayerDirection.RIGHT;
+    this.game.player.setMapAndPosition("0101", 8, 17);
+  }
+
+  public init(): void {
+    this.dexter.anchor.set(0.5);
+    this.dexter.position.set(171, 319);
+    this.dexter.visible = false;
+
+    this.longhair.anchor.set(0.5);
+    this.longhair.position.set(232, 340);
+
+    this.itemSprites.map((s) => (s.visible = false));
 
     this.moveAnims.push({
       sprite: this.dexter,
@@ -206,42 +262,44 @@ export class Scene2 extends GameScene {
       },
     });
 
-    const itemlocs = [
-      [158, 122], //
-      [253, 126],
-      [128, 88],
-      [288, 86],
-      [204, 48],
-    ];
+    this.buttonExit.visible = false;
+    this.msgBG.visible = false;
+    this.msgTxt.visible = false;
+    this.isStomping = true;
 
-    itemlocs.map((pos) => {
-      const s = new Sprite(getMemberTexture("wrong"));
-      s.anchor.set(0.5);
-      s.position.set(pos[0], pos[1] - 10);
-      s.visible = false;
-      this.itemSprites.push(s);
-      this.court.addChild(s);
-    });
+    this.ballHead.visible = true;
+    this.ballLeftArm.visible = true;
+    this.ballLeftLeg.visible = true;
+    this.ballRightArm.visible = true;
+    this.ballRightLeg.visible = true;
 
-    //this.itemSprites[0].texture = getMemberTexture("wig")!;
+    this.currentFrame = 0;
   }
-
-  public exit(): void {
-    this.game.sound.playTheme();
-    this.game.inventory.setMode(InventoryMode.NORMAL);
-    //this.game.player.setMapAndPosition("0304", 10, 17);
-  }
-
-  public init(): void {}
 
   public play(): void {
     this.playing = true;
   }
 
+  private win() {
+    //
+  }
+
+  private lose() {
+    //
+    this.endMessage = true;
+    //this.itemSprites.map((i) => (i.visible = false));
+    this.game.sound.lose.play();
+    this.msgBG.visible = true;
+    this.msgTxt.visible = true;
+    this.buttonExit.on("pointerdown", () => {
+      this.game.closeScene();
+    });
+  }
+
   private calculateEnd() {
     const winning = ["turnip", "nutlog", "wig", "octo", "burger", "pineapple"];
     const chosen = Array.from(this.game.inventory.selection);
-    const won = chosen.every((i) => winning.includes(i));
+    const won = chosen.length == 5 && chosen.every((i) => winning.includes(i));
 
     for (let i = 0; i < chosen.length; i++) {
       this.itemSprites[i].texture = getMemberTexture(chosen[i])!;
@@ -273,6 +331,19 @@ export class Scene2 extends GameScene {
           }
         } else {
           this.game.sound.incorrect.play();
+        }
+
+        if (i == 4) {
+          console.log("I = 4");
+          setTimeout(() => {
+            console.log("TIMEOUT FUNCTION", won);
+            console.log(this);
+            if (won) {
+              this.win();
+            } else {
+              this.lose();
+            }
+          }, 1000);
         }
       }, i * 1000);
     }
@@ -315,6 +386,13 @@ export class Scene2 extends GameScene {
     }
 
     if (this.game.keyPressed(Key.ENTER)) {
+      if (this.endMessage) {
+        this.endMessage = false;
+        this.msgBG.visible = false;
+        this.msgTxt.visible = false;
+        this.buttonExit.visible = true;
+      }
+
       if (this.game.sign.isOpen()) {
         this.game.sign.closeMessage();
       } else {
