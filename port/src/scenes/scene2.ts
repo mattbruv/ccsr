@@ -11,35 +11,35 @@ export class Scene2 extends GameScene {
   public robot: PIXI.Sprite;
   public head: PIXI.Sprite;
   public HD = [
-    { x: 204, y: 59 },
+    { x: 204, y: 50 },
     { x: 204, y: 189 },
     { x: 204, y: 317 },
   ];
 
   public ballLeftArm: PIXI.Sprite;
   public LA = [
-    { x: 128, y: 96 },
+    { x: 109, y: 99 },
     { x: 65, y: 121 },
     { x: -200, y: -200 },
   ];
 
   public ballLeftLeg: PIXI.Sprite;
   public LL = [
-    { x: 154, y: 114 },
+    { x: 142, y: 117 },
     { x: 61, y: 152 },
     { x: 13, y: 197 },
   ];
 
   public ballRightArm: PIXI.Sprite;
   public RA = [
-    { x: 282, y: 96 },
+    { x: 296, y: 100 - 3 },
     { x: 362, y: 153 },
     { x: 1000, y: 1000 },
   ];
 
   public ballRightLeg: PIXI.Sprite;
   public RL = [
-    { x: 254, y: 114 },
+    { x: 264, y: 116 },
     { x: 354, y: 120 },
     { x: 420, y: 120 },
   ];
@@ -62,11 +62,13 @@ export class Scene2 extends GameScene {
 
     this.robot = new PIXI.Sprite(getMemberTexture("robot.1"));
     this.robot.height = this.robot.height * 1.2;
+    this.robot.width = this.robot.width * 1.2;
     this.robot.anchor.set(0.5);
     this.robot.position.set(416 / 2 - 4, 91);
 
     this.head = new PIXI.Sprite(getMemberTexture("head"));
     this.head.height = this.head.height * 1.2;
+    this.head.width = this.head.width * 1.2;
     this.head.anchor.set(0.5, 0.5);
     this.head.position.set(416 / 2 - 4, 35);
 
@@ -215,8 +217,8 @@ export class Scene2 extends GameScene {
     itemlocs.map((pos) => {
       const s = new Sprite(getMemberTexture("wrong"));
       s.anchor.set(0.5);
-      s.position.set(pos[0], pos[1]);
-      s.visible = true;
+      s.position.set(pos[0], pos[1] - 10);
+      s.visible = false;
       this.itemSprites.push(s);
       this.court.addChild(s);
     });
@@ -243,6 +245,36 @@ export class Scene2 extends GameScene {
 
     for (let i = 0; i < chosen.length; i++) {
       this.itemSprites[i].texture = getMemberTexture(chosen[i])!;
+    }
+
+    const balls = [
+      this.ballLeftLeg,
+      this.ballRightLeg,
+      this.ballLeftArm,
+      this.ballRightArm,
+      this.ballHead,
+    ];
+
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.itemSprites[i].visible = true;
+
+        if (i < chosen.length && winning.includes(chosen[i])) {
+          this.game.sound.correct.play();
+          balls[i].visible = false;
+
+          if (i == 1) {
+            if (winning.includes(chosen[0]) && winning.includes(chosen[1])) {
+              this.isStomping = false;
+              this.robot.texture = getMemberTexture("robot.1")!;
+            }
+          }
+          if (i == 3) {
+          }
+        } else {
+          this.game.sound.incorrect.play();
+        }
+      }, i * 1000);
     }
 
     console.log(chosen, won);
