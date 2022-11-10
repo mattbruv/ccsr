@@ -128,8 +128,6 @@ export class Scene3 extends GameScene {
     this.beach.addChild(shore);
 
     const chicken = this.char("block.41", 20, 280);
-    //chicken.angle = -45;
-    chicken.rotation = -0.7853981633974483;
     this.beach.addChild(chicken);
     this.beach.addChild(this.char("koala", 285, 298));
     this.beach.addChild(this.char("ostrich.pct", 58, 271, true));

@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import { getMapRect, getMapsRect } from "../game";
+import { Scene4 } from "../scenes/scene4";
 import { EpisodeScript } from "../script";
 import { Rect } from "../types";
 
@@ -72,5 +73,8 @@ export class Episode4 extends EpisodeScript {
     };
 
     this.game.setFilmLoopObjects();
+    this.game.addScene("ending", new Scene4(this.game));
+
+    this.game.playScene("ending");
   }
 }
