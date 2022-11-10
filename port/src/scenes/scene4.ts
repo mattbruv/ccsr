@@ -4,7 +4,17 @@ import { Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
 import { PlayerDirection } from "../player";
 import { GameScene, MoveAnimation } from "../scene";
-import { Key } from "../types";
+import { Key, Pos } from "../types";
+
+class Char {
+  sprite: PIXI.Sprite;
+
+  constructor(texture: string) {
+    this.sprite = new PIXI.Sprite(getMemberTexture(texture));
+    this.sprite.anchor.set(0.5);
+    this.sprite.position.set(-500, -500);
+  }
+}
 
 class Floor {
   public container: PIXI.Container;
@@ -50,6 +60,16 @@ export class Scene4 extends GameScene {
   public floor: Floor;
 
   public endMessage = false;
+
+  public prickles: Char;
+  public dexter: Char;
+  public chicken: Char;
+  public ed: Char;
+  public bravo: Char;
+  public courage: Char;
+  public baboon: Char;
+
+  public chars: Char[] = [];
 
   constructor(game: Game) {
     super(game);
@@ -103,6 +123,29 @@ export class Scene4 extends GameScene {
     });
     */
 
+    // Initialize all characaters
+    this.prickles = new Char("player.normal.left.1");
+    this.baboon = new Char("block.45");
+    this.ed = new Char("block.48");
+    this.bravo = new Char("block.35");
+    this.chicken = new Char("block.41");
+    this.courage = new Char("block.37");
+    this.dexter = new Char("block.36");
+
+    this.chars = [
+      this.prickles,
+      this.baboon,
+      this.ed,
+      this.bravo,
+      this.chicken,
+      this.courage,
+      this.dexter,
+    ];
+
+    this.chars.map((c) => {
+      this.disco.addChild(c.sprite);
+    });
+
     this.floor = new Floor();
     this.floor.container.position.set(
       208 - this.floor.container.width / 2,
@@ -130,12 +173,34 @@ export class Scene4 extends GameScene {
     this.game.player.setMapAndPosition("0101", 8, 17);
   }
 
+  public preWalk(char: Char, from: Pos, to: Pos, start: number, end: number) {
+    this.moveAnims.push({
+      sprite: char.sprite,
+      from,
+      to,
+      startFrame: start - 45,
+      endFrame: end - 45,
+    });
+  }
+
   public init(): void {
     this.currentFrame = 0;
     this.game.sound.pauseTheme();
 
     this.frameCallbacks = [];
     this.moveAnims = [];
+
+    this.chars.map((c) => {
+      c.sprite.position.set(-500, -500);
+    });
+
+    this.preWalk(this.prickles, { x: 216, y: 320 }, { x: 239, y: 219 }, 45, 60);
+    this.preWalk(this.baboon, { x: 111, y: 328 }, { x: 135, y: 230 }, 45, 57);
+    this.preWalk(this.bravo, { x: 185, y: 320 }, { x: 174, y: 222 }, 45, 56);
+    this.preWalk(this.ed, { x: 175, y: 324 }, { x: 148, y: 284 }, 45, 55);
+    this.preWalk(this.chicken, { x: 248, y: 320 }, { x: 231, y: 271 }, 45, 59);
+    this.preWalk(this.courage, { x: 278, y: 318 }, { x: 288, y: 284 }, 45, 60);
+    this.preWalk(this.dexter, { x: 330, y: 322 }, { x: 303, y: 220 }, 45, 53);
   }
 
   public play(): void {
