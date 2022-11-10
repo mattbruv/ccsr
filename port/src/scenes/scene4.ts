@@ -241,6 +241,10 @@ export class Scene4 extends GameScene {
   public init(): void {
     this.currentFrame = 0;
     this.game.sound.pauseTheme();
+    this.game.sound.crowd.play();
+    this.game.sound.disco.play();
+    this.buttonExit.visible = false;
+    this.msg.visible = false;
 
     this.frameCallbacks = [];
     this.moveAnims = [];
@@ -289,12 +293,15 @@ export class Scene4 extends GameScene {
   }
 
   private showEnd() {
+    this.game.sound.disco.stop();
+    this.game.sound.crowd.stop();
     this.game.sound.win.play();
     this.endMessage = true;
     this.msg.visible = true;
     this.msg.texture = getMemberTexture("end.win")!;
 
     this.didWin = true;
+
     //
   }
 
@@ -311,7 +318,6 @@ export class Scene4 extends GameScene {
   }
 
   private win() {
-    console.log("you win!");
     this.endMessage = true;
 
     this.items.map((i) => (i.sprite.visible = false));
@@ -335,10 +341,19 @@ export class Scene4 extends GameScene {
     this.postWalk(this.mandark, 416, 259, 320, 220);
     this.postWalk(this.mayor, 365, 322, 289, 267);
     this.postWalk(this.og, 389, 46, 324, 84);
+
+    this.frameCallbacks.push({
+      frame: this.currentFrame + 2 + 190 - 140,
+      callback: () => {
+        this.showEnd();
+      },
+    });
   }
 
   private lose() {
     console.log("you lose!");
+    this.game.sound.crowd.stop();
+    this.game.sound.disco.stop();
     this.endMessage = true;
     this.items.map((i) => (i.sprite.visible = false));
     this.msg.visible = true;

@@ -84,9 +84,10 @@ export class Episode4 extends EpisodeScript {
       "edd",
       "dexter",
       "johnny",
+      "ball",
     ];
     i.map((it) => this.game.inventory.addItem(it));
 
-    this.game.playScene("ending");
+    //   this.game.playScene("ending");
   }
 }

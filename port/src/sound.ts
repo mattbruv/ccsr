@@ -28,6 +28,10 @@ export class GameSound {
   public rumble: Howl;
   public volcano: Howl;
 
+  // Episode 4:
+  public crowd: Howl;
+  public disco: Howl;
+
   private theme: Howl;
   private theme1: Howl;
   private theme2: Howl;
@@ -127,6 +131,17 @@ export class GameSound {
       src: root + "volcano.wav",
     });
 
+    // Episode 4
+    this.crowd = new Howl({
+      src: root + "crowd.wav",
+      loop: true,
+    });
+
+    this.disco = new Howl({
+      src: root + "disco.wav",
+      loop: true,
+    });
+
     this.currentTheme = this.theme;
 
     this.initTheme();
@@ -173,6 +188,10 @@ export class GameSound {
       // Ep 3
       this.rumble,
       this.volcano,
+
+      // Ep 4
+      this.crowd,
+      this.disco,
     ];
 
     sounds.map((s) => s.volume(level));
