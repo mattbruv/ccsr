@@ -75,6 +75,14 @@ export class Scene4 extends GameScene {
   public blossom: Char;
   public bubbles: Char;
 
+  public devil: Char;
+  public eustace: Char;
+  public mojo: Char;
+  public cow: Char;
+  public mayor: Char;
+  public mandark: Char;
+  public og: Char;
+
   public chars: Char[] = [];
 
   public items: Char[] = [];
@@ -149,6 +157,14 @@ export class Scene4 extends GameScene {
     this.blossom = new Char("block.126");
     this.suzie = new Char("block.47");
 
+    this.devil = new Char("block.50");
+    this.eustace = new Char("block.44");
+    this.mojo = new Char("block.42");
+    this.cow = new Char("block.40");
+    this.mayor = new Char("block.43");
+    this.mandark = new Char("block.154");
+    this.og = new Char("block.46");
+
     this.chars = [
       this.prickles,
       this.baboon,
@@ -163,6 +179,14 @@ export class Scene4 extends GameScene {
       this.bubbles,
       this.blossom,
       this.suzie,
+
+      this.devil,
+      this.eustace,
+      this.mojo,
+      this.mandark,
+      this.cow,
+      this.mayor,
+      this.og,
     ];
 
     this.chars.map((c) => {
@@ -222,6 +246,7 @@ export class Scene4 extends GameScene {
     this.moveAnims = [];
 
     this.chars.map((c) => {
+      c.sprite.visible = true;
       c.sprite.position.set(-500, -500);
     });
 
@@ -273,9 +298,43 @@ export class Scene4 extends GameScene {
     //
   }
 
+  private postWalk(char: Char, x1: number, y1: number, x2: number, y2: number) {
+    const start = this.currentFrame + 2;
+    const end = this.currentFrame + 2 + 10;
+    this.moveAnims.push({
+      sprite: char.sprite,
+      from: { x: x1, y: y1 },
+      to: { x: x2, y: y2 },
+      startFrame: start,
+      endFrame: end,
+    });
+  }
+
   private win() {
     console.log("you win!");
     this.endMessage = true;
+
+    this.items.map((i) => (i.sprite.visible = false));
+
+    const boys = [
+      this.dexter,
+      this.chicken,
+      this.courage,
+      this.baboon,
+      this.ed,
+    ];
+
+    this.items.map((i, idx) =>
+      boys[idx].sprite.position.set(i.sprite.position.x, i.sprite.position.y)
+    );
+
+    this.postWalk(this.devil, -5, 34, 100, 88);
+    this.postWalk(this.eustace, 5, 311, 99, 221);
+    this.postWalk(this.mojo, 106, 332, 127, 267);
+    this.postWalk(this.cow, 210, 329, 208, 278);
+    this.postWalk(this.mandark, 416, 259, 320, 220);
+    this.postWalk(this.mayor, 365, 322, 289, 267);
+    this.postWalk(this.og, 389, 46, 324, 84);
   }
 
   private lose() {
