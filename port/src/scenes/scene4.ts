@@ -77,6 +77,8 @@ export class Scene4 extends GameScene {
 
   public chars: Char[] = [];
 
+  public items: Char[] = [];
+
   constructor(game: Game) {
     super(game);
     this.disco = new PIXI.Container();
@@ -114,7 +116,10 @@ export class Scene4 extends GameScene {
     this.buttonExit.buttonMode = true;
     this.buttonExit.visible = false;
     this.buttonExit.anchor.set(0.5);
-    this.buttonExit.position.set(102, 290);
+    this.buttonExit.position.set(319, 295);
+    this.buttonExit.on("pointerdown", () => {
+      this.game.closeScene();
+    });
 
     /*
     // debug stuff
@@ -164,6 +169,13 @@ export class Scene4 extends GameScene {
       this.disco.addChild(c.sprite);
     });
 
+    [111, 158, 207, 257, 303].map((x) => {
+      const item = new Char("wrong");
+      item.sprite.position.set(x, 157);
+      this.disco.addChild(item.sprite);
+      this.items.push(item);
+    });
+
     this.floor = new Floor();
     this.floor.container.position.set(
       208 - this.floor.container.width / 2,
@@ -178,6 +190,7 @@ export class Scene4 extends GameScene {
 
     this.container.addChild(this.floor.container);
     this.container.addChild(this.disco);
+    this.container.addChild(this.buttonExit);
     this.container.addChild(mask);
 
     this.container.addChild(this.msg);
@@ -188,7 +201,7 @@ export class Scene4 extends GameScene {
     this.game.sound.playTheme();
     this.game.inventory.setMode(InventoryMode.NORMAL);
     this.game.player.characterDirection = PlayerDirection.RIGHT;
-    this.game.player.setMapAndPosition("0101", 8, 17);
+    this.game.player.setMapAndPosition("0703", 11, 10);
   }
 
   public preWalk(char: Char, from: Pos, to: Pos, start: number, end: number) {
@@ -226,6 +239,11 @@ export class Scene4 extends GameScene {
     this.preWalk(this.blossom, { x: 468, y: 65 }, { x: 303, y: 125 }, 70, 85);
     this.preWalk(this.suzie, { x: -10, y: 140 }, { x: 256, y: 125 }, 70, 85);
 
+    this.items.map((i) => {
+      i.sprite.texture = getMemberTexture("wrong")!;
+      i.sprite.visible = false;
+    });
+
     this.frameCallbacks.push({
       frame: 100 - 45,
       callback: () => {
@@ -255,11 +273,20 @@ export class Scene4 extends GameScene {
     //
   }
 
-  private win() {}
+  private win() {
+    console.log("you win!");
+    this.endMessage = true;
+  }
 
-  private lose() {}
+  private lose() {
+    console.log("you lose!");
+    this.endMessage = true;
+    this.items.map((i) => (i.sprite.visible = false));
+    this.msg.visible = true;
+  }
 
   private calculateEnd() {
+    const winning = ["dexter", "chicken", "courage", "baboon", "edd"];
     const chars = [
       this.baboon,
       this.bravo,
@@ -269,10 +296,44 @@ export class Scene4 extends GameScene {
       this.courage,
     ];
 
-    chars.map((c) => (c.sprite.visible = false));
+    chars.map((c) => c.sprite.position.set(-500, -500));
 
-    const selected = this.game.inventory.selection;
-    console.log(selected);
+    const selected = Array.from(this.game.inventory.selection);
+
+    const won =
+      selected.length == 5 &&
+      winning.every((s, i) => {
+        return s == selected[i];
+      });
+
+    console.log(selected, won);
+
+    selected.map((s, i) => {
+      this.items[i].sprite.texture = getMemberTexture(s)!;
+    });
+
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.items[i].sprite.visible = true;
+
+        if (i < selected.length && selected[i] == winning[i]) {
+          this.game.sound.correct.play();
+        } else {
+          this.game.sound.incorrect.play();
+        }
+
+        if (i == 4) {
+          setTimeout(() => {
+            if (won) {
+              this.win();
+            } else {
+              this.lose();
+            }
+          }, 1000);
+        }
+      }, i * 1000);
+      //
+    }
   }
 
   protected onFrame(): void {
