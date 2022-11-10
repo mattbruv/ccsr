@@ -55,6 +55,7 @@ export class Scene2 extends GameScene {
 
   public isStomping = true;
   public isShaking = false;
+  public didWin = false;
 
   public itemSprites: PIXI.Sprite[] = [];
 
@@ -206,6 +207,7 @@ export class Scene2 extends GameScene {
   }
 
   public init(): void {
+    this.game.sound.pauseTheme();
     this.isShaking = false;
 
     this.frameCallbacks = [];
@@ -294,10 +296,23 @@ export class Scene2 extends GameScene {
     this.ballRightLeg.visible = true;
 
     this.currentFrame = 0;
+
+    this.game.sound.robot.play();
   }
 
   public play(): void {
     this.playing = true;
+  }
+
+  private showEnd() {
+    this.game.sound.win.play();
+    this.endMessage = true;
+    this.msgBG.visible = true;
+    this.msgTxt.visible = true;
+    this.msgTxt.texture = getMemberTexture("2end.message.win")!;
+
+    this.didWin = true;
+    //
   }
 
   private win() {
@@ -325,13 +340,19 @@ export class Scene2 extends GameScene {
 
     this.frameCallbacks.push({
       frame: frame + 2,
-      callback: () => (this.isShaking = true),
+      callback: () => {
+        this.game.sound.alarm.play();
+        this.game.sound.robot.stop();
+        this.isShaking = true;
+      },
     });
 
     this.frameCallbacks.push({
       frame: frame + 2 + 14,
       callback: () => {
         this.robot.position.set(this.robotX, this.robotY);
+        this.game.sound.alarm.stop();
+        this.game.sound.headPop.play();
         this.isShaking = false;
       },
     });
@@ -362,12 +383,26 @@ export class Scene2 extends GameScene {
       endFrame: frame + (178 - startFrame),
     });
 
+    this.frameCallbacks.push({
+      frame: frame + (178 - startFrame),
+      callback: () => {
+        this.game.sound.headBounce.play();
+      },
+    });
+
     this.moveAnims.push({
       sprite: this.head,
       from: { x: this.headX, y: 181 },
       to: { x: this.headX, y: 193 },
       startFrame: frame + (178 - startFrame),
       endFrame: frame + (179 - startFrame),
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + (194 - startFrame),
+      callback: () => {
+        this.showEnd();
+      },
     });
 
     this.frameCallbacks.push({
@@ -395,7 +430,10 @@ export class Scene2 extends GameScene {
     this.game.sound.lose.play();
     this.msgBG.visible = true;
     this.msgTxt.visible = true;
+    this.game.sound.robot.pause();
+
     this.buttonExit.on("pointerdown", () => {
+      this.game.sound.robot.stop();
       this.game.closeScene();
     });
   }
@@ -431,7 +469,8 @@ export class Scene2 extends GameScene {
               this.robot.texture = getMemberTexture("robot.1")!;
             }
           }
-          if (i == 3) {
+          if (i == 4 && won) {
+            this.game.sound.robot.fade(1, 0, 400);
           }
         } else {
           this.game.sound.incorrect.play();
@@ -501,6 +540,15 @@ export class Scene2 extends GameScene {
         this.msgBG.visible = false;
         this.msgTxt.visible = false;
         this.buttonExit.visible = true;
+
+        if (this.didWin) {
+          this.buttonExit.texture = getMemberTexture("play.next.episode")!;
+          this.buttonExit.on("pointerdown", () => {
+            location.reload();
+          });
+        } else {
+          this.game.sound.robot.play();
+        }
       }
 
       if (this.game.sign.isOpen()) {

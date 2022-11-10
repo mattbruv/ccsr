@@ -18,6 +18,12 @@ export class GameSound {
   public water: Howl;
   public squeak: Howl;
 
+  // Episode 2:
+  public robot: Howl;
+  public headPop: Howl;
+  public headBounce: Howl;
+  public alarm: Howl;
+
   // Episode 3:
   public rumble: Howl;
   public volcano: Howl;
@@ -92,6 +98,26 @@ export class GameSound {
       loop: true,
     });
 
+    // Episode 2
+    this.robot = new Howl({
+      src: root + "robot.wav",
+      loop: true,
+    });
+
+    this.headBounce = new Howl({
+      src: root + "headBounce.wav",
+    });
+
+    this.headPop = new Howl({
+      src: root + "headPop.wav",
+    });
+
+    this.alarm = new Howl({
+      src: root + "alarm.wav",
+      loop: true,
+    });
+
+    // Episode 3
     this.rumble = new Howl({
       src: root + "rumble.wav",
       loop: true,
@@ -137,6 +163,12 @@ export class GameSound {
       this.pop,
       this.water,
       this.squeak,
+
+      // Ep 2
+      this.alarm,
+      this.robot,
+      this.headBounce,
+      this.headPop,
 
       // Ep 3
       this.rumble,
