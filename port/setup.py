@@ -208,18 +208,24 @@ def parseMapData(episodeNumber):
          "w").write(json.dumps(globalMap))
 
 
+def setupSounds():
+    pathlib.Path("public/assets/sound").mkdir(parents=True, exist_ok=True)
+
+    files = glob.glob("../ccsr/**/sound/*.wav")
+    for f in files:
+        p = pathlib.Path(f)
+        out = pathlib.Path("public/assets/sound/" + p.name)
+        shutil.copyfile(p, out)
+
+
 def setup():
+    setupSounds()
     pathlib.Path("public/assets").mkdir(parents=True, exist_ok=True)
     for i in range(1, 5):
         pathlib.Path("public/assets/{}".format(i)
                      ).mkdir(parents=True, exist_ok=True)
         parseMapData(i)
         packImages(i)
-
-        # copy sound files
-        dir = "../ccsr/" + str(i) + "/sound/"
-        shutil.copytree(dir, "public/assets/" + str(i) +
-                        "/sound/", dirs_exist_ok=True)
 
     dirs = glob.glob("translations/")
     shutil.copytree(dirs[0], "public/assets", dirs_exist_ok=True)
