@@ -354,6 +354,7 @@ export class Scene4 extends GameScene {
 
   private lose() {
     console.log("you lose!");
+    this.game.sound.lose.play();
     this.game.sound.crowd.stop();
     this.game.sound.disco.stop();
     this.endMessage = true;

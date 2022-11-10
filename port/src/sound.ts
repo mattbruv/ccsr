@@ -38,7 +38,7 @@ export class GameSound {
   private themeSelect = 1;
   private currentTheme: Howl;
 
-  constructor(episode: number) {
+  constructor() {
     const root = "./assets/sound/";
     this.walk = new Howl({
       src: root + "walk.wav",
