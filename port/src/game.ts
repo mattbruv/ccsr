@@ -94,7 +94,7 @@ export class Game {
 
   public readonly ratio = 416 / 320;
 
-  constructor(episode: number) {
+  constructor(episode: number, language: string) {
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
       resolution: 1,
@@ -153,7 +153,7 @@ export class Game {
 
     this.sound = new GameSound();
 
-    loadAssets(episode, "en", () => {
+    loadAssets(episode, language, () => {
       console.log("Done loading assets!");
       this.init(episode);
     });

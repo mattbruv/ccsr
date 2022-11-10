@@ -123,8 +123,8 @@ class App extends React.Component<AppProps, AppState> {
     this.setState(
       () => ({ isPlaying: true }),
       () => {
-        game = new Game(episode);
         const s = getSettings();
+        game = new Game(episode, s.language);
         setSmooth(s.smoothAnimations);
         setVolumeTheme(s.volumeTheme);
         setVolumeMaster(s.volumeMaster);
