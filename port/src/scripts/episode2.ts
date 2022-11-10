@@ -72,6 +72,7 @@ export class Episode2 extends EpisodeScript {
 
     this.game.addScene("ending", new Scene2(this.game));
 
+    /*
     const is = [
       "brak",
       "flower",
@@ -87,5 +88,6 @@ export class Episode2 extends EpisodeScript {
     is.map((i) => this.game.inventory.addItem(i));
 
     this.game.playScene("ending");
+    */
   }
 }

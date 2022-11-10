@@ -134,14 +134,18 @@ export class Scene2 extends GameScene {
     this.ballRightArm.scale.set(0.6);
     this.ballRightLeg.scale.set(0.6);
 
+    /*
+    // debug stuff
     this.court.interactive = true;
     this.court.on("pointerdown", (e: PIXI.InteractionEvent) => {
       const pos = e.data.global;
+
       console.log(
         pos.x / this.game.camera.scaleX - 8,
         pos.y / this.game.camera.scaleY
       );
     });
+    */
 
     this.ballHead.position.set(204, 59);
     this.ballLeftArm.position.set(128, 96);
@@ -495,7 +499,7 @@ export class Scene2 extends GameScene {
 
         if (i == 4) {
           setTimeout(() => {
-            console.log(this);
+            //console.log(this);
             if (won) {
               setTimeout(() => this.win(), 500);
             } else {
@@ -506,7 +510,7 @@ export class Scene2 extends GameScene {
       }, i * 1000);
     }
 
-    console.log(chosen, won);
+    //console.log(chosen, won);
   }
 
   protected onFrame(): void {
