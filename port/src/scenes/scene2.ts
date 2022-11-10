@@ -11,6 +11,7 @@ export class Scene2 extends GameScene {
 
   public robot: PIXI.Sprite;
   public head: PIXI.Sprite;
+  public headMask: PIXI.Graphics;
   public HD = [
     { x: 204, y: 50 },
     { x: 204, y: 189 },
@@ -77,6 +78,7 @@ export class Scene2 extends GameScene {
     this.court = new PIXI.Container();
 
     this.smoke = new PIXI.Sprite(getMemberTexture("smoke 1"));
+    this.smoke.visible = false;
     this.smoke.anchor.set(0.5);
     this.smoke.position.set(this.robotX, 15);
 
@@ -85,6 +87,10 @@ export class Scene2 extends GameScene {
     this.robot.width = this.robot.width * 1.2;
     this.robot.anchor.set(0.5);
     this.robot.position.set(this.robotX, this.robotY);
+
+    this.headMask = new PIXI.Graphics();
+    this.headMask.beginFill(0xff00ff);
+    this.headMask.drawRect(0, 48, 1000, 200);
 
     this.head = new PIXI.Sprite(getMemberTexture("head"));
     this.head.height = this.head.height * 1.2;
@@ -181,6 +187,10 @@ export class Scene2 extends GameScene {
     this.container.addChild(this.msgTxt);
     this.container.addChild(this.buttonExit);
     this.court.mask = mask;
+
+    this.robot.mask = this.headMask;
+
+    this.container.addChild(this.headMask);
 
     const itemlocs = [
       [158, 122], //
@@ -373,6 +383,13 @@ export class Scene2 extends GameScene {
       to: { x: this.headX, y: 195 },
       startFrame: frame + (160 - startFrame),
       endFrame: frame + (176 - startFrame),
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + (160 - startFrame),
+      callback: () => {
+        this.smoke.visible = true;
+      },
     });
 
     this.moveAnims.push({
