@@ -79,9 +79,9 @@ export class Scene4 extends GameScene {
     wall3.position.set(392, 22);
 
     const discoBall = new PIXI.Sprite(getMemberTexture("block.122"));
-    discoBall.anchor.set(0.5);
+    discoBall.anchor.set(0.5, 0.47);
     discoBall.position.set(206, 16);
-    discoBall.scale.set(4);
+    discoBall.scale.set(3.3);
 
     this.buttonExit = new PIXI.Sprite(getMemberTexture("exit.danceFloor"));
     this.buttonExit.interactive = true;
