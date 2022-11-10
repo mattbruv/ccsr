@@ -29,6 +29,26 @@ export class Scene4 extends GameScene {
 
     this.msg.position.set(208, 160);
 
+    const wall1 = new PIXI.Sprite(getMemberTexture("block.170"));
+    const wall2 = new PIXI.Sprite(getMemberTexture("block.170"));
+    const wall3 = new PIXI.Sprite(getMemberTexture("block.170"));
+
+    [wall1, wall2, wall3].map((w) => {
+      w.anchor.set(0.5);
+      w.width = 157;
+      w.height = 46;
+      this.disco.addChild(w);
+    });
+
+    wall1.position.set(78, 22);
+    wall2.position.set(235, 22);
+    wall3.position.set(392, 22);
+
+    const discoBall = new PIXI.Sprite(getMemberTexture("block.122"));
+    discoBall.anchor.set(0.5);
+    discoBall.position.set(206, 16);
+    discoBall.scale.set(4);
+
     this.buttonExit = new PIXI.Sprite(getMemberTexture("exit.danceFloor"));
     this.buttonExit.interactive = true;
     this.buttonExit.buttonMode = true;
@@ -52,6 +72,8 @@ export class Scene4 extends GameScene {
     const mask = new PIXI.Graphics();
     mask.beginFill(0xff00ff);
     mask.drawRect(0, 0, 416, 320);
+
+    this.disco.addChild(discoBall);
 
     this.container.addChild(this.disco);
     this.container.addChild(mask);
