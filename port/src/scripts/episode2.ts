@@ -71,6 +71,21 @@ export class Episode2 extends EpisodeScript {
     this.game.setFilmLoopObjects();
 
     this.game.addScene("ending", new Scene2(this.game));
+
+    const is = [
+      "brak",
+      "flower",
+      "yoyo",
+      "turnip",
+      "nutlog",
+      "wig",
+      "octo",
+      "burger",
+      "pineapple",
+    ];
+
+    is.map((i) => this.game.inventory.addItem(i));
+
     this.game.playScene("ending");
   }
 }

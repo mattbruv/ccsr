@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { Sprite } from "pixi.js";
 import { Game, getMemberTexture } from "../game";
 import { InventoryMode } from "../inventory";
 import { GameScene, MoveAnimation } from "../scene";
@@ -53,17 +54,21 @@ export class Scene2 extends GameScene {
 
   public isStomping = true;
 
+  public itemSprites: PIXI.Sprite[] = [];
+
   constructor(game: Game) {
     super(game);
     this.court = new PIXI.Container();
 
     this.robot = new PIXI.Sprite(getMemberTexture("robot.1"));
+    this.robot.height = this.robot.height * 1.2;
     this.robot.anchor.set(0.5);
     this.robot.position.set(416 / 2 - 4, 91);
 
     this.head = new PIXI.Sprite(getMemberTexture("head"));
+    this.head.height = this.head.height * 1.2;
     this.head.anchor.set(0.5, 0.5);
-    this.head.position.set(416 / 2 - 4, 45);
+    this.head.position.set(416 / 2 - 4, 35);
 
     //this.head.visible = false;
 
@@ -184,6 +189,39 @@ export class Scene2 extends GameScene {
         this.longhair.position.set(279, 260);
       },
     });
+
+    this.frameCallbacks.push({
+      frame: 45,
+      callback: () => {
+        this.game.sign.setOnClose(() => {
+          this.game.inventory.setMode(InventoryMode.SELECT);
+          this.game.inventory.openInventory();
+        });
+        this.game.sign.showCharacterMessage(
+          "block.130",
+          this.game.gameData!.scene["plugMyHoles"]
+        );
+      },
+    });
+
+    const itemlocs = [
+      [158, 122], //
+      [253, 126],
+      [128, 88],
+      [288, 86],
+      [204, 48],
+    ];
+
+    itemlocs.map((pos) => {
+      const s = new Sprite(getMemberTexture("wrong"));
+      s.anchor.set(0.5);
+      s.position.set(pos[0], pos[1]);
+      s.visible = true;
+      this.itemSprites.push(s);
+      this.court.addChild(s);
+    });
+
+    //this.itemSprites[0].texture = getMemberTexture("wig")!;
   }
 
   public exit(): void {
@@ -196,6 +234,18 @@ export class Scene2 extends GameScene {
 
   public play(): void {
     this.playing = true;
+  }
+
+  private calculateEnd() {
+    const winning = ["turnip", "nutlog", "wig", "octo", "burger", "pineapple"];
+    const chosen = Array.from(this.game.inventory.selection);
+    const won = chosen.every((i) => winning.includes(i));
+
+    for (let i = 0; i < chosen.length; i++) {
+      this.itemSprites[i].texture = getMemberTexture(chosen[i])!;
+    }
+
+    console.log(chosen, won);
   }
 
   protected onFrame(): void {
@@ -238,7 +288,7 @@ export class Scene2 extends GameScene {
       } else {
         if (this.game.inventory.isOpen()) {
           this.game.inventory.closeInventory();
-          //this.calculateEnd();
+          this.calculateEnd();
         }
         /*
         else if (this.sign.visible) {
