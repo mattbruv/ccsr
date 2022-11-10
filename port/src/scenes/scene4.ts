@@ -6,6 +6,38 @@ import { PlayerDirection } from "../player";
 import { GameScene, MoveAnimation } from "../scene";
 import { Key } from "../types";
 
+class Floor {
+  public container: PIXI.Container;
+  public strips: PIXI.TilingSprite[] = [];
+
+  public colors = ["red", "purple", "green", "yellow", "orange"];
+  public frames = [0, 1, 2, 3, 4, 3, 2, 1, 0];
+
+  constructor() {
+    this.container = new PIXI.Container();
+    this.container.pivot.set(0.5);
+
+    for (let i = 0; i < 9; i++) {
+      const strip = new PIXI.TilingSprite(
+        getMemberTexture(this.colors[this.frames[i]])!
+      );
+      strip.width = 32;
+      strip.height = 255;
+      strip.position.x = i * 32;
+      this.strips.push(strip);
+      this.container.addChild(strip);
+    }
+  }
+
+  public tick() {
+    for (let i = 0; i < this.strips.length; i++) {
+      const frame = (this.frames[i] + 4) % 5;
+      this.frames[i] = frame;
+      this.strips[i].texture = getMemberTexture(this.colors[frame])!;
+    }
+  }
+}
+
 export class Scene4 extends GameScene {
   public disco: PIXI.Container;
 
@@ -14,6 +46,8 @@ export class Scene4 extends GameScene {
   public msg: PIXI.Sprite;
 
   public buttonExit: PIXI.Sprite;
+
+  public floor: Floor;
 
   public endMessage = false;
 
@@ -69,12 +103,19 @@ export class Scene4 extends GameScene {
     });
     */
 
+    this.floor = new Floor();
+    this.floor.container.position.set(
+      208 - this.floor.container.width / 2,
+      172 - this.floor.container.height / 2
+    );
+
     const mask = new PIXI.Graphics();
     mask.beginFill(0xff00ff);
     mask.drawRect(0, 0, 416, 320);
 
     this.disco.addChild(discoBall);
 
+    this.container.addChild(this.floor.container);
     this.container.addChild(this.disco);
     this.container.addChild(mask);
 
@@ -118,6 +159,8 @@ export class Scene4 extends GameScene {
   private calculateEnd() {}
 
   protected onFrame(): void {
+    //this.floor.tick();
+
     if (this.game.keyPressed(Key.ENTER)) {
       if (this.endMessage) {
         this.endMessage = false;
