@@ -25,6 +25,8 @@ export class GameInventory {
   private spriteInstructions: PIXI.Sprite;
   private spriteSelectedItem: PIXI.Sprite;
 
+  public girlOrder: PIXI.Sprite;
+
   private textElement: HTMLParagraphElement;
 
   private adaptiveScale: boolean = false;
@@ -59,6 +61,8 @@ export class GameInventory {
     this.sprite = new PIXI.Sprite();
     this.spriteInstructions = new PIXI.Sprite();
     this.spriteSelectedItem = new PIXI.Sprite();
+
+    this.girlOrder = new PIXI.Sprite();
 
     this.onCloseCallback = undefined;
 
@@ -208,10 +212,16 @@ export class GameInventory {
 
     this.debugGraphics.beginFill(0xff0000, 1);
 
+    this.girlOrder.texture = getMemberTexture("end.girls.order")!;
+    this.girlOrder.anchor.set(0.5, 0);
+    this.girlOrder.position.set(0, -160);
+    this.girlOrder.visible = false;
+
     this.game.app.stage.addChild(this.sprite);
     this.sprite.addChild(this.spriteInstructions);
     this.sprite.addChild(this.debugGraphics);
     this.sprite.addChild(this.spriteSelectedItem);
+    this.sprite.addChild(this.girlOrder);
 
     this.resize();
   }

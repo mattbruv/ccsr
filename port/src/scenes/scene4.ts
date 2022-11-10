@@ -222,6 +222,7 @@ export class Scene4 extends GameScene {
   }
 
   public exit(): void {
+    this.game.inventory.girlOrder.visible = false;
     this.game.sound.playTheme();
     this.game.inventory.setMode(InventoryMode.NORMAL);
     this.game.player.characterDirection = PlayerDirection.RIGHT;
@@ -239,6 +240,7 @@ export class Scene4 extends GameScene {
   }
 
   public init(): void {
+    this.game.inventory.girlOrder.visible = true;
     this.currentFrame = 0;
     this.game.sound.pauseTheme();
     this.game.sound.crowd.play();
