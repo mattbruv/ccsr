@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useDebugValue } from "react";
 import { Game } from "../src/game";
 import { SelectEpisode } from "./Select";
 import { Navbar } from "./Navbar";
@@ -14,22 +14,38 @@ const darkTheme = createTheme({
   },
 });
 
+const languages = ["en", "es"];
+
+function getDefaultLanguage() {
+  if (languages.includes(navigator.language)) {
+    return navigator.language;
+  }
+  return "en";
+}
+
 let game: Game; //  = new Game();
 
 const setSmooth = (value: boolean) => {
-  Cookies.set("smooth", value.toString());
+  Cookies.set("smooth", value.toString(), { expires: 999 });
   if (game) game.smoothAnimations = value;
 };
 
+const setLanguage = (value: string) => {
+  Cookies.set("lang", value, { expires: 999 });
+  if (game) {
+    location.reload();
+  }
+};
+
 const setVolumeTheme = (value: number) => {
-  Cookies.set("volumeTheme", value.toString());
+  Cookies.set("volumeTheme", value.toString(), { expires: 999 });
   if (game) {
     game.sound.setVolumeTheme(value / 100);
   }
 };
 
 const setVolumeMaster = (value: number) => {
-  Cookies.set("volumeMaster", value.toString());
+  Cookies.set("volumeMaster", value.toString(), { expires: 999 });
   if (game) {
     game.sound.setVolumeMaster(value / 100);
   }
@@ -37,6 +53,7 @@ const setVolumeMaster = (value: number) => {
 
 function getSettings() {
   return {
+    language: getCookieString("lang", getDefaultLanguage()),
     smoothAnimations: getCookieBool("smooth", true),
     fullScreen: getCookieBool("fullscreen", true),
     forceRatio: getCookieBool("ratio", false),
@@ -48,6 +65,7 @@ function getSettings() {
 type AppProps = {};
 
 export interface GameSettings {
+  language: string;
   smoothAnimations: boolean;
   fullScreen: boolean;
   forceRatio: boolean;
@@ -62,6 +80,13 @@ type AppState = {
   settingsOpen: boolean;
   page: string;
 };
+
+function getCookieString(key: string, or: string) {
+  if (Cookies.get(key) === undefined) {
+    return or;
+  }
+  return Cookies.get(key) as string;
+}
 
 function getCookieBool(key: string, or: boolean) {
   if (Cookies.get(key) === undefined) {
@@ -156,7 +181,7 @@ class App extends React.Component<AppProps, AppState> {
           }}
         />
         <Settings
-          cbs={{ setSmooth, setVolumeTheme, setVolumeMaster }}
+          cbs={{ setSmooth, setVolumeTheme, setVolumeMaster, setLanguage }}
           game={game}
           settings={this.state.settings}
           closeCB={() => {
