@@ -54,6 +54,7 @@ export class Scene2 extends GameScene {
   public longhairWalking = true;
 
   public isStomping = true;
+  public isShaking = false;
 
   public itemSprites: PIXI.Sprite[] = [];
 
@@ -63,16 +64,26 @@ export class Scene2 extends GameScene {
   public buttonExit: PIXI.Sprite;
 
   public endMessage = false;
+  public robotX = 416 / 2 - 4;
+  public robotY = 91;
+  public headX = 416 / 2 - 4;
+  public headY = 35;
+
+  public smoke: PIXI.Sprite;
 
   constructor(game: Game) {
     super(game);
     this.court = new PIXI.Container();
 
+    this.smoke = new PIXI.Sprite(getMemberTexture("smoke 1"));
+    this.smoke.anchor.set(0.5);
+    this.smoke.position.set(this.robotX, 15);
+
     this.robot = new PIXI.Sprite(getMemberTexture("robot.1"));
     this.robot.height = this.robot.height * 1.2;
     this.robot.width = this.robot.width * 1.2;
     this.robot.anchor.set(0.5);
-    this.robot.position.set(416 / 2 - 4, 91);
+    this.robot.position.set(this.robotX, this.robotY);
 
     this.head = new PIXI.Sprite(getMemberTexture("head"));
     this.head.height = this.head.height * 1.2;
@@ -150,6 +161,7 @@ export class Scene2 extends GameScene {
     this.court.addChild(grass);
     this.court.addChild(tennisCourt);
 
+    this.court.addChild(this.smoke);
     this.court.addChild(this.robot);
     this.court.addChild(this.head);
     this.court.addChild(this.ballHead);
@@ -194,6 +206,11 @@ export class Scene2 extends GameScene {
   }
 
   public init(): void {
+    this.isShaking = false;
+
+    this.frameCallbacks = [];
+    this.moveAnims = [];
+
     this.dexter.anchor.set(0.5);
     this.dexter.position.set(171, 319);
     this.dexter.visible = false;
@@ -201,7 +218,10 @@ export class Scene2 extends GameScene {
     this.longhair.anchor.set(0.5);
     this.longhair.position.set(232, 340);
 
-    this.itemSprites.map((s) => (s.visible = false));
+    this.itemSprites.map((s) => {
+      s.visible = false;
+      s.texture = getMemberTexture("wrong")!;
+    });
 
     this.moveAnims.push({
       sprite: this.dexter,
@@ -281,6 +301,90 @@ export class Scene2 extends GameScene {
   }
 
   private win() {
+    this.itemSprites.map((i) => (i.visible = false));
+    const frame = this.currentFrame + 1;
+
+    this.frameCallbacks.push({
+      frame,
+      callback: () => {
+        this.dexterWalking = true;
+        this.moveAnims.push({
+          sprite: this.dexter,
+          from: { x: 172, y: 193 },
+          to: { x: 119, y: 259 },
+          startFrame: frame,
+          endFrame: frame + 7,
+        });
+      },
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + 7,
+      callback: () => (this.dexterWalking = false),
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + 2,
+      callback: () => (this.isShaking = true),
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + 2 + 14,
+      callback: () => {
+        this.robot.position.set(this.robotX, this.robotY);
+        this.isShaking = false;
+      },
+    });
+
+    const startFrame = 139;
+
+    this.moveAnims.push({
+      sprite: this.head,
+      from: { x: this.headX, y: this.headY },
+      to: { x: this.headX, y: -67 },
+      startFrame: frame + (155 - startFrame),
+      endFrame: frame + (160 - startFrame),
+    });
+
+    this.moveAnims.push({
+      sprite: this.head,
+      from: { x: this.headX, y: -67 },
+      to: { x: this.headX, y: 195 },
+      startFrame: frame + (160 - startFrame),
+      endFrame: frame + (176 - startFrame),
+    });
+
+    this.moveAnims.push({
+      sprite: this.head,
+      from: { x: this.headX, y: 195 },
+      to: { x: this.headX, y: 181 },
+      startFrame: frame + (176 - startFrame),
+      endFrame: frame + (178 - startFrame),
+    });
+
+    this.moveAnims.push({
+      sprite: this.head,
+      from: { x: this.headX, y: 181 },
+      to: { x: this.headX, y: 193 },
+      startFrame: frame + (178 - startFrame),
+      endFrame: frame + (179 - startFrame),
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + (160 - startFrame),
+      callback: () => {
+        this.head.angle = 180;
+      },
+    });
+
+    this.frameCallbacks.push({
+      frame: frame + (155 - startFrame),
+      callback: () => {
+        this.robot.position.set(this.robotX, this.robotY);
+        this.isShaking = false;
+      },
+    });
+
     //
   }
 
@@ -334,12 +438,10 @@ export class Scene2 extends GameScene {
         }
 
         if (i == 4) {
-          console.log("I = 4");
           setTimeout(() => {
-            console.log("TIMEOUT FUNCTION", won);
             console.log(this);
             if (won) {
-              this.win();
+              setTimeout(() => this.win(), 500);
             } else {
               this.lose();
             }
@@ -361,6 +463,9 @@ export class Scene2 extends GameScene {
       )!;
     }
 
+    const smokeText = (this.currentFrame % 2) + 1;
+    this.smoke.texture = getMemberTexture(`smoke ${smokeText.toString()}`)!;
+
     const lf = (this.currentFrame + 3) % 3;
     const hf = (this.currentFrame + 3 - 1) % 3;
     const rf = (this.currentFrame + 3 - 2) % 3;
@@ -376,6 +481,11 @@ export class Scene2 extends GameScene {
         this.currentFrame % 2 == 0
           ? getMemberTexture("dexter.armor")!
           : getMemberTexture("dexter.armor.2")!;
+    }
+
+    if (this.isShaking) {
+      const delta = [-1, 1];
+      this.robot.position.x = this.robotX + delta[this.currentFrame % 2];
     }
 
     if (this.longhairWalking) {
