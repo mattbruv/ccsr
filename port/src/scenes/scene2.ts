@@ -9,33 +9,38 @@ export class Scene2 extends GameScene {
 
   public robot: PIXI.Sprite;
   public head: PIXI.Sprite;
+  public HD = [
+    { x: 204, y: 59 },
+    { x: 204, y: 189 },
+    { x: 204, y: 317 },
+  ];
 
   public ballLeftArm: PIXI.Sprite;
   public LA = [
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
+    { x: 128, y: 96 },
+    { x: 65, y: 121 },
+    { x: -200, y: -200 },
   ];
 
   public ballLeftLeg: PIXI.Sprite;
   public LL = [
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
+    { x: 154, y: 114 },
+    { x: 61, y: 152 },
+    { x: 13, y: 197 },
   ];
 
   public ballRightArm: PIXI.Sprite;
   public RA = [
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
+    { x: 282, y: 96 },
+    { x: 362, y: 153 },
+    { x: 1000, y: 1000 },
   ];
 
   public ballRightLeg: PIXI.Sprite;
   public RL = [
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: 0 },
+    { x: 254, y: 114 },
+    { x: 354, y: 120 },
+    { x: 420, y: 120 },
   ];
 
   public ballHead: PIXI.Sprite;
@@ -45,6 +50,8 @@ export class Scene2 extends GameScene {
 
   public dexterWalking = true;
   public longhairWalking = true;
+
+  public isStomping = true;
 
   constructor(game: Game) {
     super(game);
@@ -74,9 +81,9 @@ export class Scene2 extends GameScene {
 
     this.ballHead.scale.set(0.6);
     this.ballLeftArm.scale.set(0.6);
-    this.ballLeftLeg.scale.set(0.5);
+    this.ballLeftLeg.scale.set(0.6);
     this.ballRightArm.scale.set(0.6);
-    this.ballRightLeg.scale.set(0.5);
+    this.ballRightLeg.scale.set(0.6);
 
     this.court.interactive = true;
     this.court.on("pointerdown", (e: PIXI.InteractionEvent) => {
@@ -192,6 +199,25 @@ export class Scene2 extends GameScene {
   }
 
   protected onFrame(): void {
+    const robotframe = this.currentFrame % 7;
+    const robotlookup = [1, 2, 3, 2, 1, 4, 5];
+
+    if (this.isStomping) {
+      this.robot.texture = getMemberTexture(
+        `robot.${robotlookup[robotframe].toString()}`
+      )!;
+    }
+
+    const lf = (this.currentFrame + 3) % 3;
+    const hf = (this.currentFrame + 3 - 1) % 3;
+    const rf = (this.currentFrame + 3 - 2) % 3;
+
+    this.ballLeftArm.position.set(this.LA[lf].x, this.LA[lf].y);
+    this.ballRightArm.position.set(this.RA[rf].x, this.RA[rf].y);
+    this.ballLeftLeg.position.set(this.LL[lf].x, this.LL[lf].y);
+    this.ballRightLeg.position.set(this.RL[hf].x, this.RL[hf].y);
+    this.ballHead.position.set(this.HD[hf].x, this.HD[hf].y);
+
     if (this.dexterWalking) {
       this.dexter.texture =
         this.currentFrame % 2 == 0
