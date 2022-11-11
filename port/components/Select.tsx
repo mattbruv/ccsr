@@ -1,8 +1,3 @@
-import ImgEp1 from "./images/title1.png";
-import ImgEp2 from "./images/title2.png";
-import ImgEp3 from "./images/title3.png";
-import ImgEp4 from "./images/title4.png";
-
 import * as React from "react";
 import { Box, Container } from "@mui/system";
 import { Card, CardMedia, Grid } from "@mui/material";
@@ -44,9 +39,15 @@ function EpisodeCard(props: EpisodeCardProps) {
 
 interface SelectProps {
   playCB: (episode: number) => void;
+  languageString: string;
 }
 
 export function SelectEpisode(props: SelectProps) {
+  const img = (episode: number) => {
+    const str = `assets/${episode}/${props.languageString}/title.png`;
+    return str;
+  };
+
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
       <Container maxWidth={false}>
@@ -55,28 +56,28 @@ export function SelectEpisode(props: SelectProps) {
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={1}
-              img={ImgEp1}
+              img={img(1)}
             />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={2}
-              img={ImgEp2}
+              img={img(2)}
             />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={3}
-              img={ImgEp3}
+              img={img(3)}
             />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={4}
-              img={ImgEp4}
+              img={img(4)}
             />
           </Grid>
         </Grid>

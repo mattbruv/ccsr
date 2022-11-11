@@ -92,6 +92,7 @@ export interface GameSettings {
 
 type AppState = {
   language: any;
+  langName: string;
   settings: GameSettings;
   isPlaying: boolean;
   settingsOpen: boolean;
@@ -118,6 +119,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.state = {
       language: translations[getDefaultLanguage()],
+      langName: getDefaultLanguage(),
       isPlaying: false,
       settingsOpen: false,
       page: "home",
@@ -127,7 +129,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   setLanguage(lang: string) {
-    this.setState({ language: translations[lang] });
+    this.setState({ language: translations[lang], langName: lang });
     Cookies.set("lang", lang, { expires: 999 });
     if (game) {
       location.reload();
@@ -174,6 +176,7 @@ class App extends React.Component<AppProps, AppState> {
       default:
         return (
           <SelectEpisode
+            languageString={this.state.langName}
             playCB={(episode: number) => {
               this.loadGame(episode);
             }}
