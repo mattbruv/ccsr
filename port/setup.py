@@ -149,6 +149,8 @@ def translateImages(episodeNumber):
         images = glob.glob(f"translations/{episodeNumber}/{lang}/images/*.png")
         if len(images) == 0:
             continue
+        pathlib.Path(
+            f"public/assets/{episodeNumber}/{lang}/").mkdir(parents=True, exist_ok=True)
         packer = Packer.create(enable_rotated=False,
                                atlas_format="json", force_square=True, inner_padding=2)
         packer.pack(images, "ep{}".format(episodeNumber),
