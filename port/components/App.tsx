@@ -8,6 +8,25 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Cookies from "js-cookie";
 
+import english from "../translations/site/en.json";
+import spanish from "../translations/site/es.json";
+
+/*
+
+Be warned, the React part of this codebase is hideous.
+I don't use react much and was kind of figuring things out
+as I went.
+
+Translations are done using 'any' because typescript was killing me
+and react-i18n is horrible to use with typescript + class components,
+so instead of refactoring everything i'm just hacking in
+language support very crudely
+*/
+const translations: any = {
+  en: english,
+  es: spanish,
+};
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -17,6 +36,10 @@ const darkTheme = createTheme({
 const languages = ["en", "es"];
 
 function getDefaultLanguage() {
+  const c = Cookies.get("lang");
+  if (c !== undefined) {
+    return c;
+  }
   if (languages.includes(navigator.language)) {
     return navigator.language;
   }
@@ -28,13 +51,6 @@ let game: Game; //  = new Game();
 const setSmooth = (value: boolean) => {
   Cookies.set("smooth", value.toString(), { expires: 999 });
   if (game) game.smoothAnimations = value;
-};
-
-const setLanguage = (value: string) => {
-  Cookies.set("lang", value, { expires: 999 });
-  if (game) {
-    location.reload();
-  }
 };
 
 const setVolumeTheme = (value: number) => {
@@ -53,7 +69,7 @@ const setVolumeMaster = (value: number) => {
 
 function getSettings() {
   return {
-    language: getCookieString("lang", getDefaultLanguage()),
+    language: getDefaultLanguage(),
     smoothAnimations: getCookieBool("smooth", true),
     fullScreen: getCookieBool("fullscreen", true),
     forceRatio: getCookieBool("ratio", false),
@@ -75,18 +91,12 @@ export interface GameSettings {
 }
 
 type AppState = {
+  language: any;
   settings: GameSettings;
   isPlaying: boolean;
   settingsOpen: boolean;
   page: string;
 };
-
-function getCookieString(key: string, or: string) {
-  if (Cookies.get(key) === undefined) {
-    return or;
-  }
-  return Cookies.get(key) as string;
-}
 
 function getCookieBool(key: string, or: boolean) {
   if (Cookies.get(key) === undefined) {
@@ -107,12 +117,21 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
+      language: translations[getDefaultLanguage()],
       isPlaying: false,
       settingsOpen: false,
       page: "home",
 
       settings: getSettings(),
     };
+  }
+
+  setLanguage(lang: string) {
+    this.setState({ language: translations[lang] });
+    Cookies.set("lang", lang, { expires: 999 });
+    if (game) {
+      location.reload();
+    }
   }
 
   loadPage(page: string) {
@@ -168,6 +187,7 @@ class App extends React.Component<AppProps, AppState> {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Navbar
+          t={this.state.language}
           position={this.state.isPlaying ? "fixed" : "static"}
           openPageCB={(page: string) => this.loadPage(page)}
           playing={this.state.isPlaying}
@@ -181,7 +201,15 @@ class App extends React.Component<AppProps, AppState> {
           }}
         />
         <Settings
-          cbs={{ setSmooth, setVolumeTheme, setVolumeMaster, setLanguage }}
+          cbs={{
+            setSmooth,
+            setVolumeTheme,
+            setVolumeMaster,
+            setLanguage: (l: string) => {
+              this.setLanguage(l);
+            },
+          }}
+          t={this.state.language}
           game={game}
           settings={this.state.settings}
           closeCB={() => {

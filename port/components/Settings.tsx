@@ -40,6 +40,7 @@ export interface SettingsCallbacks {
 
 type SettingsProps = {
   game: Game;
+  t: any;
   settings: GameSettings;
   open: boolean;
   cbs: SettingsCallbacks;
@@ -53,6 +54,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
   }
 
   render(): React.ReactNode {
+    const t = this.props.t;
     return (
       <Drawer
         onClose={this.props.closeCB}
@@ -67,13 +69,13 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                   <ListItemIcon>
                     <IconVolume />
                   </ListItemIcon>
-                  <ListItemText primary="Volume" />
+                  <ListItemText primary={t.volume} />
                 </ListItemButton>
               </ListItem>
             </AccordionSummary>
             <AccordionDetails>
               <Typography id="input-slider" gutterBottom>
-                Music
+                {t.music}
               </Typography>
               <Stack
                 spacing={2}
@@ -98,7 +100,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
               </Stack>
 
               <Typography id="" gutterBottom>
-                Sound Effects
+                {t.sfx}
               </Typography>
               <Stack
                 spacing={2}
@@ -137,10 +139,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
             <AccordionDetails>
               <ListItem disablePadding>
                 <FormGroup>
-                  <Tooltip
-                    arrow
-                    title="The original game runs at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate."
-                  >
+                  <Tooltip arrow title={t["vid.smooth.desc"]}>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -153,32 +152,32 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                           checked={this.state.smoothAnimations}
                         />
                       }
-                      label="Smooth animations"
+                      label={t["vid.smooth"]}
                     />
                   </Tooltip>
                   <FormControlLabel
                     control={
                       <Checkbox disabled checked={this.state.fullScreen} />
                     }
-                    label="Fit canvas to screen"
+                    label={t.fitscreen}
                   />
                   <FormControlLabel
                     control={<Checkbox disabled />}
-                    label="Use original aspect ratio"
+                    label={t.ratio}
                   />
                   <FormControl fullWidth>
                     <InputLabel disabled id="">
-                      Camera Mode
+                      {t["camera.mode"]}
                     </InputLabel>
                     <Select
                       disabled
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
+                      label={t["camera.mode"]}
                       value={10}
-                      label="Camera Mode"
                       onChange={undefined}
                     >
-                      <MenuItem value={10}>Pan Between Maps</MenuItem>
+                      <MenuItem value={10}>{t["camera.pan"]}</MenuItem>
                       <MenuItem value={20}>Center On Player</MenuItem>
                     </Select>
                   </FormControl>
@@ -187,13 +186,13 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
             </AccordionDetails>
           </Accordion>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Language</InputLabel>
+            <InputLabel id="demo-simple-select-label">{t.language}</InputLabel>
             <Select
               IconComponent={() => {
                 return <b>hi</b>;
               }}
               value={this.state.language}
-              label="Language"
+              label={t.language}
               onChange={(event) => {
                 this.setState({ language: event.target.value }, () => {
                   this.props.cbs.setLanguage(event.target.value);

@@ -17,6 +17,7 @@ type NavbarProps = {
   openPageCB: (page: string) => void;
   openSettingsCB: () => void;
   playing: boolean;
+  t: any;
   page: string;
   position: "fixed" | "absolute" | "sticky" | "static" | "relative" | undefined;
 };
@@ -56,6 +57,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
   }
 
   render(): React.ReactNode {
+    const t = this.props.t;
     return (
       <AppBar
         style={this.getStyle()}
@@ -66,7 +68,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
         <Toolbar>
           <Stack sx={{ flexGrow: 1 }} direction="row"></Stack>
           <Box style={this.toolbarDisplay()}>
-            <Tooltip arrow title="Join us on Discord!">
+            <Tooltip arrow title={t.discord}>
               <Link
                 color="inherit"
                 href="https://discord.gg/ecnGChM6M4"
@@ -77,7 +79,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
                 </IconButton>
               </Link>
             </Tooltip>
-            <Tooltip arrow title="View the source code">
+            <Tooltip arrow title={t.source}>
               <Link
                 color="inherit"
                 href="https://github.com/mattbruv/ccsr-port"
@@ -88,7 +90,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
                 </IconButton>
               </Link>
             </Tooltip>
-            <Tooltip arrow title="Settings">
+            <Tooltip arrow title={t.settings}>
               <IconButton
                 onClick={() => {
                   this.props.openSettingsCB();
