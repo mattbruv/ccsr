@@ -124,9 +124,9 @@ def jsonLoadTileData(data):
 The purpose of this function is to be able to write
 
         obj.data.item.visi.inviAct
-        instead of 
+        instead of
         obj["#data"]["#item"]["#visi"]["#inviAct"]
-        
+
 Using the keys from the original game is super verbose
 bcause keys that begin with # can only be indexed as strings in the [] operator
 
@@ -141,6 +141,18 @@ def cleanSymbols(jsonString):
     jsonString = jsonString.replace('#d"', '#D"')
     jsonString = jsonString.replace("#", "")
     return jsonString
+
+
+def translateImages(episodeNumber):
+    langs = ["en", "es"]
+    for lang in langs:
+        images = glob.glob(f"translations/{episodeNumber}/{lang}/images/*.png")
+        if len(images) == 0:
+            continue
+        packer = Packer.create(enable_rotated=False,
+                               atlas_format="json", force_square=True, inner_padding=2)
+        packer.pack(images, "ep{}".format(episodeNumber),
+                    f"public/assets/{episodeNumber}/{lang}/")
 
 
 def packImages(episodeNumber):
@@ -224,6 +236,7 @@ def setup():
     for i in range(1, 5):
         pathlib.Path("public/assets/{}".format(i)
                      ).mkdir(parents=True, exist_ok=True)
+        translateImages(i)
         parseMapData(i)
         packImages(i)
 

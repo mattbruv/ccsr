@@ -26,8 +26,14 @@ export function loadAssets(
     },
   ];
 
-  PIXI.Loader.shared.reset();
+  if (language !== "en") {
+    assets.push({
+      name: "translated",
+      url: root + language + "/ep" + episodeNumber + ".json",
+    });
+  }
 
+  PIXI.Loader.shared.reset();
   PIXI.Loader.shared.add(assets);
   PIXI.Loader.shared.onComplete.once(doneCallback);
   PIXI.Loader.shared.load();

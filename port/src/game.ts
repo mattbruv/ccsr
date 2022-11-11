@@ -987,6 +987,14 @@ export function getMemberTexture(memberName: string) {
   let name = memberName.toLowerCase();
   name = name + ".png";
   name = name.replace(".x.", ".");
+
+  const translated = PIXI.Loader.shared.resources["translated"];
+  if (translated) {
+    if (translated.spritesheet?.textures[name]) {
+      return translated.spritesheet.textures[name];
+    }
+  }
+
   return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
 }
 
