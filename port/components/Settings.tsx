@@ -1,20 +1,12 @@
 import React from "react";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
   Checkbox,
   Drawer,
   FormControlLabel,
   FormGroup,
   InputLabel,
-  List,
   ListItem,
-  ListItemButton,
   FormControl,
-  ListItemIcon,
-  ListItemText,
   MenuItem,
   Select,
   Slider,
@@ -26,10 +18,11 @@ import {
 
 import IconVolumeOff from "@mui/icons-material/VolumeOff";
 import IconVolume from "@mui/icons-material/VolumeUp";
-import IconVideo from "@mui/icons-material/PersonalVideo";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { GameSettings } from "./App";
 import { Game } from "../src/game";
+
+import EN from "../components/flags/en.svg";
+import ES from "../components/flags/es.svg";
 
 export interface SettingsCallbacks {
   setSmooth: (value: boolean) => void;
@@ -47,6 +40,15 @@ type SettingsProps = {
   closeCB: () => void;
 };
 
+function getFlagURL(lang: string): string {
+  switch (lang) {
+    case "es":
+      return ES;
+    default:
+      return EN;
+  }
+}
+
 export class Settings extends React.Component<SettingsProps, GameSettings> {
   constructor(props: SettingsProps) {
     super(props);
@@ -61,12 +63,12 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
         anchor="right"
         open={this.props.open}
       >
-        <Stack sx={{ minWidth: 350, p: 3 }} spacing={1}>
+        <Stack sx={{ minWidth: 350, p: 2 }} spacing={2}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{t.language}</InputLabel>
             <Select
               IconComponent={() => {
-                return <b>hi</b>;
+                return <img width={40} src={getFlagURL(this.state.language)} />;
               }}
               value={this.state.language}
               label={t.language}
@@ -129,6 +131,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                   label={t["vid.smooth"]}
                 />
               </Tooltip>
+              {/*
               <FormControlLabel
                 control={<Checkbox disabled checked={this.state.fullScreen} />}
                 label={t.fitscreen}
@@ -137,6 +140,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
                 control={<Checkbox disabled />}
                 label={t.ratio}
               />
+                */}
               <FormControl fullWidth>
                 <InputLabel disabled id="">
                   {t["camera.mode"]}
