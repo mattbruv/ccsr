@@ -1,6 +1,6 @@
 {
-    "walkIntoWater": "You can't just walk into water!!!",
-    "noItems": "You have no items.",
+    "walkIntoWater": "¡No se puede caminar sobre el agua!",
+    "noItems": "No tienes nada.",
     "scene": {
         "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
     },

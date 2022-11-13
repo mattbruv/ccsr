@@ -1,114 +1,114 @@
 {
-    "walkIntoWater": "You can't just walk into water!!!",
-    "noItems": "You have no items.",
+    "walkIntoWater": "¡No se puede caminar sobre el agua!",
+    "noItems": "No tienes nada.",
     "scene": {
-        "plugMyHoles": "Alright man!  Now it's time to hook up the right couples! Choose FIVE eligible bachelors from your inventory and match them up in order with the girl that wants to dance with them! Good luck!"
+        "plugMyHoles": "¡Muy bien hombre!  ¡Ahora es el momento de emparejar a las parejas adecuadas! ¡Elige a CINCO solteros elegibles de tu inventario y emparéjalos en orden con la chica que quiera bailar con ellos! ¡Buena suerte!"
     },
     "inventory": [
         {
             "key": "shoes",
-            "name": "shoes",
-            "description": "These Platform Shoes are Fab!"
+            "name": "zapatos",
+            "description": "Estos zapatos de plataforma son fabulosos"
         },
         {
             "key": "wig",
-            "name": "wig",
-            "description": "An Authentic Disco Wig! Get Down!"
+            "name": "peluca",
+            "description": "¡Una auténtica peluca de discoteca!"
         },
         {
             "key": "suit",
-            "name": "suit",
-            "description": "A leisure suit, a relaxing garb for all occasions. "
+            "name": "traje",
+            "description": "Un traje de ocio, una prenda relajante para todas las ocasiones. "
         },
         {
             "key": "necklace",
-            "name": "necklace",
-            "description": "Groovy! A real Snaggletooth Necklace!"
+            "name": "collar",
+            "description": "¡Genial! ¡Un auténtico collar de dientes de sierra!"
         },
         {
             "key": "pants",
-            "name": "pants",
-            "description": "Step out in style all Bell-bottoms like!"
+            "name": "pantalones",
+            "description": "Salga con estilo al estilo de los pantalones de campana."
         },
         {
             "key": "box",
-            "name": "lunchBox",
-            "description": "An official Moltar lunchbox. With Thermos!"
+            "name": "fiambrera",
+            "description": "Una fiambrera oficial de Moltar. Con termo."
         },
         {
             "key": "milk",
-            "name": "warmMilk",
-            "description": "The less you know about this milk, the better."
+            "name": "leche caliente",
+            "description": "Cuanto menos se sepa de esta leche, mejor."
         },
         {
             "key": "shovel",
-            "name": "shovel",
-            "description": "This shovel is made of sturdy plastic! Fun!"
+            "name": "pala",
+            "description": "¡Esta pala está hecha de plástico resistente! ¡Divertido!"
         },
         {
             "key": "blankee",
-            "name": "blankee",
-            "description": "a blankee\ufffdIt makes you feel safe and warm."
+            "name": "mantita",
+            "description": "una manta... Te hace sentir seguro y cálido."
         },
         {
             "key": "cd",
             "name": "cd",
-            "description": "All your 70\ufffds favorites on one C.D."
+            "description": "Todos tus favoritos de los 70 en un solo CD."
         },
         {
             "key": "ball",
-            "name": "ball",
-            "description": "A disco ball, also known as a boogie sphere."
+            "name": "bola de discoteca",
+            "description": "Una bola de discoteca, también conocida como esfera de boogie."
         },
         {
             "key": "keys",
-            "name": "keys",
-            "description": "The key to the disco. Funkadellic!"
+            "name": "llaves",
+            "description": "La llave de la discoteca. ¡Funkadellic!"
         },
         {
             "key": "ray",
-            "name": "rayGun",
-            "description": "This is the fanciest toy ray gun you\ufffdve ever seen."
+            "name": "pistola de rayos",
+            "description": "Esta es la pistola de rayos de juguete más elegante que jamás hayas visto."
         },
         {
             "key": "record",
-            "name": "goldRecord",
-            "description": "A golden record of the Gee-Bee\ufffds classics."
+            "name": "disco de oro",
+            "description": "Un disco de oro de los clásicos de Gee-Bees."
         },
         {
             "key": "dexter",
             "name": "Dexter",
-            "description": "It\ufffds Dexter, the boy inventor."
+            "description": "Es Dexter, el niño inventor."
         },
         {
             "key": "edd",
             "name": "Edd",
-            "description": "This is Edd. Good ol\ufffd Edd."
+            "description": "Este es Edd. El bueno de Edd."
         },
         {
             "key": "baboon",
             "name": "Baboon",
-            "description": "I.R. Baboon not like it in Inventory Window!"
+            "description": "¡A I.R. Baboon no le gusta estar en Inventory Window!"
         },
         {
             "key": "chicken",
             "name": "Chicken",
-            "description": "This is Cow\ufffds brother, Chicken."
+            "description": "Este es el hermano de Cow, Chicken."
         },
         {
             "key": "courage",
             "name": "Courage",
-            "description": "A cowardly dog."
+            "description": "Un perro cobarde."
         },
         {
             "key": "johnny",
             "name": "Johnny",
-            "description": "Man, I\ufffdm pretty."
+            "description": "Hombre, soy bastante"
         },
         {
             "key": "scuba",
-            "name": "boat",
-            "description": "A fine seaworthy craft."
+            "name": "barco",
+            "description": "Un barco bueno y en condiciones de navegar."
         }
     ]
 }
