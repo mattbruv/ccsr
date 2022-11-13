@@ -61,130 +61,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
         anchor="right"
         open={this.props.open}
       >
-        <Stack sx={{ minWidth: 350 }} spacing={0}>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <ListItem key="volume" disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <IconVolume />
-                  </ListItemIcon>
-                  <ListItemText primary={t.volume} />
-                </ListItemButton>
-              </ListItem>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography id="input-slider" gutterBottom>
-                {t.music}
-              </Typography>
-              <Stack
-                spacing={2}
-                direction="row"
-                sx={{ mb: 1 }}
-                alignItems="center"
-              >
-                {this.state.volumeTheme == 0 ? (
-                  <IconVolumeOff />
-                ) : (
-                  <IconVolume />
-                )}
-                <Slider
-                  value={this.state.volumeTheme}
-                  onChange={(event, val) => {
-                    this.setState({ volumeTheme: val as number }, () => {
-                      this.props.cbs.setVolumeTheme(val as number);
-                    });
-                  }}
-                />
-                <IconVolume />
-              </Stack>
-
-              <Typography id="" gutterBottom>
-                {t.sfx}
-              </Typography>
-              <Stack
-                spacing={2}
-                direction="row"
-                sx={{ mb: 1 }}
-                alignItems="center"
-              >
-                {this.state.volumeMaster == 0 ? (
-                  <IconVolumeOff />
-                ) : (
-                  <IconVolume />
-                )}
-                <Slider
-                  value={this.state.volumeMaster}
-                  onChange={(event, val) => {
-                    this.setState({ volumeMaster: val as number }, () => {
-                      this.props.cbs.setVolumeMaster(val as number);
-                    });
-                  }}
-                />
-                <IconVolume />
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <ListItem key="video" disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <IconVideo />
-                  </ListItemIcon>
-                  <ListItemText primary="Video" />
-                </ListItemButton>
-              </ListItem>
-            </AccordionSummary>
-            <AccordionDetails>
-              <ListItem disablePadding>
-                <FormGroup>
-                  <Tooltip arrow title={t["vid.smooth.desc"]}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          onChange={(event) => {
-                            const val = event.target.checked;
-                            this.setState({ smoothAnimations: val }, () => {
-                              this.props.cbs.setSmooth(event.target.checked);
-                            });
-                          }}
-                          checked={this.state.smoothAnimations}
-                        />
-                      }
-                      label={t["vid.smooth"]}
-                    />
-                  </Tooltip>
-                  <FormControlLabel
-                    control={
-                      <Checkbox disabled checked={this.state.fullScreen} />
-                    }
-                    label={t.fitscreen}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox disabled />}
-                    label={t.ratio}
-                  />
-                  <FormControl fullWidth>
-                    <InputLabel disabled id="">
-                      {t["camera.mode"]}
-                    </InputLabel>
-                    <Select
-                      disabled
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label={t["camera.mode"]}
-                      value={10}
-                      onChange={undefined}
-                    >
-                      <MenuItem value={10}>{t["camera.pan"]}</MenuItem>
-                      <MenuItem value={20}>Center On Player</MenuItem>
-                    </Select>
-                  </FormControl>
-                </FormGroup>
-              </ListItem>
-            </AccordionDetails>
-          </Accordion>
+        <Stack sx={{ minWidth: 350, p: 3 }} spacing={1}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{t.language}</InputLabel>
             <Select
@@ -203,6 +80,81 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
               <MenuItem value="es">Español</MenuItem>
             </Select>
           </FormControl>
+          <Typography id="input-slider" gutterBottom>
+            {t.music}
+          </Typography>
+          <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+            {this.state.volumeTheme == 0 ? <IconVolumeOff /> : <IconVolume />}
+            <Slider
+              value={this.state.volumeTheme}
+              onChange={(event, val) => {
+                this.setState({ volumeTheme: val as number }, () => {
+                  this.props.cbs.setVolumeTheme(val as number);
+                });
+              }}
+            />
+            <IconVolume />
+          </Stack>
+
+          <Typography id="" gutterBottom>
+            {t.sfx}
+          </Typography>
+          <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+            {this.state.volumeMaster == 0 ? <IconVolumeOff /> : <IconVolume />}
+            <Slider
+              value={this.state.volumeMaster}
+              onChange={(event, val) => {
+                this.setState({ volumeMaster: val as number }, () => {
+                  this.props.cbs.setVolumeMaster(val as number);
+                });
+              }}
+            />
+            <IconVolume />
+          </Stack>
+          <ListItem disablePadding>
+            <FormGroup>
+              <Tooltip arrow title={t["vid.smooth.desc"]}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={(event) => {
+                        const val = event.target.checked;
+                        this.setState({ smoothAnimations: val }, () => {
+                          this.props.cbs.setSmooth(event.target.checked);
+                        });
+                      }}
+                      checked={this.state.smoothAnimations}
+                    />
+                  }
+                  label={t["vid.smooth"]}
+                />
+              </Tooltip>
+              <FormControlLabel
+                control={<Checkbox disabled checked={this.state.fullScreen} />}
+                label={t.fitscreen}
+              />
+              <FormControlLabel
+                control={<Checkbox disabled />}
+                label={t.ratio}
+              />
+              <FormControl fullWidth>
+                <InputLabel disabled id="">
+                  {t["camera.mode"]}
+                </InputLabel>
+                <Select
+                  disabled
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label={t["camera.mode"]}
+                  value={10}
+                  onChange={undefined}
+                >
+                  <MenuItem value={10}>{t["camera.pan"]}</MenuItem>
+                  <MenuItem value={20}>Center On Player</MenuItem>
+                </Select>
+              </FormControl>
+            </FormGroup>
+          </ListItem>
         </Stack>
       </Drawer>
     );
