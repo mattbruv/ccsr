@@ -2,103 +2,103 @@
     "walkIntoWater": "¡No se puede caminar sobre el agua!",
     "noItems": "No tienes nada.",
     "scene": {
-        "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
+        "plugMyHoles": "XXX"
     },
     "inventory": [
         {
             "key": "monkey",
-            "name": "monkey",
-            "description": "Monkeys rock and this one is NO exception!"
+            "name": "mono",
+            "description": "¡Los monos molan y este no es una excepción!"
         },
         {
             "key": "ostrich",
-            "name": "ostrich",
-            "description": "A yummy Ostrich\ufffdI mean FRIENDLY ostrich."
+            "name": "avestruz",
+            "description": "Un delicioso avestruz... Quiero decir Avestruz AMIGABLE"
         },
         {
             "key": "beetle",
-            "name": "beetle",
-            "description": "A beetle. It\ufffds name is Paul."
+            "name": "escarabajo",
+            "description": "Un escarabajo. Se llama Paul."
         },
         {
             "key": "koala",
             "name": "koala",
-            "description": "Koala Bears are marsupials."
+            "description": "Los osos koala son marsupiales."
         },
         {
             "key": "lizard",
-            "name": "lizard",
-            "description": "Lizards are reptiles."
+            "name": "lagarto",
+            "description": "Los lagartos son reptiles."
         },
         {
             "key": "wind",
-            "name": "windStone",
-            "description": "A Volcano Key! This one has the power of wind!"
+            "name": "piedra de viento",
+            "description": "¡Una Llave de volcán! ¡Esta tiene el poder del viento!"
         },
         {
             "key": "sun",
-            "name": "sunStone",
-            "description": "A volcano Key! It\ufffds very hot."
+            "name": "piedra del sol",
+            "description": "¡Una llave de volcán! Está muy caliente."
         },
         {
             "key": "waters",
-            "name": "waterStone",
-            "description": "A volcano Key! It has the power of water."
+            "name": "piedra de agua",
+            "description": "¡Una llave de volcán! Tiene el poder del agua."
         },
         {
             "key": "tree",
-            "name": "treeStone",
-            "description": "This is the Tree Stone, one of five volcano Keys."
+            "name": "piedra del árbol",
+            "description": "Esta es la Piedra del Árbol, una de las cinco Llaves del Volcán."
         },
         {
             "key": "stone",
-            "name": "stoneStone",
-            "description": "A Volcano Key! It\ufffds hard and stony."
+            "name": "piedra de la piedra",
+            "description": "¡Una llave de volcán! Es dura y pétrea"
         },
         {
             "key": "split",
-            "name": "bananaSplit",
-            "description": "A gooey Banana split. Dee-lish!"
+            "name": "banana split",
+            "description": "Un pegajoso Banana split. ¡Delicioso!"
         },
         {
             "key": "dino",
-            "name": "roboDino",
-            "description": "The Latest in toy robot/dino technology."
+            "name": "dinosaurio robot",
+            "description": "Lo último en tecnología de robots/dinos de juguete."
         },
         {
             "key": "watch",
-            "name": "watch",
-            "description": "This pocket watch will tell the time in your pocket."
+            "name": "reloj",
+            "description": "Este reloj de bolsillo te dirá la hora en tu bolsillo."
         },
         {
             "key": "tuna",
-            "name": "tunaSandwich",
-            "description": "A tuna sandwich. Smelly but Yummy."
+            "name": "sándwich de atún",
+            "description": "Un sándwich de atún. Apestoso pero delicioso."
         },
         {
             "key": "flower",
-            "name": "flower",
-            "description": "A pretty flower with gentle red petals."
+            "name": "flor",
+            "description": "Una bonita flor con suaves pétalos rojos."
         },
         {
             "key": "leaf",
-            "name": "eucalyptusLeaf",
-            "description": "A leaf from Australia. Who\ufffdd want this?"
+            "name": "hoja de eucalipto",
+            "description": "Una hoja de Australia. ¿Quién querría esto?"
         },
         {
             "key": "bag",
-            "name": "paperBag",
-            "description": "I. R. Baboon got this paper bag off a plane."
+            "name": "Bolsa de papel",
+            "description": "I. R. Baboon sacó esta bolsa de papel de un avión."
         },
         {
             "key": "scuba",
-            "name": "boat",
-            "description": "A fine seaworthy craft."
+            "name": "barco",
+            "description": "Un barco bueno y en condiciones de navegar."
         },
         {
             "key": "courage",
             "name": "Courage",
-            "description": "A cowardly dog."
+            "description": "Un perro cobarde."
         }
     ]
 }
