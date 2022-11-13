@@ -44,7 +44,7 @@ interface SelectProps {
 
 export function SelectEpisode(props: SelectProps) {
   const img = (episode: number) => {
-    const str = `assets/${episode}/${props.languageString}/title.png`;
+    const str = `assets/${episode}/en/title.png`;
     return str;
   };
 
