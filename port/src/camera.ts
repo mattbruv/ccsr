@@ -2,7 +2,7 @@ import { Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
 import { PlayerStatus } from "./player";
 import { Pos, Rect } from "./types";
 
-enum CameraMode {
+export enum CameraMode {
   PAN_BETWEEN_MAPS,
   CENTER_ON_PLAYER,
 }
@@ -63,6 +63,10 @@ export class GameCamera {
     this.scaleY = scale;
   }
 
+  public getMode() {
+    return this.cameraMode;
+  }
+
   public panToMap(nextMap: string) {
     // disable player movement while panning
     this.game.player.setStatus(PlayerStatus.STOP);
@@ -86,7 +90,52 @@ export class GameCamera {
     this.panEndMS = now + panTimeMS;
   }
 
+  public centerCameraOnPlayer() {
+    const pos = this.game.player.getPosition();
+
+    const pX = -pos.x * this.scaleX;
+    const pY = -pos.y * this.scaleY;
+
+    const width = this.game.app.renderer.width;
+    const height = this.game.app.renderer.height;
+
+    const hW = Math.round(width / 2);
+    const hH = Math.round(height / 2);
+
+    const cX = pX + hW;
+    const cY = pY + hH;
+
+    /*
+    const bounds = this.cameraBounds;
+
+    let cameraX = cX;
+    let cameraY = cY;
+
+    if (Math.abs(pX) - hW < 0) {
+      cameraX = 0;
+    }
+
+    if (Math.abs(pY) - hH < 0) {
+      cameraY = 0;
+    }
+
+    if (Math.abs(pX) + hW > bounds.width * this.scaleX) {
+      cameraX = (bounds.width * this.scaleX - hW * 2) * -1;
+    }
+
+    if (Math.abs(pY) + hH > bounds.height * this.scaleY) {
+      cameraY = (bounds.height * this.scaleY - hH * 2) * -1;
+    }
+
+    */
+    this.setCamera(cX, cY);
+  }
+
   public tick() {
+    if (this.getMode() == CameraMode.CENTER_ON_PLAYER) {
+      this.centerCameraOnPlayer();
+    }
+
     if (this.isPanning) {
       //console.log("panning!");
       const now = Date.now();

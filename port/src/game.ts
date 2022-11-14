@@ -23,7 +23,7 @@ import { intersect, rectAinRectB } from "./collision";
 import { Debugger } from "./debug";
 import { GameSign } from "./sign";
 import { GameInventory } from "./inventory";
-import { GameCamera } from "./camera";
+import { CameraMode, GameCamera } from "./camera";
 import { GameScene } from "./scene";
 import * as hash from "hash.js";
 import { Episode2 } from "./scripts/episode2";
@@ -701,7 +701,11 @@ export class Game {
       getMapRect(this.player.currentMap)
     );
 
-    if (nextMap && !fullyInMap) {
+    if (
+      nextMap &&
+      !fullyInMap &&
+      this.camera.getMode() == CameraMode.PAN_BETWEEN_MAPS
+    ) {
       //console.log("from", this.player.currentMap, "to:", nextMap.mapName);
       const pos = this.player.getPosition();
       const bounds = getMapRect(nextMap.mapName);
