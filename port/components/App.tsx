@@ -1,4 +1,4 @@
-import React, { useDebugValue } from "react";
+import React from "react";
 import { Game } from "../src/game";
 import { SelectEpisode } from "./Select";
 import { Navbar } from "./Navbar";

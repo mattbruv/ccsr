@@ -13,7 +13,6 @@ import {
   Stack,
   Tooltip,
   Typography,
-  Divider,
 } from "@mui/material";
 
 import IconVolumeOff from "@mui/icons-material/VolumeOff";

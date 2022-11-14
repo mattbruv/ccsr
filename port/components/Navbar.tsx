@@ -5,7 +5,6 @@ import {
   IconButton,
   Link,
   Tooltip,
-  Button,
   Stack,
   Box,
 } from "@mui/material";
@@ -25,8 +24,6 @@ type NavbarProps = {
 type NavbarState = {
   isHovering: boolean;
 };
-
-const tranny = { background: "transparent", boxShadow: "none" };
 
 export class Navbar extends React.Component<NavbarProps, NavbarState> {
   constructor(props: NavbarProps) {
