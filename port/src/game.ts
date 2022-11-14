@@ -35,7 +35,7 @@ export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
 
 export const UI_WIDTH_PERCENT = 0.6;
-export const UI_HEIGHT_PERCENT = 0.5;
+export const UI_HEIGHT_PERCENT = 0.6;
 
 export class Game {
   public app;
