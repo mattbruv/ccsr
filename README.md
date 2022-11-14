@@ -1,11 +1,20 @@
 # Cartoon Cartoon Summer Resort
 
-![alt text](port/images/ep1.png)
+![alt text](port/images/allepisodes.png)
 
-Cartoon Cartoon Summer Resort is an open-world exploring game divided into four "episodes" in which you control a character (all four first appeared in failed pilot cartoons) and complete various tasks for different characters from Cartoon Network.
-Completing tasks will earn you items which are used to give to other characters to complete the episode.
+<a href="https://discord.gg/ecnGChM6M4">
+<img src="https://img.shields.io/discord/1023083621822771200?logo=discord" alt="Join us on Discord"></a>
 
-The series of games was developed by [Funny Garbage](https://www.linkedin.com/company/funny-garbage/) for Cartoon Network in the very early 2000s.
+### **[Play it HERE in your Browser!](https://mattbruv.github.io/ccsr)**
+
+This is a modern port of the Shockwave game series: Cartoon Cartoon Summer Resort, published on Cartoon Network's website in the summer of 2000.
+
+**Cartoon Cartoon Summer Resort** is an open-world RPG divided into four "episodes" in which you control a character and complete tasks for different characters from Cartoon Network.
+Completing tasks will earn you items which are used to advance through each episode.
+
+## History
+
+The series of games was developed by [Funny Garbage](https://www.linkedin.com/company/funny-garbage/) and published on the Cartoon Network website in the summer of 2000.
 The games were made to run on the web via the Shockwave platform and were developed in Macromedia Director 7.
 The early 2000s saw the decline in the usage of Director/Shockwave as most developers preferred using Flash. This technology was later bought by Adobe. After many years, in 2019 Adobe announced that Adobe Shockwave, including the Shockwave Player, would be discontinued.
 
@@ -23,3 +32,14 @@ You may be wondering why anyone would go through the effort to port this game to
   - The original game is littered with bugs, glitches, softlocks, and small oversights. There are also many quality of life features which can be added, such as individual sound settings, higher resolutions, framerates, and additional camera/panning settings just to name a few things.
 - **It is nostalgic**
   - For me, (as with many others) this game takes me back to a simpler time in life. I have returned to this game in nostalgia trips, and I have even [reverse engineered and fixed bugs](https://mattbruv.github.io/ccsr-bugfix/) in the original game. The people who hold fond memories of this game deserve to be able to play it again.
+
+## Special Thanks
+
+**[ProjectorRays](https://github.com/ProjectorRays/ProjectorRays)**
+\- Shockwave decompiler. lots of work has gone into developing this over the past few years, and their effort has made it possible to reverse engineer and extract the assets/source code of the original game. Without their hard work, this port wouldn't have been possible.
+
+**[TheOnlyZac](https://github.com/TheOnlyZac)**
+\- For creating the original [CCSR map viewer](https://github.com/TheOnlyZac/ccsr-map-viewer) and writing a series of articles on [TCRF](<https://tcrf.net/Cartoon_Cartoon_Summer_Resort_(Episode_1:_Pool_Problems)>) about CCSR. His work inspired the port and gave me the motivation to look into the game again.
+
+**You**
+\- For being a fan of this game, enjoying a nostalgic playthrough of this port and sharing it with others who want to play it, and reporting any bugs you may find.
