@@ -8,11 +8,7 @@ def getHash(string: str):
     return hashlib.sha256(string.encode('utf-8')).hexdigest()
 
 
-langs = glob.glob("*/")
-
-lang = langs[1]
-
-g = str(lang) + "**/messages.json"
+g = "**/es/messages.json"
 
 data = []
 
