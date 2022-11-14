@@ -11,6 +11,7 @@
     "fitscreen": "Ajustar a la pantalla",
     "ratio": "Utilizar la relación de aspecto original",
     "camera.mode": "Modo de Cámara",
-    "camera.pan": "Desplazar entre mapas",
+    "camera.pan": "Desplazar entre mapas (clásico)",
+    "camera.center": "Centro sobre el jugador (nuevo)",
     "language": "Idioma"
 }

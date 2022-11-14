@@ -28,6 +28,7 @@ export interface SettingsCallbacks {
   setSmooth: (value: boolean) => void;
   setVolumeTheme: (value: number) => void;
   setVolumeMaster: (value: number) => void;
+  setCameraMode: (value: number) => void;
   setLanguage: (value: string) => void;
 }
 
@@ -142,19 +143,22 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
               />
                 */}
               <FormControl fullWidth>
-                <InputLabel disabled id="">
-                  {t["camera.mode"]}
-                </InputLabel>
+                <InputLabel id="">{t["camera.mode"]}</InputLabel>
                 <Select
-                  disabled
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label={t["camera.mode"]}
-                  value={10}
-                  onChange={undefined}
+                  value={this.state.cameraMode}
+                  onChange={(event) => {
+                    const val = event.target.value as number;
+                    this.setState({ cameraMode: val }, () => {
+                      console.log(val);
+                      this.props.cbs.setCameraMode(val);
+                    });
+                  }}
                 >
-                  <MenuItem value={10}>{t["camera.pan"]}</MenuItem>
-                  <MenuItem value={20}>Center On Player</MenuItem>
+                  <MenuItem value={0}>{t["camera.pan"]}</MenuItem>
+                  <MenuItem value={1}>{t["camera.center"]}</MenuItem>
                 </Select>
               </FormControl>
             </FormGroup>

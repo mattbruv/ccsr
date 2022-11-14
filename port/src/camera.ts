@@ -2,6 +2,11 @@ import { Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
 import { PlayerStatus } from "./player";
 import { Pos, Rect } from "./types";
 
+enum CameraMode {
+  PAN_BETWEEN_MAPS,
+  CENTER_ON_PLAYER,
+}
+
 export class GameCamera {
   private game: Game;
   private mapWidthPixels: number = 0;
@@ -22,6 +27,8 @@ export class GameCamera {
 
   private cameraBounds: Rect;
 
+  private cameraMode: CameraMode = CameraMode.PAN_BETWEEN_MAPS;
+
   constructor(game: Game) {
     this.game = game;
 
@@ -31,6 +38,11 @@ export class GameCamera {
       width: 0,
       height: 0,
     };
+  }
+
+  public setCameraMode(mode: CameraMode) {
+    this.cameraMode = mode;
+    console.log("set to", CameraMode[mode]);
   }
 
   public setScale() {

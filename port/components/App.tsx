@@ -53,6 +53,13 @@ const setSmooth = (value: boolean) => {
   if (game) game.smoothAnimations = value;
 };
 
+const setCameraMode = (value: number) => {
+  Cookies.set("cameraMode", value.toString(), { expires: 999 });
+  if (game) {
+    game.camera.setCameraMode(value);
+  }
+};
+
 const setVolumeTheme = (value: number) => {
   Cookies.set("volumeTheme", value.toString(), { expires: 999 });
   if (game) {
@@ -71,6 +78,7 @@ function getSettings() {
   return {
     language: getDefaultLanguage(),
     smoothAnimations: getCookieBool("smooth", true),
+    cameraMode: getCookieNum("cameraMode", 0),
     fullScreen: getCookieBool("fullscreen", true),
     forceRatio: getCookieBool("ratio", false),
     volumeMaster: getCookieNum("volumeMaster", 100),
@@ -82,6 +90,7 @@ type AppProps = {};
 
 export interface GameSettings {
   language: string;
+  cameraMode: number;
   smoothAnimations: boolean;
   fullScreen: boolean;
   forceRatio: boolean;
@@ -147,6 +156,7 @@ class App extends React.Component<AppProps, AppState> {
         const s = getSettings();
         game = new Game(episode, s.language);
         setSmooth(s.smoothAnimations);
+        setCameraMode(s.cameraMode);
         setVolumeTheme(s.volumeTheme);
         setVolumeMaster(s.volumeMaster);
       }
@@ -206,6 +216,7 @@ class App extends React.Component<AppProps, AppState> {
         <Settings
           cbs={{
             setSmooth,
+            setCameraMode,
             setVolumeTheme,
             setVolumeMaster,
             setLanguage: (l: string) => {

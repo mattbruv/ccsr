@@ -11,6 +11,7 @@
     "fitscreen": "Fit to Screen",
     "ratio": "Use Original Aspect Ratio",
     "camera.mode": "Camera Mode",
-    "camera.pan": "Pan Between Maps",
+    "camera.pan": "Pan Between Maps (Classic)",
+    "camera.center": "Center on Player (New)",
     "language": "Language"
 }
