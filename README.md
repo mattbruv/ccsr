@@ -12,13 +12,30 @@ This is a modern port of the Shockwave game series: Cartoon Cartoon Summer Resor
 **Cartoon Cartoon Summer Resort** is an open-world RPG divided into four "episodes" in which you control a character and complete tasks for different characters from Cartoon Network.
 Completing tasks will earn you items which are used to advance through each episode.
 
+## Features
+
+This port aims to be as accurate as possible to the original game. Bugs in the original game exist in the remake, like the broken collision detection, random misplaced messages, etc.
+Some quality of life features and improvements were also added.
+
+- **High Resolution.** - The game now runs at full screen to fill your monitor's screen resolution. Graphics are upscaled to give nice crisp HD gampelay.
+- **60+ FPS** - The game runs at the FPS rate of your monitor, with animations being interpolated to provide a smoother gameplay experience, as opposed to the original game's rough 12 FPS. (though this setting can be disabled if you enjoy horrible frame rates)
+- **Translations** - The game currently supports English and Spanish, and can be translated to more languages if someone chooses to contribute a translation to their language in the future. Textures with English text are also translated.
+- **New Camera Modes** - You can now experience the game in a new way with a camera that follows the player instead of panning between maps.
+
+The port is written in [TypeScript](https://www.typescriptlang.org/),
+using [PixiJS](https://pixijs.com/) as the 2D rendering engine, and [React](https://reactjs.org/) to render a simple web interface.
+
+The [original game's code](https://github.com/mattbruv/ccsr-source) was decompiled using [ProjectorRays](https://github.com/ProjectorRays/ProjectorRays) and used as the base for this port.
+
 ## History
 
 The series of games was developed by [Funny Garbage](https://www.linkedin.com/company/funny-garbage/) and published on the Cartoon Network website in the summer of 2000.
 The games were made to run on the web via the Shockwave platform and were developed in Macromedia Director 7.
 The early 2000s saw the decline in the usage of Director/Shockwave as most developers preferred using Flash. This technology was later bought by Adobe. After many years, in 2019 Adobe announced that Adobe Shockwave, including the Shockwave Player, would be discontinued.
 
-With the death of Shockwave, this game inevitebly died with it. It is still possible however to play the original game (and other Shockwave/Flash games) using software such as [Flashpoint](https://en.wikipedia.org/wiki/BlueMaxima's_Flashpoint).
+With the death of Shockwave, this game inevitably died with it, until this port brought it new life once again.
+
+It is still possible to play the original game in Shockwave form (and other Shockwave/Flash games) using software such as [Flashpoint](https://en.wikipedia.org/wiki/BlueMaxima's_Flashpoint).
 
 ## Why port this game?
 
