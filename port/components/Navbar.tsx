@@ -79,7 +79,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
             <Tooltip arrow title={t.source}>
               <Link
                 color="inherit"
-                href="https://github.com/mattbruv/ccsr-port"
+                href="https://github.com/mattbruv/ccsr"
                 target="_blank"
               >
                 <IconButton size="large" color="inherit">
