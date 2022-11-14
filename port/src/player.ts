@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { CameraMode } from "./camera";
 import { Game, getMapRect } from "./game";
 import { MovableGameObject, Pos, Rect } from "./types";
 
@@ -97,6 +98,11 @@ export class Player implements MovableGameObject {
   public endMove() {
     this.inWalkingAnimation = false;
     this.setPosition(this.nextPos.x, this.nextPos.y);
+
+    if (this.game.camera.getMode() == CameraMode.CENTER_ON_PLAYER) {
+      this.game.camera.centerCameraOnPlayer();
+    }
+
     this.game.sound.walk.pause();
     this.game.sound.boat.pause();
   }

@@ -259,6 +259,13 @@ export class Game {
         }
       }
 
+      if (
+        this.camera.getMode() == CameraMode.CENTER_ON_PLAYER &&
+        this.player.inWalkingAnimation
+      ) {
+        this.camera.centerCameraOnPlayer();
+      }
+
       return;
     }
 
@@ -673,6 +680,7 @@ export class Game {
             this.setMap(map);
             this.player.setMapAndPosition(map, x, y);
             this.camera.snapCameraToMap(map);
+
             return;
           }
         }
@@ -701,11 +709,7 @@ export class Game {
       getMapRect(this.player.currentMap)
     );
 
-    if (
-      nextMap &&
-      !fullyInMap &&
-      this.camera.getMode() == CameraMode.PAN_BETWEEN_MAPS
-    ) {
+    if (nextMap && !fullyInMap) {
       //console.log("from", this.player.currentMap, "to:", nextMap.mapName);
       const pos = this.player.getPosition();
       const bounds = getMapRect(nextMap.mapName);
@@ -729,7 +733,13 @@ export class Game {
         nextY = bounds.y + bounds.height - 16;
       }
 
-      const nextPos = { x: nextX, y: nextY };
+      let nextPos: Pos;
+
+      if (this.camera.getMode() == CameraMode.PAN_BETWEEN_MAPS) {
+        nextPos = { x: nextX, y: nextY };
+      } else {
+        nextPos = { x: newX, y: newY };
+      }
       this.player.initMove(pos, nextPos);
 
       this.script.onNewMap(nextMap.mapName);

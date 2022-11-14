@@ -68,6 +68,9 @@ export class GameCamera {
   }
 
   public panToMap(nextMap: string) {
+    if (this.getMode() != CameraMode.PAN_BETWEEN_MAPS) {
+      return;
+    }
     // disable player movement while panning
     this.game.player.setStatus(PlayerStatus.STOP);
 
@@ -132,10 +135,6 @@ export class GameCamera {
   }
 
   public tick() {
-    if (this.getMode() == CameraMode.CENTER_ON_PLAYER) {
-      this.centerCameraOnPlayer();
-    }
-
     if (this.isPanning) {
       //console.log("panning!");
       const now = Date.now();
@@ -161,6 +160,11 @@ export class GameCamera {
   }
 
   public snapCameraToMap(mapName: string) {
+    if (this.getMode() == CameraMode.CENTER_ON_PLAYER) {
+      this.centerCameraOnPlayer();
+      return;
+    }
+
     const pos = this.getMapCameraXY(mapName);
     console.log("SNAP TO ", mapName, pos);
     this.currentCameraPos = pos;
