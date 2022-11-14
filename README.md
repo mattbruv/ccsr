@@ -9,8 +9,9 @@
 
 This is a modern port of the Shockwave game series: Cartoon Cartoon Summer Resort, published on Cartoon Network's website in the summer of 2000.
 
-**Cartoon Cartoon Summer Resort** is an open-world RPG divided into four "episodes" in which you control a character and complete tasks for different characters from Cartoon Network.
-Completing tasks will earn you items which are used to advance through each episode.
+**[Cartoon Cartoon Summer Resort](https://tvtropes.org/pmwiki/pmwiki.php/VideoGame/CartoonCartoonSummerResort)** is the name of a series of four episodic Adventure Games formerly hosted on Cartoon Network's official website, featuring characters from their Cartoon Cartoons original programming. The game was created and released in summer 2000 tying in to the first Big Pick. Each playable character was from one of the shorts selected that could have become a full fleged series during the promotion.
+
+As their name indicates, the games take place in a summer resort for Cartoon Cartoon characters. Each episode features a problem that threatens to disrupt our favorite animated friends' peaceful vacation, and it's up to you to solve it. Along the way, you will also need to help the guests with their own personal issues.
 
 ## Features
 
