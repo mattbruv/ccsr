@@ -22,6 +22,7 @@ Some quality of life features and improvements were also added.
 - **High Resolution.** - The game now runs at full screen to fill your monitor's screen resolution. Graphics are upscaled to give nice crisp HD gampelay.
 - **60+ FPS** - The game runs at the FPS rate of your monitor, with animations being interpolated to provide a smoother gameplay experience, as opposed to the original game's rough 12 FPS. (though this setting can be disabled if you enjoy horrible frame rates)
 - **Translations** - The game currently supports English and Spanish, and can be translated to more languages if someone chooses to contribute a translation to their language in the future. Textures with English text are also translated.
+- **Volume Control** - You can now individually adjust the sound of the theme music and sound effects. A common complaint was the repetitive theme music, which can now be adjusted.
 - **New Camera Modes** - You can now experience the game in a new way with a camera that follows the player instead of panning between maps.
 
 The port is written in [TypeScript](https://www.typescriptlang.org/),
