@@ -28,9 +28,9 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: main
+          branch: gh-pages
           folder: port/dist # The folder the action should deploy.
-          repository-name: mattbruv/ccsr-port-test
-          token: ${{ secrets.ACCESS_TOKEN }}
+          #repository-name: mattbruv/ccsr
+          #token: ${{ secrets.ACCESS_TOKEN }}
           force: true
           single-commit: true
