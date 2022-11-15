@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { pointInRect } from "./collision";
 import { Game, MAP_HEIGHT, MAP_WIDTH } from "./game";
 import { Rect } from "./types";
 
@@ -44,6 +45,14 @@ export class Debugger {
     this.game.viewport.interactive = true;
 
     this.game.viewport.on("mousedown", (e: PIXI.InteractionEvent) => {
+      if (e.data.button == 0) {
+        const out = this.game.viewport.toLocal(e.data.global);
+        const objs = this.game.gameObjects.filter((o) =>
+          pointInRect(out, o.getRect())
+        );
+        console.log(out);
+        console.log(objs);
+      }
       if (e.data.button == 4) {
         const out = this.game.viewport.toLocal(e.data.global);
         const x = Math.round(out.x / 8) * 8;

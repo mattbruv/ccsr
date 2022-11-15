@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { TilingSprite } from "pixi.js";
 import { getMapOffset, getMemberTexture } from "./game";
 import {
   GameObjectData,
@@ -111,6 +112,17 @@ export class GameObject implements IGameObject, MovableGameObject {
       this.isStatic() && this.member.toLowerCase().includes("tile")
         ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
         : new PIXI.Sprite(getMemberTexture(this.member)!);
+
+    // HACK to fix ocean walls on the north eastern side
+    // of the maps in episodes 2-4
+    // they spill over into other levels, so they need to be adjusted
+    if (
+      this.member.includes("tile.1.x") &&
+      this.data.item.type == GameObjectType.WALL
+    ) {
+      (this.sprite as TilingSprite).tilePosition.x -= 16;
+      this.width = 16;
+    }
 
     this.sprite.position.set(this.posX, this.posY);
     this.sprite.width = this.width;
