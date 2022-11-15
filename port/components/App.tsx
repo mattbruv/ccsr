@@ -159,24 +159,24 @@ class App extends React.Component<AppProps, AppState> {
         setCameraMode(s.cameraMode);
         setVolumeTheme(s.volumeTheme);
         setVolumeMaster(s.volumeMaster);
+
+        document.addEventListener("keydown", (event) => {
+          if (!game.keysFlag.has(event.key)) {
+            game.keysPressed.add(event.key);
+            game.keysFlag.add(event.key);
+          }
+        });
+
+        document.addEventListener("keyup", (event) => {
+          game.keysFlag.delete(event.key);
+          game.keysPressed.delete(event.key);
+        });
       }
     );
   }
 
   componentDidMount(): void {
     //game = new Game();
-
-    document.addEventListener("keydown", (event) => {
-      if (!game.keysFlag.has(event.key)) {
-        game.keysPressed.add(event.key);
-        game.keysFlag.add(event.key);
-      }
-    });
-
-    document.addEventListener("keyup", (event) => {
-      game.keysFlag.delete(event.key);
-      game.keysPressed.delete(event.key);
-    });
   }
 
   getPage() {

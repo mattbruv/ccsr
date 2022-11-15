@@ -327,6 +327,7 @@ export class Game {
       }
     }
     this.keysPressed.delete(Key.ENTER);
+    this.keysPressed.delete(Key.SPACE);
   }
 
   public updateAutoMoveObjects() {
@@ -817,8 +818,12 @@ export class Game {
       .map((obj) => obj.setPosition(obj.originalPosX, obj.originalPosY));
   }
 
-  public keyPressed(key: Key) {
-    return this.keysPressed.has(key);
+  public keyPressed(key: Key): boolean {
+    const result = this.keysPressed.has(key);
+    if (key == Key.ENTER) {
+      return result || this.keyPressed(Key.SPACE);
+    }
+    return result;
   }
 
   private init(episode: number) {
