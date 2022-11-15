@@ -19,7 +19,7 @@ As their name indicates, the games take place in a summer resort for Cartoon Car
 This port aims to be as accurate as possible to the original game. Bugs in the original game exist in the remake, like the broken collision detection, random misplaced messages, etc.
 Some quality of life features and improvements were also added.
 
-- **High Resolution.** - The game now runs at full screen to fill your monitor's screen resolution. Graphics are upscaled to give nice crisp HD gampelay.
+- **High Resolution.** - The game now runs at full screen to fill your monitor's screen resolution. Graphics are upscaled to give nice crisp HD gampelay. Gone are the days where you have to squint to see a tiny 416x320 pixel screen.
 - **60+ FPS** - The game runs at the FPS rate of your monitor, with animations being interpolated to provide a smoother gameplay experience, as opposed to the original game's rough 12 FPS. (though this setting can be disabled if you enjoy horrible frame rates)
 - **Translations** - The game currently supports English and Spanish, and can be translated to more languages if someone chooses to contribute a translation to their language in the future. Textures with English text are also translated.
 - **Volume Control** - You can now individually adjust the sound of the theme music and sound effects. A common complaint was the repetitive theme music, which can now be adjusted.
@@ -28,7 +28,7 @@ Some quality of life features and improvements were also added.
 The port is written in [TypeScript](https://www.typescriptlang.org/),
 using [PixiJS](https://pixijs.com/) as the 2D rendering engine, and [React](https://reactjs.org/) to render a simple web interface.
 
-The [original game's code](https://github.com/mattbruv/ccsr-source) was decompiled using [ProjectorRays](https://github.com/ProjectorRays/ProjectorRays) and used as the base for this port.
+The [original game's source code](https://github.com/mattbruv/ccsr-source) was decompiled using [ProjectorRays](https://github.com/ProjectorRays/ProjectorRays) and used as the base for this port.
 
 ## History
 
@@ -57,6 +57,9 @@ You may be wondering why anyone would go through the effort to port this game to
 
 **[ProjectorRays](https://github.com/ProjectorRays/ProjectorRays)**
 \- Shockwave decompiler. lots of work has gone into developing this over the past few years, and their effort has made it possible to reverse engineer and extract the assets/source code of the original game. Without their hard work, this port wouldn't have been possible.
+
+**[n0samu](https://github.com/n0samu)**
+\- CastRipperTool, wrote a custom Director Xtra which rips project media. As well as being a Shockwave genius.
 
 **[TheOnlyZac](https://github.com/TheOnlyZac)**
 \- For creating the original [CCSR map viewer](https://github.com/TheOnlyZac/ccsr-map-viewer) and writing a series of articles on [TCRF](<https://tcrf.net/Cartoon_Cartoon_Summer_Resort_(Episode_1:_Pool_Problems)>) about CCSR. His work inspired the port and gave me the motivation to look into the game again.
