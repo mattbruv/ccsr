@@ -30,6 +30,7 @@ import { Episode2 } from "./scripts/episode2";
 import { Episode3 } from "./scripts/episode3";
 import { Episode4 } from "./scripts/episode4";
 import { GameSound } from "./sound";
+import { Intro } from "./intro";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -94,6 +95,8 @@ export class Game {
 
   public readonly ratio = 416 / 320;
 
+  public introScreen: Intro;
+
   constructor(episode: number, language: string) {
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
@@ -105,6 +108,8 @@ export class Game {
       antialias: false,
       resizeTo: div,
     });
+
+    this.introScreen = new Intro(episode);
 
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
     PIXI.settings.ROUND_PIXELS = true;
@@ -131,6 +136,7 @@ export class Game {
 
     this.app.stage.addChild(this.viewport);
     this.app.stage.addChild(this.sceneContainer);
+    this.app.stage.addChild(this.introScreen.container);
 
     /*
       We need to create a giant map texture to render
@@ -218,6 +224,7 @@ export class Game {
     if (this.currentScene) {
       this.currentScene.resize();
     }
+    this.introScreen.resize(this);
   }
 
   private newRenderTexture() {
@@ -295,6 +302,13 @@ export class Game {
 
     if (this.player.status == PlayerStatus.MOVE) {
       this.updateAutoMoveObjects();
+    }
+
+    if (this.introScreen.inIntro) {
+      if (this.keyPressed(Key.ENTER)) {
+        this.introScreen.close(this);
+      }
+      return;
     }
 
     if (this.sign.isOpen() || this.inventory.isOpen()) {
@@ -870,7 +884,7 @@ export class Game {
 
     document.getElementById("game-container")!.appendChild(this.app.view);
 
-    this.sound.playTheme();
+    this.introScreen.init(this);
   }
 
   private initObjects() {
