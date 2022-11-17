@@ -645,6 +645,20 @@ export class Game {
         if (collisionObject.data.move.COND == GameObjectMoveCond.PUSH) {
           const toPos = this.posAfterDeltaMove(collisionObject, dx, dy);
           if (this.canMoveGameObject(collisionObject, toPos)) {
+            // Make sure the player doesn't collide with something
+            // in his new coordinates that isn't the push object
+            const futureCollision = this.gameObjects.find(
+              (obj) =>
+                obj.isVisible() &&
+                intersect(newPlayerRect, obj.getRect()) &&
+                obj.data.item.type == GameObjectType.WALL &&
+                obj != collisionObject
+            );
+
+            if (futureCollision) {
+              return;
+            }
+
             const lastPos = {
               x: collisionObject.posX,
               y: collisionObject.posY,
