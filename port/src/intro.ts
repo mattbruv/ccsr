@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js";
 import { Game, getMemberTexture } from "./game";
-import { PlayerStatus } from "./player";
 
 export class Intro {
   public container: PIXI.Container;
