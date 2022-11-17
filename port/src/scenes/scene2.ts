@@ -330,6 +330,8 @@ export class Scene2 extends GameScene {
   }
 
   private win() {
+    window.onbeforeunload = null;
+
     this.itemSprites.map((i) => (i.visible = false));
     const frame = this.currentFrame + 1;
 

@@ -320,6 +320,8 @@ export class Scene4 extends GameScene {
   }
 
   private win() {
+    window.onbeforeunload = null;
+
     this.endMessage = true;
 
     this.items.map((i) => (i.sprite.visible = false));

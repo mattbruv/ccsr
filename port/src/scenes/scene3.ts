@@ -323,6 +323,7 @@ export class Scene3 extends GameScene {
 
   public init(): void {
     this.game.sound.pauseTheme();
+    window.onbeforeunload = null;
   }
 
   public play(): void {

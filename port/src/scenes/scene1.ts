@@ -298,6 +298,7 @@ export class Scene1 extends GameScene {
     if (count == 5) {
       this.game.sound.win.play();
       this.exitButton.texture = getMemberTexture("play.next.episode")!;
+      window.onbeforeunload = null;
       this.exitButton.on("pointerdown", () => {
         location.reload();
       });
