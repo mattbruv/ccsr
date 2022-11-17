@@ -3,6 +3,7 @@ import { Scene1 } from "../scenes/scene1";
 import { getMapsRect } from "../game";
 import * as PIXI from "pixi.js";
 import { Rect } from "../types";
+import { PlayerDirection } from "../player";
 
 const maskOverworld = new PIXI.Graphics();
 
@@ -20,7 +21,14 @@ export class Episode1 extends EpisodeScript {
 
     const startMap = "0106";
     this.game.setMap(startMap);
-    this.game.player.setMapAndPosition(startMap, 6, 8);
+    this.game.player.setMapAndPosition(startMap, 6, 10);
+
+    // imitate the starting position in original episode
+    // starts facing left, but facing right after first move
+    this.game.player.horizontalDirection = PlayerDirection.LEFT;
+    this.game.player.refreshTexture();
+    this.game.player.horizontalDirection = PlayerDirection.RIGHT;
+
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
     this.game.addScene("ending", new Scene1(this.game));
