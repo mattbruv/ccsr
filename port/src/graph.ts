@@ -266,7 +266,9 @@ export function generateNodes(game: Game) {
     if (!cond.hasObj && !cond.hasAct) {
       // dont do this for invisible objects
       if (![vis.visiAct, vis.visiObj].find((s) => s)) {
-        cond.hasObj = "start";
+        if (c.member !== "block.58") {
+          cond.hasObj = "start";
+        }
       }
     }
   });
