@@ -118,6 +118,7 @@ export function generateNodes(game: Game) {
   )!.data.item.COND[0]!.hasAct = "boulderno";
 
   elements.push(edge("scuba", "block.139-0701-2656-224"));
+  elements.push(edge("movebags", "start"));
 
   // Add all important items as nodes
   importantObjects.map((o) => {
