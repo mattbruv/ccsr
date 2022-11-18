@@ -1,4 +1,5 @@
 import { ObservablePoint } from "pixi.js";
+import { rectAinRectB } from "./collision";
 import { Game } from "./game";
 import { GameObject } from "./object";
 import { Rect } from "./types";
@@ -56,10 +57,14 @@ function node(id: string, name: string): Node {
   };
 }
 
+function objID(obj: GameObject) {
+  return obj.member + "-" + obj.mapName + "-" + obj.posX + "-" + obj.posY;
+}
+
 function objToNode(obj: GameObject, episode: number): Node {
   return {
     data: {
-      id: obj.member + "-" + obj.mapName + "-" + obj.posX + "-" + obj.posY,
+      id: objID(obj),
       name: obj.member,
       map: obj.mapName,
       image: "ep" + episode.toString() + "/" + obj.member + ".png",
@@ -102,6 +107,9 @@ export function generateNodes(game: Game) {
   const objs = new Set<string>();
   const acts = new Set<string>();
 
+  episode1(game.gameObjects).map((e) => elements.push(e));
+
+  // Add all important items as nodes
   importantObjects.map((o) => {
     const cond = o.data.item.COND[0]!;
     if (cond.giveAct) acts.add(cond.giveAct);
@@ -118,13 +126,59 @@ export function generateNodes(game: Game) {
     elements.push(node(a, a));
   });
 
-  episode1(game.gameObjects).map((e) => elements.push(e));
+  [...objs].map((o) => {
+    const n = node(o, o);
+    n.data.image = "ep1/" + n.data.name + ".png";
+    elements.push(n);
+  });
 
-  // Add all important items as nodes
+  // create all edges between objects that affect important nodes
+  const conds = game.gameObjects.filter((o) => {
+    const cond = o.data.item.COND[0];
+    return cond;
+  });
 
-  // Add all item/block nodes
+  //make it so blank conds are either start or needs boat
+  conds.map((c) => {
+    const cond = c.data.item.COND[0]!;
+    if (!cond.hasObj) {
+      if (waterAreas.find((w) => rectAinRectB(c.getRect(), w))) {
+        cond.hasObj = "scuba";
+      } else {
+        cond.hasObj = "start";
+      }
+    }
+  });
 
-  // Add act node only if it ever is relevant in meeting another node
+  // make edges from cond objects
 
-  elements.map((e) => console.log(e.data));
+  conds.map((o) => {
+    const id = objID(o);
+    const cond = o.data.item.COND[0]!;
+    if (cond.giveObj) {
+      if (cond.hasObj) {
+        elements.push(edge(cond.hasObj, id));
+        elements.push(edge(id, cond.giveObj));
+      }
+      if (cond.hasAct) {
+        elements.push(edge(cond.hasAct, id));
+        elements.push(edge(id, cond.giveObj));
+      }
+    }
+
+    if (cond.giveAct) {
+      if (cond.hasObj) {
+        elements.push(edge(cond.hasObj, id));
+        elements.push(edge(id, cond.giveAct));
+      }
+      if (cond.hasAct) {
+        elements.push(edge(cond.hasAct, id));
+        elements.push(edge(id, cond.giveAct));
+      }
+    }
+    //
+  });
+
+  //elements.map((e) => console.log(e.data));
+  console.log(elements);
 }

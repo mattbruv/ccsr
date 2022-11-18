@@ -1,13 +1,10 @@
 import cytoscape from "cytoscape";
 
-import nodes from "./ep1/nodes.json";
-import edges from "./ep1/edges.json";
-
-console.log(nodes);
+import ep1 from "./ep1/elements.json";
 
 var cy = cytoscape({
   container: document.getElementById("cy"), // container to render in
-  elements: [...nodes, ...edges],
+  elements: ep1,
   style: [
     // the stylesheet for the graph
     {
