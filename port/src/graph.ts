@@ -183,7 +183,7 @@ function objToNode(obj: GameObject, episode: number): Node {
       image: "ep" + episode.toString() + "/" + obj.member + ".png",
     },
   };
-  node.data.image.replace(" ", ".");
+  node.data.image = node.data.image.replace(" ", ".");
   return node;
 }
 
