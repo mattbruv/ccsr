@@ -31,6 +31,7 @@ import { Episode3 } from "./scripts/episode3";
 import { Episode4 } from "./scripts/episode4";
 import { GameSound } from "./sound";
 import { Intro } from "./intro";
+import { generateNodes } from "./graph";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -899,6 +900,8 @@ export class Game {
     document.getElementById("game-container")!.appendChild(this.app.view);
 
     this.introScreen.init(this);
+
+    generateNodes(this);
   }
 
   private initObjects() {
