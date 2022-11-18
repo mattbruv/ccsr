@@ -1,4 +1,4 @@
-import { ObservablePoint } from "pixi.js";
+import { ObservablePoint, Rectangle } from "pixi.js";
 import { rectAinRectB } from "./collision";
 import { Game } from "./game";
 import { GameObject } from "./object";
@@ -232,7 +232,6 @@ export function generateNodes(game: Game) {
     if (cond.giveObj) objs.add(cond.giveObj);
     if (cond.hasAct) acts.add(cond.hasAct);
     if (cond.hasObj) objs.add(cond.hasObj);
-    elements.push(objToNode(o, 1));
   });
 
   console.log(objs);
@@ -255,49 +254,53 @@ export function generateNodes(game: Game) {
   });
 
   //make it so blank conds are either start or needs boat
-  conds.map((c) => {
-    const cond = c.data.item.COND[0]!;
-    const vis = c.data.item.visi;
 
-    if (waterAreas.find((w) => rectAinRectB(c.getRect(), w))) {
-      elements.push(edge("scuba", objID(c)));
-    }
-
-    if (!cond.hasObj && !cond.hasAct) {
-      // dont do this for invisible objects
-      if (![vis.visiAct, vis.visiObj].find((s) => s)) {
-        if (c.member !== "block.58") {
-          cond.hasObj = "start";
-        }
-      }
-    }
-  });
+  conds
+    .filter((o) => {
+      const inWater = waterAreas.find((a) => rectAinRectB(o.getRect(), a));
+      const noObj = !o.data.item.COND[0]?.hasObj;
+      return inWater && noObj;
+    })
+    .map((o) => (o.data.item.COND[0]!.hasObj = "scuba"));
 
   // make edges from cond objects
 
   conds.map((o) => {
+    elements.push(objToNode(o, 1));
     const id = objID(o);
     const cond = o.data.item.COND[0]!;
+    const visi = o.data.item.visi;
     if (cond.giveObj) {
       if (cond.hasObj) {
         elements.push(edge(cond.hasObj, id));
-        elements.push(edge(id, cond.giveObj));
       }
+      elements.push(edge(id, cond.giveObj));
       if (cond.hasAct) {
         elements.push(edge(cond.hasAct, id));
-        elements.push(edge(id, cond.giveObj));
+      }
+      elements.push(edge(id, cond.giveObj));
+
+      if (!cond.hasAct && !cond.hasObj && !visi.visiAct && !visi.visiObj) {
+        elements.push(edge("start", id));
       }
     }
 
     if (cond.giveAct) {
       if (cond.hasObj) {
         elements.push(edge(cond.hasObj, id));
-        elements.push(edge(id, cond.giveAct));
       }
+      elements.push(edge(id, cond.giveAct));
       if (cond.hasAct) {
         elements.push(edge(cond.hasAct, id));
-        elements.push(edge(id, cond.giveAct));
       }
+      elements.push(edge(id, cond.giveAct));
+    }
+
+    if (visi.visiAct) {
+      elements.push(edge(visi.visiAct, id));
+    }
+    if (visi.visiObj) {
+      elements.push(edge(visi.visiObj, id));
     }
   });
 
