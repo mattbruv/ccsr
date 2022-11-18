@@ -1,28 +1,20 @@
 import cytoscape from "cytoscape";
 
+import nodes from "./ep1/nodes.json";
+import edges from "./ep1/edges.json";
+
+console.log(nodes);
+
 var cy = cytoscape({
   container: document.getElementById("cy"), // container to render in
-  elements: [
-    // list of graph elements to start with
-    {
-      // node a
-      data: { id: "a" },
-    },
-    {
-      // node b
-      data: { id: "b" },
-    },
-    {
-      // edge ab
-      data: { id: "ab", source: "a", target: "b" },
-    },
-  ],
+  elements: [...nodes, ...edges],
   style: [
     // the stylesheet for the graph
     {
       selector: "node",
       style: {
         "background-color": "#666",
+        "background-image": "data(image)", // specify some image
         label: "data(id)",
       },
     },
@@ -41,5 +33,3 @@ var cy = cytoscape({
     rows: 1,
   },
 });
-
-cy.resize();
