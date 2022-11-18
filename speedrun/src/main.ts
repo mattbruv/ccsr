@@ -20,7 +20,8 @@ var cy = cytoscape({
         "background-color": "#666",
         "background-image": "data(image)", // specify some image
         "background-clip": "none",
-        label: "data(id)",
+        "text-wrap": "wrap",
+        label: "data(name)",
       },
     },
     {

@@ -65,7 +65,7 @@ function objToNode(obj: GameObject, episode: number): Node {
   return {
     data: {
       id: objID(obj),
-      name: obj.member,
+      name: obj.member + " (" + obj.mapName + ")",
       map: obj.mapName,
       image: "ep" + episode.toString() + "/" + obj.member + ".png",
     },
