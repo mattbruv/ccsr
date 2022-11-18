@@ -13,13 +13,25 @@ var cy = cytoscape({
   container: document.getElementById("cy"), // container to render in
   elements: ep1,
   style: [
-    // the stylesheet for the graph
     {
       selector: "node",
       style: {
         "background-color": "#666",
-        "background-image": "data(image)", // specify some image
         "background-clip": "none",
+        "text-wrap": "wrap",
+        label: "data(name)",
+      },
+    },
+
+    // the stylesheet for the graph
+    {
+      selector: "node[image]",
+      style: {
+        "background-color": "#666",
+        "background-image": "data(image)", // specify some image
+        "background-image-smoothing": "no",
+        "background-clip": "none",
+        "background-opacity": 0,
         "text-wrap": "wrap",
         label: "data(name)",
       },
@@ -29,6 +41,7 @@ var cy = cytoscape({
       style: {
         width: 3,
         "line-color": "#ccc",
+        "curve-style": "bezier",
         "target-arrow-color": "#ccc",
         "target-arrow-shape": "triangle",
       },
