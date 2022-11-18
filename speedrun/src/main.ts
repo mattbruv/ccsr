@@ -5,6 +5,10 @@ import svg from "cytoscape-svg";
 import { saveAs } from "file-saver";
 import "./style.css";
 
+// @ts-ignore
+import dagre from "cytoscape-dagre";
+cytoscape.use(dagre);
+
 import ep1 from "./ep1/elements.json";
 import ep2 from "./ep2/elements.json";
 
@@ -14,12 +18,17 @@ var cy = cytoscape({
   container: document.getElementById("cy"), // container to render in
   elements: ep2,
   layout: {
-    name: "cose",
-    padding: 50,
+    name: "dagre",
     fit: true,
+    //nodeSep: 50,
+    //rankSep: 50,
     nodeDimensionsIncludeLabels: true,
-    componentSpacing: 40,
-    directed: false,
+    align: "UL",
+    //edgeSep: 500,
+    //ranker: "network-simplex",
+    //rankDir: "LR"
+    //fit: false,
+    //  nodeDimensionsIncludeLabels: true,
   },
   style: [
     {
