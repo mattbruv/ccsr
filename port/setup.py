@@ -178,7 +178,7 @@ def packImages(episodeNumber):
                            atlas_format="json", force_square=True, inner_padding=2)
     packer.pack(images, "ep{}".format(episodeNumber),
                 "public/assets/{}".format(episodeNumber))
-    shutil.rmtree(tempPath)
+    # shutil.rmtree(tempPath)
 
 
 def makeWhiteTransparent(imagePath):

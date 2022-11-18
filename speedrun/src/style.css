@@ -3,3 +3,7 @@
   height: 500px;
   display: block;
 }
+
+canvas {
+  image-rendering: pixelated;
+}

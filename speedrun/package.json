@@ -14,6 +14,8 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
-    "cytoscape": "^3.23.0"
+    "cytoscape": "^3.23.0",
+    "cytoscape-svg": "^0.4.0",
+    "file-saver": "^2.0.5"
   }
 }
