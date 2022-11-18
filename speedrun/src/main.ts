@@ -6,12 +6,21 @@ import { saveAs } from "file-saver";
 import "./style.css";
 
 import ep1 from "./ep1/elements.json";
+import ep2 from "./ep2/elements.json";
 
 cytoscape.use(svg);
 
 var cy = cytoscape({
   container: document.getElementById("cy"), // container to render in
-  elements: ep1,
+  elements: ep2,
+  layout: {
+    name: "cose",
+    padding: 50,
+    fit: true,
+    nodeDimensionsIncludeLabels: true,
+    componentSpacing: 40,
+    directed: false,
+  },
   style: [
     {
       selector: "node",
@@ -47,10 +56,6 @@ var cy = cytoscape({
       },
     },
   ],
-  layout: {
-    name: "grid",
-    rows: 1,
-  },
 });
 
 document.onkeyup = (e) => {

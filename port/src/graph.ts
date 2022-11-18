@@ -38,117 +38,6 @@ const waterAreas: Rect[] = [
   },
 ];
 
-const ep1Desc = [
-  {
-    name: "block.73",
-    desc: "nurse",
-  },
-  {
-    name: "block.41",
-    desc: "chicken",
-  },
-  {
-    name: "block.40",
-    desc: "cow",
-  },
-  {
-    name: "tile.7.x",
-    desc: "sand",
-  },
-  {
-    name: "marina top.pct",
-    desc: "marina",
-  },
-  {
-    name: "block.46",
-    desc: "og",
-  },
-  {
-    name: "block.48",
-    desc: "edd",
-  },
-  {
-    name: "block.53",
-    desc: "bananas",
-  },
-  {
-    name: "tile.5.x",
-    desc: "tiles",
-  },
-  {
-    name: "block.51",
-    desc: "wrench",
-  },
-  {
-    name: "tile.5.x",
-    desc: "tiles",
-  },
-  {
-    name: "tile.5.x",
-    desc: "tiles",
-  },
-  {
-    name: "tile.1.x",
-    desc: "water",
-  },
-  {
-    name: "tile.1.x",
-    desc: "water",
-  },
-  {
-    name: "tile.2.x",
-    desc: "grass",
-  },
-  {
-    name: "block.49",
-    desc: "tennis",
-  },
-  {
-    name: "block.38",
-    desc: "buttercup",
-  },
-  {
-    name: "block.45",
-    desc: "IR baboon",
-  },
-  {
-    name: "block.13",
-    desc: "hut",
-  },
-  {
-    name: "block.41",
-    desc: "chicken",
-  },
-  {
-    name: "block.47",
-    desc: "susie",
-  },
-  {
-    name: "block.42",
-    desc: "mojo jojo",
-  },
-  {
-    name: "block.43",
-    desc: "the mayor",
-  },
-  {
-    name: "block.58",
-    desc: "keys",
-  },
-  {
-    name: "block.104",
-    desc: "store",
-  },
-  {
-    name: "block.39",
-    desc: "dee dee",
-  },
-  {
-    name: "block.36",
-    desc: "dexter",
-  },
-];
-
 function edge(source: string, target: string): Edge {
   return {
     data: {
@@ -174,11 +63,10 @@ function objID(obj: GameObject) {
 
 function objToNode(obj: GameObject, episode: number): Node {
   const tag = " (" + obj.mapName + ")";
-  const lookup = ep1Desc.find((e) => obj.member === e.name)?.desc;
   const node = {
     data: {
       id: objID(obj),
-      name: lookup ? lookup + tag : obj.member + tag,
+      name: obj.member + tag,
       map: obj.mapName,
       image: "ep" + episode.toString() + "/" + obj.member + ".png",
     },
@@ -189,11 +77,11 @@ function objToNode(obj: GameObject, episode: number): Node {
 
 function episode1(objs: GameObject[]): Edge[] {
   const edges: Edge[] = [];
-  const endItems = ["gum", "ducktape", "bandaid", "sock", "tape"];
+  const endItems = ["turnip", "nutlog", "wig", "octo", "burger", "pineapple"];
 
   endItems.map((i) => edge(i, "end")).map((e) => edges.push(e));
-  edges.push(edge("gopump", "end"));
-  edges.push(edge("busmove", "start"));
+  edges.push(edge("gotennis", "end"));
+  //edges.push(edge("busmove", "start"));
 
   return edges;
 }
@@ -225,6 +113,12 @@ export function generateNodes(game: Game) {
 
   episode1(game.gameObjects).map((e) => elements.push(e));
 
+  game.gameObjects.find(
+    (o) => o.member === "block.51"
+  )!.data.item.COND[0]!.hasAct = "boulderno";
+
+  elements.push(edge("scuba", "block.139-0701-2656-224"));
+
   // Add all important items as nodes
   importantObjects.map((o) => {
     const cond = o.data.item.COND[0]!;
@@ -243,7 +137,7 @@ export function generateNodes(game: Game) {
 
   [...objs].map((o) => {
     const n = node(o, o);
-    n.data.image = "ep1/" + n.data.name + ".png";
+    n.data.image = "ep2/" + n.data.name + ".png";
     elements.push(n);
   });
 
@@ -266,7 +160,7 @@ export function generateNodes(game: Game) {
   // make edges from cond objects
 
   conds.map((o) => {
-    elements.push(objToNode(o, 1));
+    elements.push(objToNode(o, 2));
     const id = objID(o);
     const cond = o.data.item.COND[0]!;
     const visi = o.data.item.visi;
