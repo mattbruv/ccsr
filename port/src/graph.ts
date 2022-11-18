@@ -2,7 +2,7 @@ import { ObservablePoint } from "pixi.js";
 import { rectAinRectB } from "./collision";
 import { Game } from "./game";
 import { GameObject } from "./object";
-import { Rect } from "./types";
+import { GameObjectType, Rect } from "./types";
 
 interface Node {
   data: {
@@ -27,8 +27,8 @@ const waterAreas: Rect[] = [
   {
     x: 1118,
     y: 1813,
-    width: 1716 - 1118,
-    height: 1916 - 1913,
+    width: 1805 - 1118,
+    height: 1920 - 1813,
   },
   {
     x: 1199,
@@ -74,9 +74,10 @@ function objToNode(obj: GameObject, episode: number): Node {
 
 function episode1(objs: GameObject[]): Edge[] {
   const edges: Edge[] = [];
-  const endItems = ["gum", "ducktape", "bandaid", "sock", "tape", "wrench"];
+  const endItems = ["gum", "ducktape", "bandaid", "sock", "tape"];
 
   endItems.map((i) => edge(i, "end")).map((e) => edges.push(e));
+  edges.push(edge("gopump", "end"));
   edges.push(edge("busmove", "start"));
 
   return edges;
@@ -141,10 +142,15 @@ export function generateNodes(game: Game) {
   //make it so blank conds are either start or needs boat
   conds.map((c) => {
     const cond = c.data.item.COND[0]!;
-    if (!cond.hasObj) {
-      if (waterAreas.find((w) => rectAinRectB(c.getRect(), w))) {
-        cond.hasObj = "scuba";
-      } else {
+    const vis = c.data.item.visi;
+
+    if (waterAreas.find((w) => rectAinRectB(c.getRect(), w))) {
+      elements.push(edge("scuba", objID(c)));
+    }
+
+    if (!cond.hasObj && !cond.hasAct) {
+      // dont do this for invisible objects
+      if (![vis.visiAct, vis.visiObj].find((s) => s)) {
         cond.hasObj = "start";
       }
     }
@@ -176,7 +182,6 @@ export function generateNodes(game: Game) {
         elements.push(edge(id, cond.giveAct));
       }
     }
-    //
   });
 
   //elements.map((e) => console.log(e.data));
