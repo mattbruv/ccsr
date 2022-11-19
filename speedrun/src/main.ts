@@ -9,14 +9,15 @@ import "./style.css";
 import dagre from "cytoscape-dagre";
 cytoscape.use(dagre);
 
-import ep1 from "./ep1/elements.json";
+//import ep1 from "./ep1/elements.json";
+import ep3 from "./ep3/elements.json";
 //import ep2 from "./ep2/elements.json";
 
 cytoscape.use(svg);
 
 var cy = cytoscape({
   container: document.getElementById("cy"), // container to render in
-  elements: ep1,
+  elements: ep3,
   layout: {
     name: "dagre",
     fit: true,
