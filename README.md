@@ -53,6 +53,41 @@ You may be wondering why anyone would go through the effort to port this game to
 - **It is nostalgic**
   - For me, (as with many others) this game takes me back to a simpler time in life. I have returned to this game in nostalgia trips, and I have even [reverse engineered and fixed bugs](https://mattbruv.github.io/ccsr-bugfix/) in the original game. The people who hold fond memories of this game deserve to be able to play it again.
 
+## Solutions
+
+The following spoilers each contain an directed acyclic graph SVG which displays the solution for each episode.
+Created using [Cytoscape.js](https://js.cytoscape.org/).
+
+Do not look at them if you don't want the game spoiled for you.
+
+<details>
+  <summary>Episode 1</summary>
+
+![Episode 1 Graph](./port/images/episode1.svg)
+
+</details>
+
+<details>
+  <summary>Episode 2</summary>
+
+![Episode 2 Graph](./port/images/episode2.svg)
+
+</details>
+
+<details>
+  <summary>Episode 3</summary>
+
+![Episode 3 Graph](./port/images/episode3.svg)
+
+</details>
+
+<details>
+  <summary>Episode 4</summary>
+
+![Episode 4 Graph](./port/images/episode4.svg)
+
+</details>
+
 ## Special Thanks
 
 **[ProjectorRays](https://github.com/ProjectorRays/ProjectorRays)**
