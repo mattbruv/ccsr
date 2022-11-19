@@ -14,24 +14,20 @@ export class Episode2 extends EpisodeScript {
       case "0701":
       case "0702": {
         this.game.camera.setCameraBounds("0701", "0702");
-        this.game.viewport.mask = maskCrab;
         break;
       }
       case "0703":
       case "0704":
       case "0705": {
         this.game.camera.setCameraBounds("0703", "0705");
-        this.game.viewport.mask = maskHotel;
         break;
       }
       case "0706": {
         this.game.camera.setCameraBounds("0101", "0706");
-        this.game.viewport.mask = maskOverworld;
         break;
       }
       default: {
         this.game.camera.setCameraBounds("0101", "0606");
-        this.game.viewport.mask = maskOverworld;
         break;
       }
     }
@@ -51,12 +47,6 @@ export class Episode2 extends EpisodeScript {
     m = getMapsRect("0703", "0705");
     maskHotel.beginFill(0xffff00);
     maskHotel.drawRect(m.x, m.y, m.width, m.height);
-
-    this.game.worldContainer.addChild(maskOverworld);
-    this.game.worldContainer.addChild(maskCrab);
-    this.game.worldContainer.addChild(maskHotel);
-
-    this.game.viewport.mask = maskHotel;
 
     const startMap = "0705";
     this.game.setMap(startMap);

@@ -345,6 +345,7 @@ export class Game {
   }
 
   public updateAutoMoveObjects() {
+    return;
     // Direction is always incremented counter clockwise
     for (const obj of this.movingObjects) {
       // Initialize movers
