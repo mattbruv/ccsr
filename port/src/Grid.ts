@@ -105,8 +105,6 @@ export class Grid {
     //   const boundX = 4 * 2;
     //    const boundY = 4 * 2;
 
-    const noConfirmed: string[] = [];
-
     for (let x = 0; x < boundX; x++) {
       for (let y = 0; y < boundY; y++) {
         // we can walk here
@@ -126,17 +124,7 @@ export class Grid {
               //console.log(dx, dy);
               const tag = dx.toString() + "," + dy.toString();
               //console.log(x1, y1);
-              if (!canWalk && this.originalGrid.isWalkableAt(dx, dy) == false) {
-                noConfirmed.push(tag);
-              }
-              if (canWalk) {
-                try {
-                  if (noConfirmed.includes(tag) == false) {
-                    this.originalGrid.setWalkableAt(dx, dy, canWalk);
-                  }
-                  //console.log("ALSO AT", dx, dy);
-                } catch (e) {}
-              }
+              this.originalGrid.setWalkableAt(dx, dy, canWalk);
             }
           }
         }
