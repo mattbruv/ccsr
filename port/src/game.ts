@@ -31,6 +31,7 @@ import { Episode3 } from "./scripts/episode3";
 import { Episode4 } from "./scripts/episode4";
 import { GameSound } from "./sound";
 import { Intro } from "./intro";
+import { Grid } from "./Grid";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -97,6 +98,8 @@ export class Game {
 
   public introScreen: Intro;
 
+  public grid: Grid;
+
   constructor(episode: number, language: string) {
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
@@ -110,6 +113,8 @@ export class Game {
     });
 
     this.introScreen = new Intro(episode);
+
+    this.grid = new Grid(this);
 
     PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
     PIXI.settings.ROUND_PIXELS = true;
@@ -865,6 +870,7 @@ export class Game {
     this.player.init();
     this.initObjects();
     this.initWorldInfo();
+    this.grid.init();
 
     switch (episode) {
       case 2:
@@ -907,6 +913,7 @@ export class Game {
     this.viewport.removeChild(this.worldContainer);
     this.worldContainer = new PIXI.Container();
     this.viewport.addChild(this.worldContainer);
+    this.viewport.addChild(this.grid.container);
     this.gameObjects = [];
     const data: GameMapArea[] = Loader.shared.resources["map"].data;
     const messages: GameMessages = Loader.shared.resources["messages"].data;
