@@ -77,11 +77,14 @@ function objToNode(obj: GameObject, episode: number): Node {
 
 function episode1(objs: GameObject[]): Edge[] {
   const edges: Edge[] = [];
-  const endItems = ["turnip", "nutlog", "wig", "octo", "burger", "pineapple"];
+  //  const endItems = ["turnip", "nutlog", "wig", "octo", "burger", "pineapple"];
+  const endItems: string[] = ["dexter", "chicken", "courage", "baboon", "edd"];
 
   endItems.map((i) => edge(i, "end")).map((e) => edges.push(e));
-  edges.push(edge("gotennis", "end"));
+  edges.push(edge("gotkeys", "start"));
+  edges.push(edge("giveball", "end"));
   //edges.push(edge("busmove", "start"));
+  //edges.push(edge("door5", "block.37-0701-2640-95"));
 
   return edges;
 }
@@ -113,12 +116,14 @@ export function generateNodes(game: Game) {
 
   episode1(game.gameObjects).map((e) => elements.push(e));
 
+  /*
   game.gameObjects.find(
     (o) => o.member === "block.51"
   )!.data.item.COND[0]!.hasAct = "boulderno";
+  */
 
-  elements.push(edge("scuba", "block.139-0701-2656-224"));
-  elements.push(edge("movebags", "start"));
+  //elements.push(edge("scuba", "block.139-0701-2656-224"));
+  //elements.push(edge("movebags", "start"));
 
   // Add all important items as nodes
   importantObjects.map((o) => {
@@ -138,7 +143,7 @@ export function generateNodes(game: Game) {
 
   [...objs].map((o) => {
     const n = node(o, o);
-    n.data.image = "ep2/" + n.data.name + ".png";
+    n.data.image = "ep4/" + n.data.name + ".png";
     elements.push(n);
   });
 
@@ -161,7 +166,7 @@ export function generateNodes(game: Game) {
   // make edges from cond objects
 
   conds.map((o) => {
-    elements.push(objToNode(o, 2));
+    elements.push(objToNode(o, 4));
     const id = objID(o);
     const cond = o.data.item.COND[0]!;
     const visi = o.data.item.visi;
