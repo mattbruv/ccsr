@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Game } from "./game";
 import { GameObjectType, Rect } from "./types";
 import * as PF from "pathfinding";
-import { rectAinRectB } from "./collision";
+import { intersect, rectAinRectB } from "./collision";
 import { GameObject } from "./object";
 
 export class Grid {
@@ -38,12 +38,31 @@ export class Grid {
   }
 
   public canWalk(rect: Rect): boolean {
-    //console.log(rect);
-    const obj = this.objs.find((o) => rectAinRectB(rect, o.getRect()));
-    if (obj === undefined) {
+    rect.width = 32;
+    rect.height = 32;
+
+    const collide = this.objs.find(
+      (obj) => obj.isVisible() && intersect(rect, obj.getRect())
+    );
+
+    //console.log(rect, collide);
+
+    //const obj = this.objs.find((o) => rectAinRectB(rect, o.getRect()));
+    if (collide === undefined) {
       return false;
     }
-    return obj?.data.item.type != GameObjectType.WALL;
+
+    /*
+    const vis = collide.data.item.visi;
+
+    if (vis.inviAct || vis.inviObj || vis.visiAct || vis.visiObj) {
+      return true;
+    }
+    */
+
+    const t = collide.data.item.type;
+
+    return t != GameObjectType.WALL && t != GameObjectType.CHAR;
   }
 
   public renderGrid(graphics: PIXI.Graphics, grid: PF.Grid) {
@@ -60,20 +79,54 @@ export class Grid {
         } else {
           graphics.beginFill(0xff0000, 1);
         }
+        //console.log(rect);
         graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
       }
     }
   }
 
+  public noWalkGrid(grid: PF.Grid) {
+    for (let x = 0; x < grid.width; x++) {
+      for (let y = 0; y < grid.height; y++) {
+        grid.setWalkableAt(x, y, false);
+      }
+    }
+  }
+
   public fillOriginalGrid() {
+    this.noWalkGrid(this.originalGrid);
     const size = this.game.worldRect!;
 
-    for (let x = 0; x < size.width / 8; x++) {
-      for (let y = 0; y < size.height / 8; y++) {
+    const boundX = size.width / 8;
+    const boundY = size.height / 8;
+    //   const boundX = 4 * 2;
+    //    const boundY = 4 * 2;
+
+    for (let x = 0; x < boundX; x++) {
+      for (let y = 0; y < boundY; y++) {
         // we can walk here
+        //console.log("test", x, y);
         const canWalk = this.canWalk(this.gridXYtoRect(x, y));
         //console.log("WE DID IT? ", x, y, this.originalGrid.height);
-        this.originalGrid.setWalkableAt(x, y, canWalk);
+
+        if (!canWalk) {
+          continue;
+        }
+        for (let x1 = 0; x1 < 4; x1++) {
+          for (let y1 = 0; y1 < 4; y1++) {
+            const dx = x + x1;
+            const dy = y + y1;
+            if (dx < this.originalGrid.width && dy < this.originalGrid.height) {
+              //console.log(x1, y1);
+              try {
+                //console.log("ALSO AT", dx, dy);
+                this.originalGrid.setWalkableAt(dx, dy, canWalk);
+              } catch (e) {}
+            }
+          }
+        }
+
+        //this.originalGrid.setWalkableAt(x, y, canWalk);
         //
       }
     }

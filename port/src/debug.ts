@@ -65,6 +65,13 @@ export class Debugger {
     });
 
     document.addEventListener("keydown", (event) => {
+      if (event.key == "m") {
+        this.game.sound.chimes.play();
+        const snapshot = this.game.app.renderer.view
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+        window.location.href = snapshot;
+      }
       if (event.key == "p") {
         this.game.smoothAnimations = !this.game.smoothAnimations;
       }
