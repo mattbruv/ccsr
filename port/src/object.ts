@@ -180,12 +180,21 @@ export class GameObject implements IGameObject, MovableGameObject {
   }
 
   public getRect(): Rect {
-    return {
+    const rect = {
       x: this.posX,
       y: this.posY,
       width: this.width,
       height: this.height,
     };
+
+    if (this.member == "block.63") {
+      rect.x += 2;
+      rect.y += 2;
+      rect.width -= 2;
+      rect.height -= 2;
+    }
+
+    return rect;
   }
 
   /**

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { Game } from "./game";
-import { GameObjectType, Rect } from "./types";
+import { GameObjectMoveCond, GameObjectType, Rect } from "./types";
 import * as PF from "pathfinding";
 import { intersect, rectAinRectB } from "./collision";
 import { GameObject } from "./object";
@@ -41,9 +41,20 @@ export class Grid {
     rect.width = 32;
     rect.height = 32;
 
-    const collide = this.objs.find(
-      (obj) => obj.isVisible() && intersect(rect, obj.getRect())
-    );
+    const collide = this.objs.find((obj) => {
+      const vis = obj.data.item.visi;
+
+      return (
+        obj.isVisible() &&
+        intersect(rect, obj.getRect()) &&
+        obj.data.item.type !== GameObjectType.ITEM &&
+        obj.data.move.COND == GameObjectMoveCond.NONE &&
+        !vis.inviAct &&
+        !vis.inviObj &&
+        !vis.visiAct &&
+        !vis.visiObj
+      );
+    });
 
     //console.log(rect, collide);
 
@@ -51,14 +62,6 @@ export class Grid {
     if (collide === undefined) {
       return false;
     }
-
-    /*
-    const vis = collide.data.item.visi;
-
-    if (vis.inviAct || vis.inviObj || vis.visiAct || vis.visiObj) {
-      return true;
-    }
-    */
 
     const t = collide.data.item.type;
 
@@ -102,6 +105,8 @@ export class Grid {
     //   const boundX = 4 * 2;
     //    const boundY = 4 * 2;
 
+    const noConfirmed: string[] = [];
+
     for (let x = 0; x < boundX; x++) {
       for (let y = 0; y < boundY; y++) {
         // we can walk here
@@ -112,16 +117,26 @@ export class Grid {
         if (!canWalk) {
           continue;
         }
+
         for (let x1 = 0; x1 < 4; x1++) {
           for (let y1 = 0; y1 < 4; y1++) {
             const dx = x + x1;
             const dy = y + y1;
             if (dx < this.originalGrid.width && dy < this.originalGrid.height) {
+              //console.log(dx, dy);
+              const tag = dx.toString() + "," + dy.toString();
               //console.log(x1, y1);
-              try {
-                //console.log("ALSO AT", dx, dy);
-                this.originalGrid.setWalkableAt(dx, dy, canWalk);
-              } catch (e) {}
+              if (!canWalk && this.originalGrid.isWalkableAt(dx, dy) == false) {
+                noConfirmed.push(tag);
+              }
+              if (canWalk) {
+                try {
+                  if (noConfirmed.includes(tag) == false) {
+                    this.originalGrid.setWalkableAt(dx, dy, canWalk);
+                  }
+                  //console.log("ALSO AT", dx, dy);
+                } catch (e) {}
+              }
             }
           }
         }
