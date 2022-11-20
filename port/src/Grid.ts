@@ -68,7 +68,7 @@ export class Grid {
         intersect(rect, obj.getRect()) &&
         obj.data.item.type !== GameObjectType.ITEM &&
         obj.data.item.type !== GameObjectType.DOOR &&
-        obj.data.move.COND == GameObjectMoveCond.NONE &&
+        obj.data.move.COND != GameObjectMoveCond.AUTO &&
         !vis.inviAct &&
         !vis.inviObj &&
         !vis.visiAct &&
@@ -383,13 +383,14 @@ export class Grid {
       rect.width *= 4;
       rect.height *= 4;
     }
-    console.log(rect);
+    //console.log(rect);
     graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
   }
 
   public drawPath(path: number[][]) {
     //this.path.clear();
-    const color = randBetween(0x000000, 0x666666);
+    //const color = randBetween(0x000000, 0x666666);
+    const color = 0x00008b;
     this.path.beginFill(color, 1);
 
     let i = 0;
@@ -420,5 +421,6 @@ export class Grid {
     );
 
     this.drawPath(path);
+    console.log("PATH LENGTH: ", path.length);
   }
 }
