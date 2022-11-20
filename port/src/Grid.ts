@@ -236,9 +236,9 @@ export class Grid {
   public drawStartEnd() {
     console.log("DRWE SHIT");
     this.points.clear();
-    this.path.beginFill(0x00ffff, 1);
+    this.points.beginFill(0x00ffff, 1);
     this.drawPoint(this.points, this.from.x, this.from.y);
-    this.path.beginFill(0xffff00, 1);
+    this.points.beginFill(0xffff00, 1);
     this.drawPoint(this.points, this.to.x, this.to.y);
   }
 
@@ -250,7 +250,7 @@ export class Grid {
 
   public drawPath(path: number[][]) {
     this.path.clear();
-    this.path.beginFill(0xff00ff, 1);
+    this.path.beginFill(0x0000ff, 1);
 
     for (const p of path) {
       this.drawPoint(this.path, p[0], p[1]);
@@ -271,6 +271,6 @@ export class Grid {
       gridBackup
     );
 
-    console.log(path);
+    this.drawPath(path);
   }
 }
