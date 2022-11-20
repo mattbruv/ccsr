@@ -187,11 +187,20 @@ export class GameObject implements IGameObject, MovableGameObject {
       height: this.height,
     };
 
-    if (this.member == "block.63" || this.member == "block.117") {
+    if (
+      this.member == "block.63" ||
+      this.member == "block.117" ||
+      this.member == "block.116"
+    ) {
       rect.x += 2;
       rect.y += 2;
       rect.width -= 2;
       rect.height -= 2;
+    }
+
+    if (this.member == "block.18") {
+      rect.height -= 4;
+      rect.y += 4;
     }
 
     return rect;
