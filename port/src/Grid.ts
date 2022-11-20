@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Game } from "./game";
+import { Game, randBetween } from "./game";
 import { GameObjectMoveCond, GameObjectType, Pos, Rect } from "./types";
 import * as PF from "pathfinding";
 import { intersect, rectAinRectB } from "./collision";
@@ -218,6 +218,12 @@ export class Grid {
     document.onkeyup = (event) => {
       const key = event.key;
 
+      if (key == "c") {
+        this.path.clear();
+      }
+      if (key == "v") {
+        this.originalGraphics.visible = !this.originalGraphics.visible;
+      }
       if (key == "1") {
         console.log("SELECT START");
         this.pathSelect = PathPoint.START;
@@ -249,8 +255,9 @@ export class Grid {
   }
 
   public drawPath(path: number[][]) {
-    this.path.clear();
-    this.path.beginFill(0x0000ff, 1);
+    //this.path.clear();
+    const color = randBetween(0x000000, 0x666666);
+    this.path.beginFill(color, 1);
 
     for (const p of path) {
       this.drawPoint(this.path, p[0], p[1]);
@@ -258,7 +265,11 @@ export class Grid {
   }
 
   public calculatePath() {
-    const finder = new PF.AStarFinder();
+    const finder = new PF.AStarFinder({
+      //@ts-ignore
+      allowDiagonal: true,
+      dontCrossCorners: true,
+    });
     const gridBackup = this.originalGrid.clone();
 
     console.log("find", this.from, "to", this.to);
