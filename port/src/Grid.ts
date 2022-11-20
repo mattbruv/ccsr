@@ -116,15 +116,42 @@ export class Grid {
     }
   }
 
+  public inBounds(x: number, y: number, grid: PF.Grid): boolean {
+    const test = x >= 0 && x < grid.width && y >= 0 && y < grid.height;
+    return test;
+  }
+
   public tweakGrid() {
     this.tweakedGrid = this.originalGrid.clone();
     const originalBackup = this.originalGrid.clone();
+    for (let x = 0; x < this.tweakedGrid.width; x++) {
+      for (let y = 0; y < this.tweakedGrid.height; y++) {
+        const dx = x - 1;
+        const dy = y - 1;
+
+        if (this.inBounds(dx, dy, this.tweakedGrid)) {
+          const pWalkable = this.originalGrid.isWalkableAt(x, y);
+          const pdeltaWalkable = this.originalGrid.isWalkableAt(dx, dy);
+          const pyWalkable = this.originalGrid.isWalkableAt(x, dy);
+          const pxWalkable = this.originalGrid.isWalkableAt(dx, y);
+
+          if (
+            pWalkable == false &&
+            pdeltaWalkable == true &&
+            pyWalkable == true &&
+            pxWalkable == true
+          ) {
+            originalBackup.setWalkableAt(dx, dy, false);
+          }
+        }
+      }
+    }
 
     //loop through every item, but update
 
-    for (let x = 0; x < this.tweakedGrid.width; x++) {
-      for (let y = 0; y < this.tweakedGrid.height; y++) {
-        const canWalk = this.originalGrid.isWalkableAt(x, y);
+    for (let x = 0; x < this.originalGrid.width; x++) {
+      for (let y = 0; y < this.originalGrid.height; y++) {
+        const canWalk = originalBackup.isWalkableAt(x, y);
 
         if (canWalk) {
           continue;
@@ -136,19 +163,15 @@ export class Grid {
           const dx = x + adjust;
           const dy = y + adjust;
 
-          if (
-            dx >= 0 &&
-            dx < this.tweakedGrid.width &&
-            dy >= 0 &&
-            dy < this.tweakedGrid.height
-          ) {
-            this.tweakedGrid.setWalkableAt(dx, y, false);
-            this.tweakedGrid.setWalkableAt(x, dy, false);
+          if (this.inBounds(dx, dy, originalBackup)) {
+            originalBackup.setWalkableAt(dx, y, false);
+            originalBackup.setWalkableAt(x, dy, false);
           }
         }
         //
       }
     }
+    this.tweakedGrid = originalBackup;
   }
 
   public fillOriginalGrid() {
