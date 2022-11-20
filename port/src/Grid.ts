@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Game, randBetween } from "./game";
+import { Game, getMapRect, randBetween } from "./game";
 import { GameObjectMoveCond, GameObjectType, Pos, Rect } from "./types";
 import * as PF from "pathfinding";
 import { intersect, rectAinRectB } from "./collision";
@@ -215,6 +215,25 @@ export class Grid {
     }
   }
 
+  public fullyInMap(x: number, y: number) {
+    const rect = this.gridXYtoRect(x, y);
+    const obj = this.objs.find((o) => {
+      return intersect(rect, o.getRect());
+    });
+
+    if (obj == undefined) {
+      return false;
+    }
+
+    const map = obj.mapName;
+    const mapRect = getMapRect(map);
+    rect.width = 32;
+    rect.height = 32;
+    return rectAinRectB(rect, mapRect);
+
+    //
+  }
+
   public fillOriginalGrid() {
     this.noWalkGrid(this.originalGrid);
     const size = this.game.worldRect!;
@@ -226,6 +245,9 @@ export class Grid {
 
     for (let y = 0; y < boundY; y++) {
       for (let x = 0; x < boundX; x++) {
+        if (!this.fullyInMap(x, y)) {
+          continue;
+        }
         // we can walk here
         //console.log("test", x, y);
         const canWalk = this.canWalk(this.gridXYtoRect(x, y));
