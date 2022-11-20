@@ -361,8 +361,12 @@ export class Grid {
     const color = randBetween(0x000000, 0x666666);
     this.path.beginFill(color, 1);
 
+    let i = 0;
+
     for (const p of path) {
-      this.drawPoint(this.path, p[0], p[1]);
+      setTimeout(() => {
+        this.drawPoint(this.path, p[0], p[1]);
+      }, i++ * 6);
     }
   }
 
