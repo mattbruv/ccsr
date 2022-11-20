@@ -350,8 +350,17 @@ export class Grid {
     this.drawPoint(this.points, this.to.x, this.to.y);
   }
 
-  public drawPoint(graphics: PIXI.Graphics, x: number, y: number) {
+  public drawPoint(
+    graphics: PIXI.Graphics,
+    x: number,
+    y: number,
+    fat?: boolean
+  ) {
     const rect = this.gridXYtoRect(x, y);
+    if (fat) {
+      rect.width *= 4;
+      rect.height *= 4;
+    }
     console.log(rect);
     graphics.drawRect(rect.x, rect.y, rect.width, rect.height);
   }
@@ -365,7 +374,7 @@ export class Grid {
 
     for (const p of path) {
       setTimeout(() => {
-        this.drawPoint(this.path, p[0], p[1]);
+        this.drawPoint(this.path, p[0], p[1], true);
       }, i++ * 6);
     }
   }
