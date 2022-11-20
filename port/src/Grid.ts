@@ -124,28 +124,6 @@ export class Grid {
   public tweakGrid() {
     this.tweakedGrid = this.originalGrid.clone();
     const originalBackup = this.originalGrid.clone();
-    for (let x = 0; x < this.tweakedGrid.width; x++) {
-      for (let y = 0; y < this.tweakedGrid.height; y++) {
-        const dx = x - 1;
-        const dy = y - 1;
-
-        if (this.inBounds(dx, dy, this.tweakedGrid)) {
-          const pWalkable = this.originalGrid.isWalkableAt(x, y);
-          const pdeltaWalkable = this.originalGrid.isWalkableAt(dx, dy);
-          const pyWalkable = this.originalGrid.isWalkableAt(x, dy);
-          const pxWalkable = this.originalGrid.isWalkableAt(dx, y);
-
-          if (
-            pWalkable == false &&
-            pdeltaWalkable == true &&
-            pyWalkable == true &&
-            pxWalkable == true
-          ) {
-            originalBackup.setWalkableAt(dx, dy, false);
-          }
-        }
-      }
-    }
 
     //loop through every item, but update
 
@@ -171,7 +149,70 @@ export class Grid {
         //
       }
     }
+
     this.tweakedGrid = originalBackup;
+
+    // now fill in the corners
+
+    const greens = [
+      [0, 0],
+      [-1, 0],
+      [-2, 0],
+      //[-3, 0],
+      [0, -1],
+      [-1, -1],
+      [-2, -1],
+      //[-3, -1],
+      [0, -2],
+      [-1, -2],
+      [-2, -2],
+      //[-3, -2],
+      //[0, -3],
+      //[-1, -3],
+      //[-2, -3],
+      //[-3, -3],
+    ];
+
+    const reds = [
+      [0, 1],
+      [1, 1],
+      [1, 0],
+    ];
+
+    const delta = (n: number[][], x: number, y: number): number[][] => {
+      return n.map((_x) => [_x[0] + x, _x[1] + y]);
+    };
+
+    for (let x = 0; x < this.tweakedGrid.width; x++) {
+      for (let y = 0; y < this.tweakedGrid.height; y++) {
+        //
+        const dGreens = delta(greens, x, y);
+        const dReds = delta(reds, x, y);
+        const all = [...dGreens, ...dReds];
+
+        if (
+          !all.every((coord) =>
+            this.inBounds(coord[0], coord[1], this.tweakedGrid)
+          )
+        ) {
+          continue;
+        }
+
+        const greenCheck = dGreens.every((g) =>
+          this.tweakedGrid.isWalkableAt(g[0], g[1])
+        );
+        const redCheck = dReds.every(
+          (g) => !this.tweakedGrid.isWalkableAt(g[0], g[1])
+        );
+
+        if (greenCheck && redCheck) {
+          // we have a corner
+          dGreens.map((g) => {
+            this.tweakedGrid.setWalkableAt(g[0], g[1], false);
+          });
+        }
+      }
+    }
   }
 
   public fillOriginalGrid() {
