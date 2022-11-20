@@ -20,6 +20,8 @@ export class Grid {
   private originalGrid: PF.Grid;
   private originalGraphics: PIXI.Graphics;
 
+  private tweakedGrid: PF.Grid;
+
   private objs: GameObject[] = [];
 
   private pathSelect = PathPoint.START;
@@ -38,6 +40,7 @@ export class Grid {
     this.gridlines = new PIXI.Graphics();
 
     this.originalGrid = new PF.Grid(1, 1);
+    this.tweakedGrid = new PF.Grid(1, 1);
     this.originalGraphics = new PIXI.Graphics();
 
     this.points = new PIXI.Graphics();
@@ -113,6 +116,41 @@ export class Grid {
     }
   }
 
+  public tweakGrid() {
+    this.tweakedGrid = this.originalGrid.clone();
+    const originalBackup = this.originalGrid.clone();
+
+    //loop through every item, but update
+
+    for (let x = 0; x < this.tweakedGrid.width; x++) {
+      for (let y = 0; y < this.tweakedGrid.height; y++) {
+        const canWalk = this.originalGrid.isWalkableAt(x, y);
+
+        if (canWalk) {
+          continue;
+        }
+
+        for (let delta = 0; delta < 3; delta++) {
+          const adjust = delta - 3;
+
+          const dx = x + adjust;
+          const dy = y + adjust;
+
+          if (
+            dx >= 0 &&
+            dx < this.tweakedGrid.width &&
+            dy >= 0 &&
+            dy < this.tweakedGrid.height
+          ) {
+            this.tweakedGrid.setWalkableAt(dx, y, false);
+            this.tweakedGrid.setWalkableAt(x, dy, false);
+          }
+        }
+        //
+      }
+    }
+  }
+
   public fillOriginalGrid() {
     this.noWalkGrid(this.originalGrid);
     const size = this.game.worldRect!;
@@ -171,7 +209,6 @@ export class Grid {
       alignment: 0,
     });
 
-    /*
     for (let x = 0; x < size.width / 8; x++) {
       for (let y = 0; y < size.height / 8; y++) {
         const r = this.gridXYtoRect(x, y);
@@ -180,10 +217,11 @@ export class Grid {
         this.gridlines.lineTo(r.x + r.width, r.y + r.height);
       }
     }
-    */
 
     this.fillOriginalGrid();
-    this.renderGrid(this.originalGraphics, this.originalGrid);
+    this.tweakGrid();
+
+    this.renderGrid(this.originalGraphics, this.tweakedGrid);
 
     this.originalGraphics.alpha = 0.65;
     this.container.addChild(this.originalGraphics);
@@ -270,7 +308,7 @@ export class Grid {
       allowDiagonal: true,
       dontCrossCorners: true,
     });
-    const gridBackup = this.originalGrid.clone();
+    const gridBackup = this.tweakedGrid.clone();
 
     console.log("find", this.from, "to", this.to);
 
