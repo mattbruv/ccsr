@@ -285,7 +285,7 @@ export class Grid {
     this.fillOriginalGrid();
     this.tweakGrid();
 
-    this.renderGrid(this.originalGraphics, this.tweakedGrid);
+    this.renderGrid(this.originalGraphics, this.originalGrid);
 
     this.originalGraphics.alpha = 0.65;
     this.container.addChild(this.originalGraphics);
