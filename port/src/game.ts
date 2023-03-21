@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { Loader } from "pixi.js";
+import Hammer from "hammerjs";
 import { loadAssets } from "./load";
 import { GameObject, MOVE_DIRECTIONS } from "./object";
 import {
@@ -124,6 +125,45 @@ export class Game {
       // the interaction module is important for wheel to work properly
       // when renderer.view is placed or scaled
     });
+
+    const manager = new Hammer.Manager(this.app.view);
+    manager.add(new Hammer.Pan({
+      threshold: 100
+    }));
+    manager.add(new Hammer.Tap({
+      taps: 2
+    }));
+
+    type TouchLogic = (event: HammerInput) => boolean;
+    const threshold = 50;
+    const verticalCheck = (event: HammerInput) => Math.abs(event.deltaY) > threshold;
+    const horizontalCheck = (event: HammerInput) => Math.abs(event.deltaX) > threshold;
+
+    const pans: [string, Key, Key, TouchLogic][] = [
+      ["panup", Key.UP, Key.DOWN, verticalCheck],
+      ["pandown", Key.DOWN, Key.UP, verticalCheck],
+      ["panleft", Key.LEFT, Key.RIGHT, horizontalCheck],
+      ["panright", Key.RIGHT, Key.LEFT, horizontalCheck],
+    ]
+
+    pans.map(panInfo => {
+      const [eventName, add, remove, check] = panInfo;
+      manager.on(eventName, (event) => {
+        console.log(event)
+        if (check(event)) {
+          this.keysPressed.add(add);
+          this.keysPressed.delete(remove);
+        }
+      })
+    })
+
+    manager.on("panend", () => {
+      this.keysPressed.clear()
+    })
+
+    manager.on("tap", () => {
+      this.inventory.openInventory();
+    })
 
     this.player = new Player(this);
     this.camera = new GameCamera(this);

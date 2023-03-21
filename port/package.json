@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/hammerjs": "^2.0.41",
     "@types/howler": "^2.2.7",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
@@ -21,6 +22,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
     "@types/js-cookie": "^3.0.2",
+    "hammerjs": "^2.0.8",
     "hash.js": "^1.1.7",
     "howler": "^2.2.3",
     "js-cookie": "^3.0.1",

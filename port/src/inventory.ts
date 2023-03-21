@@ -62,6 +62,11 @@ export class GameInventory {
     this.spriteInstructions = new PIXI.Sprite();
     this.spriteSelectedItem = new PIXI.Sprite();
 
+    this.sprite.interactive = true;
+    this.sprite.on("touchstart", () => {
+      this.closeInventory();
+    })
+
     this.girlOrder = new PIXI.Sprite();
 
     this.onCloseCallback = undefined;

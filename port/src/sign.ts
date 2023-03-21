@@ -66,6 +66,11 @@ export class GameSign {
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
 
+    this.sprite.interactive = true;
+    this.sprite.on("touchstart", () => {
+      this.closeMessage()
+    })
+
     this.characterSprite = new PIXI.Sprite();
     this.characterSprite.anchor.set(0.5, 0.5);
     this.characterSprite.visible = true;
