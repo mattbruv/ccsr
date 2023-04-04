@@ -386,6 +386,9 @@ export class Game {
 
   public updateAutoMoveObjects() {
     // Direction is always incremented counter clockwise
+    const pp = this.player.getPosition();
+    const playerRect = this.player.getCollisionRectAtPoint(pp.x, pp.y);
+
     for (const obj of this.movingObjects) {
       // Initialize movers
       if (obj.moveDirection == -1) {
@@ -418,13 +421,13 @@ export class Game {
           width: obj.width,
           height: obj.height,
         };
-        const pp = this.player.getPosition();
-        const playerRect = this.player.getCollisionRectAtPoint(pp.x, pp.y);
-        if (
-          rectAinRectB(nextRect, bounds) &&
-          intersect(nextRect, playerRect) == false &&
-          this.canMoveGameObject(obj, nextPos)
-        ) {
+
+        const inPlayer = intersect(obj.getRect(), playerRect);
+        const willBeInPlayer = intersect(nextRect, playerRect);
+
+        if (rectAinRectB(nextRect, bounds) &&
+          (inPlayer || (!inPlayer && !willBeInPlayer)) &&
+          this.canMoveGameObject(obj, nextPos)) {
           obj.initMove(obj.nextPos, nextPos);
         } else {
           obj.movePos = obj.nextPos;
