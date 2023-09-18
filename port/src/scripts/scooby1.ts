@@ -17,9 +17,18 @@ export class Scooby1 extends EpisodeScript {
     this.game.camera.snapCameraToMap(startMap);
 
     this.game.filmLoopData = {
-      "block.159": ["block.159b", "block.160"],
-      "block.39": ["block.39b"]
-      // "block.124": [1, 2, 3, 2, 1, 4, 5].map((n) => "robot." + n),
+      "block.159": {
+        texture: {
+          loopTextures: ["block.159b", "block.160"],
+          delay: 3,
+        }
+      },
+      "block.39": {
+        texture: {
+          loopTextures: ["block.39b"],
+          delay: 4,
+        }
+      }
     };
 
     this.game.setFilmLoopObjects();

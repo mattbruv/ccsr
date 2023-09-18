@@ -65,7 +65,12 @@ export class Episode2 extends EpisodeScript {
     this.game.camera.snapCameraToMap(startMap);
 
     this.game.filmLoopData = {
-      "block.124": [1, 2, 3, 2, 1, 4, 5].map((n) => "robot." + n),
+      "block.124": {
+        texture: {
+          loopTextures: [1, 2, 3, 2, 1, 4, 5].map((n) => "robot." + n),
+          delay: 1,
+        }
+      }
     };
 
     this.game.setFilmLoopObjects();

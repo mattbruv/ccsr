@@ -1,4 +1,5 @@
 import { GameInventoryItemData } from "./inventory";
+import { GameObject } from "./object";
 
 export enum Key {
   UP = "ArrowUp",
@@ -13,8 +14,20 @@ export enum Key {
   D = "d",
 }
 
+interface FilmLoopTexture {
+  loopTextures: string[],
+  delay: number,
+}
+
+type FilmLoopCallback = (gameObject: GameObject, frame: number) => void;
+
+interface FilmLoop {
+  texture?: FilmLoopTexture;
+  callback?: FilmLoopCallback;
+}
+
 export interface FilmLoopData {
-  [key: string]: string[];
+  [key: string]: FilmLoop;
 }
 
 export interface GameData {

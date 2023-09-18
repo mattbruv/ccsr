@@ -461,11 +461,24 @@ export class Game {
 
   private updateFilmLoopObjects() {
     this.filmLoopObjects.map((obj) => {
-      const frames = this.filmLoopData[obj.member];
-      const tex = getMemberTexture(frames[obj.frame]);
-      obj.sprite.texture = tex!;
-
-      obj.frame = obj.frame + 1 >= frames.length ? 0 : obj.frame + 1;
+      const filmLoop = this.filmLoopData[obj.member];
+      // handle texture
+      if (filmLoop.texture) {
+        //console.log("texture", obj)
+        const textures = filmLoop.texture.loopTextures;
+        if (obj.frame % filmLoop.texture.delay === 0) {
+          const tex = getMemberTexture(textures[obj.frameIndex++ % textures.length]);
+          obj.sprite.texture = tex!;
+          if (obj.frameIndex > textures.length) {
+            obj.frameIndex = 0;
+          }
+        }
+        obj.frame++;
+      }
+      // handle callback film loops
+      else if (filmLoop.callback) {
+        console.log("callback: ", obj.member);
+      }
     });
   }
 
