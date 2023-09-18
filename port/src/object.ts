@@ -120,8 +120,11 @@ export class GameObject implements IGameObject, MovableGameObject {
       this.member.includes("tile.1.x") &&
       this.data.item.type == GameObjectType.WALL
     ) {
-      (this.sprite as TilingSprite).tilePosition.x -= 16;
-      this.width = 16;
+      const tile = this.sprite as TilingSprite;
+      if (tile.tilePosition) {
+        tile.x -= 16;
+        this.width = 16;
+      }
     }
 
     this.sprite.position.set(this.posX, this.posY);

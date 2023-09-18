@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 
 export function loadAssets(
-  episodeNumber: number,
+  episodeNumber: string,
   language: string,
   doneCallback: () => void
 ) {

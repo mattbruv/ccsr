@@ -235,7 +235,12 @@ def setupSounds():
 def setup():
     setupSounds()
     pathlib.Path("public/assets").mkdir(parents=True, exist_ok=True)
-    for i in range(1, 5):
+
+    episodes = list(range(1, 5))
+    episodes.append("scooby-1")
+    episodes.append("scooby-2")
+
+    for i in episodes:
         pathlib.Path("public/assets/{}".format(i)
                      ).mkdir(parents=True, exist_ok=True)
         translateImages(i)

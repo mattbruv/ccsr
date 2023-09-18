@@ -98,7 +98,7 @@ export class Game {
 
   public introScreen: Intro;
 
-  constructor(episode: number, language: string) {
+  constructor(episode: string, language: string) {
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
       resolution: 1,
@@ -897,7 +897,7 @@ export class Game {
     return result;
   }
 
-  private init(episode: number) {
+  private init(episode: string) {
     if (!import.meta.env.DEV) {
       window.onbeforeunload = () => {
         return "Are you sure you want to leave?";
@@ -909,13 +909,13 @@ export class Game {
     this.initWorldInfo();
 
     switch (episode) {
-      case 2:
+      case "2":
         this.script = new Episode2(this);
         break;
-      case 3:
+      case "3":
         this.script = new Episode3(this);
         break;
-      case 4:
+      case "4":
         this.script = new Episode4(this);
         break;
       default:

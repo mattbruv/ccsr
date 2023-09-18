@@ -4,10 +4,10 @@ import { Game, getMemberTexture } from "./game";
 export class Intro {
   public container: PIXI.Container;
   private message: PIXI.Sprite;
-  private episode: number;
+  private episode: string;
   public inIntro = true;
 
-  constructor(episode: number) {
+  constructor(episode: string) {
     this.container = new PIXI.Container();
     this.episode = episode;
     this.message = new PIXI.Sprite();
