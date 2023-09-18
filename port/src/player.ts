@@ -171,14 +171,23 @@ export class Player implements MovableGameObject {
     type scoobyOffset = "left" | "top" | "right" | "bottom" |
       "pLeft" | "pTop" | "pRight" | "pBottom";
 
+    /*
+      the Y offsets used to be +/-17 instead of 16,
+      but this caused a bug in the conditional in a different function,
+      causing it to be off by one and make scooby alternate between up/down
+      when walking sideways. Changing the Y value fixes this issue.
+      This whole scooby code is a giant dumpster fire anyway,
+      but we want to support those games and they aren't coming out with more,
+      so who cares
+    */
     const scoobyOffsetList: { [key in scoobyOffset]: Pos } = {
-      left: { x: 48, y: 17 },
+      left: { x: 48, y: 16 },
       top: { x: 0, y: 60 },
-      right: { x: -48, y: 17 },
+      right: { x: -48, y: 16 },
       bottom: { x: 0, y: -60 },
-      pLeft: { x: 48, y: 17 },
+      pLeft: { x: 48, y: 16 },
       pTop: { x: 0, y: 0 },
-      pRight: { x: -48, y: 17 },
+      pRight: { x: -48, y: 16 },
       pBottom: { x: 0, y: 0 }
     };
 
@@ -212,6 +221,8 @@ export class Player implements MovableGameObject {
     const thisLoc: Pos = { x: shaggyLoc.x + thisOffset.x, y: shaggyLoc.y + thisOffset.y };
     const myLoc: Pos = { x: this.scooby.position.x, y: this.scooby.position.y }
 
+    console.log("getDelta thisLoc", thisLoc, "myLoc", myLoc)
+
     if (myLoc.x < thisLoc.x) {
       thisDelta.x += thisUnit;
     }
@@ -223,6 +234,7 @@ export class Player implements MovableGameObject {
         thisDelta.x = 0;
       }
     }
+
     if (myLoc.y > thisLoc.y) {
       thisDelta.y -= thisUnit;
     }
@@ -262,9 +274,11 @@ export class Player implements MovableGameObject {
     const thisOffset = this.getScoobyOffset(thisDir, isPerpendicular);
     console.log("\n scooby dir:", this.scoobyDirection)
     console.log("chardir: ", this.characterDirection, "is perp:", isPerpendicular)
+    console.log("offset", thisOffset)
 
     // If scooby's collision rectangle isn't in the players, move him
     if (this.scoobyCanMove(thisRect)) {
+      console.log("thisLoc: ", thisLoc)
       const thisDelta = this.scoobyGetDelta(thisLoc, thisOffset);
       const scooby = this.scooby.position;
       const newLoc: Pos = { x: scooby.x + thisDelta.x, y: this.scooby.y + thisDelta.y };
