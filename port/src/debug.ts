@@ -39,8 +39,8 @@ export class Debugger {
     if (!import.meta.env.DEV) {
       return;
     }
-    //this.game.viewport.addChild(this.mapGrid);
-    //this.game.viewport.addChild(this.g);
+    this.game.viewport.addChild(this.mapGrid);
+    this.game.viewport.addChild(this.g);
 
     this.game.viewport.interactive = true;
 
