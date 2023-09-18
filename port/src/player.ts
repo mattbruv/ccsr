@@ -60,7 +60,7 @@ export class Player implements MovableGameObject {
     this.state = PlayerState.NORMAL;
     this.horizontalDirection = PlayerDirection.RIGHT;
     this.characterDirection = PlayerDirection.RIGHT;
-    this.scoobyDirection = PlayerDirection.DOWN;
+    this.scoobyDirection = PlayerDirection.RIGHT;
     this.frameOfAnimation = 1;
 
     this.posX = 0;
@@ -92,9 +92,6 @@ export class Player implements MovableGameObject {
     this.posY = y;
     this.sprite.position.set(this.posX, this.posY);
 
-    if (this.game.engineType === EngineType.Scooby) {
-      // this.scooby.position.set(this.posX, this.posY)
-    }
   }
 
   public initMove(fromPos: Pos, toPos: Pos) {
@@ -118,6 +115,10 @@ export class Player implements MovableGameObject {
 
     if (this.game.camera.getMode() == CameraMode.CENTER_ON_PLAYER) {
       this.game.camera.centerCameraOnPlayer();
+    }
+
+    if (this.game.engineType === EngineType.Scooby) {
+      this.updateScooby();
     }
 
     this.game.sound.walk.pause();
@@ -148,6 +149,7 @@ export class Player implements MovableGameObject {
   }
 
   private isPerpendicular(dir: PlayerDirection) {
+    console.log("scoob: ", this.scoobyDirection, "shag: ", dir)
     switch (this.scoobyDirection) {
       case PlayerDirection.UP:
       case PlayerDirection.DOWN:
@@ -251,7 +253,6 @@ export class Player implements MovableGameObject {
   public updateScooby() {
 
     const thisLoc: Pos = this.nextPos;
-    console.log("chardir: ", this.characterDirection)
     const thisDir = this.characterDirection;
     const thisFrame = this.frameOfAnimation;
     const thisSpeed = this.speed;
@@ -259,6 +260,8 @@ export class Player implements MovableGameObject {
 
     const isPerpendicular = this.isPerpendicular(thisDir);
     const thisOffset = this.getScoobyOffset(thisDir, isPerpendicular);
+    console.log("\n scooby dir:", this.scoobyDirection)
+    console.log("chardir: ", this.characterDirection, "is perp:", isPerpendicular)
 
     // If scooby's collision rectangle isn't in the players, move him
     if (this.scoobyCanMove(thisRect)) {
@@ -282,11 +285,6 @@ export class Player implements MovableGameObject {
   }
 
   public refreshTexture() {
-
-    if (this.game.engineType === EngineType.Scooby) {
-      this.updateScooby();
-    }
-
     const texStr = this.getTextureString();
     const texture =
       PIXI.Loader.shared.resources["textures"].spritesheet?.textures[texStr]!;
