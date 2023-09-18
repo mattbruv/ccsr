@@ -39,9 +39,16 @@ export const MAP_HEIGHT = 320;
 export const UI_WIDTH_PERCENT = 0.6;
 export const UI_HEIGHT_PERCENT = 0.6;
 
+export enum EngineType {
+  CCSR,
+  Scooby
+}
+
 export class Game {
   public app;
   public viewport: Viewport;
+
+  public engineType: EngineType;
 
   public player: Player;
   public gameObjects: GameObject[] = [];
@@ -99,6 +106,12 @@ export class Game {
   public introScreen: Intro;
 
   constructor(episode: string, language: string) {
+
+    this.engineType = episode.toLowerCase().includes("scooby")
+      ? EngineType.Scooby
+      : EngineType.CCSR;
+
+
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
       resolution: 1,
@@ -194,7 +207,7 @@ export class Game {
     // Load Episode 1 assets/scripts
     this.script = new Episode1(this);
 
-    this.sign = new GameSign(this);
+    this.sign = new GameSign(this, this.engineType);
     this.inventory = new GameInventory(this);
 
     this.sound = new GameSound();

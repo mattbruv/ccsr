@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import {
+  EngineType,
   Game,
   getMemberTexture,
   UI_HEIGHT_PERCENT,
@@ -18,13 +19,15 @@ export class GameSign {
 
   private isMessageShowing = false;
   private isCharacterMessage = false;
+  private engine: EngineType;
 
   private onCloseCallback: (() => void) | undefined;
 
   private scale = 1;
 
-  constructor(game: Game) {
+  constructor(game: Game, engine: EngineType) {
     this.game = game;
+    this.engine = engine;
 
     this.sprite = new PIXI.Sprite();
     this.characterSprite = new PIXI.Sprite();
@@ -117,8 +120,20 @@ export class GameSign {
   }
 
   private setTextDimensions(isSign: boolean) {
-    const width = isSign ? 242 : 165;
-    const height = isSign ? 136 : 160;
+    let width = isSign ? 242 : 165;
+    let height = isSign ? 136 : 160;
+
+    let l = isSign ? 30 : 120;
+    const t = isSign ? 34 : 18;
+
+    // tweak for scooby
+    if (this.engine == EngineType.Scooby) {
+      if (!isSign) {
+        l -= 10;
+        width -= 8;
+        height -= 5;
+      }
+    }
 
     const boxWidth = width * this.scale;
     const boxHeight = height * this.scale;
@@ -126,8 +141,6 @@ export class GameSign {
     const halfWidth = Math.round(this.sprite.width / 2);
     const halfHeight = Math.round(this.sprite.height / 2);
 
-    const l = isSign ? 30 : 120;
-    const t = isSign ? 34 : 18;
 
     const leftAdjust = l * this.scale;
     const topAdjust = t * this.scale;
