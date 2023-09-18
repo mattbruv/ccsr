@@ -957,6 +957,10 @@ export class Game {
     this.script.init();
     this.initRenderObjects();
 
+    if (this.engineType === EngineType.Scooby) {
+      this.viewport.addChild(this.player.scooby);
+    }
+
     this.viewport.addChild(this.player.sprite);
 
     this.debug.init();

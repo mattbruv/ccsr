@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { CameraMode } from "./camera";
-import { EngineType, Game, getMapRect } from "./game";
+import { EngineType, Game, getMapRect, getMemberTexture } from "./game";
 import { MovableGameObject, Pos, Rect } from "./types";
 
 export enum PlayerStatus {
@@ -26,6 +26,8 @@ export class Player implements MovableGameObject {
   private game: Game;
 
   public sprite: PIXI.Sprite;
+  public scooby: PIXI.Sprite;
+
   public speed: number;
   public status: PlayerStatus;
   public animNum: number;
@@ -48,6 +50,7 @@ export class Player implements MovableGameObject {
   constructor(game: Game) {
     this.game = game;
     this.sprite = new PIXI.Sprite();
+    this.scooby = new PIXI.Sprite();
     this.status = PlayerStatus.MOVE;
     this.speed = 8;
     this.animNum = 1;
@@ -59,11 +62,18 @@ export class Player implements MovableGameObject {
 
     this.posX = 0;
     this.posY = 0;
+
   }
 
   public init() {
     this.sprite = PIXI.Sprite.from(this.getTextureString());
     this.sprite.anchor.set(0.5, 0.5);
+
+    if (this.game.engineType === EngineType.Scooby) {
+      this.scooby.texture = getMemberTexture("scooby.down.1")!;
+      this.scooby.anchor.set(0.5)
+      this.scooby.position.set(this.posX, this.posY)
+    }
   }
 
   public setStatus(status: PlayerStatus) {
@@ -78,6 +88,10 @@ export class Player implements MovableGameObject {
     this.posX = x;
     this.posY = y;
     this.sprite.position.set(this.posX, this.posY);
+
+    if (this.game.engineType === EngineType.Scooby) {
+      this.scooby.position.set(this.posX, this.posY)
+    }
   }
 
   public initMove(fromPos: Pos, toPos: Pos) {
@@ -127,6 +141,16 @@ export class Player implements MovableGameObject {
   }
 
   public refreshTexture() {
+    /*
+     sendSprite(
+        me.pScoobySprite,
+        #mMove,
+        loc,
+        characterDirection,
+        frameOfAnimation,
+        thisSpeed,
+        rect)
+    */
     const texStr = this.getTextureString();
     const texture =
       PIXI.Loader.shared.resources["textures"].spritesheet?.textures[texStr]!;
