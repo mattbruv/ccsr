@@ -208,7 +208,7 @@ export class Game {
     this.script = new Episode1(this);
 
     this.sign = new GameSign(this, this.engineType);
-    this.inventory = new GameInventory(this);
+    this.inventory = new GameInventory(this, this.engineType);
 
     this.sound = new GameSound();
 
