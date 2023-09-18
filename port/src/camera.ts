@@ -79,7 +79,7 @@ export class GameCamera {
     //this.currentCameraPos = lastPos;
     const lastPos = this.currentCameraPos;
     this.nextCameraPos = this.getMapCameraXY(nextMap);
-    console.log(lastPos, this.nextCameraPos);
+    // console.log(lastPos, this.nextCameraPos);
     //console.log("from", this.currentCameraPos, "to", this.nextCameraPos);
 
     const deltaX = this.nextCameraPos.x - lastPos.x;

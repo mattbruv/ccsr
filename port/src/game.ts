@@ -843,6 +843,15 @@ export class Game {
           const delta = { ...nextPos };
           delta.x -= pos.x;
           delta.y -= pos.y;
+
+          // ugly hack to fix camera panning when moving north
+          // Idk why it's so broken but I don't care at all to understand it
+          // we're just gonna hotfix it
+          if (delta.y === 0 && delta.x === 0) {
+            nextPos.y -= 32;
+            this.player.scooby.y -= 32
+          }
+
           this.player.scooby.x += delta.x;
           this.player.scooby.y += delta.y;
         }

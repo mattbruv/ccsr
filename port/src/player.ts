@@ -149,7 +149,7 @@ export class Player implements MovableGameObject {
   }
 
   private isPerpendicular(dir: PlayerDirection) {
-    console.log("scoob: ", this.scoobyDirection, "shag: ", dir)
+    // console.log("scoob: ", this.scoobyDirection, "shag: ", dir)
     switch (this.scoobyDirection) {
       case PlayerDirection.UP:
       case PlayerDirection.DOWN:
@@ -221,7 +221,7 @@ export class Player implements MovableGameObject {
     const thisLoc: Pos = { x: shaggyLoc.x + thisOffset.x, y: shaggyLoc.y + thisOffset.y };
     const myLoc: Pos = { x: this.scooby.position.x, y: this.scooby.position.y }
 
-    console.log("getDelta thisLoc", thisLoc, "myLoc", myLoc)
+    // console.log("getDelta thisLoc", thisLoc, "myLoc", myLoc)
 
     if (myLoc.x < thisLoc.x) {
       thisDelta.x += thisUnit;
@@ -272,17 +272,17 @@ export class Player implements MovableGameObject {
 
     const isPerpendicular = this.isPerpendicular(thisDir);
     const thisOffset = this.getScoobyOffset(thisDir, isPerpendicular);
-    console.log("\n scooby dir:", this.scoobyDirection)
-    console.log("chardir: ", this.characterDirection, "is perp:", isPerpendicular)
-    console.log("offset", thisOffset)
+    // console.log("\n scooby dir:", this.scoobyDirection)
+    // console.log("chardir: ", this.characterDirection, "is perp:", isPerpendicular)
+    // console.log("offset", thisOffset)
 
     // If scooby's collision rectangle isn't in the players, move him
     if (this.scoobyCanMove(thisRect)) {
-      console.log("thisLoc: ", thisLoc)
+      // console.log("thisLoc: ", thisLoc)
       const thisDelta = this.scoobyGetDelta(thisLoc, thisOffset);
       const scooby = this.scooby.position;
       const newLoc: Pos = { x: scooby.x + thisDelta.x, y: this.scooby.y + thisDelta.y };
-      console.log("delta:", thisDelta)
+      // console.log("delta:", thisDelta)
       thisRect = this.getCollisionRectAtPoint(newLoc.x + thisDelta.x, newLoc.y + thisDelta.y);
       const newDir = this.scoobyGetDir(thisDelta);
       if (newDir !== null) {
@@ -336,7 +336,7 @@ export class Player implements MovableGameObject {
 
   private getScoobyTexture(thisDir: PlayerDirection, thisFrame: number) {
     const textureString = `scooby.${thisDir}.${thisFrame}`;
-    console.log(textureString);
+    // console.log(textureString);
     return getMemberTexture(textureString);
 
   }
