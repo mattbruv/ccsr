@@ -322,6 +322,9 @@ export class Player implements MovableGameObject {
       result.y -= padding;
       result.width = w;
       result.height = h;
+
+      // move to bottom half of 64 height sprite
+      result.y += 16;
     };
 
     return result;
