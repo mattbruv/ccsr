@@ -124,7 +124,7 @@ export class GameSign {
     let height = isSign ? 136 : 160;
 
     let l = isSign ? 30 : 120;
-    const t = isSign ? 34 : 18;
+    let t = isSign ? 34 : 18;
 
     // tweak for scooby
     if (this.engine == EngineType.Scooby) {
@@ -132,6 +132,12 @@ export class GameSign {
         l -= 10;
         width -= 8;
         height -= 5;
+      }
+      else {
+        l += 30;
+        width -= 30;
+        height += 24;
+        t -= 20;
       }
     }
 
