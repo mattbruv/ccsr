@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { CameraMode } from "./camera";
-import { Game, getMapRect } from "./game";
+import { EngineType, Game, getMapRect } from "./game";
 import { MovableGameObject, Pos, Rect } from "./types";
 
 export enum PlayerStatus {
@@ -146,6 +146,10 @@ export class Player implements MovableGameObject {
     };
   }
 
+  public getAnimationFrameCount(): number {
+    return (this.game.engineType === EngineType.Scooby) ? 3 : 2
+  }
+
   private getTextureString() {
     const normal = [
       this.state,
@@ -154,6 +158,12 @@ export class Player implements MovableGameObject {
     ];
     const boat = [this.state, this.characterDirection];
     const arr = this.state == PlayerState.NORMAL ? normal : boat;
+
+    if (this.game.engineType === EngineType.Scooby) {
+      const shaggyState = [this.state, this.characterDirection, this.frameOfAnimation];
+      return shaggyState.join(".") + ".png";
+    }
+
     return arr.join(".") + ".png";
   }
 }

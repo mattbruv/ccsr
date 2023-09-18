@@ -855,7 +855,8 @@ export class Game {
     }
 
     const nextFrame = this.player.frameOfAnimation + 1;
-    this.player.frameOfAnimation = nextFrame > 2 ? 1 : nextFrame;
+    this.player.frameOfAnimation =
+      nextFrame > this.player.getAnimationFrameCount() ? 1 : nextFrame;
 
     if (dx > 0) this.player.characterDirection = PlayerDirection.RIGHT;
     if (dx < 0) this.player.characterDirection = PlayerDirection.LEFT;
