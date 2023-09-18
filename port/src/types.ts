@@ -19,7 +19,7 @@ interface FilmLoopTexture {
   delay: number,
 }
 
-type FilmLoopCallback = (gameObject: GameObject, frame: number) => void;
+type FilmLoopCallback = (gameObject: GameObject) => void;
 
 interface FilmLoop {
   texture?: FilmLoopTexture;

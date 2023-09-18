@@ -477,7 +477,8 @@ export class Game {
       }
       // handle callback film loops
       else if (filmLoop.callback) {
-        console.log("callback: ", obj.member);
+        filmLoop.callback(obj);
+        obj.frame++;
       }
     });
   }

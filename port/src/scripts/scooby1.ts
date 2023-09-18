@@ -1,6 +1,6 @@
 import { EpisodeScript } from "../script";
 import * as PIXI from "pixi.js";
-import { getMapRect, getMapsRect } from "../game";
+import { getMapRect, getMapsRect, getMemberTexture } from "../game";
 import { Rect } from "../types";
 import { Scene2 } from "../scenes/scene2";
 
@@ -24,10 +24,16 @@ export class Scooby1 extends EpisodeScript {
         }
       },
       "block.39": {
-        texture: {
-          loopTextures: ["block.39b"],
-          delay: 4,
-        }
+        callback(gameObject) {
+          // change the inital texture of the ghost
+          if (gameObject.member === "block.39") {
+            const tex = getMemberTexture("block.39b")!;
+            gameObject.sprite.texture = tex;
+          }
+          // animate it fading in and out
+          const alpha = Math.abs(Math.sin(gameObject.frame / 5));
+          gameObject.sprite.alpha = alpha;
+        },
       }
     };
 
