@@ -204,29 +204,81 @@ export class Player implements MovableGameObject {
     return !intersect(scoobRect, thisRect);
   }
 
+  private scoobyGetDelta(shaggyLoc: Pos, thisOffset: Pos): Pos {
+    const thisDelta: Pos = { x: 0, y: 0 }
+    const thisUnit = 8;
+    const thisLoc: Pos = { x: shaggyLoc.x + thisOffset.x, y: shaggyLoc.y + thisOffset.y };
+    const myLoc: Pos = { x: this.scooby.position.x, y: this.scooby.position.y }
+
+    if (myLoc.x < thisLoc.x) {
+      thisDelta.x += thisUnit;
+    }
+    else {
+      if (myLoc.x > thisLoc.x) {
+        thisDelta.x -= thisUnit;
+      }
+      else {
+        thisDelta.x = 0;
+      }
+    }
+    if (myLoc.y > thisLoc.y) {
+      thisDelta.y -= thisUnit;
+    }
+    else {
+      if (myLoc.y < thisLoc.y) {
+        thisDelta.y += thisUnit;
+      }
+      else {
+        thisDelta.y = 0;
+      }
+    }
+
+    return thisDelta;
+  }
+
+  private scoobyGetDir(delta: Pos): PlayerDirection | null {
+    if (delta.y > 0)
+      return PlayerDirection.DOWN
+    if (delta.y < 0)
+      return PlayerDirection.UP
+    if (delta.x > 0)
+      return PlayerDirection.RIGHT
+    if (delta.x < 0)
+      return PlayerDirection.LEFT
+    return null;
+  }
+
   public updateScooby() {
 
     const thisLoc: Pos = this.nextPos;
+    console.log("chardir: ", this.characterDirection)
     const thisDir = this.characterDirection;
     const thisFrame = this.frameOfAnimation;
     const thisSpeed = this.speed;
-    const thisRect = this.getCollisionRectAtPoint(thisLoc.x, thisLoc.y);
+    let thisRect = this.getCollisionRectAtPoint(thisLoc.x, thisLoc.y);
 
     const isPerpendicular = this.isPerpendicular(thisDir);
     const thisOffset = this.getScoobyOffset(thisDir, isPerpendicular);
-    console.log(this.scoobyCanMove(thisRect))
 
     // If scooby's collision rectangle isn't in the players, move him
     if (this.scoobyCanMove(thisRect)) {
-
+      const thisDelta = this.scoobyGetDelta(thisLoc, thisOffset);
+      const scooby = this.scooby.position;
+      const newLoc: Pos = { x: scooby.x + thisDelta.x, y: this.scooby.y + thisDelta.y };
+      console.log("delta:", thisDelta)
+      thisRect = this.getCollisionRectAtPoint(newLoc.x + thisDelta.x, newLoc.y + thisDelta.y);
+      const newDir = this.scoobyGetDir(thisDelta);
+      if (newDir !== null) {
+        this.scoobyDirection = newDir;
+        this.scooby.texture = this.getScoobyTexture(newDir, thisFrame)!;
+        this.scooby.position.x += thisDelta.x;
+        this.scooby.position.y += thisDelta.y;
+      }
     }
     else {
       // sprite(me.spriteNum).locZ = me.spriteNum
       // me.pDelta = thisSpeed
     }
-
-    console.log("updating scooby", isPerpendicular, thisOffset, thisRect)
-
   }
 
   public refreshTexture() {
@@ -246,16 +298,32 @@ export class Player implements MovableGameObject {
     const padding = 2;
     const w = Math.min(32, this.sprite.width);
     const h = Math.min(32, this.sprite.height);
-    return {
+    const result = {
       x: x - Math.round(w / 2) + padding,
       y: y - Math.round(h / 2) + padding,
       width: w - padding * 2,
       height: h - padding * 2,
     };
+
+    if (this.game.engineType === EngineType.Scooby) {
+      result.x -= padding;
+      result.y -= padding;
+      result.width = w;
+      result.height = h;
+    };
+
+    return result;
   }
 
   public getAnimationFrameCount(): number {
     return (this.game.engineType === EngineType.Scooby) ? 3 : 2
+  }
+
+  private getScoobyTexture(thisDir: PlayerDirection, thisFrame: number) {
+    const textureString = `scooby.${thisDir}.${thisFrame}`;
+    console.log(textureString);
+    return getMemberTexture(textureString);
+
   }
 
   private getTextureString() {
