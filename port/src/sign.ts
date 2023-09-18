@@ -183,6 +183,11 @@ export class GameSign {
     this.sprite.position.set(x, y);
     this.characterSprite.position.set(-88, -25);
 
+    if (this.engine === EngineType.Scooby) {
+      this.characterSprite.anchor.set(0);
+      this.characterSprite.position.set(-148, -90);
+    }
+
     // In the original game, the message takes up
     // 65% of the screen's height more or less
     const targetHeight = height * UI_HEIGHT_PERCENT;
