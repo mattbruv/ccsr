@@ -15,6 +15,7 @@ export class Scooby1 extends EpisodeScript {
     this.game.player.setMapAndPosition(startMap, 12, 16);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
+    this.game.camera.setCameraBounds("0101", "0404");
 
     this.game.filmLoopData = {
       "block.159": {

@@ -136,11 +136,13 @@ export class Player implements MovableGameObject {
 
   public getCollisionRectAtPoint(x: number, y: number): Rect {
     const padding = 2;
+    const w = Math.min(32, this.sprite.width);
+    const h = Math.min(32, this.sprite.height);
     return {
-      x: x - Math.round(this.sprite.width / 2) + padding,
-      y: y - Math.round(this.sprite.height / 2) + padding,
-      width: this.sprite.width - padding * 2,
-      height: this.sprite.height - padding * 2,
+      x: x - Math.round(w / 2) + padding,
+      y: y - Math.round(h / 2) + padding,
+      width: w - padding * 2,
+      height: h - padding * 2,
     };
   }
 
