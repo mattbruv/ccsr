@@ -35,6 +35,7 @@ export class Player implements MovableGameObject {
   public state: PlayerState;
   public horizontalDirection: PlayerDirection;
   public characterDirection: PlayerDirection;
+  public scoobyDirection: PlayerDirection;
   public frameOfAnimation: number;
   private posX: number;
   private posY: number;
@@ -58,6 +59,7 @@ export class Player implements MovableGameObject {
     this.state = PlayerState.NORMAL;
     this.horizontalDirection = PlayerDirection.RIGHT;
     this.characterDirection = PlayerDirection.RIGHT;
+    this.scoobyDirection = PlayerDirection.DOWN;
     this.frameOfAnimation = 1;
 
     this.posX = 0;
@@ -140,17 +142,77 @@ export class Player implements MovableGameObject {
     this.nextPos = { x, y };
   }
 
+  private isPerpendicular(dir: PlayerDirection) {
+    switch (this.scoobyDirection) {
+      case PlayerDirection.UP:
+      case PlayerDirection.DOWN:
+        {
+          return [PlayerDirection.LEFT, PlayerDirection.RIGHT].includes(dir);
+        }
+      case PlayerDirection.LEFT:
+      case PlayerDirection.RIGHT:
+        {
+          return [PlayerDirection.UP, PlayerDirection.DOWN].includes(dir);
+        }
+      default: return false;
+    }
+
+  }
+
+  private getScoobyOffset(thisDir: PlayerDirection, isPerpendicular: boolean): Pos {
+
+    type scoobyOffset = "left" | "top" | "right" | "bottom" |
+      "pLeft" | "pTop" | "pRight" | "pBottom";
+
+    const scoobyOffsetList: { [key in scoobyOffset]: Pos } = {
+      left: { x: 48, y: 17 },
+      top: { x: 0, y: 60 },
+      right: { x: -48, y: 17 },
+      bottom: { x: 0, y: -60 },
+      pLeft: { x: 48, y: 17 },
+      pTop: { x: 0, y: 0 },
+      pRight: { x: -48, y: 17 },
+      pBottom: { x: 0, y: 0 }
+    };
+
+    if (!isPerpendicular) {
+      switch (thisDir) {
+        case PlayerDirection.LEFT: return scoobyOffsetList.left;
+        case PlayerDirection.UP: return scoobyOffsetList.top;
+        case PlayerDirection.RIGHT: return scoobyOffsetList.right;
+        case PlayerDirection.DOWN: return scoobyOffsetList.bottom;
+      }
+    }
+    else {
+      switch (thisDir) {
+        case PlayerDirection.LEFT: return scoobyOffsetList.pLeft;
+        case PlayerDirection.UP: return scoobyOffsetList.pTop;
+        case PlayerDirection.RIGHT: return scoobyOffsetList.pRight;
+        case PlayerDirection.DOWN: return scoobyOffsetList.pBottom;
+      }
+    }
+  }
+
+  public updateScooby() {
+
+    const thisLoc: Pos = this.nextPos;
+    const thisDir = this.characterDirection;
+    const thisFrame = this.frameOfAnimation;
+    const thisSpeed = this.speed;
+
+    const isPerpendicular = this.isPerpendicular(thisDir);
+    const thisOffset = this.getScoobyOffset(thisDir, isPerpendicular);
+
+    console.log("updating scooby", isPerpendicular, thisOffset)
+
+  }
+
   public refreshTexture() {
-    /*
-     sendSprite(
-        me.pScoobySprite,
-        #mMove,
-        loc,
-        characterDirection,
-        frameOfAnimation,
-        thisSpeed,
-        rect)
-    */
+
+    if (this.game.engineType === EngineType.Scooby) {
+      this.updateScooby();
+    }
+
     const texStr = this.getTextureString();
     const texture =
       PIXI.Loader.shared.resources["textures"].spritesheet?.textures[texStr]!;
