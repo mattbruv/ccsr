@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { CameraMode } from "./camera";
 import { EngineType, Game, getMapRect, getMemberTexture } from "./game";
 import { MovableGameObject, Pos, Rect } from "./types";
+import { intersect, rectAinRectB } from "./collision";
 
 export enum PlayerStatus {
   MOVE,
@@ -92,7 +93,7 @@ export class Player implements MovableGameObject {
     this.sprite.position.set(this.posX, this.posY);
 
     if (this.game.engineType === EngineType.Scooby) {
-      this.scooby.position.set(this.posX, this.posY)
+      // this.scooby.position.set(this.posX, this.posY)
     }
   }
 
@@ -140,6 +141,10 @@ export class Player implements MovableGameObject {
     this.inWalkingAnimation = false;
     this.lastPos = { x, y };
     this.nextPos = { x, y };
+
+    if (this.game.engineType === EngineType.Scooby) {
+      this.scooby.position.set(this.posX, this.posY)
+    }
   }
 
   private isPerpendicular(dir: PlayerDirection) {
@@ -193,17 +198,34 @@ export class Player implements MovableGameObject {
     }
   }
 
+  private scoobyCanMove(thisRect: Rect): boolean {
+    const scoob = this.scooby.position;
+    const scoobRect = this.getCollisionRectAtPoint(scoob.x, scoob.y);
+    return !intersect(scoobRect, thisRect);
+  }
+
   public updateScooby() {
 
     const thisLoc: Pos = this.nextPos;
     const thisDir = this.characterDirection;
     const thisFrame = this.frameOfAnimation;
     const thisSpeed = this.speed;
+    const thisRect = this.getCollisionRectAtPoint(thisLoc.x, thisLoc.y);
 
     const isPerpendicular = this.isPerpendicular(thisDir);
     const thisOffset = this.getScoobyOffset(thisDir, isPerpendicular);
+    console.log(this.scoobyCanMove(thisRect))
 
-    console.log("updating scooby", isPerpendicular, thisOffset)
+    // If scooby's collision rectangle isn't in the players, move him
+    if (this.scoobyCanMove(thisRect)) {
+
+    }
+    else {
+      // sprite(me.spriteNum).locZ = me.spriteNum
+      // me.pDelta = thisSpeed
+    }
+
+    console.log("updating scooby", isPerpendicular, thisOffset, thisRect)
 
   }
 
