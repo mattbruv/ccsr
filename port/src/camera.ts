@@ -1,4 +1,4 @@
-import { Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
+import { EngineType, Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
 import { PlayerStatus } from "./player";
 import { Pos, Rect } from "./types";
 

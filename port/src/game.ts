@@ -837,6 +837,15 @@ export class Game {
 
       if (this.camera.getMode() == CameraMode.PAN_BETWEEN_MAPS) {
         nextPos = { x: nextX, y: nextY };
+
+        // pan scooby as well
+        if (this.engineType === EngineType.Scooby) {
+          const delta = { ...nextPos };
+          delta.x -= pos.x;
+          delta.y -= pos.y;
+          this.player.scooby.x += delta.x;
+          this.player.scooby.y += delta.y;
+        }
       } else {
         nextPos = { x: newX, y: newY };
       }
