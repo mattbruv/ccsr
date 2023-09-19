@@ -223,18 +223,21 @@ def parseMapData(episodeNumber):
 
 
 def setupSounds():
-    pathlib.Path("public/assets/sound").mkdir(parents=True, exist_ok=True)
 
-    files = glob.glob("../ccsr/**/sound/*.wav")
-    for f in files:
-        p = pathlib.Path(f)
-        out = pathlib.Path("public/assets/sound/" + p.name)
-        shutil.copyfile(p, out)
+    folders = [1, 2, 3, 4, "scooby-1", "scooby-2"]
+
+    for folder in folders:
+        pathlib.Path(f"public/assets/{folder}/sound").mkdir(parents=True, exist_ok=True)
+        files = glob.glob(f"../ccsr/{folder}/sound/*.wav")
+        for f in files:
+            p = pathlib.Path(f)
+            out = pathlib.Path(f"public/assets/{folder}/sound/{p.name}")
+            shutil.copyfile(p, out)
 
 
 def setup():
+    pathlib.Path(f"public/assets/").mkdir(parents=True, exist_ok=True)
     setupSounds()
-    pathlib.Path("public/assets").mkdir(parents=True, exist_ok=True)
 
     episodes = list(range(1, 5))
     episodes.append("scooby-1")
