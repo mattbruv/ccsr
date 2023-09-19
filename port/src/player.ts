@@ -99,13 +99,17 @@ export class Player implements MovableGameObject {
     this.lastPos = fromPos;
     this.nextPos = toPos;
     this.walkAnimStartMS = Date.now();
-    this.game.sound.boat.pause();
-    this.game.sound.walk.pause();
 
-    if (this.state == PlayerState.BOAT) {
-      this.game.sound.boat.play();
-    } else {
-      this.game.sound.walk.play();
+    // Only CCSR has footstep sounds
+    if (this.game.engineType === EngineType.CCSR) {
+      this.game.sound.boat.pause();
+      this.game.sound.walk.pause();
+
+      if (this.state == PlayerState.BOAT) {
+        this.game.sound.boat.play();
+      } else {
+        this.game.sound.walk.play();
+      }
     }
   }
 
