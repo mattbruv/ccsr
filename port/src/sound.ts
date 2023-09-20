@@ -273,9 +273,9 @@ export class GameSound {
     }
     else if (this.engine === EngineType.Scooby) {
       this.theme.on("end", () => {
-        console.log("ON END", this.themeSelect)
+        //console.log("ON END", this.themeSelect)
         if (this.themeSelect++ >= 2) {
-          console.log("ON END")
+          // console.log("ON END")
           this.themeSelect = 1;
           this.theme1.play();
         }
