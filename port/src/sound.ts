@@ -42,7 +42,7 @@ export class GameSound {
   private engine: EngineType;
   private root: string;
 
-  private soundBank: { [key: string]: Howl } = {};
+  public soundBank: { [key: string]: Howl } = {};
 
   constructor(engine: EngineType, episode: string) {
     this.engine = engine;
@@ -171,9 +171,12 @@ export class GameSound {
         "push", "ruh_oh"
       ];
 
+      const loops = ["bunch_o_bats"]
+
       for (const sound of sounds) {
         this.soundBank[sound] = new Howl({
-          src: root + sound + ".wav"
+          src: root + sound + ".wav",
+          loop: loops.includes(sound)
         });
       }
 

@@ -671,6 +671,14 @@ export class Game {
         !this.inventory.has("got" + c.giveObj)
       ) {
         this.inventory.addItem(c.giveObj);
+
+        // fugly scooby hack
+        if (this.engineType === EngineType.Scooby) {
+          if (c.giveObj === "nobats") {
+            this.sound.soundBank["bunch_o_bats"].stop();
+          }
+        }
+
         this.sign.setOnClose(() => {
           // for some reason I have to wrap this in a timeout
           // or else the inventory won't display...
@@ -914,6 +922,13 @@ export class Game {
 
     if (secret && !object.isVisible()) {
       this.sound.once(this.sound.secret);
+
+      // shitty hack for scooby
+      if (this.engineType === EngineType.Scooby) {
+        if (this.inventory.items.includes("seebats")) {
+          this.sound.dynamicSoundOnce("bunch_o_bats");
+        }
+      }
     }
 
     object.setVisible(showObj);
