@@ -246,7 +246,9 @@ export class GameSound {
       this.disco,
     ];
 
-    Object.values(this.soundBank).forEach(sound => sounds.push(sound));
+    Object.entries(this.soundBank)
+      .filter(sound => !sound[0].includes("music_haunted_loop"))
+      .forEach(sound => sounds.push(sound[1]));
 
     sounds.map((s) => s?.volume(level));
   }
