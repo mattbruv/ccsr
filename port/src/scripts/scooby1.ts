@@ -24,6 +24,18 @@ export class Scooby1 extends EpisodeScript {
           delay: 3,
         }
       },
+      "block.150": {
+        texture: {
+          loopTextures: ["block.150b", "block.151"],
+          delay: 1,
+        }
+      },
+      "block.152": {
+        texture: {
+          loopTextures: ["block.152b", "block.153"],
+          delay: 1,
+        }
+      },
       "block.39": {
         callback(gameObject) {
           // change the inital texture of the ghost
