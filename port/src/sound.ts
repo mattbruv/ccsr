@@ -1,4 +1,5 @@
 import { Howl } from "howler";
+import { EngineType } from "./game";
 export class GameSound {
   public walk: Howl;
   public boat: Howl;
@@ -14,23 +15,23 @@ export class GameSound {
   public lose: Howl;
 
   // Episode 1:
-  public pop: Howl;
-  public water: Howl;
-  public squeak: Howl;
+  public pop?: Howl;
+  public water?: Howl;
+  public squeak?: Howl;
 
   // Episode 2:
-  public robot: Howl;
-  public headPop: Howl;
-  public headBounce: Howl;
-  public alarm: Howl;
+  public robot?: Howl;
+  public headPop?: Howl;
+  public headBounce?: Howl;
+  public alarm?: Howl;
 
   // Episode 3:
-  public rumble: Howl;
-  public volcano: Howl;
+  public rumble?: Howl;
+  public volcano?: Howl;
 
   // Episode 4:
-  public crowd: Howl;
-  public disco: Howl;
+  public crowd?: Howl;
+  public disco?: Howl;
 
   private theme: Howl;
   private theme1: Howl;
@@ -38,8 +39,16 @@ export class GameSound {
   private themeSelect = 1;
   private currentTheme: Howl;
 
-  constructor() {
-    const root = "./assets/sound/";
+  private engine: EngineType;
+  private root: string;
+
+  private soundBank: { [key: string]: Howl } = {};
+
+  constructor(engine: EngineType, episode: string) {
+    this.engine = engine;
+    const root = `./assets/${episode}/sound/`;
+    this.root = root;
+
     this.walk = new Howl({
       src: root + "walk.wav",
       loop: true,
@@ -90,61 +99,101 @@ export class GameSound {
     });
 
     // Episode 1
-    this.pop = new Howl({
-      src: root + "pop.wav",
-    });
-    this.water = new Howl({
-      src: root + "water.wav",
-      loop: true,
-    });
-    this.squeak = new Howl({
-      src: root + "squeak.wav",
-      loop: true,
-    });
+    if (episode === "1") {
+      this.pop = new Howl({
+        src: root + "pop.wav",
+      });
+      this.water = new Howl({
+        src: root + "water.wav",
+        loop: true,
+      });
+      this.squeak = new Howl({
+        src: root + "squeak.wav",
+        loop: true,
+      });
+    }
 
     // Episode 2
-    this.robot = new Howl({
-      src: root + "robot.wav",
-      loop: true,
-    });
+    if (episode === "2") {
+      this.robot = new Howl({
+        src: root + "robot.wav",
+        loop: true,
+      });
 
-    this.headBounce = new Howl({
-      src: root + "headBounce.wav",
-    });
+      this.headBounce = new Howl({
+        src: root + "headBounce.wav",
+      });
 
-    this.headPop = new Howl({
-      src: root + "headPop.wav",
-    });
+      this.headPop = new Howl({
+        src: root + "headPop.wav",
+      });
 
-    this.alarm = new Howl({
-      src: root + "alarm.wav",
-      loop: true,
-    });
+      this.alarm = new Howl({
+        src: root + "alarm.wav",
+        loop: true,
+      });
+    }
 
     // Episode 3
-    this.rumble = new Howl({
-      src: root + "rumble.wav",
-      loop: true,
-    });
+    if (episode === "3") {
+      this.rumble = new Howl({
+        src: root + "rumble.wav",
+        loop: true,
+      });
 
-    this.volcano = new Howl({
-      src: root + "volcano.wav",
-    });
+      this.volcano = new Howl({
+        src: root + "volcano.wav",
+      });
+    }
 
     // Episode 4
-    this.crowd = new Howl({
-      src: root + "crowd.wav",
-      loop: true,
-    });
+    if (episode === "4") {
+      this.crowd = new Howl({
+        src: root + "crowd.wav",
+        loop: true,
+      });
 
-    this.disco = new Howl({
-      src: root + "disco.wav",
-      loop: true,
-    });
+      this.disco = new Howl({
+        src: root + "disco.wav",
+        loop: true,
+      });
+    }
+
+    // ghetto as hell but who cares
+    if (episode.toLowerCase().includes("scooby")) {
+      const sounds = [
+        "bloop", "bump", "bunch_o_bats",
+        "chimes", "discover", "door_creak",
+        "ghost_02", "howl", "message",
+        "music_haunted_loop_01",
+        "music_haunted_loop_02",
+        "pipe.organ",
+        "push", "ruh_oh"
+      ];
+
+      for (const sound of sounds) {
+        this.soundBank[sound] = new Howl({
+          src: root + sound + ".wav"
+        });
+      }
+
+      // hack in the theme music
+      this.theme = this.soundBank["music_haunted_loop_01"];
+      this.theme1 = this.soundBank["music_haunted_loop_02"];
+    }
 
     this.currentTheme = this.theme;
 
     this.initTheme();
+  }
+
+  public dynamicSoundOnce(sound: string) {
+    const howl = this.soundBank[sound];
+    if (howl) {
+      if (howl.playing() == false) {
+        howl.play();
+      }
+    }
   }
 
   public once(sound: Howl) {
@@ -194,7 +243,9 @@ export class GameSound {
       this.disco,
     ];
 
-    sounds.map((s) => s.volume(level));
+    Object.values(this.soundBank).forEach(sound => sounds.push(sound));
+
+    sounds.map((s) => s?.volume(level));
   }
 
   private initTheme() {
@@ -208,16 +259,32 @@ export class GameSound {
       this.currentTheme = this.theme;
     };
 
-    this.theme.on("end", () => {
-      //console.log("ON END", this.themeSelect);
-      const t = [this.theme1, this.theme2][this.themeSelect - 1];
-      this.currentTheme = t;
-      t.play();
-      this.themeSelect = this.themeSelect == 1 ? 2 : 1;
-    });
+    if (this.engine === EngineType.CCSR) {
+      this.theme.on("end", () => {
+        //console.log("ON END", this.themeSelect);
+        const t = [this.theme1, this.theme2][this.themeSelect - 1];
+        this.currentTheme = t;
+        t.play();
+        this.themeSelect = this.themeSelect == 1 ? 2 : 1;
+      });
 
-    this.theme1.on("end", playMain);
-    this.theme2.on("end", playMain);
+      this.theme1.on("end", playMain);
+      this.theme2.on("end", playMain);
+    }
+    else if (this.engine === EngineType.Scooby) {
+      this.theme.on("end", () => {
+        console.log("ON END", this.themeSelect)
+        if (this.themeSelect++ >= 2) {
+          console.log("ON END")
+          this.themeSelect = 1;
+          this.theme1.play();
+        }
+        else {
+          this.theme.play()
+        }
+      });
+      this.theme1.on("end", playMain);
+    }
   }
 
   public playTheme() {

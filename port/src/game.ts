@@ -211,7 +211,7 @@ export class Game {
     this.sign = new GameSign(this, this.engineType);
     this.inventory = new GameInventory(this, this.engineType);
 
-    this.sound = new GameSound();
+    this.sound = new GameSound(this.engineType, episode);
 
     loadAssets(episode, language, () => {
       console.log("Done loading assets!");
