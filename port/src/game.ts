@@ -749,7 +749,22 @@ export class Game {
           }
         }
         if (collisionObject.data.item.type == GameObjectType.WALL && !message) {
-          this.sound.once(this.sound.bump);
+          if (this.engineType === EngineType.CCSR) {
+            this.sound.once(this.sound.bump);
+          }
+          else if (this.engineType === EngineType.Scooby) {
+            const bumpSounds = ["bump", "ruh_oh", undefined, undefined];
+            const randIndex = Math.floor(Math.random() * bumpSounds.length);
+            // console.log(randIndex)
+            const randSound = bumpSounds[randIndex];
+            if (randSound !== undefined) {
+              if (!this.sound.soundBank["bump"].playing() &&
+                !this.sound.soundBank["ruh_oh"].playing()) {
+                this.sound.dynamicSoundOnce(randSound);
+              }
+            }
+            this.sound.dynamicSoundOnce("bloop");
+          }
         }
         return;
       }
