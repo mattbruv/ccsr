@@ -65,8 +65,14 @@ export class Scooby1 extends EpisodeScript {
     const ghost1 = this.game.gameObjects.find(o => o.mapName === "0204" && o.member === "block.39");
     if (ghost1) {
       ghost1.width = 60;
-      ghost1.data.move.L = 0;
-      ghost1.data.move.R = 0;
+      /*
+      ghost1.lastPos.x += 2;
+      ghost1.movePos.x += 2;
+      ghost1.setPosition(ghost1.posX + 2, ghost1.posY)
+      */
+      //ghost1.inWalkingAnimation = true;
+      //ghost1.data.move.L = 0;
+      //ghost1.data.move.R = 0;
     }
     const ghost2 = this.game.gameObjects.find(o => o.mapName === "0104" && o.member === "block.41");
     if (ghost2) {
