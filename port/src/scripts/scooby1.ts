@@ -84,7 +84,15 @@ export class Scooby1 extends EpisodeScript {
     const wall = this.game.gameObjects.find(o => o.mapName === "0104" && o.height === 208);
     if (wall) {
       wall.width = 10;
-      console.log(wall)
+    }
+
+    // remove any objects in top right map
+    this.game.gameObjects = this.game.gameObjects.filter(o => o.mapName !== "0401");
+
+    // fix messed up placement of mansion on first map
+    const mansion = this.game.gameObjects.find(o => o.mapName === "0101" && o.member === "block.36");
+    if (mansion) {
+      mansion.sprite.position.y += 7;
     }
 
 
