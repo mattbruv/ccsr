@@ -52,6 +52,36 @@ export class Scooby1 extends EpisodeScript {
 
     this.game.setFilmLoopObjects();
 
+    // Fix ghosts
+    /*
+      When the map data is loaded as-is, the ghosts are supposed to move
+      but they don't, probably because of inconsistencies in my engine.
+      Instead of fixing the problem, we're going to do a hacky fix to the objects
+      causing the problems.
+
+      The devs appeared to put invisible walls in front of both ghosts.
+      The problem is that the ghosts clip into them in my version, causing them not to move.
+    */
+    const ghost1 = this.game.gameObjects.find(o => o.mapName === "0204" && o.member === "block.39");
+    if (ghost1) {
+      ghost1.width = 60;
+      ghost1.data.move.L = 0;
+      ghost1.data.move.R = 0;
+    }
+    const ghost2 = this.game.gameObjects.find(o => o.mapName === "0104" && o.member === "block.41");
+    if (ghost2) {
+      ghost2.data.move.L = 0;
+      ghost2.data.move.R = 0;
+      //ghost2.data.item.visi.visiAct = "";
+    }
+
+    const wall = this.game.gameObjects.find(o => o.mapName === "0104" && o.height === 208);
+    if (wall) {
+      wall.width = 10;
+      console.log(wall)
+    }
+
+
     this.game.addScene("ending", new Scene2(this.game));
   }
 }
