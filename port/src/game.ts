@@ -1063,7 +1063,7 @@ export class Game {
               .sha256()
               .update(msg.text)
               .digest("hex")
-              .slice(0, 4);
+              .slice(0, Object.keys(messages)[0].length);
             if (msgHash in messages) {
               msg.text = messages[msgHash];
             }
