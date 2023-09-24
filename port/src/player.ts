@@ -75,7 +75,6 @@ export class Player implements MovableGameObject {
     if (this.game.engineType === EngineType.Scooby) {
       this.scooby.texture = getMemberTexture("scooby.down.1")!;
       this.scooby.anchor.set(0.5)
-      this.scooby.position.set(this.posX, this.posY)
     }
   }
 
@@ -148,7 +147,9 @@ export class Player implements MovableGameObject {
     this.nextPos = { x, y };
 
     if (this.game.engineType === EngineType.Scooby) {
-      this.scooby.position.set(this.posX, this.posY)
+      this.scoobyDirection = PlayerDirection.RIGHT
+      this.scooby.position.set(this.posX - 32, this.posY)
+      this.updateScooby()
     }
   }
 

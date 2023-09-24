@@ -12,7 +12,7 @@ export class Scooby1 extends EpisodeScript {
   public init(): void {
     const startMap = "0201";
     this.game.setMap(startMap);
-    this.game.player.setMapAndPosition(startMap, 12, 16);
+    this.game.player.setMapAndPosition(startMap, 11, 16);
     this.game.camera.setScale();
     this.game.camera.snapCameraToMap(startMap);
     this.game.camera.setCameraBounds("0101", "0404");

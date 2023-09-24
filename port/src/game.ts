@@ -33,6 +33,7 @@ import { Episode4 } from "./scripts/episode4";
 import { GameSound } from "./sound";
 import { Intro } from "./intro";
 import { Scooby1 } from "./scripts/scooby1";
+import { Scooby2 } from "./scripts/scooby2";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -997,6 +998,9 @@ export class Game {
         break;
       case "scooby-1":
         this.script = new Scooby1(this);
+        break;
+      case "scooby-2":
+        this.script = new Scooby2(this);
         break;
       default:
         this.script = new Episode1(this);
