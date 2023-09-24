@@ -114,9 +114,7 @@ export class GameObject implements IGameObject, MovableGameObject {
 
     // make  this object a tiling sprite if it includes "tile"
     // and the width/height is bigger than the texture
-    const tileRepeat = this.member.toLowerCase().includes("tile")
-      && this.width !== objTexture.width
-      && this.height !== objTexture.height
+    const tileRepeat = this.member.toLowerCase().includes("tile");
 
     this.sprite =
       tileRepeat || this.isStatic()
