@@ -1021,7 +1021,8 @@ export class Game {
 
     this.gameData = Loader.shared.resources["game"].data;
 
-    this.inventory.initItems(this.gameData!.inventory);
+    if (this.engineType === EngineType.CCSR)
+      this.inventory.initItems(this.gameData!.inventory);
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
