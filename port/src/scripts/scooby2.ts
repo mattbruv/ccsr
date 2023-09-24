@@ -18,5 +18,6 @@ export class Scooby2 extends EpisodeScript {
     this.game.setFilmLoopObjects();
 
     this.game.addScene("ending", new Scene2(this.game));
+
   }
 }

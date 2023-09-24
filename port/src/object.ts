@@ -3,6 +3,7 @@ import { TilingSprite } from "pixi.js";
 import { getMapOffset, getMemberTexture } from "./game";
 import {
   GameObjectData,
+  GameObjectMoveCond,
   GameObjectType,
   IGameObject,
   MovableGameObject,
@@ -109,8 +110,16 @@ export class GameObject implements IGameObject, MovableGameObject {
     this.nextPos = this.lastPos;
     this.movePos = this.lastPos;
 
+    const objTexture = getMemberTexture(this.member)!;
+
+    // make  this object a tiling sprite if it includes "tile"
+    // and the width/height is bigger than the texture
+    const tileRepeat = this.member.toLowerCase().includes("tile")
+      && this.width !== objTexture.width
+      && this.height !== objTexture.height
+
     this.sprite =
-      this.isStatic() && this.member.toLowerCase().includes("tile")
+      tileRepeat || this.isStatic()
         ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
         : new PIXI.Sprite(getMemberTexture(this.member)!);
 
@@ -211,7 +220,7 @@ export class GameObject implements IGameObject, MovableGameObject {
       return false;
     }
 
-    if (this.data.move.COND !== 1) {
+    if (this.data.move.COND !== GameObjectMoveCond.NONE) {
       return false;
     }
 
