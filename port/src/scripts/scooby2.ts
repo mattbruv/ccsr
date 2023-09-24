@@ -20,16 +20,8 @@ export class Scooby2 extends EpisodeScript {
         this.game.viewport.mask = maskBookRoom;
         break;
       }
-      case "0302":
-        {
-          alert("oh shit, u entered the ghost room")
-          /* update mask overworld */
-          //this.game.viewport.mask = maskHotel;
-          break;
-        }
       default: {
         if (this.showFinalRoom === false && this.game.inventory.has("painting")) {
-          console.log("SHOW THE FINAL ROOM FOOL")
           const m = getMapRect("0302");
           maskOverworld.drawRect(m.x, m.y, m.width, m.height);
           this.showFinalRoom = true;
@@ -70,5 +62,15 @@ export class Scooby2 extends EpisodeScript {
 
     this.game.addScene("ending", new Scene2(this.game));
 
+    // Fix secret book room BG texture leaking into map 0201
+    const wallTexture = this.game.gameObjects.find(
+      x => x.mapName === "0301" &&
+        x.member == "block.70" &&
+        x.location[0] === 1
+    );
+
+    if (wallTexture) {
+      wallTexture.setVisible(false)
+    }
   }
 }
