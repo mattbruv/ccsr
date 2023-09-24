@@ -73,6 +73,9 @@ export class Debugger {
         const objs = this.game.movingObjects.filter((o) => o.mapName == map);
         console.log(objs);
       }
+      if (event.key == "i") {
+        console.log(this.game.inventory)
+      }
       if (event.key == "c") {
         const s = new Set();
         this.game.gameObjects.map((o) => s.add(o.data.item.name));
