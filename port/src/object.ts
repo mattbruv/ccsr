@@ -3,6 +3,7 @@ import { TilingSprite } from "pixi.js";
 import { getMapOffset, getMemberTexture } from "./game";
 import {
   GameObjectData,
+  GameObjectMoveCond,
   GameObjectType,
   IGameObject,
   MovableGameObject,
@@ -64,6 +65,7 @@ export class GameObject implements IGameObject, MovableGameObject {
     and have the engine update the textures of those every frame.
   */
   public frame = 0;
+  public frameIndex = 0;
   public isFrameObject = false;
 
   constructor(obj: IGameObject, mapName: string) {
@@ -108,8 +110,14 @@ export class GameObject implements IGameObject, MovableGameObject {
     this.nextPos = this.lastPos;
     this.movePos = this.lastPos;
 
+    const objTexture = getMemberTexture(this.member)!;
+
+    // make  this object a tiling sprite if it includes "tile"
+    // and the width/height is bigger than the texture
+    const tileRepeat = this.member.toLowerCase().includes("tile")
+
     this.sprite =
-      this.isStatic() && this.member.toLowerCase().includes("tile")
+      tileRepeat // && this.isStatic()
         ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
         : new PIXI.Sprite(getMemberTexture(this.member)!);
 
@@ -120,8 +128,11 @@ export class GameObject implements IGameObject, MovableGameObject {
       this.member.includes("tile.1.x") &&
       this.data.item.type == GameObjectType.WALL
     ) {
-      (this.sprite as TilingSprite).tilePosition.x -= 16;
-      this.width = 16;
+      const tile = this.sprite as TilingSprite;
+      if (tile.tilePosition) {
+        tile.x -= 16;
+        this.width = 16;
+      }
     }
 
     this.sprite.position.set(this.posX, this.posY);
@@ -207,7 +218,7 @@ export class GameObject implements IGameObject, MovableGameObject {
       return false;
     }
 
-    if (this.data.move.COND !== 1) {
+    if (this.data.move.COND !== GameObjectMoveCond.NONE) {
       return false;
     }
 

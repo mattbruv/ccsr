@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 
 export function loadAssets(
-  episodeNumber: number,
+  episodeNumber: string,
   language: string,
   doneCallback: () => void
 ) {
@@ -11,6 +11,10 @@ export function loadAssets(
     {
       name: `textures`,
       url: root + "ep" + episodeNumber + ".json",
+    },
+    {
+      name: "ending",
+      url: root + "ep" + episodeNumber + "_ending.json",
     },
     {
       name: `map`,

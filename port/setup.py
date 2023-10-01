@@ -159,29 +159,44 @@ def translateImages(episodeNumber):
 
 def packImages(episodeNumber):
     print(f"Packing images for episode {episodeNumber}")
-    images = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
+    pngs = glob.glob("../ccsr/{}/**/*.png".format(episodeNumber))
 
-    for img in images:
-        print(img)
-        out = pathlib.Path(img).name.lower()
-        outPath = f"public/assets/{episodeNumber}/temp/"
-        mkdir(outPath)
-        finalPath = pathlib.Path(outPath + out)
-        shutil.copy(img, finalPath)
-        makeWhiteTransparent(finalPath)
+    episodePngs = [
+       { "name": "_ending", "files":   list(filter(lambda x: "ending_" in x, pngs)) },
+       { "name": "", "files":   list(filter(lambda x: "ending_" not in x, pngs)) },
+    ]
 
-    tempPath = f"public/assets/{episodeNumber}/temp/"
-    images = glob.glob(tempPath + "*.png")
+    for textureGroup in episodePngs:
+        images = textureGroup["files"]
+        name = textureGroup["name"]
+        if len(images) <= 0:
+            continue
 
-    print(f"Found {len(images)} images, packing them now.")
-    packer = Packer.create(enable_rotated=False,
-                           atlas_format="json", force_square=True, inner_padding=2)
-    packer.pack(images, "ep{}".format(episodeNumber),
-                "public/assets/{}".format(episodeNumber))
-    shutil.rmtree(tempPath)
+        for img in images:
+            print(img)
+            out = pathlib.Path(img).name.lower()
+            outPath = f"public/assets/{episodeNumber}/temp/"
+            mkdir(outPath)
+            finalPath = pathlib.Path(outPath + out)
+            shutil.copy(img, finalPath)
+            makeWhiteTransparent(finalPath)
+
+        tempPath = f"public/assets/{episodeNumber}/temp/"
+        images = glob.glob(tempPath + "*.png")
+
+        print(f"Found {len(images)} images, packing them now.")
+        packer = Packer.create(enable_rotated=False,
+                            atlas_format="json", force_square=True, inner_padding=2)
+        packer.pack(images, "ep{}{}".format(episodeNumber, name),
+                    "public/assets/{}".format(episodeNumber))
+        shutil.rmtree(tempPath)
 
 
 def makeWhiteTransparent(imagePath):
+
+    if "ending_" in imagePath.name or "title" in imagePath.name or "instructions" in imagePath.name:
+        return
+
     img = Image.open(imagePath)
     img = img.convert("RGBA")
     datas = img.getdata()
@@ -223,19 +238,27 @@ def parseMapData(episodeNumber):
 
 
 def setupSounds():
-    pathlib.Path("public/assets/sound").mkdir(parents=True, exist_ok=True)
 
-    files = glob.glob("../ccsr/**/sound/*.wav")
-    for f in files:
-        p = pathlib.Path(f)
-        out = pathlib.Path("public/assets/sound/" + p.name)
-        shutil.copyfile(p, out)
+    folders = [1, 2, 3, 4, "scooby-1", "scooby-2"]
+
+    for folder in folders:
+        pathlib.Path(f"public/assets/{folder}/sound").mkdir(parents=True, exist_ok=True)
+        files = glob.glob(f"../ccsr/{folder}/sound/*.wav")
+        for f in files:
+            p = pathlib.Path(f)
+            out = pathlib.Path(f"public/assets/{folder}/sound/{p.name}")
+            shutil.copyfile(p, out)
 
 
 def setup():
+    pathlib.Path(f"public/assets/").mkdir(parents=True, exist_ok=True)
     setupSounds()
-    pathlib.Path("public/assets").mkdir(parents=True, exist_ok=True)
-    for i in range(1, 5):
+
+    episodes = list(range(1, 5))
+    episodes.append("scooby-1")
+    episodes.append("scooby-2")
+
+    for i in episodes:
         pathlib.Path("public/assets/{}".format(i)
                      ).mkdir(parents=True, exist_ok=True)
         translateImages(i)

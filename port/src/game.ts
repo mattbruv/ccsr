@@ -32,6 +32,8 @@ import { Episode3 } from "./scripts/episode3";
 import { Episode4 } from "./scripts/episode4";
 import { GameSound } from "./sound";
 import { Intro } from "./intro";
+import { Scooby1 } from "./scripts/scooby1";
+import { Scooby2 } from "./scripts/scooby2";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -39,9 +41,16 @@ export const MAP_HEIGHT = 320;
 export const UI_WIDTH_PERCENT = 0.6;
 export const UI_HEIGHT_PERCENT = 0.6;
 
+export enum EngineType {
+  CCSR,
+  Scooby
+}
+
 export class Game {
   public app;
   public viewport: Viewport;
+
+  public engineType: EngineType;
 
   public player: Player;
   public gameObjects: GameObject[] = [];
@@ -98,7 +107,13 @@ export class Game {
 
   public introScreen: Intro;
 
-  constructor(episode: number, language: string) {
+  constructor(episode: string, language: string) {
+
+    this.engineType = episode.toLowerCase().includes("scooby")
+      ? EngineType.Scooby
+      : EngineType.CCSR;
+
+
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
       resolution: 1,
@@ -194,10 +209,10 @@ export class Game {
     // Load Episode 1 assets/scripts
     this.script = new Episode1(this);
 
-    this.sign = new GameSign(this);
-    this.inventory = new GameInventory(this);
+    this.sign = new GameSign(this, this.engineType);
+    this.inventory = new GameInventory(this, this.engineType);
 
-    this.sound = new GameSound();
+    this.sound = new GameSound(this.engineType, episode);
 
     loadAssets(episode, language, () => {
       console.log("Done loading assets!");
@@ -447,11 +462,25 @@ export class Game {
 
   private updateFilmLoopObjects() {
     this.filmLoopObjects.map((obj) => {
-      const frames = this.filmLoopData[obj.member];
-      const tex = getMemberTexture(frames[obj.frame]);
-      obj.sprite.texture = tex!;
-
-      obj.frame = obj.frame + 1 >= frames.length ? 0 : obj.frame + 1;
+      const filmLoop = this.filmLoopData[obj.member];
+      // handle texture
+      if (filmLoop.texture) {
+        //console.log("texture", obj)
+        const textures = filmLoop.texture.loopTextures;
+        if (obj.frame % filmLoop.texture.delay === 0) {
+          const tex = getMemberTexture(textures[obj.frameIndex++ % textures.length]);
+          obj.sprite.texture = tex!;
+          if (obj.frameIndex > textures.length) {
+            obj.frameIndex = 0;
+          }
+        }
+        obj.frame++;
+      }
+      // handle callback film loops
+      else if (filmLoop.callback) {
+        filmLoop.callback(obj);
+        obj.frame++;
+      }
     });
   }
 
@@ -643,6 +672,14 @@ export class Game {
         !this.inventory.has("got" + c.giveObj)
       ) {
         this.inventory.addItem(c.giveObj);
+
+        // fugly scooby hack
+        if (this.engineType === EngineType.Scooby) {
+          if (c.giveObj === "nobats") {
+            this.sound.soundBank["bunch_o_bats"].stop();
+          }
+        }
+
         this.sign.setOnClose(() => {
           // for some reason I have to wrap this in a timeout
           // or else the inventory won't display...
@@ -713,7 +750,22 @@ export class Game {
           }
         }
         if (collisionObject.data.item.type == GameObjectType.WALL && !message) {
-          this.sound.once(this.sound.bump);
+          if (this.engineType === EngineType.CCSR) {
+            this.sound.once(this.sound.bump);
+          }
+          else if (this.engineType === EngineType.Scooby) {
+            const bumpSounds = ["bump", "ruh_oh", undefined, undefined];
+            const randIndex = Math.floor(Math.random() * bumpSounds.length);
+            // console.log(randIndex)
+            const randSound = bumpSounds[randIndex];
+            if (randSound !== undefined) {
+              if (!this.sound.soundBank["bump"].playing() &&
+                !this.sound.soundBank["ruh_oh"].playing()) {
+                this.sound.dynamicSoundOnce(randSound);
+              }
+            }
+            this.sound.dynamicSoundOnce("bloop");
+          }
         }
         return;
       }
@@ -809,6 +861,24 @@ export class Game {
 
       if (this.camera.getMode() == CameraMode.PAN_BETWEEN_MAPS) {
         nextPos = { x: nextX, y: nextY };
+
+        // pan scooby as well
+        if (this.engineType === EngineType.Scooby) {
+          const delta = { ...nextPos };
+          delta.x -= pos.x;
+          delta.y -= pos.y;
+
+          // ugly hack to fix camera panning when moving north
+          // Idk why it's so broken but I don't care at all to understand it
+          // we're just gonna hotfix it
+          if (delta.y === 0 && delta.x === 0) {
+            nextPos.y -= 32;
+            this.player.scooby.y -= 32
+          }
+
+          this.player.scooby.x += delta.x;
+          this.player.scooby.y += delta.y;
+        }
       } else {
         nextPos = { x: newX, y: newY };
       }
@@ -827,7 +897,8 @@ export class Game {
     }
 
     const nextFrame = this.player.frameOfAnimation + 1;
-    this.player.frameOfAnimation = nextFrame > 2 ? 1 : nextFrame;
+    this.player.frameOfAnimation =
+      nextFrame > this.player.getAnimationFrameCount() ? 1 : nextFrame;
 
     if (dx > 0) this.player.characterDirection = PlayerDirection.RIGHT;
     if (dx < 0) this.player.characterDirection = PlayerDirection.LEFT;
@@ -867,6 +938,16 @@ export class Game {
 
     if (secret && !object.isVisible()) {
       this.sound.once(this.sound.secret);
+
+      // shitty hack for scooby
+      if (this.engineType === EngineType.Scooby) {
+        if (this.inventory.items.includes("seebats")) {
+          this.sound.dynamicSoundOnce("bunch_o_bats");
+        }
+        if (this.inventory.items.includes("max")) {
+          this.sound.dynamicSoundOnce("ghost_02")
+        }
+      }
     }
 
     object.setVisible(showObj);
@@ -897,7 +978,7 @@ export class Game {
     return result;
   }
 
-  private init(episode: number) {
+  private init(episode: string) {
     if (!import.meta.env.DEV) {
       window.onbeforeunload = () => {
         return "Are you sure you want to leave?";
@@ -909,14 +990,20 @@ export class Game {
     this.initWorldInfo();
 
     switch (episode) {
-      case 2:
+      case "2":
         this.script = new Episode2(this);
         break;
-      case 3:
+      case "3":
         this.script = new Episode3(this);
         break;
-      case 4:
+      case "4":
         this.script = new Episode4(this);
+        break;
+      case "scooby-1":
+        this.script = new Scooby1(this);
+        break;
+      case "scooby-2":
+        this.script = new Scooby2(this);
         break;
       default:
         this.script = new Episode1(this);
@@ -924,6 +1011,10 @@ export class Game {
     }
     this.script.init();
     this.initRenderObjects();
+
+    if (this.engineType === EngineType.Scooby) {
+      this.viewport.addChild(this.player.scooby);
+    }
 
     this.viewport.addChild(this.player.sprite);
 
@@ -933,7 +1024,8 @@ export class Game {
 
     this.gameData = Loader.shared.resources["game"].data;
 
-    this.inventory.initItems(this.gameData!.inventory);
+    if (this.engineType === EngineType.CCSR)
+      this.inventory.initItems(this.gameData!.inventory);
 
     this.app.renderer.addListener("resize", () => {
       this.resize();
@@ -975,7 +1067,7 @@ export class Game {
               .sha256()
               .update(msg.text)
               .digest("hex")
-              .slice(0, 4);
+              .slice(0, Object.keys(messages)[0].length);
             if (msgHash in messages) {
               msg.text = messages[msgHash];
             }
@@ -1069,7 +1161,7 @@ export class Game {
   }
 }
 
-export function getMemberTexture(memberName: string) {
+export function getMemberTexture(memberName: string, resource: string = "textures") {
   let name = memberName.toLowerCase();
   name = name + ".png";
   name = name.replace(".x.", ".");
@@ -1081,7 +1173,7 @@ export function getMemberTexture(memberName: string) {
     }
   }
 
-  return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
+  return PIXI.Loader.shared.resources[resource].spritesheet?.textures[name];
 }
 
 export function getMapsRect(topLeft: string, bottomRight: string): Rect {

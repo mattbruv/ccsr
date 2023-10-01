@@ -65,11 +65,40 @@ export class Episode4 extends EpisodeScript {
     this.game.camera.setCameraBounds("0703", "0703");
 
     this.game.filmLoopData = {
-      "block.165": ["orange", "yellow", "green", "purple", "red"],
-      "block.166": ["yellow", "green", "purple", "red", "orange"],
-      "block.167": ["green", "purple", "red", "orange", "yellow"],
-      "block.168": ["purple", "red", "orange", "yellow", "green"],
-      "block.169": ["red", "orange", "yellow", "green", "purple"],
+      "block.165":
+      {
+        texture: {
+          loopTextures: ["orange", "yellow", "green", "purple", "red"],
+          delay: 1,
+        }
+      },
+      "block.166":
+      {
+        texture: {
+          loopTextures: ["yellow", "green", "purple", "red", "orange"],
+          delay: 1,
+        }
+      },
+      "block.167":
+      {
+        texture: {
+          loopTextures: ["green", "purple", "red", "orange", "yellow"],
+          delay: 1,
+        }
+      },
+      "block.168":
+      {
+        texture: {
+          loopTextures: ["purple", "red", "orange", "yellow", "green"],
+          delay: 1,
+        }
+      },
+      "block.169": {
+        texture: {
+          loopTextures: ["red", "orange", "yellow", "green", "purple"],
+          delay: 1,
+        }
+      }
     };
 
     this.game.setFilmLoopObjects();

@@ -149,7 +149,7 @@ class App extends React.Component<AppProps, AppState> {
     this.setState(() => ({ page }));
   }
 
-  loadGame(episode: number) {
+  loadGame(episode: string) {
     this.setState(
       () => ({ isPlaying: true }),
       () => {
@@ -187,7 +187,7 @@ class App extends React.Component<AppProps, AppState> {
         return (
           <SelectEpisode
             languageString={this.state.langName}
-            playCB={(episode: number) => {
+            playCB={(episode: string) => {
               this.loadGame(episode);
             }}
           />

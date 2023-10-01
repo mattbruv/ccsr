@@ -1,4 +1,4 @@
-import { Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
+import { EngineType, Game, getMapRect, MAP_HEIGHT, MAP_WIDTH } from "./game";
 import { PlayerStatus } from "./player";
 import { Pos, Rect } from "./types";
 
@@ -79,7 +79,7 @@ export class GameCamera {
     //this.currentCameraPos = lastPos;
     const lastPos = this.currentCameraPos;
     this.nextCameraPos = this.getMapCameraXY(nextMap);
-    console.log(lastPos, this.nextCameraPos);
+    // console.log(lastPos, this.nextCameraPos);
     //console.log("from", this.currentCameraPos, "to", this.nextCameraPos);
 
     const deltaX = this.nextCameraPos.x - lastPos.x;

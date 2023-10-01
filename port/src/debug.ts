@@ -39,8 +39,8 @@ export class Debugger {
     if (!import.meta.env.DEV) {
       return;
     }
-    //this.game.viewport.addChild(this.mapGrid);
-    //this.game.viewport.addChild(this.g);
+    this.game.viewport.addChild(this.mapGrid);
+    this.game.viewport.addChild(this.g);
 
     this.game.viewport.interactive = true;
 
@@ -72,6 +72,10 @@ export class Debugger {
         const map = this.game.player.currentMap;
         const objs = this.game.movingObjects.filter((o) => o.mapName == map);
         console.log(objs);
+        this.game.playScene("ending")
+      }
+      if (event.key == "i") {
+        console.log(this.game.inventory)
       }
       if (event.key == "c") {
         const s = new Set();

@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import {
+  EngineType,
   Game,
   getMemberTexture,
   UI_HEIGHT_PERCENT,
@@ -20,6 +21,7 @@ export interface GameInventoryItemData {
 
 export class GameInventory {
   private game: Game;
+  private engine: EngineType;
 
   private sprite: PIXI.Sprite;
   private spriteInstructions: PIXI.Sprite;
@@ -56,8 +58,9 @@ export class GameInventory {
   public selection: Set<string> = new Set();
   public banned: Set<string> = new Set();
 
-  constructor(game: Game) {
+  constructor(game: Game, engine: EngineType) {
     this.game = game;
+    this.engine = engine;
     this.sprite = new PIXI.Sprite();
     this.spriteInstructions = new PIXI.Sprite();
     this.spriteSelectedItem = new PIXI.Sprite();
@@ -271,6 +274,12 @@ export class GameInventory {
   }
 
   public openInventory(selectItem?: string) {
+
+    // Scooby games don't have a UI for the inventory
+    if (this.engine == EngineType.Scooby) {
+      return;
+    }
+
     this.game.sound.once(this.game.sound.message);
     this.game.player.setStatus(PlayerStatus.STOP);
     this.isInventoryOpen = true;
@@ -348,6 +357,10 @@ export class GameInventory {
   }
 
   public closeInventory() {
+    if (this.engine === EngineType.Scooby) {
+      return;
+    }
+
     this.game.player.setStatus(PlayerStatus.MOVE);
     this.isInventoryOpen = false;
     this.sprite.visible = false;

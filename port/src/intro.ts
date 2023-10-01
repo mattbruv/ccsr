@@ -4,10 +4,10 @@ import { Game, getMemberTexture } from "./game";
 export class Intro {
   public container: PIXI.Container;
   private message: PIXI.Sprite;
-  private episode: number;
+  private episode: string;
   public inIntro = true;
 
-  constructor(episode: number) {
+  constructor(episode: string) {
     this.container = new PIXI.Container();
     this.episode = episode;
     this.message = new PIXI.Sprite();
@@ -16,7 +16,10 @@ export class Intro {
   }
 
   public init(game: Game) {
-    const tex = "summer.instructs." + this.episode.toString().padStart(2, "0");
+    let tex = "summer.instructs." + this.episode.toString().padStart(2, "0");
+    if (this.episode === "scooby-1") tex = "scooby instructions 01"
+    if (this.episode === "scooby-2") tex = "scooby instructions 02"
+
     this.message.texture = getMemberTexture(tex)!;
     this.resize(game);
     game.sound.message.play();
