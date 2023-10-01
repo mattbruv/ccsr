@@ -1,9 +1,7 @@
-import { EpisodeScript } from "../script";
 import * as PIXI from "pixi.js";
-import { getMapRect, getMapsRect, getMemberTexture } from "../game";
-import { Rect } from "../types";
-import { Scene2 } from "../scenes/scene2";
-import { SceneScooby2 } from "../scenes/sceneScooby2";
+import { EpisodeScript } from "../script";
+import { getMemberTexture } from "../game";
+import { SceneScooby1 } from "../scenes/sceneScooby1";
 
 
 export class Scooby1 extends EpisodeScript {
@@ -97,7 +95,6 @@ export class Scooby1 extends EpisodeScript {
     }
 
 
-    this.game.addScene("ending", new SceneScooby2(this.game));
-    //this.game.playScene("ending")
+    this.game.addScene("ending", new SceneScooby1(this.game));
   }
 }
