@@ -13,6 +13,10 @@ export function loadAssets(
       url: root + "ep" + episodeNumber + ".json",
     },
     {
+      name: "ending",
+      url: root + "ep" + episodeNumber + "_ending.json",
+    },
+    {
       name: `map`,
       url: root + "map" + episodeNumber + ".json",
     },

@@ -22,17 +22,17 @@ export class SceneScooby2 extends GameScene {
   }
   constructor(game: Game) {
     super(game);
-    this.screenTexture = new PIXI.Sprite(getMemberTexture("ending_1"));
+    this.screenTexture = new PIXI.Sprite(getMemberTexture("ending_1", "ending"));
     this.container.addChild(this.screenTexture)
 
     // add unmasking frames
-    const unmaskingFrame = (0 * 12);
+    const unmaskingFrame = (4 * 12);
 
     for (let i = 0; i < 14; i++) {
       this.frameCallbacks.push({
         frame: unmaskingFrame + i,
         callback: () => {
-          this.screenTexture.texture = getMemberTexture("ending_" + (i + 2))!
+          this.screenTexture.texture = getMemberTexture("ending_" + (i + 2), "ending")!
         }
       });
     }
@@ -42,7 +42,7 @@ export class SceneScooby2 extends GameScene {
       this.frameCallbacks.push({
         frame: fadeFrame + i,
         callback: () => {
-          this.screenTexture.texture = getMemberTexture("ending_" + (i + 15))!
+          this.screenTexture.texture = getMemberTexture("ending_" + (i + 15), "ending")!
         }
       })
     }
@@ -52,7 +52,7 @@ export class SceneScooby2 extends GameScene {
     this.frameCallbacks.push({
       frame: scoobFrame,
       callback: () => {
-        this.screenTexture.texture = getMemberTexture("ending_27")!;
+        this.screenTexture.texture = getMemberTexture("ending_27", "ending")!;
         this.game.sound.dynamicSoundOnce("scooby dooby doo")
       }
     })
@@ -60,7 +60,7 @@ export class SceneScooby2 extends GameScene {
     this.frameCallbacks.push({
       frame: scoobFrame + (4 * 12),
       callback: () => {
-        this.screenTexture.texture = getMemberTexture("ending_28")!;
+        this.screenTexture.texture = getMemberTexture("ending_28", "ending")!;
         this.playing = false;
 
         this.screenTexture.interactive = true;

@@ -1158,7 +1158,7 @@ export class Game {
   }
 }
 
-export function getMemberTexture(memberName: string) {
+export function getMemberTexture(memberName: string, resource: string = "textures") {
   let name = memberName.toLowerCase();
   name = name + ".png";
   name = name.replace(".x.", ".");
@@ -1170,7 +1170,7 @@ export function getMemberTexture(memberName: string) {
     }
   }
 
-  return PIXI.Loader.shared.resources["textures"].spritesheet?.textures[name];
+  return PIXI.Loader.shared.resources[resource].spritesheet?.textures[name];
 }
 
 export function getMapsRect(topLeft: string, bottomRight: string): Rect {

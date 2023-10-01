@@ -193,6 +193,10 @@ def packImages(episodeNumber):
 
 
 def makeWhiteTransparent(imagePath):
+
+    if "ending_" in imagePath.name or "title" in imagePath.name:
+        return
+
     img = Image.open(imagePath)
     img = img.convert("RGBA")
     datas = img.getdata()
