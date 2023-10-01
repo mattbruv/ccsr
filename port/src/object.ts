@@ -117,7 +117,7 @@ export class GameObject implements IGameObject, MovableGameObject {
     const tileRepeat = this.member.toLowerCase().includes("tile")
 
     this.sprite =
-      tileRepeat && this.isStatic()
+      tileRepeat // && this.isStatic()
         ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
         : new PIXI.Sprite(getMemberTexture(this.member)!);
 
