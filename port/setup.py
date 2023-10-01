@@ -194,7 +194,7 @@ def packImages(episodeNumber):
 
 def makeWhiteTransparent(imagePath):
 
-    if "ending_" in imagePath.name or "title" in imagePath.name:
+    if "ending_" in imagePath.name or "title" in imagePath.name or "instructions" in imagePath.name:
         return
 
     img = Image.open(imagePath)
