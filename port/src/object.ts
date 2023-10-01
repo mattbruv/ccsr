@@ -114,10 +114,10 @@ export class GameObject implements IGameObject, MovableGameObject {
 
     // make  this object a tiling sprite if it includes "tile"
     // and the width/height is bigger than the texture
-    const tileRepeat = this.member.toLowerCase().includes("tile");
+    const tileRepeat = this.member.toLowerCase().includes("tile")
 
     this.sprite =
-      tileRepeat || this.isStatic()
+      tileRepeat || !this.isStatic()
         ? new PIXI.TilingSprite(getMemberTexture(this.member)!)
         : new PIXI.Sprite(getMemberTexture(this.member)!);
 
