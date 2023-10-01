@@ -167,6 +167,7 @@ export class GameSound {
         "ghost_02", "howl", "message",
         "music_haunted_loop_01",
         "music_haunted_loop_02",
+        "scooby dooby doo",
         "pipe.organ",
         "push", "ruh_oh"
       ];
