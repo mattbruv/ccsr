@@ -53,28 +53,28 @@ export function SelectEpisode(props: SelectProps) {
     <Box display="flex" justifyContent="center" alignItems="center">
       <Container maxWidth={false}>
         <Grid container spacing={1}>
-          <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
+          <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"1"}
               img={img("1")}
             />
           </Grid>
-          <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
+          <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"2"}
               img={img("2")}
             />
           </Grid>
-          <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
+          <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"3"}
               img={img("3")}
             />
           </Grid>
-          <Grid container justifyContent="center" item xs={12} md={6} lg={3}>
+          <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"4"}
@@ -82,7 +82,7 @@ export function SelectEpisode(props: SelectProps) {
             />
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container style={{ marginTop: "3rem" }}>
           <Grid container justifyContent="center" item xs={12} md={12} lg={12}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
