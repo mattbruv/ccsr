@@ -944,6 +944,9 @@ export class Game {
         if (this.inventory.items.includes("seebats")) {
           this.sound.dynamicSoundOnce("bunch_o_bats");
         }
+        if (this.inventory.items.includes("max")) {
+          this.sound.dynamicSoundOnce("ghost_02")
+        }
       }
     }
 
