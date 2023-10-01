@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import { getMapRect, getMapsRect, getMemberTexture } from "../game";
 import { Rect } from "../types";
 import { Scene2 } from "../scenes/scene2";
+import { SceneScooby2 } from "../scenes/sceneScooby2";
 
 
 export class Scooby1 extends EpisodeScript {
@@ -96,6 +97,7 @@ export class Scooby1 extends EpisodeScript {
     }
 
 
-    this.game.addScene("ending", new Scene2(this.game));
+    this.game.addScene("ending", new SceneScooby2(this.game));
+    //this.game.playScene("ending")
   }
 }

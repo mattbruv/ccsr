@@ -72,6 +72,7 @@ export class Debugger {
         const map = this.game.player.currentMap;
         const objs = this.game.movingObjects.filter((o) => o.mapName == map);
         console.log(objs);
+        this.game.playScene("ending")
       }
       if (event.key == "i") {
         console.log(this.game.inventory)

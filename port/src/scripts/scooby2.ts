@@ -3,6 +3,7 @@ import { EpisodeScript } from "../script";
 import { Scene2 } from "../scenes/scene2";
 import { getMapRect, getMapsRect } from "../game";
 import { Rect } from "../types";
+import { SceneScooby2 } from "../scenes/sceneScooby2";
 
 const maskOverworld = new PIXI.Graphics();
 const maskBookRoom = new PIXI.Graphics();
@@ -60,7 +61,6 @@ export class Scooby2 extends EpisodeScript {
     this.game.filmLoopData = {};
     this.game.setFilmLoopObjects();
 
-    this.game.addScene("ending", new Scene2(this.game));
 
     // Fix secret book room BG texture leaking into map 0201
     const wallTexture = this.game.gameObjects.find(
@@ -72,5 +72,8 @@ export class Scooby2 extends EpisodeScript {
     if (wallTexture) {
       wallTexture.setVisible(false)
     }
+
+    this.game.addScene("ending", new SceneScooby2(this.game));
+    //this.game.playScene("ending")
   }
 }
