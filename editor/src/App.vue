@@ -5,14 +5,14 @@ const drawer = ref(false);
 
 const links = [
   {
-    to: "/health",
-    text: "Health",
-    icon: "mdi-heart",
+    to: "",
+    text: "Maps",
+    icon: "mdi-map",
     subLinks: [
       {
-        to: "/food-log",
-        text: "Food Log",
-        icon: "mdi-food",
+        to: "/layers",
+        text: "Layers",
+        icon: "mdi-layers",
       },
       {
         to: "/weight-log",
@@ -22,9 +22,9 @@ const links = [
     ],
   },
   {
-    to: "/wealth",
-    text: "Finances",
-    icon: "mdi-currency-usd",
+    to: "",
+    text: "Events",
+    icon: "mdi-file-tree",
     subLinks: [
       {
         to: "/budget",
