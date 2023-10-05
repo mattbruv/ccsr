@@ -9,8 +9,11 @@ import * as directives from "vuetify/directives";
 
 import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
+import Load from "./Load.vue"
 
 const routes: any[] = [
+  { path: "/", component: Load },
+  { path: "/load", component: Load },
   //{ path: "/food-log", component: FoodLog },
   //{ path: "/weight-log", component: WeightLog },
   //{ path: "/budget", component: Budget },
