@@ -2,16 +2,13 @@
 import { ref } from "vue";
 import { links } from "./nav"
 
-const drawer = ref(false);
+const drawer = ref(true);
 
 </script>
 
 <template>
-  <v-card>
+  <v-app>
     <v-layout>
-      <v-app-bar>
-        <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      </v-app-bar>
 
       <v-navigation-drawer v-model="drawer">
         <v-list density="default" nav>
@@ -30,11 +27,16 @@ const drawer = ref(false);
         </v-list>
       </v-navigation-drawer>
 
+      <v-app-bar>
+        <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-title>Map-O-Matic v2</v-app-bar-title>
+      </v-app-bar>
+
       <v-main style="margin: 1rem">
         <router-view />
       </v-main>
     </v-layout>
-  </v-card>
+  </v-app>
 </template>
 
 <style scoped></style>

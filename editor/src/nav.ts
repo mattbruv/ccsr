@@ -7,21 +7,9 @@ export const links = [
         divider: true,
     },
     {
-        to: "",
+        to: "maps",
         text: "Maps",
         icon: "mdi-map",
-        subLinks: [
-            {
-                to: "/layers",
-                text: "Layers",
-                icon: "mdi-layers",
-            },
-            {
-                to: "/collision",
-                text: "Collision",
-                icon: "mdi-set-none",
-            },
-        ],
     },
     {
         to: "characters",
