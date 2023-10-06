@@ -1,17 +1,32 @@
 import { defineStore } from "pinia";
 
-interface EditorData {
-    metadata: Metadata;
+export interface EditorImage {
+    name: string
+    data: Blob
 }
 
-interface Metadata {
-    name: string;
-    author: string;
+export interface EditorData {
+    images: {
+        characters: EditorImage[];
+        tiles: EditorImage[];
+        visuals: EditorImage[];
+    },
+    metadata: EditorMetadata
+}
+
+export interface EditorMetadata {
+    name: string
+    author: string
 }
 
 export const dataStore = defineStore({
     id: "data",
     state: (): EditorData => ({
+        images: {
+            characters: [],
+            tiles: [],
+            visuals: [],
+        },
         metadata: {
             name: "New Episode",
             author: "Undefined",

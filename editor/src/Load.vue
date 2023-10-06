@@ -1,18 +1,56 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { loadEpisodeZipFile } from "./load";
+import { watch } from "vue";
 import { dataStore } from "./data";
-const episodeSelections = [
-  "Episode 1: Pool Problems",
-  "Episode 2: Tennis Menace",
-  "Episode 3: Vivian vs. the Volcano",
-  "Episode 4: Disco Dilema",
-  "Scooby Doo and the Hollywood Horror: Part 1",
-  "Scooby Doo and the Hollywood Horror: Part 2",
+
+const episodeData = [
+  {
+    title: "Episode 1: Pool Problems",
+    props: { filename: "1.ccsr.zip" },
+  },
+  {
+    title: "Episode 2: Tennis Menace",
+    props: { filename: "2.ccsr.zip" },
+  },
+  {
+    title: "Episode 3: Vivian vs. the Volcano",
+    props: { filename: "3.ccsr.zip" },
+  },
+  {
+    title: "Episode 4: Disco Dilema",
+    props: { filename: "4.ccsr.zip" },
+  },
+  {
+    title: "Scooby Doo and the Hollywood Horror: Part 1",
+    props: { filename: "scooby-1.ccsr.zip" },
+  },
+  {
+    title: "Scooby Doo and the Hollywood Horror: Part 2",
+    props: { filename: "scooby-2.ccsr.zip" },
+  },
 ];
+
+const data = dataStore();
+
+const episodes = episodeData.map((x) => x.title);
+
+const selectedEpisode = ref<string>();
+
+watch(selectedEpisode, async () => {
+  const zipFile = episodeData.find((x) => x.title === selectedEpisode.value)
+    ?.props.filename;
+
+  if (zipFile) {
+    await loadEpisodeZipFile(zipFile);
+  }
+});
 </script>
 
 <template>
   <v-container>
     <v-row>
+      {{ data.images }}
       <v-col cols="12" md="6">
         <v-card style="padding: 1rem">
           <v-card-title>Load From Episode</v-card-title>
@@ -22,7 +60,8 @@ const episodeSelections = [
           <div style="padding-top: 1rem">
             <v-select
               label="Select Episode"
-              :items="episodeSelections"
+              v-model="selectedEpisode"
+              :items="episodes"
             ></v-select>
           </div>
         </v-card>
