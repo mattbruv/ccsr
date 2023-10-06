@@ -21,8 +21,15 @@ export async function loadEpisodeZipFile(fileName: string) {
         ["map_items/", data.images.mapVisuals]
     ];
 
+    const files = Object.entries(zip.files);
 
-    zip.forEach(async (path, file) => {
+    let i = 1;
+    for (const [path, file] of files) {
+
+        store.data.loadPercent = i / files.length * 100
+        console.log("HEY", store.data.loadPercent)
+        i += 1
+
         for (const folder of imageFolders) {
             if (path.includes(folder[0])) {
                 const name = path.replace(folder[0], "");
@@ -35,5 +42,5 @@ export async function loadEpisodeZipFile(fileName: string) {
                 }
             }
         }
-    })
+    }
 }

@@ -3,10 +3,10 @@ import { ref } from "vue";
 import { EditorData } from "./data";
 
 export const useStore = defineStore("store", () => {
-    const data = ref(new EditorData());
+    let data = new EditorData();
 
     function $reset() {
-        data.value = new EditorData();
+        data = new EditorData();
     }
 
     return { data, $reset }

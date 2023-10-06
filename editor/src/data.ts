@@ -10,6 +10,8 @@ export interface EditorMetadata {
 }
 
 export class EditorData {
+    loadPercent: number = 0;
+
     images: {
         characterVisuals: EditorImage[],
         mapTiles: EditorImage[],
