@@ -30,7 +30,6 @@ export const links = [
         to: "",
         text: "Events",
         icon: "mdi-file-tree",
-        divider: true,
         subLinks: [
             {
                 to: "/event-graph",
@@ -43,6 +42,12 @@ export const links = [
                 icon: "mdi-vector-polyline-edit",
             },
         ],
+    },
+    {
+        to: "metadata",
+        text: "Metadata",
+        icon: "mdi-code-json",
+        divider: true,
     },
     {
         to: "save",
