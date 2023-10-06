@@ -1,17 +1,7 @@
-import { defineStore } from "pinia";
 
 export interface EditorImage {
     name: string
     data: Blob
-}
-
-export interface EditorData {
-    images: {
-        characters: EditorImage[];
-        tiles: EditorImage[];
-        visuals: EditorImage[];
-    },
-    metadata: EditorMetadata
 }
 
 export interface EditorMetadata {
@@ -19,17 +9,25 @@ export interface EditorMetadata {
     author: string
 }
 
-export const dataStore = defineStore({
-    id: "data",
-    state: (): EditorData => ({
-        images: {
-            characters: [],
-            tiles: [],
-            visuals: [],
-        },
-        metadata: {
-            name: "New Episode",
-            author: "Undefined",
+export class EditorData {
+    images: {
+        characterVisuals: EditorImage[],
+        mapTiles: EditorImage[],
+        mapVisuals: EditorImage[],
+    }
+
+    metadata: EditorMetadata;
+
+    constructor() {
+        this.images = {
+            characterVisuals: [],
+            mapTiles: [],
+            mapVisuals: [],
         }
-    })
-})
+
+        this.metadata = {
+            name: "New Episode",
+            author: ""
+        };
+    }
+}

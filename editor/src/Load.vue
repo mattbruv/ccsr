@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { loadEpisodeZipFile } from "./load";
 import { watch } from "vue";
-import { dataStore } from "./data";
+import { useStore } from "./store";
 
 const episodeData = [
   {
@@ -31,8 +31,8 @@ const episodeData = [
   },
 ];
 
-const data = dataStore();
-
+const loading = ref(false);
+const store = useStore();
 const episodes = episodeData.map((x) => x.title);
 
 const selectedEpisode = ref<string>();
@@ -42,15 +42,18 @@ watch(selectedEpisode, async () => {
     ?.props.filename;
 
   if (zipFile) {
+    loading.value = true;
     await loadEpisodeZipFile(zipFile);
+    loading.value = false;
   }
 });
 </script>
 
 <template>
-  <v-container>
+  <v-progress-circular indeterminate v-if="loading"></v-progress-circular>
+  <v-container v-else>
     <v-row>
-      {{ data.images }}
+      {{ store.data.images }}
       <v-col cols="12" md="6">
         <v-card style="padding: 1rem">
           <v-card-title>Load From Episode</v-card-title>
