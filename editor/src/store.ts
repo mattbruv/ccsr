@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
 import { EditorData } from "./data";
+import { Ref, ref } from "vue"
 
 export const useStore = defineStore("store", () => {
-    let data = new EditorData();
+    const data: Ref<EditorData> = ref(new EditorData());
 
     function $reset() {
-        data = new EditorData();
+        data.value = new EditorData();
     }
 
     return { data, $reset }

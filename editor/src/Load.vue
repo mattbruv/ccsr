@@ -52,6 +52,7 @@ watch(selectedEpisode, async () => {
 </script>
 
 <template>
+  {{ store.data.images.characterVisuals.length }}
   <v-container v-if="loading">
     <v-progress-linear v-model="percentLoaded"></v-progress-linear>
   </v-container>

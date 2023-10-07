@@ -1,6 +1,6 @@
 
-export interface EditorImage {
-    name: string
+export interface EditorFileData {
+    filename: string
     data: Blob
 }
 
@@ -13,9 +13,9 @@ export class EditorData {
     loadPercent: number = 0;
 
     images: {
-        characterVisuals: EditorImage[],
-        mapTiles: EditorImage[],
-        mapVisuals: EditorImage[],
+        characterVisuals: EditorFileData[],
+        mapTiles: EditorFileData[],
+        mapVisuals: EditorFileData[],
     }
 
     metadata: EditorMetadata;

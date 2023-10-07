@@ -1,20 +1,24 @@
 
-import { EditorData, EditorImage } from "./data";
-import JSZip from "jszip"
+import { EditorData, EditorFileData } from "./data";
+import JSZip, { JSZipObject } from "jszip"
 import { useStore } from "./store";
 
 export async function loadEpisodeZipFile(fileName: string) {
     const jszip = new JSZip();
     const request = await fetch("assets/" + fileName)
-
     const blob = await request.blob();
     const zip = await jszip.loadAsync(blob);
+    await loadZipFile(zip);
+}
+
+export async function loadZipFile(zip: JSZip): Promise<void> {
 
     const store = useStore();
     store.$reset();
+
     const data = store.data;
 
-    const imageFolders: [string, EditorImage[]][] = [
+    const imageFolders: [string, EditorFileData[]][] = [
         ["character.visuals/", data.images.characterVisuals],
         ["map.tiles/", data.images.mapTiles],
         ["map.visuals/", data.images.mapVisuals],
@@ -26,21 +30,25 @@ export async function loadEpisodeZipFile(fileName: string) {
     let i = 1;
     for (const [path, file] of files) {
 
-        store.data.loadPercent = i / files.length * 100
-        console.log("HEY", store.data.loadPercent)
-        i += 1
+        store.data.loadPercent = i++ / files.length * 100
 
-        for (const folder of imageFolders) {
-            if (path.includes(folder[0])) {
-                const name = path.replace(folder[0], "");
-                if (name) {
-                    const blob = await file.async("blob");
-                    folder[1].push({
-                        name,
-                        data: blob
-                    })
+        for (const [folder, array] of imageFolders) {
+            if (path.includes(folder)) {
+                const filename = path.replace(folder, "")
+                if (filename) {
+                    await addFile(filename, file, array)
                 }
             }
         }
     }
+
+    store.data.loadPercent = 0;
+}
+
+async function addFile(filename: string, file: JSZipObject, array: EditorFileData[]): Promise<void> {
+    const data = await file.async("blob");
+    array.push({
+        filename,
+        data
+    });
 }
