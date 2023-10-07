@@ -56,6 +56,7 @@ watch(selectedEpisode, async () => {
     <v-progress-linear v-model="percentLoaded"></v-progress-linear>
   </v-container>
   <v-container v-else>
+    {{ store.data.maps.map((x) => x.filename) }}
     <v-row>
       <v-col cols="12" md="6">
         <v-card style="padding: 1rem">

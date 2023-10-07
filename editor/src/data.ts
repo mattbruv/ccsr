@@ -18,6 +18,8 @@ export class EditorData {
         mapVisuals: EditorFileData[],
     }
 
+    maps: EditorFileData[] = []
+
     metadata: EditorMetadata;
 
     constructor() {

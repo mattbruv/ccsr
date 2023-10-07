@@ -22,7 +22,8 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
         ["character.visuals/", data.images.characterVisuals],
         ["map.tiles/", data.images.mapTiles],
         ["map.visuals/", data.images.mapVisuals],
-        ["map_items/", data.images.mapVisuals]
+        ["map_items/", data.images.mapVisuals],
+        ["map.data/", data.maps]
     ];
 
     const files = Object.entries(zip.files);
