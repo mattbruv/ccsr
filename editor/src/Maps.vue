@@ -8,7 +8,6 @@ const store = useStore();
 <template>
   <v-container>
     <div>Hi mom</div>
-    <div>{{ parser }}</div>
   </v-container>
 </template>
 
