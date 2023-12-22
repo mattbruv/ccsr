@@ -1,7 +1,13 @@
 //import test from "./0106.txt?raw";
 import test from "./test.txt?raw";
 import { getTokens } from "./tokens";
-import { LingoToken, LingoTokenType } from "./types";
+import {
+  LingoArray,
+  LingoLiteral,
+  LingoToken,
+  LingoTokenType,
+  LingoValue,
+} from "./types";
 
 export default test;
 
@@ -11,8 +17,6 @@ class Parser {
   astError = false;
   tokens: LingoToken[];
 
-  private currentToken = 0;
-
   constructor(input: string) {
     this.input = input;
     const result = getTokens(input);
@@ -20,41 +24,27 @@ class Parser {
     this.tokens = result.tokens;
   }
 
-  private match(types: LingoTokenType[]): boolean {
-    for (const type of types) {
-      if (this.check(type)) {
-        this.advance();
-        return true;
-      }
+  parse(tokens: LingoToken[]): [LingoValue, LingoToken[]] {
+    // TODO
+    return [{ children: [] }, tokens];
+  }
+
+  //
+  parseArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
+    const array: LingoArray = {
+      children: [],
+    };
+    let next = tokens[0];
+
+    if (next.type === LingoTokenType.RightBracket)
+      return [array, tokens.slice(1, tokens.length)];
+
+    while (true) {
+      const [value, tokens] = this.parse(tokens);
+      //
     }
-    return false;
-  }
 
-  private consume(type: LingoTokenType): LingoToken {
-    if (this.check(type)) return this.advance();
-    throw Error("Parsing error!!!");
-  }
-
-  private check(type: LingoTokenType): boolean {
-    if (this.isAtEnd()) return false;
-    return this.peek().type === type;
-  }
-
-  private advance(): LingoToken {
-    if (!this.isAtEnd()) this.currentToken++;
-    return this.previous();
-  }
-
-  private isAtEnd(): boolean {
-    return this.tokens.length === this.currentToken;
-  }
-
-  private peek(): LingoToken {
-    return this.tokens[this.currentToken];
-  }
-
-  private previous(): LingoToken {
-    return this.tokens[this.currentToken - 1];
+    throw Error("Expected end-of-array bracket: ]");
   }
 }
 
