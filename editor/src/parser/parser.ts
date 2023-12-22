@@ -1,7 +1,27 @@
-//import test from "./0106.txt?raw";
-import test from "./test.txt?raw";
+import test from "./0106.txt?raw";
+//import test from "./test.txt?raw";
 
 export default test;
+
+type LingoValue = LingoObject | LingoArray | LingoLiteral;
+
+type LingoObject = {
+  children: LingoProperty[];
+};
+
+type LingoArray = {
+  children: LingoValue[];
+};
+
+type LingoProperty = {
+  key: LingoIdentifier;
+  value: LingoValue;
+};
+
+type LingoLiteral = LingoString | LingoNumber;
+type LingoIdentifier = string;
+type LingoNumber = number;
+type LingoString = string;
 
 export enum LingoTokenType {
   LeftBracket,
