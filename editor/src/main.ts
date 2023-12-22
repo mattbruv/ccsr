@@ -9,14 +9,13 @@ import * as directives from "vuetify/directives";
 
 import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
-import Load from "./Load.vue"
+import LoadVue from "./Load.vue";
+import MapsVue from "./Maps.vue";
 
 const routes: any[] = [
-  { path: "/", component: Load },
-  { path: "/load", component: Load },
-  //{ path: "/food-log", component: FoodLog },
-  //{ path: "/weight-log", component: WeightLog },
-  //{ path: "/budget", component: Budget },
+  { path: "/", component: LoadVue },
+  { path: "/load", component: LoadVue },
+  { path: "/maps", component: MapsVue },
 ];
 
 const router = createRouter({
