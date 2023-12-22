@@ -20,35 +20,56 @@ type LingoToken = {
   index: number;
 };
 
-const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
-  [LingoTokenType.WhiteSpace]: /\s+/g,
-  [LingoTokenType.LeftBracket]: /\[/g,
-  [LingoTokenType.RightBracket]: /]/g,
-  [LingoTokenType.Identifier]: /#\w+/g,
-  [LingoTokenType.String]: /"(.*?)"/g,
-  [LingoTokenType.Number]: /\d+/g,
-  [LingoTokenType.Comma]: /,/g,
-  [LingoTokenType.Colon]: /:/g,
+type ParseResult = {
+  error: boolean;
+  tokens: LingoToken[];
 };
 
-function getAllTokens(input: string): LingoToken[] {
-  const tokens = lingoTokenRegex;
-  return Object.entries(lingoTokenRegex)
-    .flatMap(([tokenType, regex]) => {
-      const matches = [...input.matchAll(regex)];
+const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
+  [LingoTokenType.WhiteSpace]: /^\s+/,
+  [LingoTokenType.LeftBracket]: /^\[/,
+  [LingoTokenType.RightBracket]: /^]/,
+  [LingoTokenType.Identifier]: /^#\w+/,
+  [LingoTokenType.String]: /^"(.*?)"/,
+  [LingoTokenType.Number]: /^\d+/,
+  [LingoTokenType.Comma]: /^,/,
+  [LingoTokenType.Colon]: /^:/,
+};
 
-      return matches.map((match) => {
-        const type = parseInt(tokenType);
-        const token: LingoToken = {
-          index: match.index ?? -1,
-          type: type,
-          value: match[0],
-        };
-        return token;
-      });
-    })
-    .filter((x) => x.index >= 0 && x.type !== LingoTokenType.WhiteSpace)
-    .sort((a, b) => a.index - b.index);
+function parseMap(input: string): ParseResult {
+  const tokens: LingoToken[] = [];
+
+  let index = 0;
+  let match = nextMatch(input, index);
+
+  while (match) {
+    tokens.push(match);
+    input = input.slice(match.value.length, input.length);
+    index += match.value.length;
+    match = nextMatch(input, index);
+  }
+
+  return {
+    error: input !== "",
+    tokens: tokens.filter((t) => t.type !== LingoTokenType.WhiteSpace),
+  };
 }
 
-console.log(getAllTokens(test));
+function nextMatch(input: string, startIndex: number): LingoToken | null {
+  const tokens = Object.entries(lingoTokenRegex);
+
+  for (const [token, regex] of tokens) {
+    const match = input.match(regex);
+    if (!match) continue;
+    return {
+      index: startIndex,
+      type: parseInt(token),
+      value: match[0],
+    };
+  }
+
+  return null;
+}
+
+const result = parseMap(test);
+console.log(result);
