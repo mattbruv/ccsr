@@ -1,4 +1,5 @@
-import test from "./0106.txt?raw";
+//import test from "./0106.txt?raw";
+import test from "./test.txt?raw";
 
 export default test;
 
@@ -20,14 +21,34 @@ type LingoToken = {
 };
 
 const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
-  [LingoTokenType.WhiteSpace]: /\s+/,
-  [LingoTokenType.LeftBracket]: /\[/,
-  [LingoTokenType.RightBracket]: /]/,
-  [LingoTokenType.Identifier]: /#\w+/,
-  [LingoTokenType.String]: /"(.*?)"/,
-  [LingoTokenType.Number]: /\d+/,
-  [LingoTokenType.Comma]: /,/,
-  [LingoTokenType.Colon]: /:/,
+  [LingoTokenType.WhiteSpace]: /\s+/g,
+  [LingoTokenType.LeftBracket]: /\[/g,
+  [LingoTokenType.RightBracket]: /]/g,
+  [LingoTokenType.Identifier]: /#\w+/g,
+  [LingoTokenType.String]: /"(.*?)"/g,
+  [LingoTokenType.Number]: /\d+/g,
+  [LingoTokenType.Comma]: /,/g,
+  [LingoTokenType.Colon]: /:/g,
 };
 
-console.log(lingoTokenRegex[LingoTokenType.Identifier]);
+function getAllTokens(input: string): LingoToken[] {
+  const tokens = lingoTokenRegex;
+  return Object.entries(lingoTokenRegex)
+    .flatMap(([tokenType, regex]) => {
+      const matches = [...input.matchAll(regex)];
+
+      return matches.map((match) => {
+        const type = parseInt(tokenType);
+        const token: LingoToken = {
+          index: match.index ?? -1,
+          type: type,
+          value: match[0],
+        };
+        return token;
+      });
+    })
+    .filter((x) => x.index >= 0 && x.type !== LingoTokenType.WhiteSpace)
+    .sort((a, b) => a.index - b.index);
+}
+
+console.log(getAllTokens(test));

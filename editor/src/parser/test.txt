@@ -1,0 +1,27 @@
+[
+    #member: "block.104",
+    #type: #FLOR,
+    #location: [16, 9],
+    #width: 64,
+    #WSHIFT: 0,
+    #height: 32,
+    #HSHIFT: 0,
+    #data: [
+        #item: [
+            #name: "",
+            #type: #WALL,
+            #visi: [
+                #visiObj: "",
+                #visiAct: "",
+                #inviObj: "",
+                #inviAct: ""
+            ],
+            #COND: [[#hasObj: "", #hasAct: "", #giveObj: "sunscreen", #giveAct: "gotscreen"], #none, #none, #none]
+        ],
+        #move: [#U: 0, #d: 0, #L: 0, #R: 0, #COND: 1, #TIMEA: 0, #TIMEB: 0],
+        #message: [
+            [#text: "You bought the sun screen.", #plrObj: "", #plrAct: ""],
+            [#text: "No more sunscreen today!", #plrObj: "", #plrAct: "gotscreen"]
+        ]
+    ]
+]
