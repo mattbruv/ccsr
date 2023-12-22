@@ -1,6 +1,9 @@
 // Given the types defined below,
 // Write a parser that will recursively parse each LingoValue.
 // Lingo is like JSON, except instead of {} for denoting objects, it uses [].
+// A lingo object can be differentiated from an array by checking to see if the first token is a [, the second token is an identifier, and the third token is a colon.
+// Don't use shift(), prefer not mutating exisiting arrays, go for a functional style instead
+// items in lingo arrays are separated by commas. You should never find commas outside of arrays
 
 export type LingoValue = LingoObject | LingoArray | LingoLiteral;
 export type LingoLiteral = LingoIdentifier | LingoString | LingoNumber;
@@ -27,7 +30,7 @@ export type LingoNumber = {
 };
 
 export type LingoString = {
-  value: number;
+  value: string;
 };
 
 export enum LingoTokenType {
