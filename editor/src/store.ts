@@ -15,6 +15,9 @@ export const useStore = defineStore("store", {
   state: () => {
     return {
       project: newProject(),
+      UI: {
+        showMapViewer: true,
+      },
     };
   },
 

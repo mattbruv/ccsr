@@ -16,6 +16,9 @@ const title = computed(() => {
   return name ? app + " - " + name : app;
 });
 
+const showMapView = computed(() => store.UI.showMapViewer);
+const mainPageColumns = computed(() => (showMapView.value ? 6 : 12));
+
 const drawer = ref(true);
 </script>
 
@@ -59,7 +62,7 @@ const drawer = ref(true);
         </v-list>
       </v-navigation-drawer>
 
-      <v-app-bar>
+      <v-app-bar density="compact">
         <v-app-bar-nav-icon
           variant="text"
           @click.stop="drawer = !drawer"
@@ -67,11 +70,27 @@ const drawer = ref(true);
         <v-app-bar-title>{{ title }}</v-app-bar-title>
       </v-app-bar>
 
-      <v-main style="height: 100vh">
-        <router-view />
+      <v-main>
+        <v-container fluid class="pa-0">
+          <v-row no-gutters>
+            <v-col v-if="showMapView" cols="6" class="map-view">
+              <!-- Map component-->
+              map
+            </v-col>
+            <v-col :cols="mainPageColumns">
+              <!-- Main page content-->
+              <router-view />
+            </v-col>
+          </v-row>
+        </v-container>
       </v-main>
     </v-layout>
   </v-app>
 </template>
 
-<style scoped></style>
+<style scoped>
+.map-view {
+  background-color: magenta;
+  height: 100vh;
+}
+</style>
