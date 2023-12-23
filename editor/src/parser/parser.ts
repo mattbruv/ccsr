@@ -1,5 +1,5 @@
-//import test from "./0106.txt?raw";
-import test from "./test.txt?raw";
+import test from "./0106.txt?raw";
+//import test from "./test.txt?raw";
 import { lexTokens } from "./lexer";
 import {
   LingoArray,
@@ -10,7 +10,8 @@ import {
   LingoType,
   LingoValue,
 } from "./types";
-import { ca } from "vuetify/locale";
+
+export default test;
 
 type ASTParseResult = {
   error?: string;
@@ -92,14 +93,16 @@ export function lingoValueToString(
 ): string {
   switch (value.type) {
     case LingoType.Array: {
-      return "array";
+      const children = value.children.map((x) =>
+        lingoValueToString(x, prettyPrint)
+      );
+      return "[" + children.join(", ") + "]";
     }
     case LingoType.Object: {
-      const children = value.children.map((x) => [
-        x.key.value,
-        lingoValueToString(x.value, prettyPrint),
-      ]);
-      return children.join("{");
+      const children = value.children
+        .map((x) => [x.key.value, lingoValueToString(x.value, prettyPrint)])
+        .map((x) => `${x[0]}: ${x[1]}`);
+      return "{" + children.join(", ") + "}";
     }
     case LingoType.Identifier: {
       return value.value;
