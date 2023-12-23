@@ -67,7 +67,7 @@ const drawer = ref(true);
         <v-app-bar-title>{{ title }}</v-app-bar-title>
       </v-app-bar>
 
-      <v-main style="margin: 1rem">
+      <v-main style="height: 100vh">
         <router-view />
       </v-main>
     </v-layout>

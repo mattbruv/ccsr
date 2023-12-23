@@ -9,10 +9,15 @@ const maps = computed(() => {
 </script>
 
 <template>
-  <v-container>
-    <div>{{ store.project.maps.length }}</div>
-    <div>{{ lingoValueToString(store.project.maps[0].objectTree) }}</div>
-  </v-container>
+  <v-row no-gutters style="height: 100%">
+    <v-col cols="6" style="background-color: orange; overflow: auto">
+      {{ maps.length }}
+      <!-- Content for the left half goes here -->
+    </v-col>
+    <v-col cols="6" style="background-color: blue">
+      <!-- Content for the right half goes here -->
+    </v-col>
+  </v-row>
 </template>
 
 <style scoped></style>
