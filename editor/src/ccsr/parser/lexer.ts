@@ -1,6 +1,6 @@
-import { LingoToken, LingoTokenType } from "./types";
+import LingoTokenType = CCSR.Lexer.LingoTokenType;
 
-const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
+const lingoTokenRegex: Record<CCSR.Lexer.LingoTokenType, RegExp> = {
   [LingoTokenType.WhiteSpace]: /^\s+/,
   [LingoTokenType.LeftBracket]: /^\[/,
   [LingoTokenType.RightBracket]: /^]/,
@@ -13,11 +13,11 @@ const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
 
 type LexResult = {
   error: boolean;
-  tokens: LingoToken[];
+  tokens: CCSR.Lexer.LingoToken[];
 };
 
 export function lexTokens(input: string): LexResult {
-  const tokens: LingoToken[] = [];
+  const tokens: CCSR.Lexer.LingoToken[] = [];
 
   let index = 0;
   let match = nextMatch(input, index);
@@ -35,7 +35,10 @@ export function lexTokens(input: string): LexResult {
   };
 }
 
-function nextMatch(input: string, startIndex: number): LingoToken | null {
+function nextMatch(
+  input: string,
+  startIndex: number
+): CCSR.Lexer.LingoToken | null {
   const tokens = Object.entries(lingoTokenRegex);
 
   for (const [token, regex] of tokens) {

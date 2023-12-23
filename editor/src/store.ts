@@ -1,13 +1,25 @@
 import { defineStore } from "pinia";
-import { EditorData } from "./data";
-import { Ref, ref } from "vue"
 
-export const useStore = defineStore("store", () => {
-    const data: Ref<EditorData> = ref(new EditorData());
+function newProject(): CCSR.Project {
+  return {
+    maps: [],
+    metadata: {
+      author: "Anonymous",
+      name: "New CCSR Project",
+    },
+  };
+}
 
-    function $reset() {
-        data.value = new EditorData();
-    }
+export const useStore = defineStore("store", {
+  state: () => {
+    return {
+      project: newProject(),
+    };
+  },
 
-    return { data, $reset }
-})
+  actions: {
+    newProject() {
+      this.project = newProject();
+    },
+  },
+});

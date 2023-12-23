@@ -1,55 +1,54 @@
-
-import { EditorData, EditorFileData } from "./data";
-import JSZip, { JSZipObject } from "jszip"
+import JSZip from "jszip";
 import { useStore } from "./store";
+import { parseMap } from "./ccsr/parser/parser";
 
 export async function loadEpisodeZipFile(fileName: string) {
-    const jszip = new JSZip();
-    const request = await fetch("assets/" + fileName)
-    const blob = await request.blob();
-    const zip = await jszip.loadAsync(blob);
-    await loadZipFile(zip);
+  const jszip = new JSZip();
+  const request = await fetch("assets/" + fileName);
+  const blob = await request.blob();
+  const zip = await jszip.loadAsync(blob);
+  await loadZipFile(zip);
 }
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
+  const store = useStore();
+  store.newProject();
 
-    const store = useStore();
-    store.$reset();
+  const files = Object.entries(zip.files).filter(
+    ([_, file]) => file.dir == false
+  );
 
-    const data = store.data;
-
-    const imageFolders: [string, EditorFileData[]][] = [
-        ["character.visuals/", data.images.characterVisuals],
-        ["map.tiles/", data.images.mapTiles],
-        ["map.visuals/", data.images.mapVisuals],
-        ["map_items/", data.images.mapVisuals],
-        ["map.data/", data.maps]
-    ];
-
-    const files = Object.entries(zip.files);
-
-    let i = 1;
-    for (const [path, file] of files) {
-
-        store.data.loadPercent = i++ / files.length * 100
-
-        for (const [folder, array] of imageFolders) {
-            if (path.includes(folder)) {
-                const filename = path.replace(folder, "")
-                if (filename) {
-                    await addFile(filename, file, array)
-                }
-            }
-        }
+  for (const [path, file] of files) {
+    // Extract map data
+    if (path.startsWith("map.data")) {
+      const mapData = await file.async("string");
+      store.project.maps.push({
+        filename: path.split("/").pop()!,
+        objectTree: parseMap(mapData).value,
+        data: mapData,
+      });
     }
 
-    store.data.loadPercent = 0;
+    // Extract metadata
+    if (path === "metadata.json") {
+      const metaString = await file.async("string");
+      const metadata = JSON.parse(metaString) as CCSR.Metadata;
+      store.project.metadata = metadata;
+    }
+
+    console.log(path);
+  }
 }
 
-async function addFile(filename: string, file: JSZipObject, array: EditorFileData[]): Promise<void> {
-    const data = await file.async("blob");
-    array.push({
-        filename,
-        data
-    });
+/*
+async function addFile(
+  filename: string,
+  file: JSZipObject,
+): Promise<void> {
+  const data = await file.async("blob");
+  array.push({
+    filename,
+    data,
+  });
 }
+*/

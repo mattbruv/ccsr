@@ -1,28 +1,25 @@
-//import test from "./0106.txt?raw";
-import test from "./test.txt?raw";
 import { lexTokens } from "./lexer";
-import {
-  LingoArray,
-  LingoObject,
-  LingoProperty,
-  LingoToken,
-  LingoTokenType,
-  LingoType,
-  LingoValue,
-} from "./types";
+import LingoTokenType = CCSR.Lexer.LingoTokenType;
+import LingoType = CCSR.Parser.LingoType;
 
-export default test;
+type LingoToken = CCSR.Lexer.LingoToken;
+type LingoObject = CCSR.Parser.LingoObject;
+type LingoProperty = CCSR.Parser.LingoProperty;
+type LingoArray = CCSR.Parser.LingoArray;
+type LingoValue = CCSR.Parser.LingoValue;
 
 type ASTParseResult = {
   error?: string;
-  value: LingoValue;
+  value: CCSR.Parser.LingoValue;
 };
 
-function parseLingoValue(tokens: LingoToken[]): [LingoValue, LingoToken[]] {
+function parseLingoValue(
+  tokens: CCSR.Lexer.LingoToken[]
+): [CCSR.Parser.LingoValue, CCSR.Lexer.LingoToken[]] {
   let token = tokens[0];
 
   switch (token.type) {
-    case LingoTokenType.LeftBracket:
+    case CCSR.Lexer.LingoTokenType.LeftBracket:
       if (
         tokens[1].type === LingoTokenType.Identifier &&
         tokens[2].type === LingoTokenType.Colon

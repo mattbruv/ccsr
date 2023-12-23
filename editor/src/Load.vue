@@ -3,7 +3,6 @@ import { ref } from "vue";
 import { loadEpisodeZipFile } from "./load";
 import { watch } from "vue";
 import { useStore } from "./store";
-import { computed } from "vue";
 
 const episodeData = [
   {
@@ -34,7 +33,6 @@ const episodeData = [
 
 const loading = ref(false);
 const store = useStore();
-const percentLoaded = computed(() => store.data.loadPercent);
 const episodes = episodeData.map((x) => x.title);
 
 const selectedEpisode = ref<string>();
@@ -53,10 +51,12 @@ watch(selectedEpisode, async () => {
 
 <template>
   <v-container v-if="loading">
+    <!--
     <v-progress-linear v-model="percentLoaded"></v-progress-linear>
+    -->
   </v-container>
   <v-container v-else>
-    {{ store.data.maps.map((x) => x.filename) }}
+    {{ store.project.maps.map((x) => x.filename) }}
     <v-row>
       <v-col cols="12" md="6">
         <v-card style="padding: 1rem">
