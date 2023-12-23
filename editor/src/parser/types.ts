@@ -6,11 +6,11 @@
 // items in lingo arrays are separated by commas. You should never find commas outside of arrays
 
 export enum LingoType {
-  Object,
-  Array,
-  Identifier,
-  Number,
-  String,
+  Object = "object",
+  Array = "array",
+  Identifier = "identifier",
+  Number = "number",
+  String = "string",
 }
 
 export type LingoValue = LingoObject | LingoArray | LingoLiteral;

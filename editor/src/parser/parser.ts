@@ -1,23 +1,21 @@
 //import test from "./0106.txt?raw";
-import { getTransitionRawChildren } from "vue";
 import test from "./test.txt?raw";
-import { getTokens } from "./tokens";
+import { lexTokens } from "./lexer";
 import {
   LingoArray,
-  LingoIdentifier,
-  LingoLiteral,
-  LingoNumber,
   LingoObject,
   LingoProperty,
-  LingoString,
   LingoToken,
   LingoTokenType,
   LingoType,
   LingoValue,
 } from "./types";
-import { VLayout } from "vuetify/components";
+import { ca } from "vuetify/locale";
 
-export default test;
+type ASTParseResult = {
+  error?: string;
+  value: LingoValue;
+};
 
 function parseLingoValue(tokens: LingoToken[]): [LingoValue, LingoToken[]] {
   let token = tokens[0];
@@ -88,16 +86,51 @@ function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
   return [{ children, type: LingoType.Array }, tokens.slice(1)]; // Skip the closing bracket
 }
 
-const parse = getTokens(test);
-console.log(parse.tokens);
-const result = parseLingoValue(parse.tokens)[0];
-console.log(result);
+export function lingoValueToString(
+  value: LingoValue,
+  prettyPrint: boolean = true
+): string {
+  switch (value.type) {
+    case LingoType.Array: {
+      return "array";
+    }
+    case LingoType.Object: {
+      const children = value.children.map((x) => [
+        x.key.value,
+        lingoValueToString(x.value, prettyPrint),
+      ]);
+      return children.join("{");
+    }
+    case LingoType.Identifier: {
+      return value.value;
+    }
+    case LingoType.Number: {
+      return value.value.toString();
+    }
+    case LingoType.String: {
+      return value.value;
+    }
+  }
+}
 
-if (result.type === LingoType.Array) {
-  console.log(result.children);
-  const first = result.children[0];
-  if (first.type === LingoType.Object) {
-    console.log("first child is an object!");
-    console.log(first.children[0].key.type);
+export function parseMap(data: string): ASTParseResult {
+  const lexResult = lexTokens(data);
+
+  if (lexResult.error) {
+    return {
+      error: "Error parsing text at character:",
+      value: { children: [], type: LingoType.Array },
+    };
+  }
+
+  try {
+    return {
+      value: parseLingoValue(lexResult.tokens)[0],
+    };
+  } catch (e) {
+    return {
+      error: "Error parsing AST: " + e,
+      value: { children: [], type: LingoType.Array },
+    };
   }
 }

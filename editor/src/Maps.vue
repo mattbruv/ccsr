@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { useStore } from "./store";
 
-import parser from "./parser/parser";
+import { parseMap, lingoValueToString } from "./parser/parser";
+
+const res = parseMap('[#test:"foo",           #fuck: "Off"]');
+const test = lingoValueToString(res.value);
+console.log(test);
+
 const store = useStore();
 </script>
 

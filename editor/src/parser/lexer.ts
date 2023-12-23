@@ -11,12 +11,12 @@ const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
   [LingoTokenType.Colon]: /^:/,
 };
 
-export type ParseResult = {
+type LexResult = {
   error: boolean;
   tokens: LingoToken[];
 };
 
-export function getTokens(input: string): ParseResult {
+export function lexTokens(input: string): LexResult {
   const tokens: LingoToken[] = [];
 
   let index = 0;
