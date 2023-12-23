@@ -16,7 +16,12 @@ export const useStore = defineStore("store", {
     return {
       project: newProject(),
       UI: {
-        showMapViewer: true,
+        global: {
+          showMapViewer: true,
+        },
+        maps: {
+          //
+        },
       },
     };
   },

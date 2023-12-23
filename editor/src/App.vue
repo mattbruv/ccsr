@@ -17,7 +17,7 @@ const title = computed(() => {
   return name ? app + " - " + name : app;
 });
 
-const showMapView = computed(() => store.UI.showMapViewer);
+const showMapView = computed(() => store.UI.global.showMapViewer);
 const mainPageColumns = computed(() => (showMapView.value ? 6 : 12));
 
 const drawer = ref(true);

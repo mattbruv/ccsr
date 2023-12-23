@@ -6,7 +6,7 @@ const store = useStore();
 
 <template>
   <div id="map-viewer">
-    {{ store.UI.showMapViewer }}
+    {{ store.UI.global.showMapViewer }}
   </div>
 </template>
 
