@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useStore } from "./store";
+import { lingoValueToString } from "./ccsr/parser/parser";
 const store = useStore();
 const maps = computed(() => {
   return store.project.maps.map((x) => x.filename);
@@ -10,7 +11,7 @@ const maps = computed(() => {
 <template>
   <v-container>
     <div>{{ store.project.maps.length }}</div>
-    <div v-for="data in maps">{{ data }}</div>
+    <div>{{ lingoValueToString(store.project.maps[0].objectTree) }}</div>
   </v-container>
 </template>
 

@@ -97,11 +97,11 @@ export function lingoValueToString(
     case LingoType.Object: {
       const children = value.children
         .map((x) => [x.key.value, lingoValueToString(x.value, prettyPrint)])
-        .map((x) => `${x[0]}: ${x[1]}`);
-      return "[" + children.join(", ") + "]";
+        .map((x) => `"${x[0]}": ${x[1]}`);
+      return "{" + children.join(", ") + "}";
     }
     case LingoType.Identifier: {
-      return value.value;
+      return `"${value.value}"`;
     }
     case LingoType.Number: {
       return value.value.toString();
