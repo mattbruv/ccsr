@@ -5,66 +5,60 @@
 // Don't use shift(), prefer not mutating exisiting arrays, go for a functional style instead
 // items in lingo arrays are separated by commas. You should never find commas outside of arrays
 
-declare namespace CCSR {
-  namespace Parser {
-    export enum LingoType {
-      Object = "object",
-      Array = "array",
-      Identifier = "identifier",
-      Number = "number",
-      String = "string",
-    }
-
-    export type LingoValue = LingoObject | LingoArray | LingoLiteral;
-    export type LingoLiteral = LingoIdentifier | LingoString | LingoNumber;
-
-    export type LingoObject = {
-      type: LingoType.Object;
-      children: LingoProperty[];
-    };
-
-    export type LingoArray = {
-      type: LingoType.Array;
-      children: LingoValue[];
-    };
-
-    export type LingoProperty = {
-      key: LingoIdentifier;
-      value: LingoValue;
-    };
-
-    export type LingoIdentifier = {
-      type: LingoType.Identifier;
-      value: string;
-    };
-
-    export type LingoNumber = {
-      type: LingoType.Number;
-      value: number;
-    };
-
-    export type LingoString = {
-      type: LingoType.String;
-      value: string;
-    };
-  }
-
-  namespace Lexer {
-    export enum LingoTokenType {
-      LeftBracket,
-      RightBracket,
-      Identifier,
-      String,
-      Number,
-      Comma,
-      Colon,
-      WhiteSpace,
-    }
-
-    export type LingoToken = {
-      type: LingoTokenType;
-      value: string;
-      index: number;
-    };
-  }
+export enum LingoType {
+  Object = "object",
+  Array = "array",
+  Identifier = "identifier",
+  Number = "number",
+  String = "string",
 }
+
+export type LingoValue = LingoObject | LingoArray | LingoLiteral;
+export type LingoLiteral = LingoIdentifier | LingoString | LingoNumber;
+
+export type LingoObject = {
+  type: LingoType.Object;
+  children: LingoProperty[];
+};
+
+export type LingoArray = {
+  type: LingoType.Array;
+  children: LingoValue[];
+};
+
+export type LingoProperty = {
+  key: LingoIdentifier;
+  value: LingoValue;
+};
+
+export type LingoIdentifier = {
+  type: LingoType.Identifier;
+  value: string;
+};
+
+export type LingoNumber = {
+  type: LingoType.Number;
+  value: number;
+};
+
+export type LingoString = {
+  type: LingoType.String;
+  value: string;
+};
+
+export enum LingoTokenType {
+  LeftBracket,
+  RightBracket,
+  Identifier,
+  String,
+  Number,
+  Comma,
+  Colon,
+  WhiteSpace,
+}
+
+export type LingoToken = {
+  type: LingoTokenType;
+  value: string;
+  index: number;
+};
