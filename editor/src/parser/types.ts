@@ -5,14 +5,24 @@
 // Don't use shift(), prefer not mutating exisiting arrays, go for a functional style instead
 // items in lingo arrays are separated by commas. You should never find commas outside of arrays
 
+export enum LingoType {
+  Object,
+  Array,
+  Identifier,
+  Number,
+  String,
+}
+
 export type LingoValue = LingoObject | LingoArray | LingoLiteral;
 export type LingoLiteral = LingoIdentifier | LingoString | LingoNumber;
 
 export type LingoObject = {
+  type: LingoType.Object;
   children: LingoProperty[];
 };
 
 export type LingoArray = {
+  type: LingoType.Array;
   children: LingoValue[];
 };
 
@@ -22,14 +32,17 @@ export type LingoProperty = {
 };
 
 export type LingoIdentifier = {
+  type: LingoType.Identifier;
   value: string;
 };
 
 export type LingoNumber = {
+  type: LingoType.Number;
   value: number;
 };
 
 export type LingoString = {
+  type: LingoType.String;
   value: string;
 };
 

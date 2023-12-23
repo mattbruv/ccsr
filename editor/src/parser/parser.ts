@@ -1,4 +1,5 @@
 //import test from "./0106.txt?raw";
+import { getTransitionRawChildren } from "vue";
 import test from "./test.txt?raw";
 import { getTokens } from "./tokens";
 import {
@@ -11,8 +12,10 @@ import {
   LingoString,
   LingoToken,
   LingoTokenType,
+  LingoType,
   LingoValue,
 } from "./types";
+import { VLayout } from "vuetify/components";
 
 export default test;
 
@@ -30,11 +33,17 @@ function parseLingoValue(tokens: LingoToken[]): [LingoValue, LingoToken[]] {
         return parseLingoArray(tokens);
       }
     case LingoTokenType.Identifier:
-      return [{ value: token.value }, tokens.slice(1)];
+      return [
+        { value: token.value, type: LingoType.Identifier },
+        tokens.slice(1),
+      ];
     case LingoTokenType.String:
-      return [{ value: token.value }, tokens.slice(1)];
+      return [{ value: token.value, type: LingoType.String }, tokens.slice(1)];
     case LingoTokenType.Number:
-      return [{ value: Number(token.value) }, tokens.slice(1)];
+      return [
+        { value: Number(token.value), type: LingoType.Number },
+        tokens.slice(1),
+      ];
     default:
       throw new Error("Unexpected token type: " + token.type);
   }
@@ -48,7 +57,10 @@ function parseLingoObject(tokens: LingoToken[]): [LingoObject, LingoToken[]] {
     let key = tokens[0];
     tokens = tokens.slice(2); // Skip the key and the colon
     let [value, remainingTokens] = parseLingoValue(tokens);
-    children.push({ key: { value: key.value }, value });
+    children.push({
+      key: { value: key.value, type: LingoType.Identifier },
+      value,
+    });
     tokens = remainingTokens;
 
     if (tokens[0].type === LingoTokenType.Comma) {
@@ -56,7 +68,7 @@ function parseLingoObject(tokens: LingoToken[]): [LingoObject, LingoToken[]] {
     }
   }
 
-  return [{ children }, tokens.slice(1)]; // Skip the closing bracket
+  return [{ children, type: LingoType.Object }, tokens.slice(1)]; // Skip the closing bracket
 }
 
 function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
@@ -73,10 +85,19 @@ function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
     }
   }
 
-  return [{ children }, tokens.slice(1)]; // Skip the closing bracket
+  return [{ children, type: LingoType.Array }, tokens.slice(1)]; // Skip the closing bracket
 }
 
 const parse = getTokens(test);
 console.log(parse.tokens);
 const result = parseLingoValue(parse.tokens)[0];
 console.log(result);
+
+if (result.type === LingoType.Array) {
+  console.log(result.children);
+  const first = result.children[0];
+  if (first.type === LingoType.Object) {
+    console.log("first child is an object!");
+    console.log(first.children[0].key.type);
+  }
+}
