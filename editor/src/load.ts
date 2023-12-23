@@ -24,7 +24,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     if (path.startsWith("map.data")) {
       const mapData = await file.async("string");
       store.project.maps.push({
-        filename: path.split("/").pop()!,
+        filename: path.split("/").pop()!.split(".")[0],
         objectTree: parseMap(mapData).value,
         data: mapData,
       });
