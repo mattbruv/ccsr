@@ -8,7 +8,7 @@ const store = useStore();
 const maps = computed(() => {
   return store.project.maps.map((x) => x.filename);
 });
-const tab = ref("two");
+const tab = ref("one");
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const tab = ref("two");
     <v-col cols="6" style="background-color: blue">
       <!-- Content for the right half goes here -->
       <v-card style="height: 100%">
-        <v-tabs v-model="tab" bg-color="primary">
+        <v-tabs v-model="tab">
           <v-tab value="one">Item One</v-tab>
           <v-tab value="two">Item Two</v-tab>
           <v-tab value="three">Item Three</v-tab>
