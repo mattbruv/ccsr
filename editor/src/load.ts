@@ -1,6 +1,7 @@
 import JSZip from "jszip";
 import { useStore } from "./store";
 import { parseMap } from "./ccsr/parser/parser";
+import { Metadata } from "./ccsr/types";
 
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
@@ -32,7 +33,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     // Extract metadata
     if (path === "metadata.json") {
       const metaString = await file.async("string");
-      const metadata = JSON.parse(metaString) as CCSR.Metadata;
+      const metadata = JSON.parse(metaString) as Metadata;
       store.project.metadata = metadata;
     }
 
