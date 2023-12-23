@@ -1,13 +1,19 @@
-declare namespace CCSR {
-  // Contains all information related to a game
-  export type Project = {
-    maps: File.MapFile[];
-    metadata: Metadata;
-  };
+import { LingoValue } from "./parser/types";
 
-  // Contains metadata about a project
-  export type Metadata = {
-    name: string;
-    author: string;
-  };
-}
+// Contains all information related to a game
+export type Project = {
+  maps: MapFile[];
+  metadata: Metadata;
+};
+
+export type MapFile = {
+  filename: string;
+  objectTree: LingoValue;
+  data: string;
+};
+
+// Contains metadata about a project
+export type Metadata = {
+  name: string;
+  author: string;
+};

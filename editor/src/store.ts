@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
+import { Project } from "./ccsr/types";
 
-function newProject(): CCSR.Project {
+function newProject(): Project {
   return {
     maps: [],
     metadata: {
