@@ -6,6 +6,7 @@ const store = useStore();
 <template>
   <v-container>
     <div>{{ store.project.maps.length }}</div>
+    <div>{{ store.project.maps[0].data }}</div>
   </v-container>
 </template>
 
