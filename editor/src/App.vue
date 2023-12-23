@@ -5,6 +5,7 @@ import { links } from "./nav";
 import { useStore } from "./store";
 import { EPISODE_DATA, loadEpisodeZipFile } from "./load";
 import { computed } from "vue";
+import WorldVue from "./World.vue";
 
 const store = useStore();
 // Load first episode for debugging
@@ -73,11 +74,10 @@ const drawer = ref(true);
       <v-main>
         <v-container fluid class="pa-0">
           <v-row no-gutters>
-            <v-col v-if="showMapView" cols="6" class="map-view">
-              <!-- Map component-->
-              map
+            <v-col v-show="showMapView" cols="6" class="map-view full-height">
+              <world-vue />
             </v-col>
-            <v-col :cols="mainPageColumns">
+            <v-col :cols="mainPageColumns" class="full-height">
               <!-- Main page content-->
               <router-view />
             </v-col>
@@ -89,8 +89,10 @@ const drawer = ref(true);
 </template>
 
 <style scoped>
+.full-height {
+  height: 100vh;
+}
 .map-view {
   background-color: magenta;
-  height: 100vh;
 }
 </style>

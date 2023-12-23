@@ -6,6 +6,7 @@ const store = useStore();
 const maps = computed(() => {
   return store.project.maps.map((x) => x.filename);
 });
+
 const tab = ref("one");
 </script>
 
@@ -16,7 +17,7 @@ const tab = ref("one");
       <v-tab value="two">Item Two</v-tab>
       <v-tab value="three">Item Three</v-tab>
     </v-tabs>
-    <v-card-text>
+    <v-card-text class="h-100">
       <v-window v-model="tab">
         <v-window-item value="one"> One </v-window-item>
         <v-window-item value="two"> Two </v-window-item>
