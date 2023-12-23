@@ -7,7 +7,7 @@ const maps = store.project.maps;
 
 <template>
   <v-container>
-    <div>Hi mom</div>
+    <div>{{ maps.length }}</div>
   </v-container>
 </template>
 

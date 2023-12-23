@@ -23,6 +23,8 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     // Extract map data
     if (path.startsWith("map.data")) {
       const mapData = await file.async("string");
+
+      console.log(path, mapData.length);
       store.project.maps.push({
         filename: path.split("/").pop()!,
         objectTree: parseMap(mapData).value,
@@ -36,8 +38,6 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
       const metadata = JSON.parse(metaString) as Metadata;
       store.project.metadata = metadata;
     }
-
-    console.log(path);
   }
 }
 
