@@ -4,10 +4,17 @@ import { links } from "./nav";
 
 import { useStore } from "./store";
 import { EPISODE_DATA, loadEpisodeZipFile } from "./load";
+import { computed } from "vue";
 
 const store = useStore();
 // Load first episode for debugging
 loadEpisodeZipFile(EPISODE_DATA[0].props.filename);
+
+const title = computed(() => {
+  const name = store.project.metadata.name;
+  const app = "Map-O-Matic v2";
+  return name ? app + " - " + name : app;
+});
 
 const drawer = ref(true);
 </script>
@@ -57,7 +64,7 @@ const drawer = ref(true);
           variant="text"
           @click.stop="drawer = !drawer"
         ></v-app-bar-nav-icon>
-        <v-app-bar-title>Map-O-Matic v2</v-app-bar-title>
+        <v-app-bar-title>{{ title }}</v-app-bar-title>
       </v-app-bar>
 
       <v-main style="margin: 1rem">

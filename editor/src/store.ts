@@ -5,8 +5,8 @@ function newProject(): Project {
   return {
     maps: [],
     metadata: {
-      author: "Anonymous",
-      name: "New CCSR Project",
+      author: "",
+      name: "",
     },
   };
 }
