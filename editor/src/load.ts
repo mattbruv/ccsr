@@ -3,6 +3,33 @@ import { useStore } from "./store";
 import { parseMap } from "./ccsr/parser/parser";
 import { Metadata } from "./ccsr/types";
 
+export const EPISODE_DATA = [
+  {
+    title: "Episode 1: Pool Problems",
+    props: { filename: "1.ccsr.zip" },
+  },
+  {
+    title: "Episode 2: Tennis Menace",
+    props: { filename: "2.ccsr.zip" },
+  },
+  {
+    title: "Episode 3: Vivian vs. the Volcano",
+    props: { filename: "3.ccsr.zip" },
+  },
+  {
+    title: "Episode 4: Disco Dilema",
+    props: { filename: "4.ccsr.zip" },
+  },
+  {
+    title: "Scooby Doo and the Hollywood Horror: Part 1",
+    props: { filename: "scooby-1.ccsr.zip" },
+  },
+  {
+    title: "Scooby Doo and the Hollywood Horror: Part 2",
+    props: { filename: "scooby-2.ccsr.zip" },
+  },
+];
+
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
   const request = await fetch("assets/" + fileName);

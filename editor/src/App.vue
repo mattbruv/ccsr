@@ -2,6 +2,13 @@
 import { ref } from "vue";
 import { links } from "./nav";
 
+import { useStore } from "./store";
+import { EPISODE_DATA, loadEpisodeZipFile } from "./load";
+
+const store = useStore();
+// Load first episode for debugging
+loadEpisodeZipFile(EPISODE_DATA[0].props.filename);
+
 const drawer = ref(true);
 </script>
 
