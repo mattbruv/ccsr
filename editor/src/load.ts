@@ -36,6 +36,14 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
       const metadata = JSON.parse(metaString) as Metadata;
       store.project.metadata = metadata;
     }
+
+    if (path.startsWith("map.visuals")) {
+      const data = await file.async("base64");
+      store.project.images.push({
+        data,
+        filename: path,
+      });
+    }
   }
 }
 

@@ -4,6 +4,7 @@ import { Project } from "./ccsr/types";
 function newProject(): Project {
   return {
     maps: [],
+    images: [],
     metadata: {
       author: "",
       name: "",
