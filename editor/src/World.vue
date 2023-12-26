@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useStore } from "./store";
-const store = useStore();
+import Renderer from "./ccsr/renderer";
+
+const foo = document.getElementById("map-viewer");
+console.log(foo);
 </script>
 
 <template>
-  <div id="map-viewer">
-    {{ store.UI.global.showMapViewer }}
-  </div>
+  <div ref="map-viewer" id="map-viewer"></div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#map-viewer {
+  background-color: beige;
+  width: 100%;
+  height: 100%;
+}
+</style>

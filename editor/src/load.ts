@@ -2,6 +2,7 @@ import JSZip from "jszip";
 import { useStore } from "./store";
 import { parseMap } from "./ccsr/parser/parser";
 import { Metadata } from "./ccsr/types";
+import Renderer from "./ccsr/renderer";
 
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
@@ -39,12 +40,17 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
 
     if (path.startsWith("map.visuals")) {
       const data = await file.async("base64");
+
       store.project.images.push({
         data,
+        filetype: "png",
         filename: path,
       });
     }
   }
+
+  Renderer.loadImages(store.project.images);
+  console.log(Renderer.app);
 }
 
 export const EPISODE_DATA = [

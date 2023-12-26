@@ -93,6 +93,5 @@ const drawer = ref(true);
   height: 100vh;
 }
 .map-view {
-  background-color: magenta;
 }
 </style>
