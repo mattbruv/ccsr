@@ -92,6 +92,4 @@ const drawer = ref(true);
 .full-height {
   height: 100vh;
 }
-.map-view {
-}
 </style>

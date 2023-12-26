@@ -1,8 +1,24 @@
 import * as PIXI from "pixi.js";
 import { ImageFile } from "./types";
+import { Viewport } from "pixi-viewport";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
+  private viewport: Viewport;
+
+  constructor() {
+    this.viewport = new Viewport({
+      screenWidth: window.innerWidth,
+      screenHeight: window.innerHeight,
+      worldWidth: this.app.view.width,
+      worldHeight: this.app.view.height,
+      events: this.app.renderer.events,
+    });
+
+    this.app.stage.addChild(this.viewport);
+
+    this.viewport.drag().pinch().wheel();
+  }
 
   public addView(div: HTMLDivElement): void {
     div.appendChild(this.app.view);
@@ -22,10 +38,10 @@ class CcsrRenderer {
       await PIXI.Assets.load(image.filename);
     }
 
-    console.log(PIXI.utils.TextureCache);
+    // console.log(PIXI.utils.TextureCache);
     const first = images[0].filename;
     const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[first]);
-    this.app.stage.addChild(sprite);
+    this.viewport.addChild(sprite);
   }
 }
 
