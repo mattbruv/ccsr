@@ -18,7 +18,7 @@ export type LingoLiteral = LingoIdentifier | LingoString | LingoNumber;
 
 export type LingoObject = {
   type: LingoType.Object;
-  children: LingoProperty[];
+  properties: LingoProperty[];
 };
 
 export type LingoArray = {

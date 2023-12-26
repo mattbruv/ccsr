@@ -45,14 +45,14 @@ function parseLingoValue(tokens: LingoToken[]): [LingoValue, LingoToken[]] {
 }
 
 function parseLingoObject(tokens: LingoToken[]): [LingoObject, LingoToken[]] {
-  let children: LingoProperty[] = [];
+  let properties: LingoProperty[] = [];
   tokens = tokens.slice(1); // Skip the opening bracket
 
   while (tokens[0].type !== LingoTokenType.RightBracket) {
     let key = tokens[0];
     tokens = tokens.slice(2); // Skip the key and the colon
     let [value, remainingTokens] = parseLingoValue(tokens);
-    children.push({
+    properties.push({
       key: { value: key.value, type: LingoType.Identifier },
       value,
     });
@@ -63,7 +63,7 @@ function parseLingoObject(tokens: LingoToken[]): [LingoObject, LingoToken[]] {
     }
   }
 
-  return [{ children, type: LingoType.Object }, tokens.slice(1)]; // Skip the closing bracket
+  return [{ properties, type: LingoType.Object }, tokens.slice(1)]; // Skip the closing bracket
 }
 
 function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
@@ -95,10 +95,10 @@ export function lingoValueToString(
       return "[" + children.join(", ") + "]";
     }
     case LingoType.Object: {
-      const children = value.children
+      const properties = value.properties
         .map((x) => [x.key.value, lingoValueToString(x.value, prettyPrint)])
         .map((x) => `"${x[0]}": ${x[1]}`);
-      return "{" + children.join(", ") + "}";
+      return "{" + properties.join(", ") + "}";
     }
     case LingoType.Identifier: {
       return `"${value.value}"`;

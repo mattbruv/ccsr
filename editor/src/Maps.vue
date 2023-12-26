@@ -4,6 +4,7 @@ import { useStore } from "./store";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { lingoValueToString } from "./ccsr/parser/parser";
+import { LingoType } from "./ccsr/parser/types";
 const store = useStore();
 
 enum Tabs {
@@ -28,8 +29,12 @@ const json = computed(() => {
     );
 
     if (map) {
+      if (map.objectTree.type === LingoType.Array) {
+      }
       //
-      return lingoValueToString(map.objectTree);
+      const value = lingoValueToString(map.objectTree);
+      const parsed = JSON.parse(value);
+      return JSON.stringify(parsed, null, 2);
     }
   }
   return null;
