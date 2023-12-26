@@ -14,6 +14,7 @@ export type MapFile = {
 };
 
 export type ImageFile = {
+  path: string;
   filename: string;
   filetype: string;
   data: string;

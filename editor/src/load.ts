@@ -40,11 +40,15 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
 
     if (path.startsWith("map.visuals")) {
       const data = await file.async("base64");
+      const split = path.split("/").pop()!.split(".");
+      const filetype = split.pop()!;
+      const filename = split.join(".");
 
       store.project.images.push({
         data,
-        filetype: "png",
-        filename: path,
+        filename,
+        path,
+        filetype,
       });
     }
   }

@@ -18,14 +18,13 @@ class CcsrRenderer {
 
     for (const image of images) {
       const url = "data:image/png;base64," + image.data;
-      PIXI.Assets.add({ alias: "test", src: url });
-      await PIXI.Assets.load("test");
-      break;
+      PIXI.Assets.add({ alias: image.filename, src: url });
+      await PIXI.Assets.load(image.filename);
     }
 
-    console.log(PIXI.utils.TextureCache["test"]);
-
-    const sprite = new PIXI.Sprite(PIXI.utils.TextureCache["test"]);
+    console.log(PIXI.utils.TextureCache);
+    const first = images[0].filename;
+    const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[first]);
     this.app.stage.addChild(sprite);
   }
 }
