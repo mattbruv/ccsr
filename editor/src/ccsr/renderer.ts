@@ -6,6 +6,11 @@ class CcsrRenderer {
 
   public addView(div: HTMLDivElement): void {
     div.appendChild(this.app.view);
+    this.resizeTo(div);
+  }
+
+  public resizeTo(element: HTMLElement) {
+    this.app.resizeTo = element;
   }
 
   public async loadImages(images: ImageFile[]) {

@@ -8,6 +8,11 @@ const mapViewer = ref<HTMLDivElement | null>(null);
 onMounted(() => {
   if (mapViewer.value) {
     Renderer.addView(mapViewer.value);
+
+    // Add resize listener
+    new ResizeObserver(() => {
+      Renderer.resizeTo(mapViewer.value!);
+    }).observe(mapViewer.value);
   }
 });
 </script>
@@ -18,7 +23,6 @@ onMounted(() => {
 
 <style scoped>
 #map-viewer {
-  background-color: beige;
   width: 100%;
   height: 100%;
 }
