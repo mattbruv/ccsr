@@ -77,7 +77,7 @@ const drawer = ref(true);
             <v-col v-show="showMapView" cols="6" class="test full-height">
               <world-vue />
             </v-col>
-            <v-col :cols="mainPageColumns" class="">
+            <v-col :cols="mainPageColumns" class="main-panel">
               <!-- Main page content-->
               <router-view />
             </v-col>
@@ -92,6 +92,10 @@ const drawer = ref(true);
 .full-height {
   height: 100vh;
   max-height: 100vh;
+}
+
+.main-panel {
+  overflow: auto;
 }
 
 .test {
