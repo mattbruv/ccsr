@@ -18,6 +18,9 @@ class CcsrRenderer {
     this.app.stage.addChild(this.viewport);
 
     this.viewport.drag().pinch().wheel();
+
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+    PIXI.settings.ROUND_PIXELS = true;
   }
 
   public addView(div: HTMLDivElement): void {
@@ -26,7 +29,9 @@ class CcsrRenderer {
   }
 
   public resizeTo(element: HTMLElement) {
+    console.log("resizing!");
     this.app.resizeTo = element;
+    console.log(this.app.view.width, this.app.view.height);
   }
 
   public async loadImages(images: ImageFile[]) {

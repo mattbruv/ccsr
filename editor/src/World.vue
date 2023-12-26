@@ -11,6 +11,7 @@ onMounted(() => {
 
     // Add resize listener
     new ResizeObserver(() => {
+      console.log("resize");
       Renderer.resizeTo(mapViewer.value!);
     }).observe(mapViewer.value);
   }
@@ -23,7 +24,6 @@ onMounted(() => {
 
 <style scoped>
 #map-viewer {
-  width: 100%;
-  height: 100%;
+  max-height: 100%;
 }
 </style>

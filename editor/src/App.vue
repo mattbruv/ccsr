@@ -25,7 +25,7 @@ const drawer = ref(true);
 
 <template>
   <v-app>
-    <v-layout>
+    <v-layout class="full-height">
       <v-navigation-drawer v-model="drawer">
         <v-list density="default" nav>
           <div v-for="(link, i) in links">
@@ -74,10 +74,10 @@ const drawer = ref(true);
       <v-main>
         <v-container fluid class="pa-0">
           <v-row no-gutters>
-            <v-col v-show="showMapView" cols="6" class="map-view full-height">
+            <v-col v-show="showMapView" cols="6" class="test full-height">
               <world-vue />
             </v-col>
-            <v-col :cols="mainPageColumns" class="full-height">
+            <v-col :cols="mainPageColumns" class="">
               <!-- Main page content-->
               <router-view />
             </v-col>
@@ -91,5 +91,10 @@ const drawer = ref(true);
 <style scoped>
 .full-height {
   height: 100vh;
+  max-height: 100vh;
+}
+
+.test {
+  background-color: red;
 }
 </style>
