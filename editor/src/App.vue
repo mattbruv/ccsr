@@ -95,6 +95,5 @@ const drawer = ref(true);
 }
 
 .test {
-  background-color: red;
 }
 </style>

@@ -29,9 +29,8 @@ class CcsrRenderer {
   }
 
   public resizeTo(element: HTMLElement) {
-    console.log("resizing!");
     this.app.resizeTo = element;
-    console.log(this.app.view.width, this.app.view.height);
+    console.log("resized to: ", this.app.view.width, this.app.view.height);
   }
 
   public async loadImages(images: ImageFile[]) {

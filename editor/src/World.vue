@@ -24,6 +24,7 @@ onMounted(() => {
 
 <style scoped>
 #map-viewer {
+  height: 100%;
   max-height: 100%;
 }
 </style>
