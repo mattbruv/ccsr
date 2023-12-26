@@ -2,10 +2,9 @@
 import { computed } from "vue";
 import { useStore } from "./store";
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { lingoValueToString } from "./ccsr/parser/parser";
 const store = useStore();
-const maps = computed(() => {
-  return store.project.maps.map((x) => x.filename);
-});
 
 enum Tabs {
   Maps,
@@ -13,7 +12,28 @@ enum Tabs {
   Foo,
 }
 
+const mapNames = computed(() => {
+  return store.project.maps
+    .map((x) => x.filename)
+    .sort((a, b) => a.localeCompare(b));
+});
+
 const tab = ref(Tabs.Maps);
+const selectedMap = ref<string | null>(null);
+
+const json = computed(() => {
+  if (selectedMap.value) {
+    const map = store.project.maps.find(
+      (x) => x.filename === selectedMap.value
+    );
+
+    if (map) {
+      //
+      return lingoValueToString(map.objectTree);
+    }
+  }
+  return null;
+});
 </script>
 
 <template>
@@ -25,7 +45,17 @@ const tab = ref(Tabs.Maps);
     </v-tabs>
     <v-card-text class="h-100">
       <v-window v-model="tab">
-        <v-window-item :value="Tabs.Maps"> Maps </v-window-item>
+        <v-window-item :value="Tabs.Maps">
+          <div>
+            <v-select
+              v-model="selectedMap"
+              label="Foo"
+              :items="mapNames"
+            ></v-select>
+            <p>Selected map: {{ selectedMap }}</p>
+            <v-textarea v-model="json" readonly></v-textarea>
+          </div>
+        </v-window-item>
         <v-window-item :value="Tabs.Collision"> Collision </v-window-item>
         <v-window-item :value="Tabs.Foo"> Foo </v-window-item>
       </v-window>
