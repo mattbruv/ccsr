@@ -53,6 +53,9 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     }
   }
 
+  // Only keep images that have filenames
+  store.project.images = store.project.images.filter((x) => x.filename);
+
   Renderer.loadImages(store.project.images);
   console.log(Renderer.app);
 }
