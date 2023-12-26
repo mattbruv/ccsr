@@ -2,7 +2,11 @@ import * as PIXI from "pixi.js";
 import { ImageFile } from "./types";
 
 class CcsrRenderer {
-  public app = new PIXI.Application();
+  public app = new PIXI.Application<HTMLCanvasElement>();
+
+  public addView(div: HTMLDivElement): void {
+    div.appendChild(this.app.view);
+  }
 
   public async loadImages(images: ImageFile[]) {
     if (!images.length) return;

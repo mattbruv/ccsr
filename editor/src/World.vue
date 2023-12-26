@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import Renderer from "./ccsr/renderer";
+import { onMounted } from "vue";
 
-const foo = document.getElementById("map-viewer");
-console.log(foo);
+const mapViewer = ref<HTMLDivElement | null>(null);
+
+onMounted(() => {
+  if (mapViewer.value) {
+    Renderer.addView(mapViewer.value);
+  }
+});
 </script>
 
 <template>
-  <div ref="map-viewer" id="map-viewer"></div>
+  <div ref="mapViewer" id="map-viewer"></div>
 </template>
 
 <style scoped>
