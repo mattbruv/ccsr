@@ -2,9 +2,8 @@
 import { computed } from "vue";
 import { useStore } from "./store";
 import { ref } from "vue";
-import { storeToRefs } from "pinia";
 import { lingoValueToString } from "./ccsr/parser/parser";
-import { LingoType } from "./ccsr/parser/types";
+import { LingoType, LingoArray } from "./ccsr/parser/types";
 const store = useStore();
 
 enum Tabs {
@@ -30,11 +29,32 @@ const json = computed(() => {
 
     if (map) {
       if (map.objectTree.type === LingoType.Array) {
+        const names = map.objectTree.children.filter((x) => {
+          return (
+            x.type === LingoType.Object &&
+            x.properties.some(
+              (p) =>
+                p.value.type === LingoType.Array &&
+                p.key.value === "#message" &&
+                p.value.children.length > 0
+            )
+          );
+        });
+
+        const array: LingoArray = {
+          type: LingoType.Array,
+          children: names,
+        };
+
+        console.log(array.children);
+
+        const json = JSON.stringify(
+          JSON.parse(lingoValueToString(map.objectTree)),
+          null,
+          2
+        );
+        return json;
       }
-      //
-      const value = lingoValueToString(map.objectTree);
-      const parsed = JSON.parse(value);
-      return JSON.stringify(parsed, null, 2);
     }
   }
   return null;
