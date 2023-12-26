@@ -74,12 +74,12 @@ const drawer = ref(true);
       <v-main>
         <v-container fluid class="pa-0">
           <v-row no-gutters>
-            <v-col v-show="showMapView" cols="6" class="test full-height">
-              <world-vue />
-            </v-col>
             <v-col :cols="mainPageColumns" class="main-panel">
               <!-- Main page content-->
               <router-view />
+            </v-col>
+            <v-col v-show="showMapView" cols="6" class="test full-height">
+              <world-vue />
             </v-col>
           </v-row>
         </v-container>

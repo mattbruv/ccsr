@@ -7,21 +7,27 @@ const maps = computed(() => {
   return store.project.maps.map((x) => x.filename);
 });
 
-const tab = ref("one");
+enum Tabs {
+  Maps,
+  Collision,
+  Foo,
+}
+
+const tab = ref(Tabs.Maps);
 </script>
 
 <template>
   <v-card style="height: 100%">
     <v-tabs v-model="tab">
-      <v-tab value="one">Item One</v-tab>
-      <v-tab value="two">Item Two</v-tab>
-      <v-tab value="three">Item Three</v-tab>
+      <v-tab :value="Tabs.Maps">Maps</v-tab>
+      <v-tab :value="Tabs.Collision">Collision</v-tab>
+      <v-tab :value="Tabs.Foo">Foo</v-tab>
     </v-tabs>
     <v-card-text class="h-100">
       <v-window v-model="tab">
-        <v-window-item value="one"> One </v-window-item>
-        <v-window-item value="two"> Two </v-window-item>
-        <v-window-item value="three"> Three </v-window-item>
+        <v-window-item :value="Tabs.Maps"> Maps </v-window-item>
+        <v-window-item :value="Tabs.Collision"> Collision </v-window-item>
+        <v-window-item :value="Tabs.Foo"> Foo </v-window-item>
       </v-window>
     </v-card-text>
   </v-card>

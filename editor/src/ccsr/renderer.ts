@@ -38,7 +38,7 @@ class CcsrRenderer {
 
     for (const image of images) {
       const url = "data:image/png;base64," + image.data;
-      console.log(image.filename);
+      //console.log(image.filename);
       PIXI.Assets.add({ alias: image.filename, src: url });
       await PIXI.Assets.load(image.filename);
     }
