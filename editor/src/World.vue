@@ -11,7 +11,6 @@ onMounted(() => {
 
     // Add resize listener
     new ResizeObserver(() => {
-      console.log("resize");
       Renderer.resizeTo(mapViewer.value!);
     }).observe(mapViewer.value);
   }

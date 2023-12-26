@@ -38,7 +38,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
       store.project.metadata = metadata;
     }
 
-    if (path.startsWith("map.visuals")) {
+    if (path.endsWith(".png")) {
       const data = await file.async("base64");
       const split = path.split("/").pop()!.split(".");
       const filetype = split.pop()!;
