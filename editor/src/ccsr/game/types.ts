@@ -5,9 +5,9 @@ export type RecursivePartial<T> = {
 export type MapData = RecursivePartial<MapMetadata> | RecursivePartial<MapObject>
 
 
-enum MapDataType {
-  Metadata,
-  Object,
+export enum MapDataType {
+  Metadata = "metadata",
+  Object = "object",
 }
 
 /**

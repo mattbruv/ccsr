@@ -27,6 +27,10 @@ export const useStore = defineStore("store", {
     };
   },
 
+  getters: {
+
+  },
+
   actions: {
     newProject() {
       this.project = newProject();

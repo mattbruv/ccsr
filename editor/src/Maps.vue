@@ -4,6 +4,8 @@ import { useStore } from "./store";
 import { ref } from "vue";
 import { lingoValueToString } from "./ccsr/parser/parser";
 import { LingoType, LingoArray } from "./ccsr/parser/types";
+import { lingoToMapObject, lingoArrayToMapData } from "./ccsr/game/lingo";
+import { watch } from "vue";
 const store = useStore();
 
 enum Tabs {
@@ -21,15 +23,15 @@ const mapNames = computed(() => {
 const tab = ref(Tabs.Maps);
 const selectedMap = ref<string | null>(null);
 
+const map = computed(() =>
+  store.project.maps.find((x) => x.filename === selectedMap.value)
+);
+
 const json = computed(() => {
   if (selectedMap.value) {
-    const map = store.project.maps.find(
-      (x) => x.filename === selectedMap.value
-    );
-
-    if (map) {
-      if (map.objectTree.type === LingoType.Array) {
-        const names = map.objectTree.children.filter((x) => {
+    if (map.value) {
+      if (map.value.objectTree.type === LingoType.Array) {
+        const names = map.value.objectTree.children.filter((x) => {
           return (
             x.type === LingoType.Object &&
             x.properties.some(
@@ -46,10 +48,8 @@ const json = computed(() => {
           children: names,
         };
 
-        console.log(array.children);
-
         const json = JSON.stringify(
-          JSON.parse(lingoValueToString(map.objectTree)),
+          JSON.parse(lingoValueToString(map.value.objectTree)),
           null,
           2
         );
@@ -58,6 +58,17 @@ const json = computed(() => {
     }
   }
   return null;
+});
+
+const mapObject = computed(() => {
+  if (map.value && map.value.objectTree.type === LingoType.Array) {
+    const array = lingoArrayToMapData(map.value.objectTree);
+    return array;
+  }
+});
+
+watch(mapObject, () => {
+  console.log(mapObject.value);
 });
 </script>
 
