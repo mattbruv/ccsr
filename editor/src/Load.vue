@@ -29,7 +29,6 @@ watch(selectedEpisode, async () => {
     -->
   </v-container>
   <v-container v-else>
-    {{ store.project.maps.map((x) => x.filename) }}
     <v-row>
       <v-col cols="12" md="6">
         <v-card style="padding: 1rem">

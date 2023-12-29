@@ -18,7 +18,7 @@ const title = computed(() => {
 });
 
 const showMapView = computed(() => store.UI.global.showMapViewer);
-const mainPageColumns = computed(() => (showMapView.value ? 6 : 12));
+const mainPageColumns = computed(() => (showMapView.value ? 5 : 12));
 
 const drawer = ref(true);
 </script>
@@ -78,7 +78,7 @@ const drawer = ref(true);
               <!-- Main page content-->
               <router-view />
             </v-col>
-            <v-col v-show="showMapView" cols="6" class="test full-height">
+            <v-col v-show="showMapView" cols="7" class="test full-height">
               <world-vue />
             </v-col>
           </v-row>

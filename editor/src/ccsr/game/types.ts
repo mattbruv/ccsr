@@ -1,4 +1,9 @@
-type MapData = (MapMetadata | MapObject)[];
+export type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+}
+
+export type MapData = RecursivePartial<MapMetadata> | RecursivePartial<MapObject>
+
 
 enum MapDataType {
   Metadata,
@@ -8,7 +13,7 @@ enum MapDataType {
 /**
  * I don't think this is used in the actual game for anything
  */
-type MapMetadata = {
+export type MapMetadata = {
   dataType: MapDataType.Metadata;
 
   roomid: string;
@@ -18,7 +23,7 @@ type MapMetadata = {
 /**
  * Represents some object in the game world
  */
-type MapObject = {
+export type MapObject = {
   dataType: MapDataType.Object;
 
   /** The name of the texture to use for this object */
@@ -46,25 +51,25 @@ type MapObject = {
   data: MapObjectData;
 };
 
-type MapObjectLocation = {
+export type MapObjectLocation = {
   x: number;
   y: number;
 };
 
-type MapObjectData = {
+export type MapObjectData = {
   item: MapObjectItem;
   move: MapObjectMove;
   message: MapObjectMessage[];
 };
 
-type MapObjectItem = {
+export type MapObjectItem = {
   name: string;
   type: string;
   visi: MapObjectVisibility;
   COND: MapObjectCond;
 };
 
-type MapObjectMove = {
+export type MapObjectMove = {
   U: number;
   d: number;
   L: number;
@@ -74,17 +79,17 @@ type MapObjectMove = {
   TIMEB: number;
 };
 
-type MapObjectMessage = {
+export type MapObjectMessage = {
   text: string;
   plrObj: string;
   plrAct: string;
 };
 
-type MapObjectVisibility = {
+export type MapObjectVisibility = {
   visiObj: string;
   visiAct: string;
   inviObj: string;
   inviAct: string;
 };
 
-type MapObjectCond = string[];
+export type MapObjectCond = string[];
