@@ -5,8 +5,11 @@ import { ref } from "vue";
 // import { lingoValueToString } from "./ccsr/parser/parser";
 import { LingoType } from "./ccsr/parser/types";
 import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
+import { mapObjectToLingo } from "./ccsr/game/toLingo";
+import { lingoValueToString } from "./ccsr/parser/print";
 import { MapDataType, MapObjectData } from "./ccsr/game/types";
 import { watch } from "vue";
+import { compileToFunction } from "vue";
 const store = useStore();
 
 enum Tabs {
@@ -44,6 +47,18 @@ const messages = computed(() => {
 const errors = computed(() => {
   return store.project.maps.filter((x) => x.parseResult.parseError);
 });
+
+const lingo = computed(() => {
+  if (store.project.maps.length > 0) {
+    const testObject = store.project.maps[0].data?.objects[0];
+    if (testObject) {
+      const test = mapObjectToLingo(testObject);
+      const out = lingoValueToString(test, true);
+      return out;
+    }
+  }
+  //
+});
 </script>
 
 <template>
@@ -63,6 +78,7 @@ const errors = computed(() => {
               :items="mapNames"
             ></v-select>
             <p>Selected map: {{ selectedMap }}</p>
+            <pre>{{ lingo }}</pre>
             <div v-for="error in errors">
               {{ error.filename }}
               {{ error.parseResult.lexError }}
