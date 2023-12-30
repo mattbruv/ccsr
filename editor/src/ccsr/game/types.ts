@@ -1,6 +1,11 @@
+// https://stackoverflow.com/a/49936686/2936448
 export type RecursivePartial<T> = {
-  [P in keyof T]?: RecursivePartial<T[P]>;
-}
+  [P in keyof T]?: T[P] extends (infer U)[]
+  ? RecursivePartial<U>[]
+  : T[P] extends Readonly<infer U>[]
+  ? Readonly<RecursivePartial<U>>[]
+  : RecursivePartial<T[P]>
+};
 
 export type MapData = {
   metadata: RecursivePartial<MapMetadata>
@@ -69,7 +74,7 @@ export type MapObjectItem = {
   name: string;
   type: string;
   visi: MapObjectVisibility;
-  COND: MapObjectCondArray;
+  COND: (MapObjectCond | null)[];
 };
 
 export type MapObjectMove = {
@@ -94,8 +99,6 @@ export type MapObjectVisibility = {
   inviObj: string;
   inviAct: string;
 };
-
-export type MapObjectCondArray = (MapObjectCond | null)[];
 
 export type MapObjectCond = {
   hasObj: string;

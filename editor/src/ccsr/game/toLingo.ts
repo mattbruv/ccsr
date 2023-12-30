@@ -1,5 +1,5 @@
 import { LingoArray, LingoIdentifier, LingoObject, LingoProperty, LingoType, LingoValue } from "../parser/types";
-import { MapObject, MapObjectCond, MapObjectCondArray, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
+import { MapObject, MapObjectCond, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
 
 export function mapObjectToLingo(mapObject: RecursivePartial<MapObject>): LingoObject {
     const properties: LingoProperty[] = [];
@@ -169,7 +169,7 @@ function mapObjectVisibilityToLingo(visi: RecursivePartial<MapObjectVisibility>)
 }
 
 
-function mapObjectCondArrayToLingo(condArray: RecursivePartial<MapObjectCondArray>): LingoArray {
+function mapObjectCondArrayToLingo(condArray: (RecursivePartial<MapObjectCond> | null)[]): LingoArray {
     const children: LingoValue[] = condArray.map(cond => {
         if (!cond) {
             const nullValue: LingoIdentifier = {
