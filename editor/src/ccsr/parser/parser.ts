@@ -85,35 +85,6 @@ function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
   return [{ children, type: LingoType.Array }, tokens.slice(1)]; // Skip the closing bracket
 }
 
-export function lingoValueToString(
-  value: LingoValue,
-  prettyPrint: boolean = true
-): string {
-  switch (value.type) {
-    case LingoType.Array: {
-      const children = value.children.map((x) =>
-        lingoValueToString(x, prettyPrint)
-      );
-      return "[" + children.join(", ") + "]";
-    }
-    case LingoType.Object: {
-      const properties = value.properties
-        .map((x) => [x.key.value, lingoValueToString(x.value, prettyPrint)])
-        .map((x) => `"${x[0]}": ${x[1]}`);
-      return "{" + properties.join(", ") + "}";
-    }
-    case LingoType.Identifier: {
-      return `"${value.value}"`;
-    }
-    case LingoType.Number: {
-      return value.value.toString();
-    }
-    case LingoType.String: {
-      return value.value;
-    }
-  }
-}
-
 export function parseMap(data: string): ASTParseResult {
   const lexResult = lexTokens(data);
 
