@@ -4,7 +4,7 @@ import { useStore } from "./store";
 import { ref } from "vue";
 // import { lingoValueToString } from "./ccsr/parser/parser";
 import { LingoType } from "./ccsr/parser/types";
-import { lingoArrayToMapData } from "./ccsr/game/lingo";
+import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
 import { MapDataType } from "./ccsr/game/types";
 import { watch } from "vue";
 const store = useStore();

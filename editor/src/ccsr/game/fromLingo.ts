@@ -1,5 +1,5 @@
-import { LingoArray, LingoObject, LingoType } from "../parser/types";
-import { MapData, MapDataType, MapMetadata, MapObject, MapObjectData, MapObjectLocation, MapObjectMessage, RecursivePartial } from "./types";
+import { LingoArray, LingoObject, LingoString, LingoType } from "../parser/types";
+import { MapData, MapDataType, MapMetadata, MapObject, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
 
 export function lingoArrayToMapData(array: LingoArray): MapData[] {
     const mapData: MapData[] = []
@@ -36,6 +36,29 @@ function lingoToMetadata(object: LingoObject): RecursivePartial<MapMetadata> {
     return metadata;
 }
 
+function lingoObjectToMapObjectMove(object: LingoObject): RecursivePartial<MapObjectMove> {
+    const move: RecursivePartial<MapObjectMove> = {};
+
+    for (const property of object.properties) {
+        const key = property.key.value;
+        const value = property.value;
+
+        if (value.type === LingoType.Number) {
+            switch (key) {
+                case "#U": move.U = value.value; break;
+                case "#d": move.d = value.value; break;
+                case "#L": move.L = value.value; break;
+                case "#R": move.R = value.value; break;
+                case "#COND": move.COND = value.value; break;
+                case "#TIMEA": move.TIMEA = value.value; break;
+                case "#TIMEB": move.TIMEB = value.value; break;
+            }
+        }
+    }
+
+    return move;
+}
+
 function lingoObjectToMapObjectData(object: LingoObject): RecursivePartial<MapObjectData> {
     const data: RecursivePartial<MapObjectData> = {};
 
@@ -45,10 +68,61 @@ function lingoObjectToMapObjectData(object: LingoObject): RecursivePartial<MapOb
 
         if (key === "#message" && value.type === LingoType.Array)
             data.message = lingoArrrayToMapObjectMessage(value);
+        if (key === "#move" && value.type === LingoType.Object)
+            data.move = lingoObjectToMapObjectMove(value);
+        if (key === "#item" && value.type === LingoType.Object)
+            data.item = lingoObjectToMapObjectItem(value)
     }
 
     return data;
 }
+
+function lingoObjectToMapObjectItem(object: LingoObject): RecursivePartial<MapObjectItem> {
+    const item: RecursivePartial<MapObjectItem> = {};
+
+    for (const property of object.properties) {
+        const key = property.key.value;
+        const value = property.value;
+
+        if (key === "#name" && value.type === LingoType.String)
+            item.name = value.value;
+        if (key === "#type" && value.type === LingoType.Identifier)
+            item.type = value.value;
+        if (key === "#visi" && value.type === LingoType.Object)
+            item.visi = lingoObjectToMapObjectVisibility(value);
+        if (key === "#COND" && value.type === LingoType.Array)
+            item.COND = lingoArrayToMapObjectCond(value);
+    }
+
+    return item;
+}
+
+function lingoObjectToMapObjectVisibility(object: LingoObject): RecursivePartial<MapObjectVisibility> {
+    const visibility: RecursivePartial<MapObjectVisibility> = {};
+
+    for (const property of object.properties) {
+        const key = property.key.value;
+        const value = property.value;
+
+        if (key === "#visiObj" && value.type === LingoType.String)
+            visibility.visiObj = value.value;
+        if (key === "#visiAct" && value.type === LingoType.String)
+            visibility.visiAct = value.value;
+        if (key === "#inviObj" && value.type === LingoType.String)
+            visibility.inviObj = value.value;
+        if (key === "#inviAct" && value.type === LingoType.String)
+            visibility.inviAct = value.value;
+    }
+
+    return visibility;
+}
+
+function lingoArrayToMapObjectCond(array: LingoArray): string[] {
+    return array.children
+        .filter(child => child.type === LingoType.String)
+        .map(child => (child as LingoString).value);
+}
+
 
 function lingoArrrayToMapObjectMessage(array: LingoArray): RecursivePartial<MapObjectMessage>[] {
     const messages: RecursivePartial<MapObjectMessage>[] = []
