@@ -4,13 +4,13 @@ import { MapObject, MapObjectCond, MapObjectCondArray, MapObjectData, MapObjectI
 export function mapObjectToLingo(mapObject: RecursivePartial<MapObject>): LingoObject {
     const properties: LingoProperty[] = [];
 
-    if (mapObject.member) {
+    if (mapObject.member !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#member" }, value: { type: LingoType.String, value: mapObject.member } });
     }
-    if (mapObject.type) {
+    if (mapObject.type !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#type" }, value: { type: LingoType.String, value: mapObject.type } });
     }
-    if (mapObject.location) {
+    if (mapObject.location !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#location" }, value: mapObjectLocationToLingo(mapObject.location) });
     }
     if (mapObject.width !== undefined) {
@@ -25,7 +25,7 @@ export function mapObjectToLingo(mapObject: RecursivePartial<MapObject>): LingoO
     if (mapObject.HSHIFT !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#HSHIFT" }, value: { type: LingoType.Number, value: mapObject.HSHIFT } });
     }
-    if (mapObject.data) {
+    if (mapObject.data !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#data" }, value: mapObjectDataToLingo(mapObject.data) });
     }
 
@@ -54,14 +54,14 @@ function mapObjectLocationToLingo(location: RecursivePartial<MapObjectLocation>)
 function mapObjectDataToLingo(data: RecursivePartial<MapObjectData>): LingoObject {
     const properties: LingoProperty[] = [];
 
-    if (data.item) {
+    if (data.item !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#item" }, value: mapObjectItemToLingo(data.item) });
     }
-    if (data.move) {
+    if (data.move !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#move" }, value: mapObjectMoveToLingo(data.move) });
     }
-    if (data.message) {
-        //properties.push({ key: { type: LingoType.Identifier, value: "#message" }, value: mapObjectMessagesToLingo(data.message) });
+    if (data.message !== undefined) {
+        properties.push({ key: { type: LingoType.Identifier, value: "#message" }, value: mapObjectMessagesToLingo(data.message) });
     }
 
     return {
@@ -73,16 +73,16 @@ function mapObjectDataToLingo(data: RecursivePartial<MapObjectData>): LingoObjec
 function mapObjectItemToLingo(item: RecursivePartial<MapObjectItem>): LingoObject {
     const properties: LingoProperty[] = [];
 
-    if (item.name) {
+    if (item.name !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#name" }, value: { type: LingoType.String, value: item.name } });
     }
-    if (item.type) {
+    if (item.type !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#type" }, value: { type: LingoType.String, value: item.type } });
     }
-    if (item.visi) {
+    if (item.visi !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#visi" }, value: mapObjectVisibilityToLingo(item.visi) });
     }
-    if (item.COND) {
+    if (item.COND !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#COND" }, value: mapObjectCondArrayToLingo(item.COND) });
     }
 
@@ -127,18 +127,18 @@ function mapObjectMessagesToLingo(messages: RecursivePartial<MapObjectMessage>[]
     const children: LingoValue[] = messages.map(message => {
         const properties: LingoProperty[] = [];
 
-        if (message.text) {
+        if (message.text !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#text" }, value: { type: LingoType.String, value: message.text } });
         }
-        if (message.plrObj) {
+        if (message.plrObj !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#plrObj" }, value: { type: LingoType.String, value: message.plrObj } });
         }
-        if (message.plrAct) {
+        if (message.plrAct !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#plrAct" }, value: { type: LingoType.String, value: message.plrAct } });
         }
 
         return { type: LingoType.Object, properties };
-    }); // Filter out null values
+    });
 
     return {
         type: LingoType.Array,
@@ -181,16 +181,16 @@ function mapObjectCondArrayToLingo(condArray: RecursivePartial<MapObjectCondArra
 
         const properties: LingoProperty[] = [];
 
-        if (cond.hasObj) {
+        if (cond.hasObj !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#hasObj" }, value: { type: LingoType.String, value: cond.hasObj } });
         }
-        if (cond.hasAct) {
+        if (cond.hasAct !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#hasAct" }, value: { type: LingoType.String, value: cond.hasAct } });
         }
-        if (cond.giveObj) {
+        if (cond.giveObj !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#giveObj" }, value: { type: LingoType.String, value: cond.giveObj } });
         }
-        if (cond.giveAct) {
+        if (cond.giveAct !== undefined) {
             properties.push({ key: { type: LingoType.Identifier, value: "#giveAct" }, value: { type: LingoType.String, value: cond.giveAct } });
         }
 
