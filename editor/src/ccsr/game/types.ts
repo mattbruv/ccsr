@@ -2,7 +2,10 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
 }
 
-export type MapData = RecursivePartial<MapMetadata> | RecursivePartial<MapObject>
+export type MapData = {
+  metadata: RecursivePartial<MapMetadata>
+  objects: RecursivePartial<MapObject>[]
+}
 
 
 export enum MapDataType {

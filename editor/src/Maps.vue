@@ -5,8 +5,9 @@ import { ref } from "vue";
 // import { lingoValueToString } from "./ccsr/parser/parser";
 import { LingoType } from "./ccsr/parser/types";
 import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
-import { MapDataType } from "./ccsr/game/types";
+import { MapDataType, MapObjectData } from "./ccsr/game/types";
 import { watch } from "vue";
+import { compile } from "vue";
 const store = useStore();
 
 enum Tabs {

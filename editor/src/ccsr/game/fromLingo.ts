@@ -1,17 +1,20 @@
-import { LingoArray, LingoObject, LingoString, LingoType } from "../parser/types";
+import { LingoArray, LingoObject, LingoType } from "../parser/types";
 import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectCondArray, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
 
-export function lingoArrayToMapData(array: LingoArray): MapData[] {
-    const mapData: MapData[] = []
+export function lingoArrayToMapData(array: LingoArray): MapData {
+    const mapData: MapData = {
+        metadata: {},
+        objects: []
+    }
 
     for (const child of array.children) {
         if (child.type === LingoType.Object) {
             // If it looks like a metadata object, parse that
             if (child.properties.some(x => x.key.value.includes("roomid")))
-                mapData.push(lingoToMetadata(child))
+                mapData.metadata = lingoToMetadata(child)
             // Otherwise, it's a game object
             else
-                mapData.push(lingoToMapObject(child))
+                mapData.objects.push(lingoToMapObject(child))
         }
     }
 
