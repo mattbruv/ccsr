@@ -1,3 +1,5 @@
+import { MapData } from "./game/types";
+import { ASTParseResult } from "./parser/parser";
 import { LingoValue } from "./parser/types";
 
 // Contains all information related to a game
@@ -9,8 +11,13 @@ export type Project = {
 
 export type MapFile = {
   filename: string;
-  objectTree: LingoValue;
-  data: string;
+  filetext: string;
+
+  /** The parser result from this file's text */
+  parseResult: ASTParseResult
+
+  /** The Map Data parsed into a useable Javascript Object */
+  data?: MapData
 };
 
 export type ImageFile = {

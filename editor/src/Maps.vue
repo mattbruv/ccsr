@@ -29,8 +29,8 @@ const map = computed(() =>
 );
 
 const mapObject = computed(() => {
-  if (map.value && map.value.objectTree.type === LingoType.Array) {
-    const array = lingoArrayToMapData(map.value.objectTree);
+  if (map.value && map.value.parseResult.value.type === LingoType.Array) {
+    const array = lingoArrayToMapData(map.value.parseResult.value);
     return array;
   }
 });

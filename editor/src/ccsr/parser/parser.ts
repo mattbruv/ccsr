@@ -9,8 +9,10 @@ import {
   LingoArray,
 } from "./types";
 
-type ASTParseResult = {
+export type ASTParseResult = {
+  /** A description of the parser error if it exists */
   error?: string;
+  /** The lingo value parsed from the string */
   value: LingoValue;
 };
 

@@ -1,8 +1,10 @@
 import JSZip from "jszip";
 import { useStore } from "./store";
 import { parseMap } from "./ccsr/parser/parser";
-import { Metadata } from "./ccsr/types";
+import { MapFile, Metadata } from "./ccsr/types";
 import Renderer from "./ccsr/renderer";
+import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
+import { LingoType } from "./ccsr/parser/types";
 
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
@@ -24,11 +26,18 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     // Extract map data
     if (path.startsWith("map.data")) {
       const mapData = await file.async("string");
-      store.project.maps.push({
+      const parseResult = parseMap(mapData)
+      const map: MapFile = {
         filename: path.split("/").pop()!.split(".")[0],
-        objectTree: parseMap(mapData).value,
-        data: mapData,
-      });
+        parseResult,
+        filetext: mapData,
+      };
+
+      if (!parseResult.error && parseResult.value.type === LingoType.Array) {
+        map.data = lingoArrayToMapData(parseResult.value)
+      }
+
+      store.project.maps.push(map)
     }
 
     // Extract metadata
