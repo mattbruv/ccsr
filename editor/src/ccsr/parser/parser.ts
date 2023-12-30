@@ -88,9 +88,9 @@ function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
 export function parseMap(data: string): ASTParseResult {
   const lexResult = lexTokens(data);
 
-  if (lexResult.error) {
+  if (lexResult.errorIndex) {
     return {
-      error: "Error parsing text at character:",
+      error: "Error parsing text at index: " + lexResult.errorIndex + "...",
       value: { children: [], type: LingoType.Array },
     };
   }

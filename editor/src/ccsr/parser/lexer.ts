@@ -12,7 +12,7 @@ const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
 };
 
 type LexResult = {
-  error: boolean;
+  errorIndex?: number;
   tokens: LingoToken[];
 };
 
@@ -29,10 +29,13 @@ export function lexTokens(input: string): LexResult {
     match = nextMatch(input, index);
   }
 
-  return {
-    error: input !== "",
+  const result: LexResult = {
     tokens: tokens.filter((t) => t.type !== LingoTokenType.WhiteSpace),
   };
+
+  if (input !== "") result.errorIndex = index
+
+  return result;
 }
 
 function nextMatch(input: string, startIndex: number): LingoToken | null {

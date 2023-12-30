@@ -97,7 +97,4 @@ const drawer = ref(true);
 .main-panel {
   overflow: auto;
 }
-
-.test {
-}
 </style>

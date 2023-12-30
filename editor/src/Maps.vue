@@ -40,6 +40,10 @@ const messages = computed(() => {
     .filter((x) => x.data?.message && x.data.message.length > 0)
     .flatMap((x) => x.data?.message?.flatMap((y) => y?.text));
 });
+
+const errors = computed(() => {
+  return store.project.maps.filter((x) => x.parseResult.error);
+});
 </script>
 
 <template>
@@ -59,6 +63,10 @@ const messages = computed(() => {
               :items="mapNames"
             ></v-select>
             <p>Selected map: {{ selectedMap }}</p>
+            <div v-for="error in errors">
+              {{ error.filename }}
+              {{ error.parseResult.error }}
+            </div>
 
             <div v-for="message in messages">
               {{ message }}
