@@ -28,6 +28,10 @@ export type MapMetadata = {
   roomStatus: number;
 };
 
+export enum MapObjectType {
+  FLOR = "#FLOR"
+}
+
 /**
  * Represents some object in the game world
  */
@@ -38,7 +42,7 @@ export type MapObject = {
   member: string;
 
   /** The type of game object */
-  type: string;
+  type: MapObjectType;
 
   /** X, Y starting offset of this object within the map */
   location: MapObjectLocation;
@@ -72,7 +76,7 @@ export type MapObjectData = {
 
 export type MapObjectItem = {
   name: string;
-  type: string;
+  type: MapObjectType;
   visi: MapObjectVisibility;
   COND: (MapObjectCond | null)[];
 };

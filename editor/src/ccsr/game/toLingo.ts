@@ -8,7 +8,7 @@ export function mapObjectToLingo(mapObject: RecursivePartial<MapObject>): LingoO
         properties.push({ key: { type: LingoType.Identifier, value: "#member" }, value: { type: LingoType.String, value: mapObject.member } });
     }
     if (mapObject.type !== undefined) {
-        properties.push({ key: { type: LingoType.Identifier, value: "#type" }, value: { type: LingoType.String, value: mapObject.type } });
+        properties.push({ key: { type: LingoType.Identifier, value: "#type" }, value: { type: LingoType.Identifier, value: mapObject.type } });
     }
     if (mapObject.location !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#location" }, value: mapObjectLocationToLingo(mapObject.location) });
@@ -77,7 +77,7 @@ function mapObjectItemToLingo(item: RecursivePartial<MapObjectItem>): LingoObjec
         properties.push({ key: { type: LingoType.Identifier, value: "#name" }, value: { type: LingoType.String, value: item.name } });
     }
     if (item.type !== undefined) {
-        properties.push({ key: { type: LingoType.Identifier, value: "#type" }, value: { type: LingoType.String, value: item.type } });
+        properties.push({ key: { type: LingoType.Identifier, value: "#type" }, value: { type: LingoType.Identifier, value: item.type } });
     }
     if (item.visi !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#visi" }, value: mapObjectVisibilityToLingo(item.visi) });

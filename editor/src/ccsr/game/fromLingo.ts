@@ -1,5 +1,5 @@
 import { LingoArray, LingoObject, LingoType } from "../parser/types";
-import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
+import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectType, MapObjectVisibility, RecursivePartial } from "./types";
 
 export function lingoArrayToMapData(array: LingoArray): MapData {
     const mapData: MapData = {
@@ -90,7 +90,7 @@ function lingoObjectToMapObjectItem(object: LingoObject): RecursivePartial<MapOb
         if (key === "#name" && value.type === LingoType.String)
             item.name = value.value;
         if (key === "#type" && value.type === LingoType.Identifier)
-            item.type = value.value;
+            item.type = value.value as MapObjectType;
         if (key === "#visi" && value.type === LingoType.Object)
             item.visi = lingoObjectToMapObjectVisibility(value);
         if (key === "#COND" && value.type === LingoType.Array)
@@ -201,11 +201,16 @@ function lingoToMapObject(object: LingoObject): RecursivePartial<MapObject> {
         const value = property.value
 
         switch (value.type) {
-            // Pull out all string values
+
+            case LingoType.Identifier: {
+                switch (key) {
+                    case "#type": mapObject.type = value.value as MapObjectType; break;
+                }
+                break;
+            }
             case LingoType.String: {
                 switch (key) {
                     case "#member": mapObject.member = value.value; break;
-                    case "#type": mapObject.type = value.value; break;
                 }
                 break;
             }
