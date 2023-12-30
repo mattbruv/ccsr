@@ -6,7 +6,7 @@ const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
   [LingoTokenType.RightBracket]: /^]/,
   [LingoTokenType.Identifier]: /^#\w+/,
   [LingoTokenType.String]: /^"([^"]*)"/,
-  [LingoTokenType.Number]: /^\d+/,
+  [LingoTokenType.Number]: /^[-]?\d+/,
   [LingoTokenType.Comma]: /^,/,
   [LingoTokenType.Colon]: /^:/,
 };
