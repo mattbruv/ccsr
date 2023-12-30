@@ -26,7 +26,7 @@ export function mapObjectToLingo(mapObject: RecursivePartial<MapObject>): LingoO
         properties.push({ key: { type: LingoType.Identifier, value: "#HSHIFT" }, value: { type: LingoType.Number, value: mapObject.HSHIFT } });
     }
     if (mapObject.data) {
-        // properties.push({ key: { type: LingoType.Identifier, value: "#data" }, value: mapObjectDataToLingo(mapObject.data) });
+        properties.push({ key: { type: LingoType.Identifier, value: "#data" }, value: mapObjectDataToLingo(mapObject.data) });
     }
 
     return {
@@ -149,16 +149,16 @@ function mapObjectMessagesToLingo(messages: RecursivePartial<MapObjectMessage>[]
 function mapObjectVisibilityToLingo(visi: RecursivePartial<MapObjectVisibility>): LingoObject {
     const properties: LingoProperty[] = [];
 
-    if (visi.visiObj) {
+    if (visi.visiObj !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#visiObj" }, value: { type: LingoType.String, value: visi.visiObj } });
     }
-    if (visi.visiAct) {
+    if (visi.visiAct !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#visiAct" }, value: { type: LingoType.String, value: visi.visiAct } });
     }
-    if (visi.inviObj) {
+    if (visi.inviObj !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#inviObj" }, value: { type: LingoType.String, value: visi.inviObj } });
     }
-    if (visi.inviAct) {
+    if (visi.inviAct !== undefined) {
         properties.push({ key: { type: LingoType.Identifier, value: "#inviAct" }, value: { type: LingoType.String, value: visi.inviAct } });
     }
 
