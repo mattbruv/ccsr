@@ -59,6 +59,7 @@ export enum LingoTokenType {
 
 export type LingoToken = {
   type: LingoTokenType;
-  value: string;
+  fullMatch: string
+  groupMatch: string
   index: number;
 };

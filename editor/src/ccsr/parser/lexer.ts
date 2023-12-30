@@ -5,7 +5,7 @@ const lingoTokenRegex: Record<LingoTokenType, RegExp> = {
   [LingoTokenType.LeftBracket]: /^\[/,
   [LingoTokenType.RightBracket]: /^]/,
   [LingoTokenType.Identifier]: /^#\w+/,
-  [LingoTokenType.String]: /^"(.*?)"/,
+  [LingoTokenType.String]: /^"([^"]*)"/,
   [LingoTokenType.Number]: /^\d+/,
   [LingoTokenType.Comma]: /^,/,
   [LingoTokenType.Colon]: /^:/,
@@ -24,8 +24,8 @@ export function lexTokens(input: string): LexResult {
 
   while (match) {
     tokens.push(match);
-    input = input.slice(match.value.length, input.length);
-    index += match.value.length;
+    input = input.slice(match.fullMatch.length, input.length);
+    index += match.fullMatch.length;
     match = nextMatch(input, index);
   }
 
@@ -41,10 +41,20 @@ function nextMatch(input: string, startIndex: number): LingoToken | null {
   for (const [token, regex] of tokens) {
     const match = input.match(regex);
     if (!match) continue;
+
+    const fullValue = match[0];
+    let groupValue = fullValue;
+    const type = parseInt(token);
+
+    if (type === LingoTokenType.String) {
+      groupValue = match[1]
+    }
+
     return {
       index: startIndex,
-      type: parseInt(token),
-      value: match[0],
+      type,
+      fullMatch: fullValue,
+      groupMatch: groupValue
     };
   }
 

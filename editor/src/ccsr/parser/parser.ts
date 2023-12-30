@@ -29,14 +29,14 @@ function parseLingoValue(tokens: LingoToken[]): [LingoValue, LingoToken[]] {
       }
     case LingoTokenType.Identifier:
       return [
-        { value: token.value, type: LingoType.Identifier },
+        { value: token.fullMatch, type: LingoType.Identifier },
         tokens.slice(1),
       ];
     case LingoTokenType.String:
-      return [{ value: token.value, type: LingoType.String }, tokens.slice(1)];
+      return [{ value: token.groupMatch, type: LingoType.String }, tokens.slice(1)];
     case LingoTokenType.Number:
       return [
-        { value: Number(token.value), type: LingoType.Number },
+        { value: Number(token.fullMatch), type: LingoType.Number },
         tokens.slice(1),
       ];
     default:
@@ -53,7 +53,7 @@ function parseLingoObject(tokens: LingoToken[]): [LingoObject, LingoToken[]] {
     tokens = tokens.slice(2); // Skip the key and the colon
     let [value, remainingTokens] = parseLingoValue(tokens);
     properties.push({
-      key: { value: key.value, type: LingoType.Identifier },
+      key: { value: key.fullMatch, type: LingoType.Identifier },
       value,
     });
     tokens = remainingTokens;
