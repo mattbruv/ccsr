@@ -57,6 +57,7 @@ export enum MapObjectType {
  * Represents some object in the game world
  */
 export type MapObject = {
+  id: number;
   dataType: MapDataType.Object;
 
   /** The name of the texture to use for this object */

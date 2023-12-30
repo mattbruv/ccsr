@@ -1,10 +1,13 @@
 import * as PIXI from "pixi.js";
-import { ImageFile } from "./types";
+import { ImageFile, MapFile } from "./types";
 import { Viewport } from "pixi-viewport";
+import { MapData } from "./game/types";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
   private viewport: Viewport;
+
+  private maps: Map<string, PIXI.Container> = new Map();
 
   constructor() {
     this.viewport = new Viewport({
@@ -44,10 +47,11 @@ class CcsrRenderer {
     }
 
     // console.log(PIXI.utils.TextureCache);
-    const first = images[0].filename;
-    const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[first]);
-    this.viewport.addChild(sprite);
+    // const first = images[0].filename;
+    // const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[first]);
+    // this.viewport.addChild(sprite);
   }
+
 }
 
 const Renderer = new CcsrRenderer();

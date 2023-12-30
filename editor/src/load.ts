@@ -16,35 +16,42 @@ export async function loadEpisodeZipFile(fileName: string) {
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
-  store.newProject();
 
   const files = Object.entries(zip.files).filter(
     ([_, file]) => file.dir == false
   );
 
+  let id = 0;
   for (const [path, file] of files) {
     // Extract map data
     if (path.startsWith("map.data")) {
       const mapData = await file.async("string");
       const parseResult = parseMap(mapData)
-      const map: MapFile = {
-        filename: path.split("/").pop()!.split(".")[0],
-        parseResult,
-        filetext: mapData,
-      };
+      const mapName = path.split("/").pop()!.split(".")[0]
 
       if (!parseResult.parseError && parseResult.value.type === LingoType.Array) {
-        map.data = lingoArrayToMapData(parseResult.value)
-      }
+        const data = lingoArrayToMapData(parseResult.value);
+        for (const obj of data.objects) {
+          store.objects.push({
+            data: obj,
+            id,
+            mapName,
+            renderSettings: {
+              visible: true,
+              highlightBorder: false,
+            }
+          })
+          id += 1;
+        }
 
-      store.project.maps.push(map)
+      }
     }
 
     // Extract metadata
     if (path === "metadata.json") {
       const metaString = await file.async("string");
       const metadata = JSON.parse(metaString) as Metadata;
-      store.project.metadata = metadata;
+      store.metadata = metadata;
     }
 
     if (path.endsWith(".png")) {
@@ -53,7 +60,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
       const filetype = split.pop()!;
       const filename = split.join(".");
 
-      store.project.images.push({
+      store.images.push({
         data,
         filename,
         path,
@@ -63,9 +70,13 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   }
 
   // Only keep images that have filenames
-  store.project.images = store.project.images.filter((x) => x.filename);
+  store.images = store.images.filter((x) => x.filename);
 
-  Renderer.loadImages(store.project.images);
+  // Give IDs to all objects in the map data
+  // And create render settings object for this item
+
+  Renderer.loadImages(store.images);
+  //Renderer.renderMaps(store.project.maps)
   console.log(Renderer.app);
 }
 

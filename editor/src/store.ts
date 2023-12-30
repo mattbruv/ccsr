@@ -1,29 +1,36 @@
 import { defineStore } from "pinia";
-import { Project } from "./ccsr/types";
+import { ImageFile, Metadata, Project } from "./ccsr/types";
+import { GameObject } from "./ccsr/game/renderer";
 
-function newProject(): Project {
-  return {
-    maps: [],
-    images: [],
-    metadata: {
-      author: "",
-      name: "",
-    },
-  };
+type UISetttings = {
+  global: {
+    showMapViewer: boolean
+  }
+}
+
+type StoreData = {
+  objects: GameObject[]
+  images: ImageFile[]
+  metadata: Metadata
+  UI: UISetttings
 }
 
 export const useStore = defineStore("store", {
-  state: () => {
+  state: (): StoreData => {
     return {
-      project: newProject(),
+
+      objects: [],
+      images: [],
+      metadata: {
+        author: "",
+        name: "",
+      },
       UI: {
         global: {
-          showMapViewer: true,
-        },
-        maps: {
-          //
-        },
-      },
+          showMapViewer: true
+        }
+      }
+
     };
   },
 
@@ -32,8 +39,6 @@ export const useStore = defineStore("store", {
   },
 
   actions: {
-    newProject() {
-      this.project = newProject();
-    },
+
   },
 });

@@ -12,7 +12,7 @@ const store = useStore();
 loadEpisodeZipFile(EPISODE_DATA[0].props.filename);
 
 const title = computed(() => {
-  const name = store.project.metadata.name;
+  const name = store.metadata.name;
   const app = "Map-O-Matic v2";
   return name ? app + " - " + name : app;
 });
