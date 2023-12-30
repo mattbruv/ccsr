@@ -40,15 +40,6 @@ const messages = computed(() => {
     .filter((x) => x.data?.message && x.data.message.length > 0)
     .flatMap((x) => x.data?.message?.flatMap((y) => y?.text));
 });
-
-watch(mapObject, () => {
-  console.log(
-    mapObject.value
-    //mapObject.value?.filter(
-    //(x) => x.dataType === MapDataType.Object && x.data?.message?.length > 0
-    //)
-  );
-});
 </script>
 
 <template>
