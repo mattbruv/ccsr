@@ -28,8 +28,29 @@ export type MapMetadata = {
   roomStatus: number;
 };
 
+/**
+ * Represents the type of this object in the game world.
+ */
 export enum MapObjectType {
-  FLOR = "#FLOR"
+  /** A walkable floor game object, no collision */
+  FLOR = "#FLOR",
+  /** A wall the player collides with */
+  WALL = "#WALL",
+  /** Represents an in-game character to talk to */
+  CHAR = "#char",
+  /** An item for the player to pick up */
+  ITEM = "#item",
+  /** Water to boat across. Not present in Scooby games. */
+  WATER = "#WATER",
+  /** A door acts as a block that will teleport the player between maps */
+  DOOR = "#DOOR",
+
+  /**
+   * This only ever appears once across all games, and it's used
+   * for the wall obect behind the painting that disappears in the end.
+   * I'm not sure why this is used.
+   */
+  Scooby2_floor = "#floor"
 }
 
 /**
@@ -41,7 +62,14 @@ export type MapObject = {
   /** The name of the texture to use for this object */
   member: string;
 
-  /** The type of game object */
+  /**
+   * The type of game object.
+   * For whatever reason this root level type is always #FLOR
+   * for ALL objects across every game, both CCSR and Scooby.
+   * 
+   * The type property in data.item.type is the one that seems to determine
+   * how the actual type of the object.
+   */
   type: MapObjectType;
 
   /** X, Y starting offset of this object within the map */

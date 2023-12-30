@@ -7,9 +7,10 @@ import { LingoType } from "./ccsr/parser/types";
 import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
 import { mapObjectToLingo } from "./ccsr/game/toLingo";
 import { lingoValueToString } from "./ccsr/parser/print";
-import { MapDataType, MapObjectData } from "./ccsr/game/types";
+import { MapDataType, MapObjectData, MapObjectType } from "./ccsr/game/types";
 import { watch } from "vue";
 import { compileToFunction } from "vue";
+import { Follow } from "pixi-viewport";
 const store = useStore();
 
 enum Tabs {
@@ -48,6 +49,14 @@ const errors = computed(() => {
   return store.project.maps.filter((x) => x.parseResult.parseError);
 });
 
+const flors = computed(() => {
+  const all = store.project.maps.flatMap((x) =>
+    x.data?.objects.flatMap((y) => y.type)
+  );
+  const test = new Set(all);
+  return test;
+});
+
 const lingo = computed(() => {
   if (store.project.maps.length > 0) {
     const testObject = store.project.maps[0].data?.objects[0];
@@ -78,6 +87,7 @@ const lingo = computed(() => {
               :items="mapNames"
             ></v-select>
             <p>Selected map: {{ selectedMap }}</p>
+            {{ flors }}
             <pre>{{ lingo }}</pre>
             <div v-for="error in errors">
               {{ error.filename }}
