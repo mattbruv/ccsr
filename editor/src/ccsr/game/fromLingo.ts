@@ -1,5 +1,5 @@
 import { LingoArray, LingoObject, LingoString, LingoType } from "../parser/types";
-import { MapData, MapDataType, MapMetadata, MapObject, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
+import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectCondArray, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectVisibility, RecursivePartial } from "./types";
 
 export function lingoArrayToMapData(array: LingoArray): MapData[] {
     const mapData: MapData[] = []
@@ -117,11 +117,38 @@ function lingoObjectToMapObjectVisibility(object: LingoObject): RecursivePartial
     return visibility;
 }
 
-function lingoArrayToMapObjectCond(array: LingoArray): string[] {
-    return array.children
-        .filter(child => child.type === LingoType.String)
-        .map(child => (child as LingoString).value);
+function lingoArrayToMapObjectCond(array: LingoArray): RecursivePartial<MapObjectCondArray> {
+    const conds: RecursivePartial<MapObjectCondArray> = [];
+
+    for (const child of array.children) {
+        if (child.type !== LingoType.Object) {
+            conds.push(null);
+            continue;
+        }
+
+        const condObj = child;
+        const cond: RecursivePartial<MapObjectCond> = {};
+
+        for (const property of condObj.properties) {
+            const key = property.key.value;
+            const value = property.value;
+
+            if (value.type !== LingoType.String) continue;
+
+            switch (key) {
+                case "#hasObj": cond.hasObj = value.value; break;
+                case "#hasAct": cond.hasAct = value.value; break;
+                case "#giveObj": cond.giveObj = value.value; break;
+                case "#giveAct": cond.giveAct = value.value; break;
+            }
+        }
+
+        conds.push(cond);
+    }
+
+    return conds;
 }
+
 
 
 function lingoArrrayToMapObjectMessage(array: LingoArray): RecursivePartial<MapObjectMessage>[] {

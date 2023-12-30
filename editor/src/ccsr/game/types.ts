@@ -66,7 +66,7 @@ export type MapObjectItem = {
   name: string;
   type: string;
   visi: MapObjectVisibility;
-  COND: MapObjectCond;
+  COND: MapObjectCondArray;
 };
 
 export type MapObjectMove = {
@@ -92,4 +92,11 @@ export type MapObjectVisibility = {
   inviAct: string;
 };
 
-export type MapObjectCond = string[];
+export type MapObjectCondArray = (MapObjectCond | null)[];
+
+export type MapObjectCond = {
+  hasObj: string;
+  hasAct: string;
+  giveObj: string;
+  giveAct: string;
+}
