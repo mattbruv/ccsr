@@ -42,7 +42,7 @@ const messages = computed(() => {
 });
 
 const errors = computed(() => {
-  return store.project.maps.filter((x) => x.parseResult.error);
+  return store.project.maps.filter((x) => x.parseResult.parseError);
 });
 </script>
 
@@ -65,7 +65,8 @@ const errors = computed(() => {
             <p>Selected map: {{ selectedMap }}</p>
             <div v-for="error in errors">
               {{ error.filename }}
-              {{ error.parseResult.error }}
+              {{ error.parseResult.lexError }}
+              {{ error.parseResult.parseError }}
             </div>
 
             <div v-for="message in messages">

@@ -10,8 +10,9 @@ import {
 } from "./types";
 
 export type ASTParseResult = {
+  lexError?: string;
   /** A description of the parser error if it exists */
-  error?: string;
+  parseError?: string;
   /** The lingo value parsed from the string */
   value: LingoValue;
 };
@@ -88,21 +89,22 @@ function parseLingoArray(tokens: LingoToken[]): [LingoArray, LingoToken[]] {
 export function parseMap(data: string): ASTParseResult {
   const lexResult = lexTokens(data);
 
-  if (lexResult.errorIndex) {
-    return {
-      error: "Error parsing text at index: " + lexResult.errorIndex + "...",
-      value: { children: [], type: LingoType.Array },
-    };
+  const result: ASTParseResult = {
+    value: { children: [], type: LingoType.Array }
   }
 
-  try {
-    return {
-      value: parseLingoValue(lexResult.tokens)[0],
-    };
-  } catch (e) {
-    return {
-      error: "Error parsing AST: " + e,
-      value: { children: [], type: LingoType.Array },
-    };
+  if (lexResult.errorIndex) {
+    result.lexError = "Error lexing character at index: " + lexResult.errorIndex
   }
+
+  if (lexResult.tokens.length) {
+    try {
+      result.value = parseLingoValue(lexResult.tokens)[0]
+    }
+    catch (e) {
+      result.parseError = e as string
+    }
+  }
+
+  return result
 }

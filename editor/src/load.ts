@@ -33,7 +33,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
         filetext: mapData,
       };
 
-      if (!parseResult.error && parseResult.value.type === LingoType.Array) {
+      if (!parseResult.parseError && parseResult.value.type === LingoType.Array) {
         map.data = lingoArrayToMapData(parseResult.value)
       }
 
