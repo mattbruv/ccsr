@@ -36,6 +36,12 @@ const mapObject = computed(() => {
   }
 });
 
+const messages = computed(() => {
+  return mapObject.value?.objects
+    .filter((x) => x.data?.message && x.data.message.length > 0)
+    .flatMap((x) => x.data?.message?.flatMap((y) => y?.text));
+});
+
 watch(mapObject, () => {
   console.log(
     mapObject.value
@@ -63,6 +69,10 @@ watch(mapObject, () => {
               :items="mapNames"
             ></v-select>
             <p>Selected map: {{ selectedMap }}</p>
+
+            <div v-for="message in messages">
+              {{ message }}
+            </div>
           </div>
         </v-window-item>
         <v-window-item :value="Tabs.Collision"> Collision </v-window-item>
