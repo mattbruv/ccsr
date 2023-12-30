@@ -1,5 +1,5 @@
 import { LingoArray, LingoObject, LingoType } from "../parser/types";
-import { MapData, MapDataType, MapMetadata, MapObject, MapObjectLocation, RecursivePartial } from "./types";
+import { MapData, MapDataType, MapMetadata, MapObject, MapObjectData, MapObjectLocation, MapObjectMessage, RecursivePartial } from "./types";
 
 export function lingoArrayToMapData(array: LingoArray): MapData[] {
     const mapData: MapData[] = []
@@ -18,7 +18,7 @@ export function lingoArrayToMapData(array: LingoArray): MapData[] {
     return mapData
 }
 
-export function lingoToMetadata(object: LingoObject): RecursivePartial<MapMetadata> {
+function lingoToMetadata(object: LingoObject): RecursivePartial<MapMetadata> {
     const metadata: RecursivePartial<MapMetadata> = {
         dataType: MapDataType.Metadata
     }
@@ -36,6 +36,43 @@ export function lingoToMetadata(object: LingoObject): RecursivePartial<MapMetada
     return metadata;
 }
 
+function lingoObjectToMapObjectData(object: LingoObject): RecursivePartial<MapObjectData> {
+    const data: RecursivePartial<MapObjectData> = {};
+
+    for (const property of object.properties) {
+        const key = property.key.value;
+        const value = property.value;
+
+        if (key === "#message" && value.type === LingoType.Array)
+            data.message = lingoArrrayToMapObjectMessage(value);
+    }
+
+    return data;
+}
+
+function lingoArrrayToMapObjectMessage(array: LingoArray): RecursivePartial<MapObjectMessage>[] {
+    const messages: RecursivePartial<MapObjectMessage>[] = []
+
+    for (const child of array.children) {
+        if (child.type !== LingoType.Object) continue;
+
+        const message: RecursivePartial<MapObjectMessage> = {}
+
+        for (const property of child.properties) {
+            const key = property.key.value;
+            const value = property.value;
+            if (value.type !== LingoType.String) continue;
+            if (key === "#text") message.text = value.value;
+            if (key === "#plrObj") message.plrObj = value.value;
+            if (key === "#plrAct") message.plrAct = value.value;
+        }
+
+        messages.push(message)
+    }
+
+    return messages;
+}
+
 function lingoArrayToLocation(array: LingoArray): RecursivePartial<MapObjectLocation> {
     const location: RecursivePartial<MapObjectLocation> = {};
 
@@ -49,7 +86,7 @@ function lingoArrayToLocation(array: LingoArray): RecursivePartial<MapObjectLoca
     return location;
 }
 
-export function lingoToMapObject(object: LingoObject): RecursivePartial<MapObject> {
+function lingoToMapObject(object: LingoObject): RecursivePartial<MapObject> {
 
     const mapObject: RecursivePartial<MapObject> = {
         dataType: MapDataType.Object
@@ -85,7 +122,7 @@ export function lingoToMapObject(object: LingoObject): RecursivePartial<MapObjec
             }
             case LingoType.Object: {
                 switch (key) {
-                    case "#data": mapObject.data = {}; break;
+                    case "#data": mapObject.data = lingoObjectToMapObjectData(value); break;
                 }
                 break;
             }

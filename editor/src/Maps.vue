@@ -2,9 +2,10 @@
 import { computed } from "vue";
 import { useStore } from "./store";
 import { ref } from "vue";
-import { lingoValueToString } from "./ccsr/parser/parser";
-import { LingoType, LingoArray } from "./ccsr/parser/types";
-import { lingoToMapObject, lingoArrayToMapData } from "./ccsr/game/lingo";
+// import { lingoValueToString } from "./ccsr/parser/parser";
+import { LingoType } from "./ccsr/parser/types";
+import { lingoArrayToMapData } from "./ccsr/game/lingo";
+import { MapDataType } from "./ccsr/game/types";
 import { watch } from "vue";
 const store = useStore();
 
@@ -27,39 +28,6 @@ const map = computed(() =>
   store.project.maps.find((x) => x.filename === selectedMap.value)
 );
 
-const json = computed(() => {
-  if (selectedMap.value) {
-    if (map.value) {
-      if (map.value.objectTree.type === LingoType.Array) {
-        const names = map.value.objectTree.children.filter((x) => {
-          return (
-            x.type === LingoType.Object &&
-            x.properties.some(
-              (p) =>
-                p.value.type === LingoType.Array &&
-                p.key.value === "#message" &&
-                p.value.children.length > 0
-            )
-          );
-        });
-
-        const array: LingoArray = {
-          type: LingoType.Array,
-          children: names,
-        };
-
-        const json = JSON.stringify(
-          JSON.parse(lingoValueToString(map.value.objectTree)),
-          null,
-          2
-        );
-        return json;
-      }
-    }
-  }
-  return null;
-});
-
 const mapObject = computed(() => {
   if (map.value && map.value.objectTree.type === LingoType.Array) {
     const array = lingoArrayToMapData(map.value.objectTree);
@@ -68,7 +36,12 @@ const mapObject = computed(() => {
 });
 
 watch(mapObject, () => {
-  console.log(mapObject.value);
+  console.log(
+    mapObject.value
+    //mapObject.value?.filter(
+    //(x) => x.dataType === MapDataType.Object && x.data?.message?.length > 0
+    //)
+  );
 });
 </script>
 
@@ -89,7 +62,6 @@ watch(mapObject, () => {
               :items="mapNames"
             ></v-select>
             <p>Selected map: {{ selectedMap }}</p>
-            <v-textarea v-model="json" readonly></v-textarea>
           </div>
         </v-window-item>
         <v-window-item :value="Tabs.Collision"> Collision </v-window-item>
