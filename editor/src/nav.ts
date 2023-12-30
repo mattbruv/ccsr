@@ -7,9 +7,26 @@ export const links = [
         divider: true,
     },
     {
-        to: "maps",
-        text: "Maps",
-        icon: "mdi-map",
+        to: "",
+        text: "World",
+        icon: "mdi-earth",
+        subLinks: [
+            {
+                to: "maps",
+                text: "Maps",
+                icon: "mdi-grid",
+            },
+            {
+                to: "map",
+                text: "Map Editor",
+                icon: "mdi-map",
+            },
+            {
+                to: "collision",
+                text: "Collision",
+                icon: "mdi-wall",
+            }
+        ]
     },
     {
         to: "characters",
