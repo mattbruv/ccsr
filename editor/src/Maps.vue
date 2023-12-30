@@ -53,7 +53,7 @@ const lingo = computed(() => {
     const testObject = store.project.maps[0].data?.objects[0];
     if (testObject) {
       const test = mapObjectToLingo(testObject);
-      const out = lingoValueToString(test, true);
+      const out = lingoValueToString(test, true, false);
       return out;
     }
   }
