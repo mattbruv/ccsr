@@ -149,6 +149,13 @@ class CcsrRenderer {
         entry.sprite.anchor.set(0.5)
       }
     }
+
+    if (gameObject.data.data?.item?.visi) {
+      const { visiAct, visiObj } = gameObject.data.data?.item?.visi;
+      if (visiAct || visiObj) {
+        entry.sprite.alpha = 0.5
+      }
+    }
   }
 
   private getTextureName(texture: string): string {
