@@ -7,7 +7,7 @@ import { GameObject } from "./game/renderer";
 type GameObjectEntry = {
   id: number
   hash: string
-  sprite: PIXI.TilingSprite
+  sprite: PIXI.Sprite
 }
 
 class CcsrRenderer {
