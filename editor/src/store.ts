@@ -18,7 +18,6 @@ type StoreData = {
 export const useStore = defineStore("store", {
   state: (): StoreData => {
     return {
-
       objects: [],
       images: [],
       metadata: {

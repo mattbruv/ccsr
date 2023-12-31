@@ -110,6 +110,27 @@ class CcsrRenderer {
     if (gameObject.data.height) {
       entry.sprite.height = gameObject.data.height
     }
+
+    if (gameObject.data.location) {
+      const x = gameObject.data.location.x ?? 0
+      const y = gameObject.data.location.y ?? 0
+      const WSHIFT = gameObject.data.WSHIFT ?? 0
+      const HSHIFT = gameObject.data.HSHIFT ?? 0
+      const posX = x * 16 + WSHIFT;
+      const posY = y * 16 + HSHIFT;
+      entry.sprite.position.set(posX, posY);
+    }
+
+    if (gameObject.data.member) {
+      const textureName = this.getTextureName(gameObject.data.member ?? "missing_texture")
+      const texture = PIXI.utils.TextureCache[textureName]
+      entry.sprite.texture = texture
+
+      // If the game object is not tiling, set the anchor to the middle
+      if (!textureName.includes("tile")) {
+        entry.sprite.anchor.set(0.5)
+      }
+    }
   }
 
   private getTextureName(texture: string): string {
