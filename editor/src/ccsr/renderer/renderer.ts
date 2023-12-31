@@ -4,6 +4,9 @@ import { Viewport } from "pixi-viewport";
 import { GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
 import { newGameObjectRenderData, newGameMapRenderData } from "./helpers";
 
+const MAP_WIDTH_PIXELS = 32 * 13;
+const MAP_HEIGHT_PIXELS = 32 * 10;
+
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
   private viewport: Viewport;
@@ -88,8 +91,8 @@ class CcsrRenderer {
         if (gameObject.mapName.length == 4) {
           const x = parseInt(gameObject.mapName.slice(0, 2))
           const y = parseInt(gameObject.mapName.slice(2, 4))
-          const posX = x * 32 * 13;
-          const posY = y * 32 * 10;
+          const posX = x * MAP_WIDTH_PIXELS
+          const posY = y * MAP_HEIGHT_PIXELS
           mapData.container.position.set(posX, posY)
           console.log(x, y, posX, posY, gameObject.mapName)
         }
