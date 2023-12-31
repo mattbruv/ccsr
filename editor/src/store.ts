@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ImageFile, Metadata, Project } from "./ccsr/types";
-import { GameObject } from "./ccsr/game/renderer";
+import { GameObject } from "./ccsr/renderer/types";
 
 type UISetttings = {
   global: {

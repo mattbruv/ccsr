@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import { useStore } from "./store";
 import { parseMap } from "./ccsr/parser/parser";
 import { MapFile, Metadata } from "./ccsr/types";
-import Renderer from "./ccsr/renderer";
+import Renderer from "./ccsr/renderer/renderer";
 import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
 import { LingoType } from "./ccsr/parser/types";
 

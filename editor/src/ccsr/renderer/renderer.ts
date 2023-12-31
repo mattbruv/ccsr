@@ -1,22 +1,8 @@
 import * as PIXI from "pixi.js";
-import { ImageFile, MapFile } from "./types";
+import { ImageFile } from "../types";
 import { Viewport } from "pixi-viewport";
-import { MapData } from "./game/types";
-import { GameObject, GameObjectRenderSettings, MapRenderSettings } from "./game/renderer";
-
-type GameObjectRenderData = {
-  id: number
-  hash: string
-  sprite: PIXI.TilingSprite
-  renderSettings: GameObjectRenderSettings
-}
-
-type GameMapRenderData = {
-  container: PIXI.Container
-  grid: PIXI.Graphics
-  border: PIXI.Graphics
-  renderSettings: MapRenderSettings
-}
+import { GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
+import { newGameObjectRenderData, newGameMapRenderData } from "./helpers";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
@@ -90,11 +76,11 @@ class CcsrRenderer {
     // Create the entry if it doesn't exist already
     if (!entry) {
       update = true
-      entry = this.newGameObjectRenderData(gameObject, texture);
+      entry = newGameObjectRenderData(gameObject, texture);
       this.gameObjects.set(gameObject.id, entry);
       let mapData = this.gameMaps.get(gameObject.mapName);
       if (!mapData) {
-        mapData = this.newGameMapRenderData(gameObject.mapName)
+        mapData = newGameMapRenderData(gameObject.mapName)
         this.gameMaps.set(gameObject.mapName, mapData);
         this.viewport.addChild(mapData.container)
 
@@ -122,32 +108,6 @@ class CcsrRenderer {
       console.log("updating!")
       this.renderGameObjectEntry(gameObject, entry);
     }
-  }
-
-  private newGameObjectRenderData(gameObject: GameObject, texture: PIXI.Texture): GameObjectRenderData {
-    const data: GameObjectRenderData = {
-      hash: JSON.stringify(gameObject.data),
-      id: gameObject.id,
-      sprite: new PIXI.TilingSprite(texture),
-      renderSettings: gameObject.renderSettings
-    }
-    return data
-  }
-
-  private newGameMapRenderData(name: string): GameMapRenderData {
-    const data: GameMapRenderData = {
-      border: new PIXI.Graphics(),
-      container: new PIXI.Container(),
-      grid: new PIXI.Graphics(),
-      renderSettings: {
-        mapName: name,
-        renderBorder: true,
-        renderGrid: true,
-        renderOutOfBounds: false,
-      }
-    }
-    data.container.cacheAsBitmap = true;
-    return data
   }
 
   private renderGameObjectEntry(gameObject: GameObject, entry: GameObjectRenderData) {

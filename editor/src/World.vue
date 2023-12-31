@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import Renderer from "./ccsr/renderer";
+import Renderer from "./ccsr/renderer/renderer";
 import { onMounted } from "vue";
 
 const mapViewer = ref<HTMLDivElement | null>(null);
@@ -27,3 +27,4 @@ onMounted(() => {
   max-height: 100%;
 }
 </style>
+./ccsr/renderer/renderer
