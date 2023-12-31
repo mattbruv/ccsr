@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { ImageFile, MapFile } from "./types";
 import { Viewport } from "pixi-viewport";
 import { MapData } from "./game/types";
-import { GameObject } from "./game/renderer";
+import { GameObject, MapRenderSettings } from "./game/renderer";
 
 type GameObjectEntry = {
   id: number
@@ -10,11 +10,18 @@ type GameObjectEntry = {
   sprite: PIXI.Sprite
 }
 
+type MapRenderData = {
+  container: PIXI.Container
+  grid: PIXI.Graphics
+  border: PIXI.Graphics
+  renderSettings: MapRenderSettings
+}
+
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
   private viewport: Viewport;
 
-  private gameMaps: Map<string, PIXI.Container> = new Map();
+  private gameMaps: Map<string, MapRenderData> = new Map();
   private objectEntries: Map<number, GameObjectEntry> = new Map();
 
   constructor() {
@@ -38,7 +45,7 @@ class CcsrRenderer {
     PIXI.utils.clearTextureCache()
     PIXI.utils.destroyTextureCache();
     this.objectEntries.forEach(x => x.sprite.destroy())
-    this.gameMaps.forEach(x => x.children.forEach(y => y.destroy()))
+    //this.gameMaps.forEach(x => x.children.forEach(y => y.destroy()))
     this.viewport.children.forEach(x => x.destroy())
     this.viewport.removeChildren();
     this.gameMaps.clear();
@@ -88,11 +95,21 @@ class CcsrRenderer {
         sprite: new PIXI.TilingSprite(texture)
       }
       this.objectEntries.set(gameObject.id, entry);
-      let mapContainer = this.gameMaps.get(gameObject.mapName);
-      if (!mapContainer) {
-        mapContainer = new PIXI.Container()
-        this.gameMaps.set(gameObject.mapName, mapContainer);
-        this.viewport.addChild(mapContainer)
+      let mapData = this.gameMaps.get(gameObject.mapName);
+      if (!mapData) {
+        mapData = {
+          border: new PIXI.Graphics(),
+          container: new PIXI.Container(),
+          grid: new PIXI.Graphics(),
+          renderSettings: {
+            mapName: gameObject.mapName,
+            renderBorder: true,
+            renderGrid: false,
+            renderOutOfBounds: false,
+          }
+        }
+        this.gameMaps.set(gameObject.mapName, mapData);
+        this.viewport.addChild(mapData.container)
 
         // Set the map's X/Y position to correct spot
         if (gameObject.mapName.length == 4) {
@@ -100,15 +117,15 @@ class CcsrRenderer {
           const y = parseInt(gameObject.mapName.slice(2, 4))
           const posX = x * 32 * 13;
           const posY = y * 32 * 10;
-          mapContainer.position.set(posX, posY)
+          mapData.container.position.set(posX, posY)
           console.log(x, y, posX, posY, gameObject.mapName)
         }
         else {
 
         }
       }
-      mapContainer.addChild(entry.sprite)
-      mapContainer.cacheAsBitmap = true
+      mapData.container.addChild(entry.sprite)
+      mapData.container.cacheAsBitmap = true
     }
     else {
       update = entry.hash === JSON.stringify(gameObject)

@@ -1,6 +1,12 @@
 import { MapObject, RecursivePartial } from "./types"
 
 
+export type MapRenderSettings = {
+    mapName: string
+    renderBorder: boolean
+    renderOutOfBounds: boolean
+    renderGrid: boolean
+}
 
 export type GameObject = {
     /** A unique ID for this game object */
