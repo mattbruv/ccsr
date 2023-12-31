@@ -33,7 +33,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
       if (!parseResult.parseError && parseResult.value.type === LingoType.Array) {
         const data = lingoArrayToMapData(parseResult.value);
         for (const obj of data.objects) {
-          store.objects.push({
+          store.gameObjects.push({
             data: obj,
             id,
             mapName,
@@ -61,7 +61,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
       const filetype = split.pop()!;
       const filename = split.join(".");
 
-      store.images.push({
+      store.imageFiles.push({
         data,
         filename,
         path,
@@ -71,14 +71,10 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   }
 
   // Only keep images that have filenames
-  store.images = store.images.filter((x) => x.filename);
+  store.imageFiles = store.imageFiles.filter((x) => x.filename);
+  await Renderer.loadImages(store.imageFiles);
 
-  // Give IDs to all objects in the map data
-  // And create render settings object for this item
-
-  await Renderer.loadImages(store.images);
-
-  Renderer.renderObjects(store.objects);
+  Renderer.renderWorld(store.gameMaps, store.gameObjects);
 }
 
 export const EPISODE_DATA = [

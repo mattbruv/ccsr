@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { ImageFile } from "../types";
 import { Viewport } from "pixi-viewport";
-import { GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
+import { GameMap, GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
 import { newGameObjectRenderData, newGameMapRenderData, getTextureName, getMapLocation } from "./helpers";
 
 class CcsrRenderer {
@@ -65,52 +65,50 @@ class CcsrRenderer {
     }
   }
 
-  public renderObjects(gameObjects: GameObject[]) {
-    for (const object of gameObjects) {//}.filter(x => x.mapName.includes("010") && x.mapName.length === 4)) {
+  public renderWorld(gameMaps: GameMap[], gameObjects: GameObject[]) {
 
-      this.renderGameObject(object)
+    // Render each game map in the world
+    for (const gameMap of gameMaps) {
+      // Create this map if it doesn't exist
+      let entry = this.gameMaps.get(gameMap.name);
+      if (!entry) {
+        entry = newGameMapRenderData(gameMap.name)
+        this.gameMaps.set(gameMap.name, entry)
+        this.viewport.addChild(entry.mapContainer)
+        // Set the map's X/Y position to correct spot
+        const location = getMapLocation(gameMap.name)
+        entry.mapContainer.position.set(location.x, location.y)
+        entry.mapContainer.mask = entry.mask
+      }
     }
+
+    for (const gameObject of gameObjects) {
+      let entry = this.gameObjects.get(gameObject.id)
+      if (!entry) {
+        const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
+        const texture = PIXI.utils.TextureCache[textureName]
+        entry = newGameObjectRenderData(gameObject, texture)
+        this.gameObjects.set(gameObject.id, entry)
+      }
+
+      this.renderGameObject(entry, gameObject)
+    }
+
     console.log(this)
   }
 
-  private renderGameObject(gameObject: GameObject) {
-    let renderObject = this.gameObjects.get(gameObject.id);
-    const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
-    const texture = PIXI.utils.TextureCache[textureName]
-
-    // Create the entry if it doesn't exist already
-    if (!renderObject) {
-      renderObject = newGameObjectRenderData(gameObject, texture);
-      this.gameObjects.set(gameObject.id, renderObject);
-      let mapData = this.gameMaps.get(gameObject.mapName);
-      if (!mapData) {
-        mapData = newGameMapRenderData(gameObject.mapName)
-        this.gameMaps.set(gameObject.mapName, mapData);
-        this.viewport.addChild(mapData.mapContainer)
-        // Set the map's X/Y position to correct spot
-        const location = getMapLocation(gameObject.mapName)
-        mapData.mapContainer.position.set(location.x, location.y)
-        mapData.mapContainer.mask = mapData.mask
-        console.log(location, gameObject.mapName)
-      }
-      mapData.objectContainer.addChild(renderObject.sprite)
-    }
-
-    this.renderGameObjectEntry(gameObject, renderObject);
-  }
-
-  private renderGameObjectEntry(gameObject: GameObject, render: GameObjectRenderData) {
+  private renderGameObject(entry: GameObjectRenderData, gameObject: GameObject) {
     const hash = JSON.stringify(gameObject)
 
     // If our sprite is already rendered correctly, don't do anything
-    if (render.hash === hash)
+    if (entry.hash === hash)
       return
 
     if (gameObject.data.width) {
-      render.sprite.width = gameObject.data.width
+      entry.sprite.width = gameObject.data.width
     }
     if (gameObject.data.height) {
-      render.sprite.height = gameObject.data.height
+      entry.sprite.height = gameObject.data.height
     }
 
     if (gameObject.data.location) {
@@ -120,31 +118,31 @@ class CcsrRenderer {
       const HSHIFT = gameObject.data.HSHIFT ?? 0
       const posX = x * 16 + WSHIFT;
       const posY = y * 16 + HSHIFT;
-      render.sprite.position.set(posX, posY);
+      entry.sprite.position.set(posX, posY);
     }
 
     if (gameObject.data.member) {
       const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
       const texture = PIXI.utils.TextureCache[textureName]
-      render.sprite.texture = texture
+      entry.sprite.texture = texture
 
       // If the game object is not tiling, set the anchor to the middle
       // And make its texture stretch to fill the entire area
       if (!textureName.includes("tile")) {
-        render.sprite.anchor.set(0.5)
-        render.sprite.width = render.sprite.texture.width
-        render.sprite.height = render.sprite.texture.height
+        entry.sprite.anchor.set(0.5)
+        entry.sprite.width = entry.sprite.texture.width
+        entry.sprite.height = entry.sprite.texture.height
       }
     }
 
     if (gameObject.data.data?.item?.visi) {
       const { visiAct, visiObj } = gameObject.data.data?.item?.visi;
       if (visiAct || visiObj) {
-        render.sprite.alpha = 0.5
+        entry.sprite.alpha = 0.5
       }
     }
 
-    render.hash = hash
+    entry.hash = hash
   }
 }
 

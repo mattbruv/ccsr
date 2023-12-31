@@ -7,7 +7,7 @@ const MAP_HEIGHT_PIXELS = 32 * 10;
 
 export function newGameObjectRenderData(gameObject: GameObject, texture: PIXI.Texture): GameObjectRenderData {
     const data: GameObjectRenderData = {
-        hash: JSON.stringify(gameObject.data),
+        hash: "",
         sprite: new PIXI.TilingSprite(texture),
     }
     return data

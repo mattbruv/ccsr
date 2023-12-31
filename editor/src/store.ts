@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { ImageFile, Metadata, Project } from "./ccsr/types";
-import { GameObject } from "./ccsr/renderer/types";
+import { ImageFile, Metadata } from "./ccsr/types";
+import { GameMap, GameObject } from "./ccsr/renderer/types";
 
 type UISetttings = {
   global: {
@@ -9,8 +9,9 @@ type UISetttings = {
 }
 
 type StoreData = {
-  objects: GameObject[]
-  images: ImageFile[]
+  gameObjects: GameObject[]
+  gameMaps: GameMap[]
+  imageFiles: ImageFile[]
   metadata: Metadata
   UI: UISetttings
 }
@@ -18,8 +19,9 @@ type StoreData = {
 export const useStore = defineStore("store", {
   state: (): StoreData => {
     return {
-      objects: [],
-      images: [],
+      gameObjects: [],
+      gameMaps: [],
+      imageFiles: [],
       metadata: {
         author: "",
         name: "",
