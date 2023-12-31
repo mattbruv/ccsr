@@ -13,11 +13,21 @@ export type GameMapRenderData = {
 }
 
 
-export type MapRenderSettings = {
+export type GameMapRenderSettings = {
     mapName: string
     renderBorder: boolean
     renderOutOfBounds: boolean
     renderGrid: boolean
+}
+
+export type GameObjectRenderSettings = {
+    visible: boolean
+    highlightBorder: boolean
+}
+
+export type GameMap = {
+    name: string
+    renderSettings: GameMapRenderSettings
 }
 
 export type GameObject = {
@@ -29,9 +39,4 @@ export type GameObject = {
     renderSettings: GameObjectRenderSettings
     /** The Lingo Data */
     data: RecursivePartial<MapObject>
-}
-
-export type GameObjectRenderSettings = {
-    visible: boolean
-    highlightBorder: boolean
 }
