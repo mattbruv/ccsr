@@ -7,7 +7,7 @@ import { GameObject, GameObjectRenderSettings, MapRenderSettings } from "./game/
 type GameObjectRenderData = {
   id: number
   hash: string
-  sprite: PIXI.Sprite
+  sprite: PIXI.TilingSprite
   renderSettings: GameObjectRenderSettings
 }
 
@@ -90,7 +90,7 @@ class CcsrRenderer {
     // Create the entry if it doesn't exist already
     if (!entry) {
       update = true
-      entry = this.newGameObjectRenderData(gameObject);
+      entry = this.newGameObjectRenderData(gameObject, texture);
       this.gameObjects.set(gameObject.id, entry);
       let mapData = this.gameMaps.get(gameObject.mapName);
       if (!mapData) {
@@ -112,7 +112,6 @@ class CcsrRenderer {
         }
       }
       mapData.container.addChild(entry.sprite)
-      mapData.container.cacheAsBitmap = true
     }
     else {
       update = entry.hash === JSON.stringify(gameObject)
@@ -125,11 +124,11 @@ class CcsrRenderer {
     }
   }
 
-  private newGameObjectRenderData(gameObject: GameObject): GameObjectRenderData {
+  private newGameObjectRenderData(gameObject: GameObject, texture: PIXI.Texture): GameObjectRenderData {
     const data: GameObjectRenderData = {
       hash: JSON.stringify(gameObject.data),
       id: gameObject.id,
-      sprite: new PIXI.Sprite(),
+      sprite: new PIXI.TilingSprite(texture),
       renderSettings: gameObject.renderSettings
     }
     return data
