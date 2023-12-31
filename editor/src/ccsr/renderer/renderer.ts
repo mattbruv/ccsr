@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { ImageFile } from "../types";
 import { Viewport } from "pixi-viewport";
 import { GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
-import { newGameObjectRenderData, newGameMapRenderData } from "./helpers";
+import { newGameObjectRenderData, newGameMapRenderData, getTextureName } from "./helpers";
 
 const MAP_WIDTH_PIXELS = 32 * 13;
 const MAP_HEIGHT_PIXELS = 32 * 10;
@@ -71,16 +71,14 @@ class CcsrRenderer {
   }
 
   private renderGameObject(gameObject: GameObject) {
-    let entry = this.gameObjects.get(gameObject.id);
-    const textureName = this.getTextureName(gameObject.data.member ?? "missing_texture")
+    let renderObject = this.gameObjects.get(gameObject.id);
+    const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
     const texture = PIXI.utils.TextureCache[textureName]
-    let update = false
 
     // Create the entry if it doesn't exist already
-    if (!entry) {
-      update = true
-      entry = newGameObjectRenderData(gameObject, texture);
-      this.gameObjects.set(gameObject.id, entry);
+    if (!renderObject) {
+      renderObject = newGameObjectRenderData(gameObject, texture);
+      this.gameObjects.set(gameObject.id, renderObject);
       let mapData = this.gameMaps.get(gameObject.mapName);
       if (!mapData) {
         mapData = newGameMapRenderData(gameObject.mapName)
@@ -100,25 +98,24 @@ class CcsrRenderer {
 
         }
       }
-      mapData.container.addChild(entry.sprite)
-    }
-    else {
-      update = entry.hash === JSON.stringify(gameObject)
+      mapData.container.addChild(renderObject.sprite)
     }
 
-    // Only do a re-render of this object if something has changed
-    if (update) {
-      console.log("updating!")
-      this.renderGameObjectEntry(gameObject, entry);
-    }
+    this.renderGameObjectEntry(gameObject, renderObject);
   }
 
-  private renderGameObjectEntry(gameObject: GameObject, entry: GameObjectRenderData) {
+  private renderGameObjectEntry(gameObject: GameObject, render: GameObjectRenderData) {
+    const hash = JSON.stringify(gameObject)
+
+    // If our sprite is already rendered correctly, don't do anything
+    if (render.hash === hash)
+      return
+
     if (gameObject.data.width) {
-      entry.sprite.width = gameObject.data.width
+      render.sprite.width = gameObject.data.width
     }
     if (gameObject.data.height) {
-      entry.sprite.height = gameObject.data.height
+      render.sprite.height = gameObject.data.height
     }
 
     if (gameObject.data.location) {
@@ -128,38 +125,32 @@ class CcsrRenderer {
       const HSHIFT = gameObject.data.HSHIFT ?? 0
       const posX = x * 16 + WSHIFT;
       const posY = y * 16 + HSHIFT;
-      entry.sprite.position.set(posX, posY);
+      render.sprite.position.set(posX, posY);
     }
 
     if (gameObject.data.member) {
-      const textureName = this.getTextureName(gameObject.data.member ?? "missing_texture")
+      const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
       const texture = PIXI.utils.TextureCache[textureName]
-      entry.sprite.texture = texture
+      render.sprite.texture = texture
 
       // If the game object is not tiling, set the anchor to the middle
       // And make its texture stretch to fill the entire area
       if (!textureName.includes("tile")) {
-        entry.sprite.anchor.set(0.5)
-        entry.sprite.width = entry.sprite.texture.width
-        entry.sprite.height = entry.sprite.texture.height
+        render.sprite.anchor.set(0.5)
+        render.sprite.width = render.sprite.texture.width
+        render.sprite.height = render.sprite.texture.height
       }
     }
 
     if (gameObject.data.data?.item?.visi) {
       const { visiAct, visiObj } = gameObject.data.data?.item?.visi;
       if (visiAct || visiObj) {
-        entry.sprite.alpha = 0.5
+        render.sprite.alpha = 0.5
       }
     }
-  }
 
-  private getTextureName(texture: string): string {
-    let name = texture.toLowerCase()
-    if (name.startsWith("tile"))
-      name = name.replace(".x", "")
-    return name
+    render.hash = hash
   }
-
 }
 
 const Renderer = new CcsrRenderer();

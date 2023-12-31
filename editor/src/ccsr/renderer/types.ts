@@ -1,11 +1,20 @@
 import * as PIXI from "pixi.js"
 import { MapObject, RecursivePartial } from "../game/types"
 
+/**
+ * Information used by the renderer for a game object.
+ * Should only include PIXI related sprites
+ * and a hash to know when it needs to re-render itself
+ */
 export type GameObjectRenderData = {
     hash: string
     sprite: PIXI.TilingSprite
 }
 
+/**
+ * Information used by the renderer for a game map. 
+ * Should only include PIXI related sprites
+ */
 export type GameMapRenderData = {
     container: PIXI.Container
     grid: PIXI.Graphics

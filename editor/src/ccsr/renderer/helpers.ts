@@ -18,3 +18,10 @@ export function newGameMapRenderData(name: string): GameMapRenderData {
     data.container.cacheAsBitmap = true;
     return data
 }
+
+export function getTextureName(texture: string): string {
+    let name = texture.toLowerCase()
+    if (name.startsWith("tile"))
+        name = name.replace(".x", "")
+    return name
+}
