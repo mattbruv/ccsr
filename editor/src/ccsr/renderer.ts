@@ -147,6 +147,7 @@ class CcsrRenderer {
         renderOutOfBounds: false,
       }
     }
+    data.container.cacheAsBitmap = true;
     return data
   }
 
