@@ -114,14 +114,14 @@ class CcsrRenderer {
   }
 
   private renderGameMap(entry: GameMapRenderData, map: GameMap) {
+    // disable caching as bitmap while we make changes to our object
+    entry.mapContainer.cacheAsBitmap = false
     entry.border.visible = map.renderSettings.renderBorder
     entry.grid.visible = map.renderSettings.renderGrid
     // Do not mask the map container if we want to render out of bounds objects
     entry.mapContainer.mask = (map.renderSettings.renderOutOfBounds) ? null : entry.mask
 
-    // We disable the cache and then set it to true again so the 
-    // cached image of the map is refreshed
-    entry.mapContainer.cacheAsBitmap = false
+    // Set cache as bitmap to true to reset our cached texture again
     entry.mapContainer.cacheAsBitmap = true
   }
 
