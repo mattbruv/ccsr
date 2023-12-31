@@ -63,7 +63,7 @@ class CcsrRenderer {
   }
 
   public renderObjects(gameObjects: GameObject[]) {
-    for (const object of gameObjects.filter(x => x.mapName === "0106")) {
+    for (const object of gameObjects.filter(x => x.mapName.includes("010") && x.mapName.length === 4)) {
 
       this.renderGameObject(object)
     }
@@ -90,6 +90,19 @@ class CcsrRenderer {
         mapContainer = new PIXI.Container()
         this.gameMaps.set(gameObject.mapName, mapContainer);
         this.viewport.addChild(mapContainer)
+
+        // Set the map's X/Y position to correct spot
+        if (gameObject.mapName.length == 4) {
+          const x = parseInt(gameObject.mapName.slice(0, 2))
+          const y = parseInt(gameObject.mapName.slice(2, 4))
+          const posX = x * 32 * 13;
+          const posY = y * 32 * 10;
+          mapContainer.position.set(posX, posY)
+          console.log(x, y, posX, posY, gameObject.mapName)
+        }
+        else {
+
+        }
       }
       mapContainer.addChild(entry.sprite)
     }
