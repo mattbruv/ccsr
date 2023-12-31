@@ -28,8 +28,13 @@ export function newGameMapRenderData(name: string): GameMapRenderData {
     data.mask.drawRect(0, 0, MAP_WIDTH_PIXELS, MAP_HEIGHT_PIXELS)
     data.mask.endFill()
 
+    // Draw the border graphic
+    data.border.lineStyle(2, 0xff00ff, 1);
+    data.border.drawRect(0, 0, MAP_WIDTH_PIXELS, MAP_HEIGHT_PIXELS)
+
     // Add the container for our game objects
     data.mapContainer.addChild(data.objectContainer)
+    data.mapContainer.addChild(data.border)
 
     // The mask must be a child in the subtree of its parent to work
     data.mapContainer.addChild(data.mask)
