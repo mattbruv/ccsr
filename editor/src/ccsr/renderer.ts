@@ -174,8 +174,11 @@ class CcsrRenderer {
       entry.sprite.texture = texture
 
       // If the game object is not tiling, set the anchor to the middle
+      // And make its texture stretch to fill the entire area
       if (!textureName.includes("tile")) {
         entry.sprite.anchor.set(0.5)
+        entry.sprite.width = entry.sprite.texture.width
+        entry.sprite.height = entry.sprite.texture.height
       }
     }
 
