@@ -2,12 +2,20 @@ import * as PIXI from "pixi.js";
 import { ImageFile, MapFile } from "./types";
 import { Viewport } from "pixi-viewport";
 import { MapData } from "./game/types";
+import { GameObject } from "./game/renderer";
+
+type GameObjectEntry = {
+  id: number
+  hash: string
+  sprite: PIXI.Sprite
+}
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
   private viewport: Viewport;
 
-  private maps: Map<string, PIXI.Container> = new Map();
+  private gameMaps: Map<string, PIXI.Container> = new Map();
+  private objectEntries: Map<number, GameObjectEntry> = new Map();
 
   constructor() {
     this.viewport = new Viewport({
@@ -26,6 +34,14 @@ class CcsrRenderer {
     PIXI.settings.ROUND_PIXELS = true;
   }
 
+  public reset() {
+    PIXI.utils.clearTextureCache()
+    PIXI.utils.destroyTextureCache();
+    this.viewport.removeChildren();
+    this.gameMaps.clear();
+    this.objectEntries.clear();
+  }
+
   public addView(div: HTMLDivElement): void {
     div.appendChild(this.app.view);
     this.resizeTo(div);
@@ -41,15 +57,58 @@ class CcsrRenderer {
 
     for (const image of images) {
       const url = "data:image/png;base64," + image.data;
-      //console.log(image.filename);
-      PIXI.Assets.add({ alias: image.filename, src: url });
-      await PIXI.Assets.load(image.filename);
+      PIXI.Assets.add({ alias: image.filename.toLowerCase(), src: url });
+      await PIXI.Assets.load(image.filename.toLowerCase());
+    }
+  }
+
+  public renderObjects(gameObjects: GameObject[]) {
+    for (const object of gameObjects.filter(x => x.mapName === "0106")) {
+
+      this.renderGameObject(object)
+    }
+    console.log(this)
+  }
+
+  private renderGameObject(gameObject: GameObject) {
+    let entry = this.objectEntries.get(gameObject.id);
+    const textureName = this.getTextureName(gameObject.data.member ?? "missing_texture")
+    const texture = PIXI.utils.TextureCache[textureName]
+    let update = false
+
+    // Create the entry if it doesn't exist already
+    if (!entry) {
+      update = true
+      entry = {
+        id: gameObject.id,
+        hash: JSON.stringify(gameObject),
+        sprite: new PIXI.Sprite(texture)
+      }
+      this.objectEntries.set(gameObject.id, entry);
+      let mapContainer = this.gameMaps.get(gameObject.mapName);
+      if (!mapContainer) {
+        mapContainer = new PIXI.Container()
+        this.gameMaps.set(gameObject.mapName, mapContainer);
+        this.viewport.addChild(mapContainer)
+      }
+      mapContainer.addChild(entry.sprite)
     }
 
-    // console.log(PIXI.utils.TextureCache);
-    // const first = images[0].filename;
-    // const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[first]);
-    // this.viewport.addChild(sprite);
+    // Only do a re-render of this object if something has changed
+    if (update) {
+      this.renderGameObjectEntry(gameObject, entry);
+    }
+  }
+
+  private renderGameObjectEntry(gameObject: GameObject, entry: GameObjectEntry) {
+    //console.log(entry)
+  }
+
+  private getTextureName(texture: string): string {
+    let name = texture.toLowerCase()
+    if (name.startsWith("tile"))
+      name = name.replace(".x", "")
+    return name
   }
 
 }

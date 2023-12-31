@@ -16,6 +16,7 @@ export async function loadEpisodeZipFile(fileName: string) {
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
+  Renderer.reset()
 
   const files = Object.entries(zip.files).filter(
     ([_, file]) => file.dir == false
@@ -75,9 +76,9 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   // Give IDs to all objects in the map data
   // And create render settings object for this item
 
-  Renderer.loadImages(store.images);
-  //Renderer.renderMaps(store.project.maps)
-  console.log(Renderer.app);
+  await Renderer.loadImages(store.images);
+
+  Renderer.renderObjects(store.objects);
 }
 
 export const EPISODE_DATA = [
