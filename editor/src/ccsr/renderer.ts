@@ -37,6 +37,9 @@ class CcsrRenderer {
   public reset() {
     PIXI.utils.clearTextureCache()
     PIXI.utils.destroyTextureCache();
+    this.objectEntries.forEach(x => x.sprite.destroy())
+    this.gameMaps.forEach(x => x.children.forEach(y => y.destroy()))
+    this.viewport.children.forEach(x => x.destroy())
     this.viewport.removeChildren();
     this.gameMaps.clear();
     this.objectEntries.clear();
@@ -63,7 +66,7 @@ class CcsrRenderer {
   }
 
   public renderObjects(gameObjects: GameObject[]) {
-    for (const object of gameObjects.filter(x => x.mapName.includes("010") && x.mapName.length === 4)) {
+    for (const object of gameObjects) {//}.filter(x => x.mapName.includes("010") && x.mapName.length === 4)) {
 
       this.renderGameObject(object)
     }
@@ -105,6 +108,7 @@ class CcsrRenderer {
         }
       }
       mapContainer.addChild(entry.sprite)
+      mapContainer.cacheAsBitmap = true
     }
     else {
       update = entry.hash === JSON.stringify(gameObject)
@@ -112,6 +116,7 @@ class CcsrRenderer {
 
     // Only do a re-render of this object if something has changed
     if (update) {
+      console.log("updating!")
       this.renderGameObjectEntry(gameObject, entry);
     }
   }
