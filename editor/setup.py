@@ -1,6 +1,8 @@
 import shutil
 import json
 import zipfile
+from PIL import Image
+from pathlib import Path
 
 episodes = ["1", "2", "3", "4", "scooby-1", "scooby-2"]
 
@@ -31,12 +33,37 @@ metadata = {
     },
 }
 
+def makeWhiteTransparent(imagePath):
+    img = Image.open(imagePath)
+    img = img.convert("RGBA")
+    datas = img.getdata()
+
+    newData = []
+    for item in datas:
+        if item[0] == 255 and item[1] == 255 and item[2] == 255:
+            newData.append((255, 255, 255, 0))
+        else:
+            newData.append(item)
+
+    img.putdata(newData)
+    img.save(imagePath, "PNG")
+
 root = "../ccsr/"
 
 for episode in episodes:
     path = root + episode
+    temp = "temp/" + episode
+
+    shutil.copytree(path, temp)
+
+    pngs = list(Path(temp).rglob("*.png"))
+    for png in pngs:
+        makeWhiteTransparent(png)
+
     out = "public/assets/" + episode + ".ccsr"
     print(episode)
-    shutil.make_archive(out, "zip", path)
+    shutil.make_archive(out, "zip", temp)
     with zipfile.ZipFile(out + ".zip", "a") as zip:
         zip.writestr("metadata.json", json.dumps(metadata[episode], indent=4))
+    
+    shutil.rmtree(temp)
