@@ -89,15 +89,6 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   store.gameMaps = gameMaps
   Renderer.renderWorld(store.gameMaps, store.gameObjects);
 
-  setTimeout(() => {
-    const first = store.gameMaps.find(x => x.name === "0101")
-    if (first) {
-      first.renderSettings.renderOutOfBounds = true
-      first.renderSettings.renderBorder = false
-      console.log("OK")
-      Renderer.renderWorld(store.gameMaps, store.gameObjects)
-    }
-  }, 2000)
 }
 
 export const EPISODE_DATA = [
