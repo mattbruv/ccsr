@@ -2,17 +2,14 @@ import * as PIXI from "pixi.js"
 import { MapObject, RecursivePartial } from "../game/types"
 
 export type GameObjectRenderData = {
-    id: number
     hash: string
     sprite: PIXI.TilingSprite
-    renderSettings: GameObjectRenderSettings
 }
 
 export type GameMapRenderData = {
     container: PIXI.Container
     grid: PIXI.Graphics
     border: PIXI.Graphics
-    renderSettings: MapRenderSettings
 }
 
 
