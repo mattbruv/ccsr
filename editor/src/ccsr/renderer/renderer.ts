@@ -67,21 +67,6 @@ class CcsrRenderer {
 
   public renderWorld(gameMaps: GameMap[], gameObjects: GameObject[]) {
 
-    // Render each game map in the world
-    for (const gameMap of gameMaps) {
-      // Create this map if it doesn't exist
-      let entry = this.gameMaps.get(gameMap.name);
-      if (!entry) {
-        entry = newGameMapRenderData(gameMap.name)
-        this.gameMaps.set(gameMap.name, entry)
-        this.viewport.addChild(entry.mapContainer)
-        // Set the map's X/Y position to correct spot
-        const location = getMapLocation(gameMap.name)
-        entry.mapContainer.position.set(location.x, location.y)
-        entry.mapContainer.mask = entry.mask
-      }
-    }
-
     for (const gameObject of gameObjects) {
       let entry = this.gameObjects.get(gameObject.id)
       if (!entry) {
@@ -94,7 +79,43 @@ class CcsrRenderer {
       this.renderGameObject(entry, gameObject)
     }
 
+    // Render each game map in the world
+    for (const gameMap of gameMaps) {
+      let entry = this.gameMaps.get(gameMap.name);
+
+      // Create this map if it doesn't exist
+      if (!entry) {
+        entry = newGameMapRenderData(gameMap.name)
+        this.gameMaps.set(gameMap.name, entry)
+        this.viewport.addChild(entry.mapContainer)
+        // Set the map's X/Y position to correct spot
+        const location = getMapLocation(gameMap.name)
+        entry.mapContainer.position.set(location.x, location.y)
+        entry.mapContainer.mask = entry.mask
+      }
+
+      this.renderGameMap(entry, gameMap)
+
+      const objectsInMap = gameObjects.filter(x => x.mapName === gameMap.name);
+
+      // Add each game object in this map to its children
+      for (const gameObject of objectsInMap) {
+        const obj = this.gameObjects.get(gameObject.id)
+        if (obj) {
+          entry.objectContainer.addChild(obj.sprite)
+        }
+      }
+
+    }
+
     console.log(this)
+  }
+
+  private renderGameMap(entry: GameMapRenderData, map: GameMap) {
+    entry.border.visible = map.renderSettings.renderBorder
+    entry.grid.visible = map.renderSettings.renderGrid
+    // Do not mask the map container if we want to render out of bounds objects
+    entry.mapContainer.mask = (map.renderSettings.renderOutOfBounds) ? null : entry.mask
   }
 
   private renderGameObject(entry: GameObjectRenderData, gameObject: GameObject) {
