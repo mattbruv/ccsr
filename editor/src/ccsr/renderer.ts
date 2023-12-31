@@ -2,15 +2,16 @@ import * as PIXI from "pixi.js";
 import { ImageFile, MapFile } from "./types";
 import { Viewport } from "pixi-viewport";
 import { MapData } from "./game/types";
-import { GameObject, MapRenderSettings } from "./game/renderer";
+import { GameObject, GameObjectRenderSettings, MapRenderSettings } from "./game/renderer";
 
-type GameObjectEntry = {
+type GameObjectRenderData = {
   id: number
   hash: string
   sprite: PIXI.Sprite
+  renderSettings: GameObjectRenderSettings
 }
 
-type MapRenderData = {
+type GameMapRenderData = {
   container: PIXI.Container
   grid: PIXI.Graphics
   border: PIXI.Graphics
@@ -21,8 +22,8 @@ class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
   private viewport: Viewport;
 
-  private gameMaps: Map<string, MapRenderData> = new Map();
-  private objectEntries: Map<number, GameObjectEntry> = new Map();
+  private gameMaps: Map<string, GameMapRenderData> = new Map();
+  private gameObjects: Map<number, GameObjectRenderData> = new Map();
 
   constructor() {
     this.viewport = new Viewport({
@@ -44,12 +45,12 @@ class CcsrRenderer {
   public reset() {
     PIXI.utils.clearTextureCache()
     PIXI.utils.destroyTextureCache();
-    this.objectEntries.forEach(x => x.sprite.destroy())
+    this.gameObjects.forEach(x => x.sprite.destroy())
     //this.gameMaps.forEach(x => x.children.forEach(y => y.destroy()))
     this.viewport.children.forEach(x => x.destroy())
     this.viewport.removeChildren();
     this.gameMaps.clear();
-    this.objectEntries.clear();
+    this.gameObjects.clear();
   }
 
   public addView(div: HTMLDivElement): void {
@@ -81,7 +82,7 @@ class CcsrRenderer {
   }
 
   private renderGameObject(gameObject: GameObject) {
-    let entry = this.objectEntries.get(gameObject.id);
+    let entry = this.gameObjects.get(gameObject.id);
     const textureName = this.getTextureName(gameObject.data.member ?? "missing_texture")
     const texture = PIXI.utils.TextureCache[textureName]
     let update = false
@@ -89,25 +90,11 @@ class CcsrRenderer {
     // Create the entry if it doesn't exist already
     if (!entry) {
       update = true
-      entry = {
-        id: gameObject.id,
-        hash: JSON.stringify(gameObject),
-        sprite: new PIXI.TilingSprite(texture)
-      }
-      this.objectEntries.set(gameObject.id, entry);
+      entry = this.newGameObjectRenderData(gameObject);
+      this.gameObjects.set(gameObject.id, entry);
       let mapData = this.gameMaps.get(gameObject.mapName);
       if (!mapData) {
-        mapData = {
-          border: new PIXI.Graphics(),
-          container: new PIXI.Container(),
-          grid: new PIXI.Graphics(),
-          renderSettings: {
-            mapName: gameObject.mapName,
-            renderBorder: true,
-            renderGrid: false,
-            renderOutOfBounds: false,
-          }
-        }
+        mapData = this.newGameMapRenderData(gameObject.mapName)
         this.gameMaps.set(gameObject.mapName, mapData);
         this.viewport.addChild(mapData.container)
 
@@ -138,7 +125,32 @@ class CcsrRenderer {
     }
   }
 
-  private renderGameObjectEntry(gameObject: GameObject, entry: GameObjectEntry) {
+  private newGameObjectRenderData(gameObject: GameObject): GameObjectRenderData {
+    const data: GameObjectRenderData = {
+      hash: JSON.stringify(gameObject.data),
+      id: gameObject.id,
+      sprite: new PIXI.Sprite(),
+      renderSettings: gameObject.renderSettings
+    }
+    return data
+  }
+
+  private newGameMapRenderData(name: string): GameMapRenderData {
+    const data: GameMapRenderData = {
+      border: new PIXI.Graphics(),
+      container: new PIXI.Container(),
+      grid: new PIXI.Graphics(),
+      renderSettings: {
+        mapName: name,
+        renderBorder: true,
+        renderGrid: true,
+        renderOutOfBounds: false,
+      }
+    }
+    return data
+  }
+
+  private renderGameObjectEntry(gameObject: GameObject, entry: GameObjectRenderData) {
     if (gameObject.data.width) {
       entry.sprite.width = gameObject.data.width
     }

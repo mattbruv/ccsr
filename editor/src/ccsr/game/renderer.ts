@@ -14,12 +14,12 @@ export type GameObject = {
     /** The map that this object belongs to */
     mapName: string
     /** PIXI related rendering settings for this object */
-    renderSettings: RenderSettings
+    renderSettings: GameObjectRenderSettings
     /** The Lingo Data */
     data: RecursivePartial<MapObject>
 }
 
-export type RenderSettings = {
+export type GameObjectRenderSettings = {
     visible: boolean
     highlightBorder: boolean
 }
