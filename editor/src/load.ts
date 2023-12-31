@@ -5,6 +5,8 @@ import { MapFile, Metadata } from "./ccsr/types";
 import Renderer from "./ccsr/renderer/renderer";
 import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
 import { LingoType } from "./ccsr/parser/types";
+import { GameMap } from "./ccsr/renderer/types";
+import { MapData } from "./ccsr/game/types";
 
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
@@ -74,7 +76,28 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   store.imageFiles = store.imageFiles.filter((x) => x.filename);
   await Renderer.loadImages(store.imageFiles);
 
+  const allMapNames = [...new Set(store.gameObjects.map(x => x.mapName))]
+  const gameMaps: GameMap[] = allMapNames.map(name => ({
+    name: name,
+    renderSettings: {
+      renderBorder: true,
+      renderGrid: true,
+      renderOutOfBounds: false,
+    }
+  }))
+
+  store.gameMaps = gameMaps
   Renderer.renderWorld(store.gameMaps, store.gameObjects);
+
+  setTimeout(() => {
+    const first = store.gameMaps.find(x => x.name === "0101")
+    if (first) {
+      first.renderSettings.renderOutOfBounds = true
+      first.renderSettings.renderBorder = false
+      console.log("OK")
+      Renderer.renderWorld(store.gameMaps, store.gameObjects)
+    }
+  }, 2000)
 }
 
 export const EPISODE_DATA = [

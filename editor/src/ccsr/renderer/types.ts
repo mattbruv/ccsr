@@ -25,7 +25,6 @@ export type GameMapRenderData = {
 
 
 export type GameMapRenderSettings = {
-    mapName: string
     renderBorder: boolean
     renderOutOfBounds: boolean
     renderGrid: boolean

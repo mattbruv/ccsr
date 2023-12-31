@@ -79,9 +79,11 @@ class CcsrRenderer {
       this.renderGameObject(entry, gameObject)
     }
 
+    //debugger
     // Render each game map in the world
     for (const gameMap of gameMaps) {
       let entry = this.gameMaps.get(gameMap.name);
+      // console.log(gameMap.name, gameMap.renderSettings.renderOutOfBounds)
 
       // Create this map if it doesn't exist
       if (!entry) {
@@ -112,10 +114,18 @@ class CcsrRenderer {
   }
 
   private renderGameMap(entry: GameMapRenderData, map: GameMap) {
+
+    if (map.name == "0101")
+      console.log(map.renderSettings.renderOutOfBounds, entry.mapContainer.mask)
     entry.border.visible = map.renderSettings.renderBorder
     entry.grid.visible = map.renderSettings.renderGrid
     // Do not mask the map container if we want to render out of bounds objects
     entry.mapContainer.mask = (map.renderSettings.renderOutOfBounds) ? null : entry.mask
+
+    // We disable the cache and then set it to true again so the 
+    // cached image of the map is refreshed
+    entry.mapContainer.cacheAsBitmap = false
+    entry.mapContainer.cacheAsBitmap = true
   }
 
   private renderGameObject(entry: GameObjectRenderData, gameObject: GameObject) {
