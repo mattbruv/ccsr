@@ -114,9 +114,6 @@ class CcsrRenderer {
   }
 
   private renderGameMap(entry: GameMapRenderData, map: GameMap) {
-
-    if (map.name == "0101")
-      console.log(map.renderSettings.renderOutOfBounds, entry.mapContainer.mask)
     entry.border.visible = map.renderSettings.renderBorder
     entry.grid.visible = map.renderSettings.renderGrid
     // Do not mask the map container if we want to render out of bounds objects
