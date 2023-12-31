@@ -7,7 +7,7 @@ import { GameObject } from "./game/renderer";
 type GameObjectEntry = {
   id: number
   hash: string
-  sprite: PIXI.Sprite
+  sprite: PIXI.TilingSprite
 }
 
 class CcsrRenderer {
@@ -82,7 +82,7 @@ class CcsrRenderer {
       entry = {
         id: gameObject.id,
         hash: JSON.stringify(gameObject),
-        sprite: new PIXI.Sprite(texture)
+        sprite: new PIXI.TilingSprite(texture)
       }
       this.objectEntries.set(gameObject.id, entry);
       let mapContainer = this.gameMaps.get(gameObject.mapName);
@@ -93,6 +93,9 @@ class CcsrRenderer {
       }
       mapContainer.addChild(entry.sprite)
     }
+    else {
+      update = entry.hash === JSON.stringify(gameObject)
+    }
 
     // Only do a re-render of this object if something has changed
     if (update) {
@@ -101,7 +104,12 @@ class CcsrRenderer {
   }
 
   private renderGameObjectEntry(gameObject: GameObject, entry: GameObjectEntry) {
-    //console.log(entry)
+    if (gameObject.data.width) {
+      entry.sprite.width = gameObject.data.width
+    }
+    if (gameObject.data.height) {
+      entry.sprite.height = gameObject.data.height
+    }
   }
 
   private getTextureName(texture: string): string {
