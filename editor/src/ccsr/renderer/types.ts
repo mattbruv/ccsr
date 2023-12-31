@@ -16,7 +16,9 @@ export type GameObjectRenderData = {
  * Should only include PIXI related sprites
  */
 export type GameMapRenderData = {
-    container: PIXI.Container
+    mapContainer: PIXI.Container
+    objectContainer: PIXI.Container
+    mask: PIXI.Graphics
     grid: PIXI.Graphics
     border: PIXI.Graphics
 }

@@ -2,10 +2,7 @@ import * as PIXI from "pixi.js";
 import { ImageFile } from "../types";
 import { Viewport } from "pixi-viewport";
 import { GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
-import { newGameObjectRenderData, newGameMapRenderData, getTextureName } from "./helpers";
-
-const MAP_WIDTH_PIXELS = 32 * 13;
-const MAP_HEIGHT_PIXELS = 32 * 10;
+import { newGameObjectRenderData, newGameMapRenderData, getTextureName, getMapLocation } from "./helpers";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
@@ -83,22 +80,14 @@ class CcsrRenderer {
       if (!mapData) {
         mapData = newGameMapRenderData(gameObject.mapName)
         this.gameMaps.set(gameObject.mapName, mapData);
-        this.viewport.addChild(mapData.container)
-
+        this.viewport.addChild(mapData.mapContainer)
         // Set the map's X/Y position to correct spot
-        if (gameObject.mapName.length == 4) {
-          const x = parseInt(gameObject.mapName.slice(0, 2))
-          const y = parseInt(gameObject.mapName.slice(2, 4))
-          const posX = x * MAP_WIDTH_PIXELS
-          const posY = y * MAP_HEIGHT_PIXELS
-          mapData.container.position.set(posX, posY)
-          console.log(x, y, posX, posY, gameObject.mapName)
-        }
-        else {
-
-        }
+        const location = getMapLocation(gameObject.mapName)
+        mapData.mapContainer.position.set(location.x, location.y)
+        mapData.mapContainer.mask = mapData.mask
+        console.log(location, gameObject.mapName)
       }
-      mapData.container.addChild(renderObject.sprite)
+      mapData.objectContainer.addChild(renderObject.sprite)
     }
 
     this.renderGameObjectEntry(gameObject, renderObject);
