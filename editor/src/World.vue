@@ -23,8 +23,8 @@ onMounted(() => {
 
 <style scoped>
 #map-viewer {
-  height: 100%;
-  max-height: 100%;
+  height: 99%;
+  max-height: 99%;
 }
 </style>
 ./ccsr/renderer/renderer
