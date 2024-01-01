@@ -87,8 +87,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   }))
 
   store.gameMaps = gameMaps
-  Renderer.renderWorld(store.gameMaps, store.gameObjects);
-
+  store.render()
 }
 
 export const EPISODE_DATA = [
