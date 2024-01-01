@@ -7,11 +7,9 @@ const maps = computed(() => store.gameMaps);
 </script>
 
 <template>
-  <div class="blah">
-    <div v-for="foo of maps">{{ foo.name }}</div>
-    <div>foo</div>
-    <div>bar</div>
-  </div>
+  <div v-for="foo of maps">{{ foo.name }}</div>
+  <div style="background-color: red; width: 1000px">foo</div>
+  <div>bar</div>
 </template>
 
 <style scoped>

@@ -87,16 +87,15 @@ const drawer = ref(true);
 .container {
   display: flex;
   flex-direction: row;
-  height: 50%;
+  height: 90vh;
+  overflow: hidden;
 }
 .router-view {
-  background-color: greenyellow;
-  overflow-y: auto;
-  flex-grow: 2;
+  overflow-y: scroll;
+  width: 40%;
 }
 .map-view {
-  background-color: orangered;
-  overflow-y: auto;
-  flex-grow: 3;
+  overflow-y: hidden;
+  width: 60%;
 }
 </style>
