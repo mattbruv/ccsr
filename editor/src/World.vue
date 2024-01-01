@@ -6,7 +6,9 @@ import { onMounted } from "vue";
 const mapViewer = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
+  /*
   if (mapViewer.value) {
+
     Renderer.addView(mapViewer.value);
 
     // Add resize listener
@@ -14,17 +16,16 @@ onMounted(() => {
       Renderer.resizeTo(mapViewer.value!);
     }).observe(mapViewer.value);
   }
+  */
 });
 </script>
 
 <template>
-  <div ref="mapViewer" id="map-viewer"></div>
+  <div ref="mapViewer" id="map-viewer">yo</div>
 </template>
 
 <style scoped>
 #map-viewer {
-  height: 99%;
-  max-height: 99%;
 }
 </style>
 ./ccsr/renderer/renderer

@@ -25,6 +25,14 @@ const drawer = ref(true);
 
 <template>
   <v-app>
+    <v-app-bar>
+      <v-app-bar-nav-icon
+        variant="text"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
+      <v-app-bar-title>{{ title }}</v-app-bar-title>
+    </v-app-bar>
+
     <v-navigation-drawer v-model="drawer">
       <v-list density="default" nav>
         <div v-for="(link, i) in links">
@@ -62,49 +70,33 @@ const drawer = ref(true);
       </v-list>
     </v-navigation-drawer>
 
-    <div class="app-content">
-      <v-app-bar>
-        <v-app-bar-nav-icon
-          variant="text"
-          @click.stop="drawer = !drawer"
-        ></v-app-bar-nav-icon>
-        <v-app-bar-title>{{ title }}</v-app-bar-title>
-      </v-app-bar>
-
-      <v-main>
-        <v-container fluid class="pa-0 fill-height">
-          <v-row no-gutters class="fill-height" style="max-height: 100%">
-            <v-col
-              :cols="mainPageColumns"
-              class="pa-2"
-              style="background-color: blue; height: 100%; max-height: 100%"
-            >
-              <!-- Main page content-->
-              <router-view />
-            </v-col>
-
-            <!-- This is dumb as fuck, but setting it to 100% makes
-              the resize observer go fucking crazy and the column's height expands vertically forever
-            -->
-            <v-col v-show="showMapView" cols="7" style="max-height: 99%">
-              <world-vue />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-main>
-    </div>
+    <v-main>
+      <div class="container">
+        <div class="router-view">
+          <router-view />
+        </div>
+        <div class="map-view">
+          <world-vue />
+        </div>
+      </div>
+    </v-main>
   </v-app>
 </template>
 
 <style scoped>
-html {
-  overflow-y: auto;
-}
-
-.app-content {
+.container {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  color: red;
+  flex-direction: row;
+  height: 50%;
+}
+.router-view {
+  background-color: greenyellow;
+  overflow-y: auto;
+  flex-grow: 2;
+}
+.map-view {
+  background-color: orangered;
+  overflow-y: auto;
+  flex-grow: 3;
 }
 </style>
