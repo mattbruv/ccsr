@@ -37,7 +37,11 @@ const headers = [
         >
         </v-text-field>
       </template>
-      <v-data-table :headers="headers" :items="gameMaps" :search="search">
+      <v-data-table
+        :headers="headers"
+        :items="gameMaps.sort((a, b) => a.name.localeCompare(b.name))"
+        :search="search"
+      >
         <template v-slot:item="{ item }: { item: GameMap }">
           <tr>
             <td>{{ item.name }}</td>
