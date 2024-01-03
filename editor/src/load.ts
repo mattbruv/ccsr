@@ -19,7 +19,7 @@ export async function loadEpisodeZipFile(fileName: string) {
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
-  await store.reset()
+  store.reset()
 
   const files = Object.entries(zip.files).filter(
     ([_, file]) => file.dir == false
@@ -75,7 +75,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
 
   // Only keep images that have filenames
   store.imageFiles = store.imageFiles.filter((x) => x.filename);
-  await Renderer.loadImages(store.imageFiles);
+  await store.reloadImages();
 
   const allMapNames = [...new Set(store.gameObjects.map(x => x.mapName))]
   const gameMaps: GameMap[] = allMapNames.map(name => ({
@@ -89,8 +89,6 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
 
   store.gameMaps = gameMaps
   store.render()
-
-  console.log(store.imageFiles, store.gameObjects, store.gameMaps)
 }
 
 export const EPISODE_DATA = [

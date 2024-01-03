@@ -47,11 +47,16 @@ export const useStore = defineStore("store", {
 
     render() {
       Renderer.renderWorld(this.gameMaps, this.gameObjects)
-
     },
 
-    async reset() {
-      await Renderer.unloadImages(this.imageFiles)
+    async reloadImages() {
+      Renderer.unloadImages();
+      await Renderer.loadImages(this.imageFiles);
+      this.render()
+    },
+
+    reset() {
+      Renderer.unloadImages()
       Renderer.reset()
       Object.assign(this, newState())
     }

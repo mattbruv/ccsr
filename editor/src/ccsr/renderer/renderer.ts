@@ -3,7 +3,6 @@ import { ImageFile } from "../types";
 import { Viewport } from "pixi-viewport";
 import { GameMap, GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
 import { newGameObjectRenderData, newGameMapRenderData, getTextureName, getMapLocation } from "./helpers";
-import { useStore } from "../../store";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
@@ -47,16 +46,23 @@ class CcsrRenderer {
     console.log("resized to: ", this.app.view.width, this.app.view.height);
   }
 
-  public async unloadImages(images: ImageFile[]) {
+  public unloadImages() {
+    // It says: 
+    // Only intended for development purposes.
+    // This will wipe the resolver and caches.
+    // You will need to reinitialize the Asset
+    PIXI.Assets.reset();
+    // Not doing it this way and trying to unload them like below
+    // doesn't work, so fuck it
+    /*
     for (const image of images) {
       const url = "data:image/png;base64," + image.data;
-      await PIXI.Assets.unload(image.filename.toLowerCase())
+      await PIXI.Assets.unload(["block.49", "tennis"])
     }
+    */
   }
 
   public async loadImages(images: ImageFile[]) {
-    if (!images.length) return;
-
     for (const image of images) {
       const url = "data:image/png;base64," + image.data;
       PIXI.Assets.add({ alias: image.filename.toLowerCase(), src: url });
@@ -150,10 +156,6 @@ class CcsrRenderer {
 
     if (gameObject.data.member) {
       const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
-      if (textureName === "block.49") {
-        const store = useStore()
-        debugger
-      }
       const texture = PIXI.Texture.from(textureName);
       entry.sprite.texture = texture
 
