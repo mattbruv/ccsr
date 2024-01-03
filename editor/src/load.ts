@@ -7,7 +7,7 @@ import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
 import { LingoType } from "./ccsr/parser/types";
 import { GameMap } from "./ccsr/renderer/types";
 import { MapData } from "./ccsr/game/types";
-import * as PIXI from "pixi.js"
+import * as PIXI from "pixi.js";
 
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
@@ -19,7 +19,7 @@ export async function loadEpisodeZipFile(fileName: string) {
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
-  store.reset()
+  store.reset();
 
   const files = Object.entries(zip.files).filter(
     ([_, file]) => file.dir == false
@@ -30,10 +30,13 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     // Extract map data
     if (path.startsWith("map.data")) {
       const mapData = await file.async("string");
-      const parseResult = parseMap(mapData)
-      const mapName = path.split("/").pop()!.split(".")[0]
+      const parseResult = parseMap(mapData);
+      const mapName = path.split("/").pop()!.split(".")[0];
 
-      if (!parseResult.parseError && parseResult.value.type === LingoType.Array) {
+      if (
+        !parseResult.parseError &&
+        parseResult.value.type === LingoType.Array
+      ) {
         const data = lingoArrayToMapData(parseResult.value);
         for (const obj of data.objects) {
           store.gameObjects.push({
@@ -43,11 +46,10 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
             renderSettings: {
               visible: true,
               highlightBorder: false,
-            }
-          })
+            },
+          });
           id += 1;
         }
-
       }
     }
 
@@ -77,18 +79,19 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
   store.imageFiles = store.imageFiles.filter((x) => x.filename);
   await store.reloadImages();
 
-  const allMapNames = [...new Set(store.gameObjects.map(x => x.mapName))]
-  const gameMaps: GameMap[] = allMapNames.map(name => ({
+  const allMapNames = [...new Set(store.gameObjects.map((x) => x.mapName))];
+  const gameMaps: GameMap[] = allMapNames.map((name) => ({
     name: name,
     renderSettings: {
+      alpha: 1.0,
       renderBorder: true,
       renderGrid: true,
       renderOutOfBounds: false,
-    }
-  }))
+    },
+  }));
 
-  store.gameMaps = gameMaps
-  store.render()
+  store.gameMaps = gameMaps;
+  store.render();
 }
 
 export const EPISODE_DATA = [

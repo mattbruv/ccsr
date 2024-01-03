@@ -143,6 +143,8 @@ class CcsrRenderer {
       entry.mask.visible = true;
     }
 
+    entry.mapContainer.alpha = map.renderSettings.alpha;
+
     // Set cache as bitmap to true to reset our cached texture again
     entry.mapContainer.cacheAsBitmap = true;
   }

@@ -5,6 +5,8 @@ import { VDataTable } from "vuetify/labs/components";
 import { storeToRefs } from "pinia";
 import { GameMap } from "./ccsr/renderer/types";
 import { computed } from "vue";
+import { Ref } from "vue";
+import { watch } from "vue";
 
 const store = useStore();
 const { gameMaps, gameObjects } = storeToRefs(store);
@@ -20,11 +22,28 @@ const headers = [
   { key: "oob", title: "Render Out of Bounds" },
   { key: "border", title: "Render Border" },
 ];
+
+const selected: Ref<null | string> = ref(null);
+
+function hoverMap(name: string) {
+  gameMaps.value
+    .filter((x) => x.name !== name)
+    .forEach((x) => (x.renderSettings.alpha = 0.5));
+  store.render();
+}
+function hoverLeave() {
+  selected.value = null;
+  gameMaps.value.forEach((x) => (x.renderSettings.alpha = 1.0));
+  store.render();
+}
+
+watch(selected, () => {
+  console.log("changed!");
+});
 </script>
 
 <template>
   <v-container>
-    {{ foo }}
     <v-card flat title="Maps">
       <template v-slot:text>
         <v-text-field
@@ -43,7 +62,7 @@ const headers = [
         :search="search"
       >
         <template v-slot:item="{ item }: { item: GameMap }">
-          <tr>
+          <tr @mouseover="hoverMap(item.name)" @mouseleave="hoverLeave()">
             <td>{{ item.name }}</td>
             <td>
               <v-checkbox
