@@ -8,15 +8,7 @@ const maps = computed(() => store.gameMaps);
 
 <template>
   <div v-for="foo of maps">{{ foo.name }}</div>
-  <div style="background-color: red; width: 1000px">foo</div>
   <div>bar</div>
 </template>
 
-<style scoped>
-.blah {
-  background-color: rebeccapurple;
-  overflow: scroll;
-  height: 90%;
-  max-height: 90%;
-}
-</style>
+<style scoped></style>
