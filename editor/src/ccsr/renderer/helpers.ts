@@ -21,7 +21,7 @@ export function newGameMapRenderData(name: string): GameMapRenderData {
         objectContainer: new PIXI.Container(),
         grid: new PIXI.Graphics(),
     }
-    data.mapContainer.cacheAsBitmap = true;
+    //data.mapContainer.cacheAsBitmap = true;
 
     // Draw mask object
     data.mask.beginFill(0xffffff)
