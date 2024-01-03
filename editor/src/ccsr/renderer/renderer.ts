@@ -84,7 +84,6 @@ class CcsrRenderer {
       this.renderGameObject(entry, gameObject)
     }
 
-    //debugger
     // Render each game map in the world
     for (const gameMap of gameMaps) {
       let entry = this.gameMaps.get(gameMap.name);
