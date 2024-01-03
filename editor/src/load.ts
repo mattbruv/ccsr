@@ -7,6 +7,7 @@ import { lingoArrayToMapData } from "./ccsr/game/fromLingo";
 import { LingoType } from "./ccsr/parser/types";
 import { GameMap } from "./ccsr/renderer/types";
 import { MapData } from "./ccsr/game/types";
+import * as PIXI from "pixi.js"
 
 export async function loadEpisodeZipFile(fileName: string) {
   const jszip = new JSZip();
@@ -18,7 +19,9 @@ export async function loadEpisodeZipFile(fileName: string) {
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
-  Renderer.reset()
+  const cache = PIXI.utils.BaseTextureCache
+  const cachenormal = PIXI.utils.TextureCache
+  debugger
   store.reset()
 
   const files = Object.entries(zip.files).filter(
@@ -89,6 +92,8 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
 
   store.gameMaps = gameMaps
   store.render()
+
+  console.log(store.imageFiles, store.gameObjects, store.gameMaps)
 }
 
 export const EPISODE_DATA = [

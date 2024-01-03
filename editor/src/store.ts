@@ -51,6 +51,7 @@ export const useStore = defineStore("store", {
     },
 
     reset() {
+      Renderer.reset()
       Object.assign(this, newState())
     }
 

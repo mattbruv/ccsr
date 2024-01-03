@@ -29,6 +29,7 @@ class CcsrRenderer {
   }
 
   public reset() {
+    PIXI.utils.destroyTextureCache();
     PIXI.utils.clearTextureCache()
     this.viewport.removeChildren()
     this.gameMaps.clear()
@@ -46,6 +47,7 @@ class CcsrRenderer {
   }
 
   public async loadImages(images: ImageFile[]) {
+    var cache = PIXI.utils.BaseTextureCache;
     if (!images.length) return;
 
     for (const image of images) {
