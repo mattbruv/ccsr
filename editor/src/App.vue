@@ -91,7 +91,7 @@ const drawer = ref(true);
   overflow: hidden;
 }
 .router-view {
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 40%;
 }
 .map-view {
