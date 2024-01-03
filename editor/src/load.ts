@@ -19,6 +19,7 @@ export async function loadEpisodeZipFile(fileName: string) {
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
   Renderer.reset()
+  store.reset()
 
   const files = Object.entries(zip.files).filter(
     ([_, file]) => file.dir == false

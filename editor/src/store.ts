@@ -17,23 +17,26 @@ type StoreData = {
   UI: UISetttings
 }
 
-export const useStore = defineStore("store", {
-  state: (): StoreData => {
-    return {
-      gameObjects: [],
-      gameMaps: [],
-      imageFiles: [],
-      metadata: {
-        author: "",
-        name: "",
-      },
-      UI: {
-        global: {
-          showMapViewer: true
-        }
+function newState(): StoreData {
+  return {
+    gameObjects: [],
+    gameMaps: [],
+    imageFiles: [],
+    metadata: {
+      author: "",
+      name: "",
+    },
+    UI: {
+      global: {
+        showMapViewer: true
       }
+    }
+  };
+}
 
-    };
+export const useStore = defineStore("store", {
+  state(): StoreData {
+    return newState()
   },
 
   getters: {
@@ -44,6 +47,11 @@ export const useStore = defineStore("store", {
 
     render() {
       Renderer.renderWorld(this.gameMaps, this.gameObjects)
+
+    },
+
+    reset() {
+      Object.assign(this, newState())
     }
 
   },

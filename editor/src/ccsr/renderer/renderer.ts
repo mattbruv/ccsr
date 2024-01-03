@@ -30,19 +30,9 @@ class CcsrRenderer {
 
   public reset() {
     PIXI.utils.clearTextureCache()
-    PIXI.utils.destroyTextureCache();
-    this.gameObjects.forEach(x => x.sprite.destroy())
-    this.gameMaps.forEach(x => {
-      x.mapContainer.children.forEach(y => y.destroy())
-      x.mask.destroy()
-      x.border.destroy()
-      x.grid.destroy()
-      x.objectContainer.children.forEach(y => y.destroy())
-    })
-    this.viewport.children.forEach(x => x.destroy())
-    this.viewport.removeChildren();
-    this.gameMaps.clear();
-    this.gameObjects.clear();
+    this.viewport.removeChildren()
+    this.gameMaps.clear()
+    this.gameObjects.clear()
   }
 
   public addView(div: HTMLDivElement): void {
