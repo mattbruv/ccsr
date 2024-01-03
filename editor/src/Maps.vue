@@ -17,40 +17,47 @@ const headers = [
     sortable: true,
     title: "Map",
   },
-  { key: "objects", title: "Objects" },
-  { key: "oob", title: "Render OOB" },
+  { key: "oob", title: "Render Out of Bounds" },
+  { key: "border", title: "Render Border" },
 ];
-
-const foo = computed(() => gameMaps.value[0]);
 </script>
 
 <template>
-  {{ foo }}
-  <v-card flat title="Maps">
-    <template v-slot:text>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        prepend-inner-icon="mdi-magnify"
-        single-line
-        variant="outlined"
-        hide-details
-      >
-      </v-text-field>
-    </template>
-    <v-data-table :headers="headers" :items="gameMaps" :search="search">
-      <template v-slot:item="{ item }: { item: GameMap }">
-        <tr>
-          <td>{{ item.name }}</td>
-          <td>
-            <v-checkbox
-              :v-bind="item.renderSettings.renderOutOfBounds"
-            ></v-checkbox>
-          </td>
-        </tr>
+  <v-container>
+    {{ foo }}
+    <v-card flat title="Maps">
+      <template v-slot:text>
+        <v-text-field
+          v-model="search"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          single-line
+          variant="outlined"
+          hide-details
+        >
+        </v-text-field>
       </template>
-    </v-data-table>
-  </v-card>
+      <v-data-table :headers="headers" :items="gameMaps" :search="search">
+        <template v-slot:item="{ item }: { item: GameMap }">
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>
+              <v-checkbox
+                v-model="item.renderSettings.renderOutOfBounds"
+                @change="() => store.render()"
+              ></v-checkbox>
+            </td>
+            <td>
+              <v-checkbox
+                v-model="item.renderSettings.renderBorder"
+                @change="() => store.render()"
+              ></v-checkbox>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-container>
 </template>
 
 <style scoped></style>
