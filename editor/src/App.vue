@@ -9,7 +9,7 @@ import WorldVue from "./World.vue";
 
 const store = useStore();
 // Load first episode for debugging
-// loadEpisodeZipFile(EPISODE_DATA[0].props.filename);
+loadEpisodeZipFile(EPISODE_DATA[0].props.filename);
 
 const title = computed(() => {
   const name = store.metadata.name;
