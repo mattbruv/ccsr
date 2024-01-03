@@ -50,7 +50,8 @@ export const useStore = defineStore("store", {
 
     },
 
-    reset() {
+    async reset() {
+      await Renderer.unloadImages(this.imageFiles)
       Renderer.reset()
       Object.assign(this, newState())
     }

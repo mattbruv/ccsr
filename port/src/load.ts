@@ -5,7 +5,6 @@ export function loadAssets(
   language: string,
   doneCallback: () => void
 ) {
-  PIXI.utils.clearTextureCache();
   const root = "./assets/" + episodeNumber + "/";
   const assets = [
     {

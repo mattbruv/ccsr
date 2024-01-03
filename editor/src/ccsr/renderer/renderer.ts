@@ -3,6 +3,7 @@ import { ImageFile } from "../types";
 import { Viewport } from "pixi-viewport";
 import { GameMap, GameMapRenderData, GameObject, GameObjectRenderData } from "./types"
 import { newGameObjectRenderData, newGameMapRenderData, getTextureName, getMapLocation } from "./helpers";
+import { useStore } from "../../store";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
@@ -46,8 +47,14 @@ class CcsrRenderer {
     console.log("resized to: ", this.app.view.width, this.app.view.height);
   }
 
+  public async unloadImages(images: ImageFile[]) {
+    for (const image of images) {
+      const url = "data:image/png;base64," + image.data;
+      await PIXI.Assets.unload(image.filename.toLowerCase())
+    }
+  }
+
   public async loadImages(images: ImageFile[]) {
-    var cache = PIXI.utils.BaseTextureCache;
     if (!images.length) return;
 
     for (const image of images) {
@@ -63,7 +70,7 @@ class CcsrRenderer {
       let entry = this.gameObjects.get(gameObject.id)
       if (!entry) {
         const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
-        const texture = PIXI.utils.TextureCache[textureName]
+        const texture = PIXI.Texture.from(textureName);
         entry = newGameObjectRenderData(gameObject, texture)
         this.gameObjects.set(gameObject.id, entry)
       }
@@ -143,7 +150,11 @@ class CcsrRenderer {
 
     if (gameObject.data.member) {
       const textureName = getTextureName(gameObject.data.member ?? "missing_texture")
-      const texture = PIXI.utils.TextureCache[textureName]
+      if (textureName === "block.49") {
+        const store = useStore()
+        debugger
+      }
+      const texture = PIXI.Texture.from(textureName);
       entry.sprite.texture = texture
 
       // If the game object is not tiling, set the anchor to the middle

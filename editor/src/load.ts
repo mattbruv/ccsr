@@ -19,10 +19,7 @@ export async function loadEpisodeZipFile(fileName: string) {
 
 export async function loadZipFile(zip: JSZip): Promise<void> {
   const store = useStore();
-  const cache = PIXI.utils.BaseTextureCache
-  const cachenormal = PIXI.utils.TextureCache
-  debugger
-  store.reset()
+  await store.reset()
 
   const files = Object.entries(zip.files).filter(
     ([_, file]) => file.dir == false
