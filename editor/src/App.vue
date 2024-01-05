@@ -21,6 +21,14 @@ const showMapView = computed(() => store.UI.global.showMapViewer);
 const mainPageColumns = computed(() => (showMapView.value ? 5 : 12));
 
 const drawer = ref(true);
+
+const fullScreen = ref(false);
+
+function toggleFullscreen() {
+  fullScreen.value = !fullScreen.value;
+  store.UI.global.showMapViewer = true;
+  store.UI.global.showRouterView = fullScreen.value === false;
+}
 </script>
 
 <template>
@@ -31,6 +39,19 @@ const drawer = ref(true);
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
       <v-app-bar-title>{{ title }}</v-app-bar-title>
+      <v-spacer></v-spacer>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon @click="toggleFullscreen">
+            <v-icon>{{
+              fullScreen
+                ? "mdi-arrow-collapse-horizontal"
+                : "mdi-arrow-expand-horizontal"
+            }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ fullScreen ? "Normal Map View" : "Full Map View" }}</span>
+      </v-tooltip>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer">
@@ -72,10 +93,13 @@ const drawer = ref(true);
 
     <v-main>
       <div class="container">
-        <div class="router-view">
+        <div v-show="store.UI.global.showRouterView" class="router-view">
           <router-view />
         </div>
-        <div class="map-view">
+        <div
+          v-show="store.UI.global.showMapViewer"
+          :class="{ fullWidth: fullScreen, 'map-view': !fullScreen }"
+        >
           <world-vue />
         </div>
       </div>
@@ -93,6 +117,9 @@ const drawer = ref(true);
 .router-view {
   overflow-y: auto;
   width: 40%;
+}
+.fullWidth {
+  width: 100%;
 }
 .map-view {
   overflow-y: hidden;

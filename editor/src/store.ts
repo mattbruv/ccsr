@@ -6,6 +6,7 @@ import * as PIXI from "pixi.js";
 
 type UISetttings = {
   global: {
+    showRouterView: boolean
     showMapViewer: boolean;
   };
 };
@@ -29,6 +30,7 @@ function newState(): StoreData {
     },
     UI: {
       global: {
+        showRouterView: true,
         showMapViewer: true,
       },
     },
