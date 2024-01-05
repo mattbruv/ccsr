@@ -17,6 +17,9 @@ type StoreData = {
   imageFiles: ImageFile[];
   metadata: Metadata;
   UI: UISetttings;
+  mapEditor: {
+    currentMap: string | null
+  }
 };
 
 function newState(): StoreData {
@@ -24,6 +27,9 @@ function newState(): StoreData {
     gameObjects: [],
     gameMaps: [],
     imageFiles: [],
+    mapEditor: {
+      currentMap: null
+    },
     metadata: {
       author: "",
       name: "",

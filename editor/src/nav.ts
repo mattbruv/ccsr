@@ -12,7 +12,7 @@ export const links = [
         icon: "mdi-grid",
     },
     {
-        to: "map",
+        to: "map-editor",
         text: "Map Editor",
         icon: "mdi-map",
     },
