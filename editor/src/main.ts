@@ -13,7 +13,7 @@ import LoadVue from "./Load.vue";
 import MapsVue from "./Maps.vue";
 
 const routes: any[] = [
-  { path: "/", component: LoadVue },
+  { path: "/", component: MapsVue },
   { path: "/load", component: LoadVue },
   { path: "/maps", component: MapsVue },
 ];

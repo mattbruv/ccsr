@@ -58,7 +58,7 @@ function toggleFullscreen() {
       <v-list density="default" nav>
         <div v-for="(link, i) in links">
           <v-list-item
-            v-if="!link.subLinks"
+            v-if="true"
             :key="i"
             :to="link.to"
             avatar

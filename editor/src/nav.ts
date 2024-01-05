@@ -7,26 +7,19 @@ export const links = [
         divider: true,
     },
     {
-        to: "",
-        text: "World",
-        icon: "mdi-earth",
-        subLinks: [
-            {
-                to: "maps",
-                text: "Maps",
-                icon: "mdi-grid",
-            },
-            {
-                to: "map",
-                text: "Map Editor",
-                icon: "mdi-map",
-            },
-            {
-                to: "collision",
-                text: "Collision",
-                icon: "mdi-wall",
-            }
-        ]
+        to: "maps",
+        text: "Maps",
+        icon: "mdi-grid",
+    },
+    {
+        to: "map",
+        text: "Map Editor",
+        icon: "mdi-map",
+    },
+    {
+        to: "collision",
+        text: "Collision",
+        icon: "mdi-wall",
     },
     {
         to: "characters",
@@ -44,21 +37,14 @@ export const links = [
         icon: "mdi-texture-box",
     },
     {
-        to: "",
-        text: "Events",
-        icon: "mdi-file-tree",
-        subLinks: [
-            {
-                to: "/event-graph",
-                text: "Event Graph",
-                icon: "mdi-graph-outline",
-            },
-            {
-                to: "/event-editor",
-                text: "Event Editor",
-                icon: "mdi-vector-polyline-edit",
-            },
-        ],
+        to: "/event-graph",
+        text: "Event Graph",
+        icon: "mdi-graph-outline",
+    },
+    {
+        to: "/event-editor",
+        text: "Event Editor",
+        icon: "mdi-vector-polyline-edit",
     },
     {
         to: "metadata",
