@@ -46,6 +46,11 @@ class CcsrRenderer {
     this.gameObjects.clear();
   }
 
+  public resetView() {
+    this.viewport.scale.set(1)
+    this.viewport.moveCorner(0, 0)
+  }
+
   public addView(div: HTMLDivElement): void {
     div.appendChild(this.app.view);
     this.resizeTo(div);

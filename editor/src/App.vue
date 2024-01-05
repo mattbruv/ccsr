@@ -6,6 +6,7 @@ import { useStore } from "./store";
 import { EPISODE_DATA, loadEpisodeZipFile } from "./load";
 import { computed } from "vue";
 import WorldVue from "./World.vue";
+import Renderer from "./ccsr/renderer/renderer";
 
 const store = useStore();
 // Load first episode for debugging
@@ -29,6 +30,10 @@ function toggleFullscreen() {
   store.UI.global.showMapViewer = true;
   store.UI.global.showRouterView = fullScreen.value === false;
 }
+
+function resetView() {
+  Renderer.resetView();
+}
 </script>
 
 <template>
@@ -40,6 +45,14 @@ function toggleFullscreen() {
       ></v-app-bar-nav-icon>
       <v-app-bar-title>{{ title }}</v-app-bar-title>
       <v-spacer></v-spacer>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon @click="resetView">
+            <v-icon icon="mdi-camera-flip-outline"></v-icon>
+          </v-btn>
+        </template>
+        <span>Reset Camera</span>
+      </v-tooltip>
       <v-tooltip bottom>
         <template v-slot:activator="{ props }">
           <v-btn v-bind="props" icon @click="toggleFullscreen">
