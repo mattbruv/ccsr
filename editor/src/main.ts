@@ -11,7 +11,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { createPinia } from "pinia";
 import LoadVue from "./Load.vue";
 import MapsVue from "./Maps.vue";
-import MapEditorVue from "./MapEditor.vue";
+import MapEditorVue from "./ccsr/mapEditor/MapEditor.vue";
 
 const routes: any[] = [
   { path: "/", component: MapsVue },

@@ -3,12 +3,16 @@ import { ImageFile, Metadata } from "./ccsr/types";
 import { GameMap, GameObject } from "./ccsr/renderer/types";
 import Renderer from "./ccsr/renderer/renderer";
 import * as PIXI from "pixi.js";
+import { MapEditorTab } from "./ccsr/mapEditor/types";
 
 type UISetttings = {
   global: {
     showRouterView: boolean
     showMapViewer: boolean;
-  };
+  }
+  mapEditor: {
+    selectedTab: MapEditorTab
+  }
 };
 
 type StoreData = {
@@ -39,6 +43,9 @@ function newState(): StoreData {
         showRouterView: true,
         showMapViewer: true,
       },
+      mapEditor: {
+        selectedTab: MapEditorTab.Overview
+      }
     },
   };
 }
