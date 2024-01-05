@@ -9,8 +9,8 @@ const store = useStore();
 
 <template>
   <v-tabs v-model="store.UI.mapEditor.selectedTab">
-    <v-tab :value="MapEditorTab.Overview">Overview</v-tab>
-    <v-tab :value="MapEditorTab.Objects">All Objects</v-tab>
+    <v-tab :value="MapEditorTab.Overview">Map</v-tab>
+    <v-tab :value="MapEditorTab.Objects">Objects</v-tab>
     <v-tab :value="MapEditorTab.ObjectEditor">Object Editor</v-tab>
   </v-tabs>
   <v-window v-model="store.UI.mapEditor.selectedTab">

@@ -22,7 +22,7 @@ type StoreData = {
   metadata: Metadata;
   UI: UISetttings;
   mapEditor: {
-    currentMap: string | null
+    selectedMap: string | null
   }
 };
 
@@ -32,7 +32,7 @@ function newState(): StoreData {
     gameMaps: [],
     imageFiles: [],
     mapEditor: {
-      currentMap: null
+      selectedMap: null,
     },
     metadata: {
       author: "",
