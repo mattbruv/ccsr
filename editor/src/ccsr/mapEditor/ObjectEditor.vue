@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useStore } from "../../store";
+import { computed } from "vue";
 
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap } = storeToRefs(store);
@@ -8,14 +9,7 @@ const { gameMaps, gameObjects, selectedMap } = storeToRefs(store);
 
 <template>
   <v-container>
-    <v-autocomplete
-      v-model="store.UI.mapEditor.selectedMapName"
-      :items="gameMaps.map((x) => x.name)"
-    >
-    </v-autocomplete>
-    {{ selectedMap }}
-    <br />
-    hey
+    <div>object editor</div>
   </v-container>
 </template>
 

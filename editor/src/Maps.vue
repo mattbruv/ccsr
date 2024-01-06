@@ -57,7 +57,6 @@ watch(selected, () => {
         </v-text-field>
       </template>
       <v-data-table
-        :headers="headers"
         :items="gameMaps.sort((a, b) => a.name.localeCompare(b.name))"
         :search="search"
       >

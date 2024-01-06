@@ -11,6 +11,8 @@ type UISetttings = {
     showMapViewer: boolean;
   }
   mapEditor: {
+    selectedMapName: string | null
+    selectedObjectId: number | null
     selectedTab: MapEditorTab
   }
 };
@@ -21,9 +23,6 @@ type StoreData = {
   imageFiles: ImageFile[];
   metadata: Metadata;
   UI: UISetttings;
-  mapEditor: {
-    selectedMap: string | null
-  }
 };
 
 function newState(): StoreData {
@@ -31,9 +30,6 @@ function newState(): StoreData {
     gameObjects: [],
     gameMaps: [],
     imageFiles: [],
-    mapEditor: {
-      selectedMap: null,
-    },
     metadata: {
       author: "",
       name: "",
@@ -44,8 +40,10 @@ function newState(): StoreData {
         showMapViewer: true,
       },
       mapEditor: {
-        selectedTab: MapEditorTab.Overview
-      }
+        selectedTab: MapEditorTab.Overview,
+        selectedObjectId: null,
+        selectedMapName: null,
+      },
     },
   };
 }
@@ -55,7 +53,11 @@ export const useStore = defineStore("store", {
     return newState();
   },
 
-  getters: {},
+  getters: {
+    selectedMap(state) {
+      return state.gameMaps.find(x => x.name === state.UI.mapEditor.selectedMapName);
+    }
+  },
 
   actions: {
     render() {

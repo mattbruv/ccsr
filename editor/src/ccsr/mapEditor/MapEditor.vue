@@ -3,6 +3,8 @@ import { useStore } from "../../store";
 import { storeToRefs } from "pinia";
 import { MapEditorTab } from "./types";
 import Overview from "./Overview.vue";
+import ObjectEditor from "./ObjectEditor.vue";
+import Objects from "./Objects.vue";
 
 const store = useStore();
 </script>
@@ -15,6 +17,10 @@ const store = useStore();
   </v-tabs>
   <v-window v-model="store.UI.mapEditor.selectedTab">
     <v-window-item :value="MapEditorTab.Overview"><Overview /></v-window-item>
+    <v-window-item :value="MapEditorTab.Objects"><Objects /></v-window-item>
+    <v-window-item :value="MapEditorTab.ObjectEditor"
+      ><ObjectEditor
+    /></v-window-item>
   </v-window>
 </template>
 
