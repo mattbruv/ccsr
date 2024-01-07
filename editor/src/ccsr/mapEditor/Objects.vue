@@ -33,7 +33,16 @@ const mapObjects = computed(() =>
 
 <template>
   <v-container>
-    <v-data-table :headers="headers" :items="mapObjects"></v-data-table>
+    <v-virtual-scroll :items="mapObjects">
+      <template v-slot:default="{ item }">
+        <v-list-item
+          :key="item.id"
+          :title="item.data.member"
+          :subtitle="item.mapName"
+        >
+        </v-list-item>
+      </template>
+    </v-virtual-scroll>
   </v-container>
 </template>
 
