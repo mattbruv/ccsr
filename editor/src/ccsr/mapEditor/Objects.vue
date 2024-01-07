@@ -19,10 +19,6 @@ const headers: ReadonlyHeaders = [
     value: "data.data.item.type",
   },
   {
-    title: "messages",
-    value: "data.data.message.length",
-  },
-  {
     title: "Action",
   },
 ];
