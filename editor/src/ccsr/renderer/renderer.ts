@@ -13,6 +13,7 @@ import {
   getTextureName,
   getMapLocation,
 } from "./helpers";
+import { base64toSrc } from "../helpers";
 
 class CcsrRenderer {
   public app = new PIXI.Application<HTMLCanvasElement>();
@@ -79,7 +80,7 @@ class CcsrRenderer {
 
   public async loadImages(images: ImageFile[]) {
     for (const image of images) {
-      const url = "data:image/png;base64," + image.data;
+      const url = base64toSrc(image.data);
       PIXI.Assets.add({ alias: image.filename.toLowerCase(), src: url });
       await PIXI.Assets.load(image.filename.toLowerCase());
     }
