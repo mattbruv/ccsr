@@ -48,8 +48,8 @@ class CcsrRenderer {
   }
 
   public resetView() {
-    this.viewport.scale.set(1)
-    this.viewport.moveCorner(0, 0)
+    this.viewport.scale.set(1);
+    this.viewport.moveCorner(0, 0);
   }
 
   public addView(div: HTMLDivElement): void {
@@ -164,6 +164,23 @@ class CcsrRenderer {
     // If our sprite is already rendered correctly, don't do anything
     if (entry.hash === hash) return;
 
+    // First, assign the texture before doing any manipulation of it
+    if (gameObject.data.member) {
+      const textureName = getTextureName(
+        gameObject.data.member ?? "missing_texture"
+      );
+      const texture = PIXI.Texture.from(textureName);
+      entry.sprite.texture = texture;
+
+      // If the game object is not tiling, set the anchor to the middle
+      // And make its texture stretch to fill the entire area
+      if (!textureName.includes("tile")) {
+        entry.sprite.anchor.set(0.5);
+        entry.sprite.width = entry.sprite.texture.width;
+        entry.sprite.height = entry.sprite.texture.height;
+      }
+    }
+
     if (gameObject.data.width) {
       entry.sprite.width = gameObject.data.width;
     }
@@ -179,22 +196,6 @@ class CcsrRenderer {
       const posX = x * 16 + WSHIFT;
       const posY = y * 16 + HSHIFT;
       entry.sprite.position.set(posX, posY);
-    }
-
-    if (gameObject.data.member) {
-      const textureName = getTextureName(
-        gameObject.data.member ?? "missing_texture"
-      );
-      const texture = PIXI.Texture.from(textureName);
-      entry.sprite.texture = texture;
-
-      // If the game object is not tiling, set the anchor to the middle
-      // And make its texture stretch to fill the entire area
-      if (!textureName.includes("tile")) {
-        entry.sprite.anchor.set(0.5);
-        entry.sprite.width = entry.sprite.texture.width;
-        entry.sprite.height = entry.sprite.texture.height;
-      }
     }
 
     if (gameObject.data.data?.item?.visi) {
