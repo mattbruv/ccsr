@@ -52,6 +52,13 @@ class CcsrRenderer {
     this.viewport.moveCorner(0, 0);
   }
 
+  public async downloadScreenshot() {
+    this.app.stage.scale.set(10.0);
+    let blob = (await this.app.renderer.extract.image(this.app.stage)).src;
+    this.app.stage.scale.set(1.0);
+    window.location.href = blob.replace("image/png", "image/octet-stream");
+  }
+
   public addView(div: HTMLDivElement): void {
     div.appendChild(this.app.view);
     this.resizeTo(div);

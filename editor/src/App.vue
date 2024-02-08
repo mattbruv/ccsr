@@ -18,9 +18,6 @@ const title = computed(() => {
   return name ? app + " - " + name : app;
 });
 
-const showMapView = computed(() => store.UI.global.showMapViewer);
-const mainPageColumns = computed(() => (showMapView.value ? 5 : 12));
-
 const drawer = ref(true);
 
 const fullScreen = ref(false);
@@ -33,6 +30,10 @@ function toggleFullscreen() {
 
 function resetView() {
   Renderer.resetView();
+}
+
+async function downloadScreenshot() {
+  await Renderer.downloadScreenshot();
 }
 </script>
 
@@ -52,6 +53,14 @@ function resetView() {
           </v-btn>
         </template>
         <span>Reset Camera</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon @click="downloadScreenshot">
+            <v-icon icon="mdi-camera-outline"></v-icon>
+          </v-btn>
+        </template>
+        <span>Take Screenshot</span>
       </v-tooltip>
       <v-tooltip bottom>
         <template v-slot:activator="{ props }">
