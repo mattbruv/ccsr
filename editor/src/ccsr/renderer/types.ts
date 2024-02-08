@@ -8,7 +8,7 @@ import { MapObject, RecursivePartial } from "../game/types";
  */
 export type GameObjectRenderData = {
   hash: string;
-  sprite: PIXI.TilingSprite;
+  sprite: PIXI.Sprite;
 };
 
 /**

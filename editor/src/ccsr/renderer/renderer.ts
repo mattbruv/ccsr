@@ -172,9 +172,15 @@ class CcsrRenderer {
       const texture = PIXI.Texture.from(textureName);
       entry.sprite.texture = texture;
 
+      // Only use tiling sprite behavior for members with "tile"
+      const tileRepeat = gameObject.data.member.toLowerCase().includes("tile");
+      entry.sprite = tileRepeat
+        ? new PIXI.TilingSprite(texture)
+        : new PIXI.Sprite(texture);
+
       // If the game object is not tiling, set the anchor to the middle
       // And make its texture stretch to fill the entire area
-      if (!textureName.includes("tile")) {
+      if (!tileRepeat) {
         entry.sprite.anchor.set(0.5);
         entry.sprite.width = entry.sprite.texture.width;
         entry.sprite.height = entry.sprite.texture.height;
