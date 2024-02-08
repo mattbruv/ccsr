@@ -1,21 +1,21 @@
-
 export const links = [
-    {
-        to: "load",
-        text: "Load Episode",
-        icon: "mdi-upload",
-        divider: true,
-    },
-    {
-        to: "maps",
-        text: "Maps",
-        icon: "mdi-grid",
-    },
-    {
-        to: "map-editor",
-        text: "Map Editor",
-        icon: "mdi-map",
-    },
+  {
+    to: "load",
+    text: "Load Episode",
+    icon: "mdi-upload",
+    divider: true,
+  },
+  {
+    to: "maps",
+    text: "World",
+    icon: "mdi-earth",
+  },
+  {
+    to: "map-editor",
+    text: "Map Editor",
+    icon: "mdi-map",
+  },
+  /*
     {
         to: "collision",
         text: "Collision",
@@ -62,4 +62,5 @@ export const links = [
         text: "Settings",
         icon: "mdi-cog",
     },
+    */
 ];

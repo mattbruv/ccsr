@@ -87,14 +87,6 @@ function resetView() {
                 :title="link.text"
               ></v-list-item>
             </template>
-            <v-list-item
-              v-for="(subLink, j) in link.subLinks"
-              :key="j"
-              :title="subLink.text"
-              :to="subLink.to"
-              :prepend-icon="subLink.icon"
-              :value="subLink.text"
-            ></v-list-item>
           </v-list-group>
           <v-divider
             style="margin-bottom: 0.5rem; margin-top: 0.5rem"
