@@ -53,10 +53,11 @@ class CcsrRenderer {
   }
 
   public async downloadScreenshot() {
-    this.app.stage.scale.set(10.0);
-    let blob = (await this.app.renderer.extract.image(this.app.stage)).src;
-    this.app.stage.scale.set(1.0);
+    const { x, y } = this.viewport.scale;
+    this.viewport.scale.set(10.0);
+    let blob = (await this.app.renderer.extract.image(this.viewport)).src;
     window.location.href = blob.replace("image/png", "image/octet-stream");
+    this.viewport.scale.set(x, y);
   }
 
   public addView(div: HTMLDivElement): void {
