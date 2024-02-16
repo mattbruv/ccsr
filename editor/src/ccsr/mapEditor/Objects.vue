@@ -44,6 +44,9 @@ function getMemberImage(member?: string) {
 
 <template>
   <v-container>
+    <div v-if="!mapObjects.length">
+      <p>No map selected!</p>
+    </div>
     <v-virtual-scroll :height="700" :items="mapObjects">
       <template v-slot:default="{ item }">
         <v-list-item
