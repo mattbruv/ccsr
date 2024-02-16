@@ -90,7 +90,7 @@ export async function loadZipFile(zip: JSZip): Promise<void> {
     },
   }));
 
-  store.gameMaps = gameMaps;
+  store.gameMaps = gameMaps.sort((a, b) => a.name.localeCompare(b.name));
   store.render();
 }
 
