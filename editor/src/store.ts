@@ -2,19 +2,12 @@ import { defineStore } from "pinia";
 import { ImageFile, Metadata } from "./ccsr/types";
 import { GameMap, GameObject } from "./ccsr/renderer/types";
 import Renderer from "./ccsr/renderer/renderer";
-import * as PIXI from "pixi.js";
-import { MapEditorTab } from "./ccsr/mapEditor/types";
 
 type UISetttings = {
   global: {
-    showRouterView: boolean
+    showRouterView: boolean;
     showMapViewer: boolean;
-  }
-  mapEditor: {
-    selectedMapName: string | null
-    selectedObjectId: number | null
-    selectedTab: MapEditorTab
-  }
+  };
 };
 
 type StoreData = {
@@ -23,6 +16,9 @@ type StoreData = {
   imageFiles: ImageFile[];
   metadata: Metadata;
   UI: UISetttings;
+
+  selectedObjectId: string | null;
+  selectedMapName: string | null;
 };
 
 function newState(): StoreData {
@@ -34,15 +30,14 @@ function newState(): StoreData {
       author: "",
       name: "",
     },
+
+    selectedObjectId: null,
+    selectedMapName: null,
+
     UI: {
       global: {
         showRouterView: true,
         showMapViewer: true,
-      },
-      mapEditor: {
-        selectedTab: MapEditorTab.Overview,
-        selectedObjectId: null,
-        selectedMapName: null,
       },
     },
   };
@@ -55,8 +50,8 @@ export const useStore = defineStore("store", {
 
   getters: {
     selectedMap(state) {
-      return state.gameMaps.find(x => x.name === state.UI.mapEditor.selectedMapName);
-    }
+      return state.gameMaps.find((x) => x.name === state.selectedMapName);
+    },
   },
 
   actions: {

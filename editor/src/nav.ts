@@ -6,14 +6,19 @@ export const links = [
     divider: true,
   },
   {
-    to: "maps",
-    text: "World",
-    icon: "mdi-earth",
+    to: "map",
+    text: "Map",
+    icon: "mdi-map",
   },
   {
-    to: "map-editor",
-    text: "Map Editor",
-    icon: "mdi-map",
+    to: "objects",
+    text: "Map Objects",
+    icon: "mdi-format-list-bulleted-type",
+  },
+  {
+    to: "object",
+    text: "Object Editor",
+    icon: "mdi-code-braces",
   },
   /*
     {

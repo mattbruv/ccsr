@@ -12,12 +12,15 @@ import { createPinia } from "pinia";
 import LoadVue from "./Load.vue";
 import MapsVue from "./Maps.vue";
 import MapEditorVue from "./ccsr/mapEditor/MapEditor.vue";
+import ObjectsVue from "./ccsr/mapEditor/Objects.vue";
+import ObjectEditorVue from "./ccsr/mapEditor/ObjectEditor.vue";
 
 const routes: any[] = [
   { path: "/", component: MapsVue },
   { path: "/load", component: LoadVue },
-  { path: "/maps", component: MapsVue },
-  { path: "/map-editor", component: MapEditorVue }
+  { path: "/map", component: MapEditorVue },
+  { path: "/objects", component: ObjectsVue },
+  { path: "/object", component: ObjectEditorVue },
 ];
 
 const router = createRouter({
