@@ -6,8 +6,6 @@ import { base64toSrc } from "../helpers";
 import { computed } from "vue";
 import { GameObject } from "../renderer/types";
 
-type ReadonlyHeaders = VDataTable["headers"];
-
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap, imageFiles } = storeToRefs(store);
 
@@ -21,6 +19,18 @@ function deleteObject(obj: GameObject) {
   console.log(obj.id);
   gameObjects.value = gameObjects.value.filter((x) => x.id !== obj.id);
   store.render();
+}
+
+function givesItem(obj: GameObject): boolean {
+  return (
+    obj.data.data?.item?.COND?.some((x) => x?.giveObj !== undefined) ?? false
+  );
+}
+
+function givesAct(obj: GameObject): boolean {
+  return (
+    obj.data.data?.item?.COND?.some((x) => x?.giveAct !== undefined) ?? false
+  );
 }
 
 function getMemberImage(member?: string) {
@@ -44,9 +54,9 @@ function getMemberImage(member?: string) {
       </div>
       <v-list v-if="mapObjects.length" :items="mapObjects">
         <v-list-item
-          v-for="item in mapObjects"
-          :key="item.id"
-          :title="item.data.member"
+          v-for="mapObject in mapObjects"
+          :key="mapObject.id"
+          :title="mapObject.data.member"
           :border="true"
           color="primary"
           variant="plain"
@@ -54,7 +64,7 @@ function getMemberImage(member?: string) {
           <template v-slot:prepend>
             <div class="ma-3">
               <img
-                :src="getMemberImage(item.data.member?.toLowerCase())"
+                :src="getMemberImage(mapObject.data.member?.toLowerCase())"
                 style="max-width: 32px; max-height: 32px"
               />
             </div>
@@ -68,7 +78,7 @@ function getMemberImage(member?: string) {
               />
               <v-btn
                 title="Delete Object"
-                @click="deleteObject(item)"
+                @click="deleteObject(mapObject)"
                 color="red"
                 variant="text"
                 icon="mdi-close-circle-outline"
@@ -77,8 +87,26 @@ function getMemberImage(member?: string) {
           </template>
           <div>
             <v-icon
-              v-if="item.data.data?.message?.length"
+              class="mr-2"
+              v-if="mapObject.data.data?.message?.length"
               icon="mdi-message"
+              title="Has Messages"
+              size="x-small"
+            />
+            <v-icon
+              class="mr-2"
+              v-if="givesItem(mapObject)"
+              icon="mdi-gift"
+              color="cyan"
+              title="Gives Items"
+              size="x-small"
+            />
+            <v-icon
+              class="mr-2"
+              v-if="givesAct(mapObject)"
+              icon="mdi-movie-open"
+              title="Gives Acts"
+              color="green"
               size="x-small"
             />
           </div>
