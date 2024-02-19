@@ -5,6 +5,8 @@ import { computed } from "vue";
 import { lingoValueToString } from "../parser/print";
 import { mapObjectToLingo } from "../game/toLingo";
 import { GameObject } from "../renderer/types";
+import { resolveDirective } from "vue";
+import { watch } from "vue";
 
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap } = storeToRefs(store);
@@ -42,6 +44,45 @@ function render() {
         label="Member Texture"
       >
       </v-autocomplete>
+
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+            @update:model-value="render"
+            label="Height"
+            type="number"
+            v-model="selectedObject.data.height"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            @update:model-value="render"
+            label="Width"
+            type="number"
+            v-model="selectedObject.data.width"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
+      <v-row v-if="selectedObject.data.location">
+        <v-col cols="6">
+          <v-text-field
+            @update:model-value="render"
+            label="X Offset"
+            type="number"
+            v-model="selectedObject.data.location.x"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            @update:model-value="render"
+            label="Y Offset"
+            type="number"
+            v-model="selectedObject.data.location.y"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
       <div>
         <code>
           {{ json }}
