@@ -28,7 +28,9 @@ const store = useStore();
 const { gameMaps, gameObjects, selectedMap, imageFiles } = storeToRefs(store);
 
 const mapObjects = computed(() =>
-  gameObjects.value.filter((x) => x.mapName === selectedMap.value?.name)
+  gameObjects.value
+    .filter((x) => x.mapName === selectedMap.value?.name)
+    .sort((a, b) => b.id - a.id)
 );
 
 function getMemberImage(member?: string) {
@@ -53,10 +55,22 @@ function getMemberImage(member?: string) {
           v-for="item in mapObjects"
           :key="item.id"
           :title="item.data.member"
-          :subtitle="item.mapName"
         >
           <template v-slot:prepend>
-            <img :src="getMemberImage(item.data.member?.toLowerCase())" />
+            <div class="ma-3">
+              <img
+                :src="getMemberImage(item.data.member?.toLowerCase())"
+                style="max-width: 32px; max-height: 32px"
+              />
+            </div>
+          </template>
+          <template v-slot:append>
+            <div class="ma-3">
+              <img
+                :src="getMemberImage(item.data.member?.toLowerCase())"
+                style="max-width: 32px; max-height: 32px"
+              />
+            </div>
           </template>
         </v-list-item>
       </v-list>
