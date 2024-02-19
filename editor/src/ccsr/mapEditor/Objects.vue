@@ -75,6 +75,13 @@ function getMemberImage(member?: string) {
               />
             </div>
           </template>
+          <div>
+            <v-icon
+              v-if="item.data.data?.message?.length"
+              icon="mdi-message"
+              size="x-small"
+            />
+          </div>
         </v-list-item>
       </v-list>
     </div>
