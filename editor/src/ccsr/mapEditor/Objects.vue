@@ -4,6 +4,7 @@ import { useStore } from "../../store";
 import { VDataTable } from "vuetify/labs/components";
 import { base64toSrc } from "../helpers";
 import { computed } from "vue";
+import { GameObject } from "../renderer/types";
 
 type ReadonlyHeaders = VDataTable["headers"];
 
@@ -33,13 +34,16 @@ const mapObjects = computed(() =>
     .sort((a, b) => b.id - a.id)
 );
 
+function deleteObject(obj: GameObject) {
+  console.log(obj.id);
+}
+
 function getMemberImage(member?: string) {
   member = member?.toLowerCase();
   if (member?.includes("tile")) member = member.replace(".x", "");
   const image = imageFiles.value.find((x) => x.filename === member);
   if (!image) return undefined;
   const src = base64toSrc(image.data);
-  console.log(src);
   return src;
 }
 </script>
@@ -76,8 +80,9 @@ function getMemberImage(member?: string) {
               />
               <v-btn
                 title="Delete Object"
-                variant="text"
+                @click="deleteObject(item)"
                 color="red"
+                variant="text"
                 icon="mdi-close-circle-outline"
               />
             </div>
