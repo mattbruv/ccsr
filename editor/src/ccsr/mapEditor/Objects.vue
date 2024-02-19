@@ -8,23 +8,6 @@ import { GameObject } from "../renderer/types";
 
 type ReadonlyHeaders = VDataTable["headers"];
 
-const headers: ReadonlyHeaders = [
-  {
-    title: "Image",
-  },
-  {
-    title: "Member",
-    value: "data.member",
-  },
-  {
-    title: "Type",
-    value: "data.data.item.type",
-  },
-  {
-    title: "Action",
-  },
-];
-
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap, imageFiles } = storeToRefs(store);
 
@@ -52,11 +35,14 @@ function getMemberImage(member?: string) {
 
 <template>
   <v-container>
-    <div v-if="!mapObjects.length">
+    <div v-if="!selectedMap">
       <p>No map selected!</p>
     </div>
     <div v-else>
-      <v-list :items="mapObjects">
+      <div class="mb-2">
+        <v-btn :prepend-icon="'mdi-plus'">Add Object</v-btn>
+      </div>
+      <v-list v-if="mapObjects.length" :items="mapObjects">
         <v-list-item
           v-for="item in mapObjects"
           :key="item.id"

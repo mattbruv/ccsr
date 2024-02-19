@@ -49,7 +49,7 @@ export const useStore = defineStore("store", {
   },
 
   getters: {
-    selectedMap(state) {
+    selectedMap(state): GameMap | undefined {
       return state.gameMaps.find((x) => x.name === state.selectedMapName);
     },
   },
