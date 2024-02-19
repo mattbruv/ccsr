@@ -55,6 +55,9 @@ function getMemberImage(member?: string) {
           v-for="item in mapObjects"
           :key="item.id"
           :title="item.data.member"
+          :border="true"
+          color="primary"
+          variant="plain"
         >
           <template v-slot:prepend>
             <div class="ma-3">
@@ -66,9 +69,16 @@ function getMemberImage(member?: string) {
           </template>
           <template v-slot:append>
             <div class="ma-3">
-              <img
-                :src="getMemberImage(item.data.member?.toLowerCase())"
-                style="max-width: 32px; max-height: 32px"
+              <v-btn
+                title="Edit Object"
+                variant="text"
+                icon="mdi-file-edit-outline"
+              />
+              <v-btn
+                title="Delete Object"
+                variant="text"
+                color="red"
+                icon="mdi-close-circle-outline"
               />
             </div>
           </template>
