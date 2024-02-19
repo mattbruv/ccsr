@@ -17,7 +17,7 @@ type StoreData = {
   metadata: Metadata;
   UI: UISetttings;
 
-  selectedObjectId: string | null;
+  selectedObjectId: number | null;
   selectedMapName: string | null;
 };
 

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useStore } from "../../store";
-import { VDataTable } from "vuetify/labs/components";
 import { base64toSrc } from "../helpers";
 import { computed } from "vue";
 import { GameObject } from "../renderer/types";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap, imageFiles } = storeToRefs(store);
 
@@ -14,6 +15,11 @@ const mapObjects = computed(() =>
     .filter((x) => x.mapName === selectedMap.value?.name)
     .sort((a, b) => b.id - a.id)
 );
+
+function editObject(obj: GameObject) {
+  store.selectedObjectId = obj.id;
+  router.push("object");
+}
 
 function deleteObject(obj: GameObject) {
   console.log(obj.id);
@@ -75,6 +81,7 @@ function getMemberImage(member?: string) {
                 title="Edit Object"
                 variant="text"
                 icon="mdi-file-edit-outline"
+                @click="editObject(mapObject)"
               />
               <v-btn
                 title="Delete Object"

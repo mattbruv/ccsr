@@ -5,11 +5,16 @@ import { computed } from "vue";
 
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap } = storeToRefs(store);
+
+const selectedObject = computed(() => {
+  return gameObjects.value.find((x) => x.id === store.selectedObjectId);
+});
 </script>
 
 <template>
   <v-container>
-    <div>object editor</div>
+    <div v-if="!selectedObject">No object selected!</div>
+    <div v-else>{{ selectedObject.id }}</div>
   </v-container>
 </template>
 
