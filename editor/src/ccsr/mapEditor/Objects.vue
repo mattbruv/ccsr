@@ -36,6 +36,8 @@ const mapObjects = computed(() =>
 
 function deleteObject(obj: GameObject) {
   console.log(obj.id);
+  gameObjects.value = gameObjects.value.filter((x) => x.id !== obj.id);
+  store.render();
 }
 
 function getMemberImage(member?: string) {
