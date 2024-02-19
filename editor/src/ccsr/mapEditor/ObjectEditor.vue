@@ -4,9 +4,6 @@ import { useStore } from "../../store";
 import { computed } from "vue";
 import { lingoValueToString } from "../parser/print";
 import { mapObjectToLingo } from "../game/toLingo";
-import { GameObject } from "../renderer/types";
-import { resolveDirective } from "vue";
-import { watch } from "vue";
 
 const store = useStore();
 const { gameMaps, gameObjects, selectedMap } = storeToRefs(store);
@@ -36,7 +33,6 @@ function render() {
   <v-container>
     <div v-if="!selectedObject">No object selected!</div>
     <div v-else>
-      {{ selectedObject.id }}
       <v-autocomplete
         :items="memberTextures"
         v-model="selectedObject.data.member"
@@ -46,7 +42,7 @@ function render() {
       </v-autocomplete>
 
       <v-row>
-        <v-col cols="6">
+        <v-col cols="3">
           <v-text-field
             @update:model-value="render"
             label="Height"
@@ -54,12 +50,28 @@ function render() {
             v-model="selectedObject.data.height"
           ></v-text-field>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="3">
           <v-text-field
             @update:model-value="render"
             label="Width"
             type="number"
             v-model="selectedObject.data.width"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+            @update:model-value="render"
+            label="Shift Height"
+            type="number"
+            v-model="selectedObject.data.HSHIFT"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+            @update:model-value="render"
+            label="Shift Width"
+            type="number"
+            v-model="selectedObject.data.WSHIFT"
           ></v-text-field>
         </v-col>
       </v-row>
