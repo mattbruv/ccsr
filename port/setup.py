@@ -144,7 +144,7 @@ def cleanSymbols(jsonString):
 
 
 def translateImages(episodeNumber):
-    langs = ["en", "es"]
+    langs = ["en", "es", "pt"]
     for lang in langs:
         images = glob.glob(f"translations/{episodeNumber}/{lang}/images/*.png")
         if len(images) == 0:
@@ -220,7 +220,10 @@ def parseMapData(episodeNumber):
     globalMap = []
     for m in maps:
         print(f"Parsing map: {m}")
-        data = open(m).read()
+        #data = open(m, "rb").read()
+        #bytes = data.decode("ISO-8859-1").encode("utf-8")
+        #data = open(m, "wb").write(bytes)
+        data = open(m, "r").read()
         data = data.replace("\n", "\\n")
         jsonData = parseMapDataToJson(data)
         jsonData = separateTileStrings(jsonData)
