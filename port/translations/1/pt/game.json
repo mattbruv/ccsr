@@ -1,0 +1,89 @@
+{
+    "walkIntoWater": "You can't just walk into water!!!",
+    "noItems": "You have no items.",
+    "scene": {
+        "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
+    },
+    "inventory": [
+        {
+            "key": "firstaid",
+            "name": "firstAid",
+            "description": "First Aid Kit, guaranteed to heal!"
+        },
+        {
+            "key": "hammer",
+            "name": "hammer",
+            "description": "A hammer with which to bang stuff."
+        },
+        {
+            "key": "sock",
+            "name": "sock",
+            "description": "This sock smells like a foot."
+        },
+        {
+            "key": "chocbar",
+            "name": "candy",
+            "description": "A delicious Chocolate Bar."
+        },
+        {
+            "key": "ducktape",
+            "name": "duckTape",
+            "description": "Tape made from Ducks, Duck Tape."
+        },
+        {
+            "key": "bandaid",
+            "name": "bandAid",
+            "description": "A nice clean Band-Aid."
+        },
+        {
+            "key": "bananas",
+            "name": "bananas",
+            "description": "Yes, we have some Bananas!"
+        },
+        {
+            "key": "sunscreen",
+            "name": "sunscreen",
+            "description": "Sun Screen, protects you from U-V rays!"
+        },
+        {
+            "key": "keys",
+            "name": "keys",
+            "description": "Keys to the Cartoon Network Bus."
+        },
+        {
+            "key": "wrench",
+            "name": "wrench",
+            "description": "A wrench for nuts and bolts."
+        },
+        {
+            "key": "gum",
+            "name": "gum",
+            "description": "Look's like this gum's been chewed."
+        },
+        {
+            "key": "tape",
+            "name": "scotchTape",
+            "description": "Tape made in Scotland, Scotch Tape."
+        },
+        {
+            "key": "deedee",
+            "name": "DeeDee",
+            "description": "It's Dexter's sister, Dee-Dee."
+        },
+        {
+            "key": "chicken",
+            "name": "Chicken",
+            "description": "It's Cow's brother, Chicken."
+        },
+        {
+            "key": "tennis",
+            "name": "racket",
+            "description": "Let's go play some tennis!"
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "A fine seaworthy craft."
+        }
+    ]
+}
