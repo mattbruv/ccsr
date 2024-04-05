@@ -1,0 +1,104 @@
+{
+    "walkIntoWater": "You can't just walk into water!!!",
+    "noItems": "You have no items.",
+    "scene": {
+        "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
+    },
+    "inventory": [
+        {
+            "key": "monkey",
+            "name": "monkey",
+            "description": "Monkeys rock and this one is NO exception!"
+        },
+        {
+            "key": "ostrich",
+            "name": "ostrich",
+            "description": "A yummy Ostrich... I mean FRIENDLY ostrich."
+        },
+        {
+            "key": "beetle",
+            "name": "beetle",
+            "description": "A beetle. It's name is Paul."
+        },
+        {
+            "key": "koala",
+            "name": "koala",
+            "description": "Koala Bears are marsupials."
+        },
+        {
+            "key": "lizard",
+            "name": "lizard",
+            "description": "Lizards are reptiles."
+        },
+        {
+            "key": "wind",
+            "name": "windStone",
+            "description": "A Volcano Key! This one has the power of wind!"
+        },
+        {
+            "key": "sun",
+            "name": "sunStone",
+            "description": "A volcano Key! It's very hot."
+        },
+        {
+            "key": "waters",
+            "name": "waterStone",
+            "description": "A volcano Key! It has the power of water."
+        },
+        {
+            "key": "tree",
+            "name": "treeStone",
+            "description": "This is the Tree Stone, one of five volcano Keys."
+        },
+        {
+            "key": "stone",
+            "name": "stoneStone",
+            "description": "A Volcano Key! It's hard and stony."
+        },
+        {
+            "key": "split",
+            "name": "bananaSplit",
+            "description": "A gooey Banana split. Dee-lish!"
+        },
+        {
+            "key": "dino",
+            "name": "roboDino",
+            "description": "The Latest in toy robot/dino technology."
+        },
+        {
+            "key": "watch",
+            "name": "watch",
+            "description": "This pocket watch will tell the time in your pocket."
+        },
+        {
+            "key": "tuna",
+            "name": "tunaSandwich",
+            "description": "A tuna sandwich. Smelly but Yummy."
+        },
+        {
+            "key": "flower",
+            "name": "flower",
+            "description": "A pretty flower with gentle red petals."
+        },
+        {
+            "key": "leaf",
+            "name": "eucalyptusLeaf",
+            "description": "A leaf from Australia. Who'd want this?"
+        },
+        {
+            "key": "bag",
+            "name": "paperBag",
+            "description": "I. R. Baboon got this paper bag off a plane."
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "A fine seaworthy craft."
+        },
+        {
+            "key": "courage",
+            "name": "Courage",
+            "description": "A cowardly dog."
+        }
+    ]
+}

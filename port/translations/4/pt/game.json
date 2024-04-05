@@ -1,0 +1,114 @@
+{
+    "walkIntoWater": "You can't just walk into water!!!",
+    "noItems": "You have no items.",
+    "scene": {
+        "plugMyHoles": "Alright man!  Now it's time to hook up the right couples! Choose FIVE eligible bachelors from your inventory and match them up in order with the girl that wants to dance with them! Good luck!"
+    },
+    "inventory": [
+        {
+            "key": "shoes",
+            "name": "shoes",
+            "description": "These Platform Shoes are Fab!"
+        },
+        {
+            "key": "wig",
+            "name": "wig",
+            "description": "An Authentic Disco Wig! Get Down!"
+        },
+        {
+            "key": "suit",
+            "name": "suit",
+            "description": "A leisure suit, a relaxing garb for all occasions. "
+        },
+        {
+            "key": "necklace",
+            "name": "necklace",
+            "description": "Groovy! A real Snaggletooth Necklace!"
+        },
+        {
+            "key": "pants",
+            "name": "pants",
+            "description": "Step out in style all Bell-bottoms like!"
+        },
+        {
+            "key": "box",
+            "name": "lunchBox",
+            "description": "An official Moltar lunchbox. With Thermos!"
+        },
+        {
+            "key": "milk",
+            "name": "warmMilk",
+            "description": "The less you know about this milk, the better."
+        },
+        {
+            "key": "shovel",
+            "name": "shovel",
+            "description": "This shovel is made of sturdy plastic! Fun!"
+        },
+        {
+            "key": "blankee",
+            "name": "blankee",
+            "description": "a blankee... It makes you feel safe and warm."
+        },
+        {
+            "key": "cd",
+            "name": "cd",
+            "description": "All your 70's favorites on one C.D."
+        },
+        {
+            "key": "ball",
+            "name": "ball",
+            "description": "A disco ball, also known as a boogie sphere."
+        },
+        {
+            "key": "keys",
+            "name": "keys",
+            "description": "The key to the disco. Funkadellic!"
+        },
+        {
+            "key": "ray",
+            "name": "rayGun",
+            "description": "This is the fanciest toy ray gun you've ever seen."
+        },
+        {
+            "key": "record",
+            "name": "goldRecord",
+            "description": "A golden record of the Gee-Bee's classics."
+        },
+        {
+            "key": "dexter",
+            "name": "Dexter",
+            "description": "It's Dexter, the boy inventor."
+        },
+        {
+            "key": "edd",
+            "name": "Edd",
+            "description": "This is Edd. Good ol' Edd."
+        },
+        {
+            "key": "baboon",
+            "name": "Baboon",
+            "description": "I.R. Baboon not like it in Inventory Window!"
+        },
+        {
+            "key": "chicken",
+            "name": "Chicken",
+            "description": "This is Cow's brother, Chicken."
+        },
+        {
+            "key": "courage",
+            "name": "Courage",
+            "description": "A cowardly dog."
+        },
+        {
+            "key": "johnny",
+            "name": "Johnny",
+            "description": "Man, I'm pretty."
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "A fine seaworthy craft."
+        }
+    ]
+}
