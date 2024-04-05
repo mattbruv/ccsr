@@ -2,88 +2,88 @@
     "walkIntoWater": "You can't just walk into water!!!",
     "noItems": "You have no items.",
     "scene": {
-        "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
+        "plugMyHoles": "Ah não! Os canos estão estourados! Você tem alguma coisa para tapar os buracos?"
     },
     "inventory": [
         {
             "key": "firstaid",
             "name": "firstAid",
-            "description": "First Aid Kit, guaranteed to heal!"
+            "description": "Kit de Primeiros-Socorros, garantia de cura!"
         },
         {
             "key": "hammer",
             "name": "hammer",
-            "description": "A hammer with which to bang stuff."
+            "description": "Um martelo para bater nas coisas."
         },
         {
             "key": "sock",
             "name": "sock",
-            "description": "This sock smells like a foot."
+            "description": "Essa meia tem cheiro de pé."
         },
         {
             "key": "chocbar",
             "name": "candy",
-            "description": "A delicious Chocolate Bar."
+            "description": "Um Chocolate delicioso."
         },
         {
             "key": "ducktape",
             "name": "duckTape",
-            "description": "Tape made from Ducks, Duck Tape."
+            "description": "Fita feita de pato, Fita de Pato."
         },
         {
             "key": "bandaid",
             "name": "bandAid",
-            "description": "A nice clean Band-Aid."
+            "description": "Um Band-Aid novinho."
         },
         {
             "key": "bananas",
             "name": "bananas",
-            "description": "Yes, we have some Bananas!"
+            "description": "Sim, nós temos Bananas!"
         },
         {
             "key": "sunscreen",
             "name": "sunscreen",
-            "description": "Sun Screen, protects you from U-V rays!"
+            "description": "Protetor solar, protege dos raios U-V!"
         },
         {
             "key": "keys",
             "name": "keys",
-            "description": "Keys to the Cartoon Network Bus."
+            "description": "chaves do Ônibus Cartoon Network."
         },
         {
             "key": "wrench",
             "name": "wrench",
-            "description": "A wrench for nuts and bolts."
+            "description": "Uma chave para porcas e parafusos."
         },
         {
             "key": "gum",
             "name": "gum",
-            "description": "Look's like this gum's been chewed."
+            "description": "Parece que esse chiclete já foi mascado."
         },
         {
             "key": "tape",
             "name": "scotchTape",
-            "description": "Tape made in Scotland, Scotch Tape."
+            "description": "Fita feita na Escócia, Fita Adesiva."
         },
         {
             "key": "deedee",
             "name": "DeeDee",
-            "description": "It's Dexter's sister, Dee-Dee."
+            "description": "É a irmã do Dexter, Dee-Dee."
         },
         {
             "key": "chicken",
             "name": "Chicken",
-            "description": "It's Cow's brother, Chicken."
+            "description": "É o irmão da Vaca, Frango."
         },
         {
             "key": "tennis",
             "name": "racket",
-            "description": "Let's go play some tennis!"
+            "description": "Vamos jogar tênis!"
         },
         {
             "key": "scuba",
             "name": "boat",
-            "description": "A fine seaworthy craft."
+            "description": "Uma embarcação navegável."
         }
     ]
 }
