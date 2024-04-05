@@ -6,7 +6,7 @@ import hashlib
 from pathlib import Path
 from socketserver import DatagramRequestHandler
 
-files = glob.glob("translate-objects/en/map*.json")
+files = glob.glob("translate-objects/pt/map*.json")
 
 
 def object_id(obj):
@@ -23,7 +23,7 @@ def createMapping(path):
         id = object_id(obj)
         obj["id"] = id
     
-    open(p, "w+").write(json.dumps(objects, indent=4))
+    open(p, "w+").write(json.dumps(objects, ensure_ascii=False, indent=4))
 
 
 

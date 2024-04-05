@@ -38,7 +38,7 @@ def genTranslationFile(path):
     
     name = path.split("/")[-1]
     print(name)
-    open(name, "w+").write(json.dumps(objects, indent=4))
+    open(name, "w+").write(json.dumps(objects, ensure_ascii=False, indent=4))
 
 
 
