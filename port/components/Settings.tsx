@@ -80,6 +80,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
             >
               <MenuItem value="en">English</MenuItem>
               <MenuItem value="es">Español</MenuItem>
+              <MenuItem value="pt">Portuguese</MenuItem>
             </Select>
           </FormControl>
           <Typography id="input-slider" gutterBottom>

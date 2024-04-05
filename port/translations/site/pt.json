@@ -1,0 +1,17 @@
+{
+    "discord": "Join us on Discord!",
+    "source": "View the Source Code on GitHub",
+    "settings": "Settings",
+    "volume": "Volume",
+    "video": "Video",
+    "music": "Music",
+    "sfx": "Sound Effects",
+    "vid.smooth": "Smooth Animations",
+    "vid.smooth.desc": "The original game runs at 12 FPS. Enabling this will interpolate animations at your screen's native refresh rate.",
+    "fitscreen": "Fit to Screen",
+    "ratio": "Use Original Aspect Ratio",
+    "camera.mode": "Camera Mode",
+    "camera.pan": "Pan Between Maps (Classic)",
+    "camera.center": "Center on Player (New)",
+    "language": "Language"
+}

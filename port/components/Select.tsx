@@ -44,7 +44,7 @@ interface SelectProps {
 
 export function SelectEpisode(props: SelectProps) {
   const img = (episode: string, lang?: string) => {
-    const language = (lang) ? lang : "en";
+    const language = lang ? lang : "en";
     const str = `assets/${episode}/${language}/title.png`;
     return str;
   };
@@ -57,28 +57,28 @@ export function SelectEpisode(props: SelectProps) {
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"1"}
-              img={img("1")}
+              img={img("1", props.languageString)}
             />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"2"}
-              img={img("2")}
+              img={img("2", props.languageString)}
             />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"3"}
-              img={img("3")}
+              img={img("3", props.languageString)}
             />
           </Grid>
           <Grid container justifyContent="center" item xs={12} md={12} lg={3}>
             <EpisodeCard
               playEpisodeCB={props.playCB}
               episode={"4"}
-              img={img("4")}
+              img={img("4", props.languageString)}
             />
           </Grid>
         </Grid>
