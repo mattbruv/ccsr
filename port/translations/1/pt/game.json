@@ -1,6 +1,6 @@
 {
-    "walkIntoWater": "You can't just walk into water!!!",
-    "noItems": "You have no items.",
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
     "scene": {
         "plugMyHoles": "Ah não! Os canos estão estourados! Você tem alguma coisa para tapar os buracos?"
     },
