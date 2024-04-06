@@ -21,17 +21,33 @@ for obj in pt:
     if len(eng) == 0:
         continue
 
-    if len(eng) > 1:
-        continue
 
     i = 0
     for msg in obj["data"]["message"]:
         english = eng[0]["data"]["message"][i]
         id = english["hash"]
         text = msg["text"]
+        if len(eng) > 1:
+            text = obj["id"]
         mapped[id] = text
-        print(msg, id)
+        #print(msg, id)
         i += 1
 
-open("auto_out.json", "w").write(json.dumps(mapped, ensure_ascii=False, indent=4))
+open("messages.json", "w").write(json.dumps(mapped, ensure_ascii=False, indent=4))
 
+things = set()
+
+for obj in pt:
+    eng = [x for x in en if x["id"] == obj["id"]]
+    if len(eng) > 1:
+        for thing in eng:
+            msgs = thing["data"]["message"]
+            for m in msgs:
+                things.add((thing["id"], m["text"]))
+
+    msgs = obj["data"]["message"]
+    for m in msgs:
+        things.add((obj["id"], m["text"]))
+
+for entry in sorted(list(things)):
+    print(entry)
