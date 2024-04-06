@@ -1,6 +1,6 @@
 {
-    "walkIntoWater": "You can't just walk into water!!!",
-    "noItems": "You have no items.",
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
     "scene": {
         "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
     },
@@ -8,92 +8,92 @@
         {
             "key": "monkey",
             "name": "monkey",
-            "description": "Monkeys rock and this one is NO exception!"
+            "description": "Os macacos se sacodem e esse NÃO é uma exceção!"
         },
         {
             "key": "ostrich",
             "name": "ostrich",
-            "description": "A yummy Ostrich... I mean FRIENDLY ostrich."
+            "description": "Uma avestruz apetitosa... Quer dizer uma avestruz AMIGA."
         },
         {
             "key": "beetle",
             "name": "beetle",
-            "description": "A beetle. It's name is Paul."
+            "description": "Um besouro. O nome dele é Paul."
         },
         {
             "key": "koala",
             "name": "koala",
-            "description": "Koala Bears are marsupials."
+            "description": "Os Coalas são marsupiais."
         },
         {
             "key": "lizard",
             "name": "lizard",
-            "description": "Lizards are reptiles."
+            "description": "Os lagartos são répteis."
         },
         {
             "key": "wind",
             "name": "windStone",
-            "description": "A Volcano Key! This one has the power of wind!"
+            "description": "Uma Chave do Vulcão! Essa tem o poder da mente!"
         },
         {
             "key": "sun",
             "name": "sunStone",
-            "description": "A volcano Key! It's very hot."
+            "description": "Uma Chave do Vulcão! Essa é muito quente. "
         },
         {
             "key": "waters",
             "name": "waterStone",
-            "description": "A volcano Key! It has the power of water."
+            "description": "Uma Chave do Vulcão! Essa tem o poder da água."
         },
         {
             "key": "tree",
             "name": "treeStone",
-            "description": "This is the Tree Stone, one of five volcano Keys."
+            "description": "Esta é a Pedra de Árvore, uma das cinco Chaves do Vulcão."
         },
         {
             "key": "stone",
             "name": "stoneStone",
-            "description": "A Volcano Key! It's hard and stony."
+            "description": "Uma Chave do Vulcão! Essa é dura e rochosa."
         },
         {
             "key": "split",
             "name": "bananaSplit",
-            "description": "A gooey Banana split. Dee-lish!"
+            "description": "Uma Banana split. De-eliciosa!"
         },
         {
             "key": "dino",
             "name": "roboDino",
-            "description": "The Latest in toy robot/dino technology."
+            "description": "A última tecnologia em robô dinossauro de brinquedo."
         },
         {
             "key": "watch",
             "name": "watch",
-            "description": "This pocket watch will tell the time in your pocket."
+            "description": "Esse relógio de bolso lhe dirá as horas em seu bolso."
         },
         {
             "key": "tuna",
             "name": "tunaSandwich",
-            "description": "A tuna sandwich. Smelly but Yummy."
+            "description": "Um sanduíche de atum. Cheiroso e apetitoso."
         },
         {
             "key": "flower",
             "name": "flower",
-            "description": "A pretty flower with gentle red petals."
+            "description": "Uma linda flor de pétalas vermelhas."
         },
         {
             "key": "leaf",
             "name": "eucalyptusLeaf",
-            "description": "A leaf from Australia. Who'd want this?"
+            "description": "Uma folha da Austrália. Quem iria querer isso?"
         },
         {
             "key": "bag",
             "name": "paperBag",
-            "description": "I. R. Baboon got this paper bag off a plane."
+            "description": "O Babão pegou esse saco de papel do avião."
         },
         {
             "key": "scuba",
             "name": "boat",
-            "description": "A fine seaworthy craft."
+            "description": "Uma embarcação navegável."
         },
         {
             "key": "courage",
