@@ -22,6 +22,7 @@ import { Game } from "../src/game";
 
 import EN from "../components/flags/en.svg";
 import ES from "../components/flags/es.svg";
+import PT from "../components/flags/pt.svg";
 
 export interface SettingsCallbacks {
   setSmooth: (value: boolean) => void;
@@ -44,6 +45,8 @@ function getFlagURL(lang: string): string {
   switch (lang) {
     case "es":
       return ES;
+    case "pt":
+      return PT;
     default:
       return EN;
   }
@@ -80,7 +83,7 @@ export class Settings extends React.Component<SettingsProps, GameSettings> {
             >
               <MenuItem value="en">English</MenuItem>
               <MenuItem value="es">Español</MenuItem>
-              <MenuItem value="pt">Portuguese</MenuItem>
+              <MenuItem value="pt">Português</MenuItem>
             </Select>
           </FormControl>
           <Typography id="input-slider" gutterBottom>
