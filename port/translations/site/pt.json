@@ -1,0 +1,18 @@
+{
+    "discord": "Junte-se a nós no Discord!",
+    "source": "Ver o código-fonte no GitHub",
+    "settings": "Configurações",
+    "volume": "Volume",
+    "video": "Vídeo",
+    "music": "Música",
+    "sfx": "Efeitos Sonoros",
+    "vid.smooth": "Animações Suaves",
+    "vid.smooth.desc": "O jogo original é executado a 12 FPS. Ao ativar essa opção, as animações serão interpoladas na taxa de atualização nativa da sua tela.",
+    "fitscreen": "Ajuste à Tela",
+    "ratio": "Usar a proporção de aspecto original",
+    "camera.mode": "Modo de câmera",
+    "camera.pan": "Panela entre mapas (clássico)",
+    "camera.center": "Centralização no jogador (novo)",
+    "language": "Idioma",
+    "needsTranslation": "Tradução Incompleta"
+}

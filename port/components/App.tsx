@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 
 import english from "../translations/site/en.json";
 import spanish from "../translations/site/es.json";
+import portuguese from "../translations/site/pt.json";
 
 /*
 
@@ -25,6 +26,7 @@ language support very crudely
 const translations: any = {
   en: english,
   es: spanish,
+  pt: portuguese,
 };
 
 const darkTheme = createTheme({
@@ -33,7 +35,7 @@ const darkTheme = createTheme({
   },
 });
 
-const languages = ["en", "es"];
+const languages = ["en", "es", "pt"];
 
 function getDefaultLanguage() {
   const c = Cookies.get("lang");
@@ -186,6 +188,7 @@ class App extends React.Component<AppProps, AppState> {
       default:
         return (
           <SelectEpisode
+            t={this.state.language}
             languageString={this.state.langName}
             playCB={(episode: string) => {
               this.loadGame(episode);

@@ -13,5 +13,6 @@
     "camera.mode": "Modo de Cámara",
     "camera.pan": "Desplazar entre mapas (clásico)",
     "camera.center": "Centro sobre el jugador (nuevo)",
-    "language": "Idioma"
+    "language": "Idioma",
+    "needsTranslation": "Traducción Incompleta"
 }

@@ -1,0 +1,114 @@
+{
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
+    "scene": {
+        "plugMyHoles": "Legal cara! Agora é a hora de juntar os casais certos! Escolha CINCO pretendentes elegíveis do seu inventário e os combinem, na ordem certa, com as garotas que querem dançar com eles! Boa sorte!"
+    },
+    "inventory": [
+        {
+            "key": "shoes",
+            "name": "shoes",
+            "description": "Estes sapatos de plataforma são Fabulosos!"
+        },
+        {
+            "key": "wig",
+            "name": "wig",
+            "description": "Uma autêntica peruca de discoteca! Vamos lá!"
+        },
+        {
+            "key": "suit",
+            "name": "suit",
+            "description": "Uma roupa de descanso, uma vestimenta relaxante para todas as ocasiões. "
+        },
+        {
+            "key": "necklace",
+            "name": "necklace",
+            "description": "Maneiro! Um verdadeiro colar de dentes!"
+        },
+        {
+            "key": "pants",
+            "name": "pants",
+            "description": "Se vista com estilo com as calças boca-de-sino!"
+        },
+        {
+            "key": "box",
+            "name": "lunchBox",
+            "description": "Uma autêntica lancheira Moltar. E térmica!"
+        },
+        {
+            "key": "milk",
+            "name": "warmMilk",
+            "description": "O quanto menos você souber sobre este leite é melhor."
+        },
+        {
+            "key": "shovel",
+            "name": "shovel",
+            "description": "Esta pá é feita de um plástico resistente! Divertido!"
+        },
+        {
+            "key": "blankee",
+            "name": "blankee",
+            "description": "Uma colcha… Isto faz com que você se sinta seguro e quentinho."
+        },
+        {
+            "key": "cd",
+            "name": "cd",
+            "description": "Todas as suas músicas favoritas dos anos 70 em um CD."
+        },
+        {
+            "key": "ball",
+            "name": "ball",
+            "description": "Uma bola de discoteca, também conhecida como a esfera boogie.D."
+        },
+        {
+            "key": "keys",
+            "name": "keys",
+            "description": "A chave da discoteca. Psicodélico!"
+        },
+        {
+            "key": "ray",
+            "name": "rayGun",
+            "description": "Esta é a pistola de raios de brinquedo mais transada que você já viu."
+        },
+        {
+            "key": "record",
+            "name": "goldRecord",
+            "description": "Um disco de ouro dos clássicos dos Gee-Bees."
+        },
+        {
+            "key": "dexter",
+            "name": "Dexter",
+            "description": "É o Dexter, o garoto inventor."
+        },
+        {
+            "key": "edd",
+            "name": "Edd",
+            "description": "Este é o Dudu. O bom e velho Dudu."
+        },
+        {
+            "key": "baboon",
+            "name": "Baboon",
+            "description": "Babão gosta não disto no Inventário!"
+        },
+        {
+            "key": "chicken",
+            "name": "Chicken",
+            "description": "Este é o irmão da Vaca, o Frango."
+        },
+        {
+            "key": "courage",
+            "name": "Courage",
+            "description": "Um cão covarde."
+        },
+        {
+            "key": "johnny",
+            "name": "Johnny",
+            "description": "Cara, eu sou lindo."
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "Um fino artesanato marinho."
+        }
+    ]
+}

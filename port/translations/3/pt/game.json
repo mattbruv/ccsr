@@ -1,0 +1,104 @@
+{
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
+    "scene": {
+        "plugMyHoles": "Oh no! The pipes are busted! Do you have any items we can use to plug up the holes?"
+    },
+    "inventory": [
+        {
+            "key": "monkey",
+            "name": "monkey",
+            "description": "Os macacos se sacodem e esse NÃO é uma exceção!"
+        },
+        {
+            "key": "ostrich",
+            "name": "ostrich",
+            "description": "Uma avestruz apetitosa... Quer dizer uma avestruz AMIGA."
+        },
+        {
+            "key": "beetle",
+            "name": "beetle",
+            "description": "Um besouro. O nome dele é Paul."
+        },
+        {
+            "key": "koala",
+            "name": "koala",
+            "description": "Os Coalas são marsupiais."
+        },
+        {
+            "key": "lizard",
+            "name": "lizard",
+            "description": "Os lagartos são répteis."
+        },
+        {
+            "key": "wind",
+            "name": "windStone",
+            "description": "Uma Chave do Vulcão! Essa tem o poder da mente!"
+        },
+        {
+            "key": "sun",
+            "name": "sunStone",
+            "description": "Uma Chave do Vulcão! Essa é muito quente. "
+        },
+        {
+            "key": "waters",
+            "name": "waterStone",
+            "description": "Uma Chave do Vulcão! Essa tem o poder da água."
+        },
+        {
+            "key": "tree",
+            "name": "treeStone",
+            "description": "Esta é a Pedra de Árvore, uma das cinco Chaves do Vulcão."
+        },
+        {
+            "key": "stone",
+            "name": "stoneStone",
+            "description": "Uma Chave do Vulcão! Essa é dura e rochosa."
+        },
+        {
+            "key": "split",
+            "name": "bananaSplit",
+            "description": "Uma Banana split. De-eliciosa!"
+        },
+        {
+            "key": "dino",
+            "name": "roboDino",
+            "description": "A última tecnologia em robô dinossauro de brinquedo."
+        },
+        {
+            "key": "watch",
+            "name": "watch",
+            "description": "Esse relógio de bolso lhe dirá as horas em seu bolso."
+        },
+        {
+            "key": "tuna",
+            "name": "tunaSandwich",
+            "description": "Um sanduíche de atum. Cheiroso e apetitoso."
+        },
+        {
+            "key": "flower",
+            "name": "flower",
+            "description": "Uma linda flor de pétalas vermelhas."
+        },
+        {
+            "key": "leaf",
+            "name": "eucalyptusLeaf",
+            "description": "Uma folha da Austrália. Quem iria querer isso?"
+        },
+        {
+            "key": "bag",
+            "name": "paperBag",
+            "description": "O Babão pegou esse saco de papel do avião."
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "Uma embarcação navegável."
+        },
+        {
+            "key": "courage",
+            "name": "Courage",
+            "description": "A cowardly dog."
+        }
+    ]
+}

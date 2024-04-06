@@ -1,0 +1,144 @@
+{
+    "walkIntoWater": "You can't just walk into water!!!",
+    "noItems": "You have no items.",
+    "scene": {
+        "plugMyHoles": "The only way I can stop him is if you give me five items to plug up his cannons! Choose wisely!"
+    },
+    "inventory": [
+        {
+            "key": "cart",
+            "name": "luggageCart",
+            "description": "This is your luggage cart."
+        },
+        {
+            "key": "mojojojo",
+            "name": "MojoJojo",
+            "description": "Look not on me! Look away, NOW!"
+        },
+        {
+            "key": "cheese",
+            "name": "cheeseWedge",
+            "description": "In France, this is called 'Fromage\u2019."
+        },
+        {
+            "key": "nutlog",
+            "name": "nut-log",
+            "description": "Check out this swell Nut-Log!"
+        },
+        {
+            "key": "flower",
+            "name": "prettyFlower",
+            "description": "What a pretty flower."
+        },
+        {
+            "key": "uglyflower",
+            "name": "uglyFlower",
+            "description": "Who picked this flower?"
+        },
+        {
+            "key": "tam",
+            "name": "tambourine",
+            "description": "A tambourine! Go start a band!"
+        },
+        {
+            "key": "starfish",
+            "name": "starfish",
+            "description": "Starfish are echinoderms."
+        },
+        {
+            "key": "glasses",
+            "name": "sunglasses",
+            "description": "A cool pair of shades!"
+        },
+        {
+            "key": "wallet",
+            "name": "wallet",
+            "description": "It\u2019s the Mayor\u2019s wallet."
+        },
+        {
+            "key": "ten",
+            "name": "$10",
+            "description": "Wow! Ten bucks!"
+        },
+        {
+            "key": "mask",
+            "name": "ZorakMask",
+            "description": "This mask is scary, but familiar."
+        },
+        {
+            "key": "key",
+            "name": "skeletonKey",
+            "description": "This will open almost any door."
+        },
+        {
+            "key": "brak",
+            "name": "BrakCard",
+            "description": "It\u2019s a trading card of BRAK."
+        },
+        {
+            "key": "burger",
+            "name": "hamburger",
+            "description": "A sandwich made of BURGER. "
+        },
+        {
+            "key": "ketchup",
+            "name": "ketchup",
+            "description": "A handy packet of ketchup."
+        },
+        {
+            "key": "kitty",
+            "name": "kittyToy",
+            "description": "My nifty fluffy kitty toy."
+        },
+        {
+            "key": "mustache",
+            "name": "fakeMoustache",
+            "description": "A fake Moustache. Tricky."
+        },
+        {
+            "key": "octo",
+            "name": "octopus",
+            "description": "Octopusses are Cephalopods."
+        },
+        {
+            "key": "rock",
+            "name": "petRock",
+            "description": "A rock with a collar\u2026huh?"
+        },
+        {
+            "key": "pineapple",
+            "name": "pineapple",
+            "description": "A juicy pineapple. Yummy!"
+        },
+        {
+            "key": "sgcard",
+            "name": "SpaceGhostCard",
+            "description": "A trading card of Space Ghost."
+        },
+        {
+            "key": "turnip",
+            "name": "turnip",
+            "description": "It\u2019s a turnip\u2026how useful. "
+        },
+        {
+            "key": "wig",
+            "name": "wig",
+            "description": "A big wig! It\u2019s really hairy."
+        },
+        {
+            "key": "yoyo",
+            "name": "yo-yo",
+            "description": "Yo-Yos are fun! "
+        },
+        {
+            "key": "armor",
+            "name": "armor",
+            "description": "It\u2019s heavy. It\u2019s metal. It\u2019s heavy metal."
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "A fine seaworthy craft."
+        }
+    ]
+}

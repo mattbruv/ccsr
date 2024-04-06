@@ -144,17 +144,20 @@ def cleanSymbols(jsonString):
 
 
 def translateImages(episodeNumber):
-    langs = ["en", "es"]
+    langs = ["en", "es", "pt"]
     for lang in langs:
         images = glob.glob(f"translations/{episodeNumber}/{lang}/images/*.png")
         if len(images) == 0:
             continue
-        pathlib.Path(
-            f"public/assets/{episodeNumber}/{lang}/").mkdir(parents=True, exist_ok=True)
+
+        outDir = f"public/assets/{episodeNumber}/{lang}/"
+        pathlib.Path(outDir).mkdir(parents=True, exist_ok=True)
         packer = Packer.create(enable_rotated=False,
                                atlas_format="json", force_square=True, inner_padding=2)
-        packer.pack(images, "ep{}".format(episodeNumber),
-                    f"public/assets/{episodeNumber}/{lang}/")
+        combinedName = "ep{}".format(episodeNumber)
+        packer.pack(images, combinedName, outDir)
+        finalPath = pathlib.Path(outDir + combinedName + ".png")
+        makeWhiteTransparent(finalPath)
 
 
 def packImages(episodeNumber):
@@ -220,7 +223,10 @@ def parseMapData(episodeNumber):
     globalMap = []
     for m in maps:
         print(f"Parsing map: {m}")
-        data = open(m).read()
+        #data = open(m, "rb").read()
+        #bytes = data.decode("ISO-8859-1").encode("utf-8")
+        #data = open(m, "wb").write(bytes)
+        data = open(m, "r").read()
         data = data.replace("\n", "\\n")
         jsonData = parseMapDataToJson(data)
         jsonData = separateTileStrings(jsonData)
