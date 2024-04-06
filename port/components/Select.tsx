@@ -18,18 +18,20 @@ function needsTranslation(lang: string, episode: string): boolean {
 
 function EpisodeCard(props: EpisodeCardProps) {
   return (
-    <Card sx={{ maxWidth: 345, backgroundColor: "transparent" }}>
-      <CardMedia
-        onClick={() => props.playEpisodeCB(props.episode)}
-        component="img"
-        className="episode"
-        image={props.img}
-        alt=""
-      />
+    <div>
+      <Card sx={{ maxWidth: 345, backgroundColor: "transparent" }}>
+        <CardMedia
+          onClick={() => props.playEpisodeCB(props.episode)}
+          component="img"
+          className="episode"
+          image={props.img}
+          alt=""
+        />
+      </Card>
       {needsTranslation(props.language, props.episode) && (
-        <Alert severity="warning">{props.t.needsTranslation}</Alert>
+        <Alert severity="error">{props.t.needsTranslation}</Alert>
       )}
-    </Card>
+    </div>
   );
 }
 
