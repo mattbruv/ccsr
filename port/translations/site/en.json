@@ -13,5 +13,6 @@
     "camera.mode": "Camera Mode",
     "camera.pan": "Pan Between Maps (Classic)",
     "camera.center": "Center on Player (New)",
-    "language": "Language"
+    "language": "Language",
+    "needsTranslation": "Incomplete Translation"
 }

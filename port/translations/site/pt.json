@@ -13,5 +13,6 @@
     "camera.mode": "Modo de câmera",
     "camera.pan": "Panela entre mapas (clássico)",
     "camera.center": "Centralização no jogador (novo)",
-    "language": "Idioma"
+    "language": "Idioma",
+    "needsTranslation": "Tradução Incompleta"
 }

@@ -188,6 +188,7 @@ class App extends React.Component<AppProps, AppState> {
       default:
         return (
           <SelectEpisode
+            t={this.state.language}
             languageString={this.state.langName}
             playCB={(episode: string) => {
               this.loadGame(episode);
