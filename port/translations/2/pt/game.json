@@ -1,144 +1,144 @@
 {
-    "walkIntoWater": "You can't just walk into water!!!",
-    "noItems": "You have no items.",
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
     "scene": {
-        "plugMyHoles": "The only way I can stop him is if you give me five items to plug up his cannons! Choose wisely!"
+        "plugMyHoles": "Eu só posso pará-lo se você me der cinco items para entupir seus canhões! Escolha sabiamente!"
     },
     "inventory": [
         {
             "key": "cart",
             "name": "luggageCart",
-            "description": "This is your luggage cart."
+            "description": "Este é o seu carrinho de bagagem."
         },
         {
             "key": "mojojojo",
             "name": "MojoJojo",
-            "description": "Look not on me! Look away, NOW!"
+            "description": "Não olhe olhe para mim! Pare de olhar, AGORA!"
         },
         {
             "key": "cheese",
             "name": "cheeseWedge",
-            "description": "In France, this is called 'Fromage\u2019."
+            "description": "Na França, isto se chama 'Fromage\u2019."
         },
         {
             "key": "nutlog",
             "name": "nut-log",
-            "description": "Check out this swell Nut-Log!"
+            "description": "Olha só esse enorme rocambole de nozes!"
         },
         {
             "key": "flower",
             "name": "prettyFlower",
-            "description": "What a pretty flower."
+            "description": "Que flor bonita."
         },
         {
             "key": "uglyflower",
             "name": "uglyFlower",
-            "description": "Who picked this flower?"
+            "description": "Quem colheu esta flor?"
         },
         {
             "key": "tam",
             "name": "tambourine",
-            "description": "A tambourine! Go start a band!"
+            "description": "Um pandeiro! Comece uma banda!"
         },
         {
             "key": "starfish",
             "name": "starfish",
-            "description": "Starfish are echinoderms."
+            "description": "Estrelas-do-mar são Starfish are equinodermos."
         },
         {
             "key": "glasses",
             "name": "sunglasses",
-            "description": "A cool pair of shades!"
+            "description": "Um par de óculos de sol maneiros!"
         },
         {
             "key": "wallet",
             "name": "wallet",
-            "description": "It\u2019s the Mayor\u2019s wallet."
+            "description": "É a carteira do Prefeito."
         },
         {
             "key": "ten",
             "name": "$10",
-            "description": "Wow! Ten bucks!"
+            "description": "Uau! Dez pratas!"
         },
         {
             "key": "mask",
             "name": "ZorakMask",
-            "description": "This mask is scary, but familiar."
+            "description": "Essa máscara é a medonha, mas familiar."
         },
         {
             "key": "key",
             "name": "skeletonKey",
-            "description": "This will open almost any door."
+            "description": "Isto vai abrir quase qualquer porta."
         },
         {
             "key": "brak",
             "name": "BrakCard",
-            "description": "It\u2019s a trading card of BRAK."
+            "description": "É uma carta do TCG de BRAK."
         },
         {
             "key": "burger",
             "name": "hamburger",
-            "description": "A sandwich made of BURGER. "
+            "description": "Um sanduíche feito de HAMBURGER. "
         },
         {
             "key": "ketchup",
             "name": "ketchup",
-            "description": "A handy packet of ketchup."
+            "description": "Um conveniente pacote de ketchup."
         },
         {
             "key": "kitty",
             "name": "kittyToy",
-            "description": "My nifty fluffy kitty toy."
+            "description": "Meu gatinho de pelúcia cuti-cuti."
         },
         {
             "key": "mustache",
             "name": "fakeMoustache",
-            "description": "A fake Moustache. Tricky."
+            "description": "Um bigode false. Astuto."
         },
         {
             "key": "octo",
             "name": "octopus",
-            "description": "Octopusses are Cephalopods."
+            "description": "Polvos are cefalópodes."
         },
         {
             "key": "rock",
             "name": "petRock",
-            "description": "A rock with a collar\u2026huh?"
+            "description": "Uma pedra de coleira\u2026hein?"
         },
         {
             "key": "pineapple",
             "name": "pineapple",
-            "description": "A juicy pineapple. Yummy!"
+            "description": "Um abacaxi sucumulento. Delícia!"
         },
         {
             "key": "sgcard",
             "name": "SpaceGhostCard",
-            "description": "A trading card of Space Ghost."
+            "description": "Uma carta do TCG de Space Ghost."
         },
         {
             "key": "turnip",
             "name": "turnip",
-            "description": "It\u2019s a turnip\u2026how useful. "
+            "description": "É um nabo\u2026que útil. "
         },
         {
             "key": "wig",
             "name": "wig",
-            "description": "A big wig! It\u2019s really hairy."
+            "description": "Uma baita peruca! E das bem cabeluadas."
         },
         {
             "key": "yoyo",
             "name": "yo-yo",
-            "description": "Yo-Yos are fun! "
+            "description": "Yo-Yos são divertidos! "
         },
         {
             "key": "armor",
             "name": "armor",
-            "description": "It\u2019s heavy. It\u2019s metal. It\u2019s heavy metal."
+            "description": "É pesado. É metal. É metal pesado."
         },
         {
             "key": "scuba",
             "name": "boat",
-            "description": "A fine seaworthy craft."
+            "description": "Uma embarcação navegável."
         }
     ]
 }
