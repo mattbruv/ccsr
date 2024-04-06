@@ -1,7 +1,7 @@
 import json
 
-en = json.loads(open("translate-objects/en/map1.json").read())
-pt = json.loads(open("translate-objects/pt/map1.json").read())
+en = json.loads(open("translate-objects/en/map4.json").read())
+pt = json.loads(open("translate-objects/pt/map4.json").read())
 
 print(len(en))
 print(len(pt))
@@ -19,6 +19,9 @@ mapped = {k: v for k, v in sorted(
 for obj in pt:
     eng = [x for x in en if x["id"] == obj["id"]]
     if len(eng) == 0:
+        continue
+
+    if len(eng) > 1:
         continue
 
     i = 0
