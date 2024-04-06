@@ -1,114 +1,114 @@
 {
-    "walkIntoWater": "You can't just walk into water!!!",
-    "noItems": "You have no items.",
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
     "scene": {
-        "plugMyHoles": "Alright man!  Now it's time to hook up the right couples! Choose FIVE eligible bachelors from your inventory and match them up in order with the girl that wants to dance with them! Good luck!"
+        "plugMyHoles": "Legal cara! Agora é a hora de juntar os casais certos! Escolha CINCO pretendentes elegíveis do seu inventário e os combinem, na ordem certa, com as garotas que querem dançar com eles! Boa sorte!"
     },
     "inventory": [
         {
             "key": "shoes",
             "name": "shoes",
-            "description": "These Platform Shoes are Fab!"
+            "description": "Estes sapatos de plataforma são Fabulosos!"
         },
         {
             "key": "wig",
             "name": "wig",
-            "description": "An Authentic Disco Wig! Get Down!"
+            "description": "Uma autêntica peruca de discoteca! Vamos lá!"
         },
         {
             "key": "suit",
             "name": "suit",
-            "description": "A leisure suit, a relaxing garb for all occasions. "
+            "description": "Uma roupa de descanso, uma vestimenta relaxante para todas as ocasiões. "
         },
         {
             "key": "necklace",
             "name": "necklace",
-            "description": "Groovy! A real Snaggletooth Necklace!"
+            "description": "Maneiro! Um verdadeiro colar de dentes!"
         },
         {
             "key": "pants",
             "name": "pants",
-            "description": "Step out in style all Bell-bottoms like!"
+            "description": "Se vista com estilo com as calças boca-de-sino!"
         },
         {
             "key": "box",
             "name": "lunchBox",
-            "description": "An official Moltar lunchbox. With Thermos!"
+            "description": "Uma autêntica lancheira Moltar. E térmica!"
         },
         {
             "key": "milk",
             "name": "warmMilk",
-            "description": "The less you know about this milk, the better."
+            "description": "O quanto menos você souber sobre este leite é melhor."
         },
         {
             "key": "shovel",
             "name": "shovel",
-            "description": "This shovel is made of sturdy plastic! Fun!"
+            "description": "Esta pá é feita de um plástico resistente! Divertido!"
         },
         {
             "key": "blankee",
             "name": "blankee",
-            "description": "a blankee... It makes you feel safe and warm."
+            "description": "Uma colcha… Isto faz com que você se sinta seguro e quentinho."
         },
         {
             "key": "cd",
             "name": "cd",
-            "description": "All your 70's favorites on one C.D."
+            "description": "Todas as suas músicas favoritas dos anos 70 em um CD."
         },
         {
             "key": "ball",
             "name": "ball",
-            "description": "A disco ball, also known as a boogie sphere."
+            "description": "Uma bola de discoteca, também conhecida como a esfera boogie.D."
         },
         {
             "key": "keys",
             "name": "keys",
-            "description": "The key to the disco. Funkadellic!"
+            "description": "A chave da discoteca. Psicodélico!"
         },
         {
             "key": "ray",
             "name": "rayGun",
-            "description": "This is the fanciest toy ray gun you've ever seen."
+            "description": "Esta é a pistola de raios de brinquedo mais transada que você já viu."
         },
         {
             "key": "record",
             "name": "goldRecord",
-            "description": "A golden record of the Gee-Bee's classics."
+            "description": "Um disco de ouro dos clássicos dos Gee-Bees."
         },
         {
             "key": "dexter",
             "name": "Dexter",
-            "description": "It's Dexter, the boy inventor."
+            "description": "É o Dexter, o garoto inventor."
         },
         {
             "key": "edd",
             "name": "Edd",
-            "description": "This is Edd. Good ol' Edd."
+            "description": "Este é o Dudu. O bom e velho Dudu."
         },
         {
             "key": "baboon",
             "name": "Baboon",
-            "description": "I.R. Baboon not like it in Inventory Window!"
+            "description": "Babão gosta não disto no Inventário!"
         },
         {
             "key": "chicken",
             "name": "Chicken",
-            "description": "This is Cow's brother, Chicken."
+            "description": "Este é o irmão da Vaca, o Frango."
         },
         {
             "key": "courage",
             "name": "Courage",
-            "description": "A cowardly dog."
+            "description": "Um cão covarde."
         },
         {
             "key": "johnny",
             "name": "Johnny",
-            "description": "Man, I'm pretty."
+            "description": "Cara, eu sou lindo."
         },
         {
             "key": "scuba",
             "name": "boat",
-            "description": "A fine seaworthy craft."
+            "description": "Um fino artesanato marinho."
         }
     ]
 }
