@@ -2,7 +2,7 @@
     "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
     "noItems": "Você não tem itens.",
     "scene": {
-        "plugMyHoles": "Eu só posso pará-lo se você me der cinco items para entupir seus canhões! Escolha sabiamente!"
+        "plugMyHoles": "Eu só posso detê-lo se você me der cinco items para entupir os canhões dele! Escolha sabiamente!"
     },
     "inventory": [
         {
@@ -13,7 +13,7 @@
         {
             "key": "mojojojo",
             "name": "MojoJojo",
-            "description": "Não olhe olhe para mim! Pare de olhar, AGORA!"
+            "description": "Não olhe para mim! Pare de olhar, JÁ!"
         },
         {
             "key": "cheese",
@@ -23,7 +23,7 @@
         {
             "key": "nutlog",
             "name": "nut-log",
-            "description": "Olha só esse enorme rocambole de nozes!"
+            "description": "Olha só esse mega rocambole de nozes!"
         },
         {
             "key": "flower",
@@ -38,12 +38,12 @@
         {
             "key": "tam",
             "name": "tambourine",
-            "description": "Um pandeiro! Comece uma banda!"
+            "description": "Um tamborim! Forme uma banda!"
         },
         {
             "key": "starfish",
             "name": "starfish",
-            "description": "Estrelas-do-mar são Starfish are equinodermos."
+            "description": "Estrelas-do-mar são equinodermos."
         },
         {
             "key": "glasses",
@@ -58,7 +58,7 @@
         {
             "key": "ten",
             "name": "$10",
-            "description": "Uau! Dez pratas!"
+            "description": "Uau! Dez dólares!"
         },
         {
             "key": "mask",
@@ -68,7 +68,7 @@
         {
             "key": "key",
             "name": "skeletonKey",
-            "description": "Isto vai abrir quase qualquer porta."
+            "description": "Isto abre quase qualquer porta."
         },
         {
             "key": "brak",
@@ -78,12 +78,12 @@
         {
             "key": "burger",
             "name": "hamburger",
-            "description": "Um sanduíche feito de HAMBURGER. "
+            "description": "Um sanduíche feito com carne de HAMBÚRGUER. "
         },
         {
             "key": "ketchup",
             "name": "ketchup",
-            "description": "Um conveniente pacote de ketchup."
+            "description": "Um conveniente saquinho de ketchup."
         },
         {
             "key": "kitty",
@@ -93,12 +93,12 @@
         {
             "key": "mustache",
             "name": "fakeMoustache",
-            "description": "Um bigode false. Astuto."
+            "description": "Um bigode falso. Astuto."
         },
         {
             "key": "octo",
             "name": "octopus",
-            "description": "Polvos are cefalópodes."
+            "description": "Polvos são cefalópodes."
         },
         {
             "key": "rock",
@@ -108,7 +108,7 @@
         {
             "key": "pineapple",
             "name": "pineapple",
-            "description": "Um abacaxi sucumulento. Delícia!"
+            "description": "Um abacaxi suculento. Delícia!"
         },
         {
             "key": "sgcard",
@@ -128,12 +128,12 @@
         {
             "key": "yoyo",
             "name": "yo-yo",
-            "description": "Yo-Yos são divertidos! "
+            "description": "Ioiôs são divertidos! "
         },
         {
             "key": "armor",
             "name": "armor",
-            "description": "É pesado. É metal. É metal pesado."
+            "description": "É pesada. É de metal. É metal pesado."
         },
         {
             "key": "scuba",
