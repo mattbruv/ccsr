@@ -18,7 +18,7 @@
         {
             "key": "cheese",
             "name": "cheeseWedge",
-            "description": "In France, this is called 'Fromage\u2019."
+            "description": "In France, this is called 'Fromage'."
         },
         {
             "key": "nutlog",
@@ -53,7 +53,7 @@
         {
             "key": "wallet",
             "name": "wallet",
-            "description": "It\u2019s the Mayor\u2019s wallet."
+            "description": "It's the Mayor's wallet."
         },
         {
             "key": "ten",
@@ -73,7 +73,7 @@
         {
             "key": "brak",
             "name": "BrakCard",
-            "description": "It\u2019s a trading card of BRAK."
+            "description": "It's a trading card of BRAK."
         },
         {
             "key": "burger",
@@ -103,7 +103,7 @@
         {
             "key": "rock",
             "name": "petRock",
-            "description": "A rock with a collar\u2026huh?"
+            "description": "A rock with a collar... huh?"
         },
         {
             "key": "pineapple",
@@ -118,12 +118,12 @@
         {
             "key": "turnip",
             "name": "turnip",
-            "description": "It\u2019s a turnip\u2026how useful. "
+            "description": "It's a turnip... how useful. "
         },
         {
             "key": "wig",
             "name": "wig",
-            "description": "A big wig! It\u2019s really hairy."
+            "description": "A big wig! It's really hairy."
         },
         {
             "key": "yoyo",
@@ -133,7 +133,7 @@
         {
             "key": "armor",
             "name": "armor",
-            "description": "It\u2019s heavy. It\u2019s metal. It\u2019s heavy metal."
+            "description": "It's heavy. It's metal. It's heavy metal."
         },
         {
             "key": "scuba",

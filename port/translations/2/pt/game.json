@@ -18,7 +18,7 @@
         {
             "key": "cheese",
             "name": "cheeseWedge",
-            "description": "Na França, isto se chama 'Fromage\u2019."
+            "description": "Na França, isto se chama 'Fromage'."
         },
         {
             "key": "nutlog",
@@ -103,7 +103,7 @@
         {
             "key": "rock",
             "name": "petRock",
-            "description": "Uma pedra de coleira\u2026hein?"
+            "description": "Uma pedra de coleira... hein?"
         },
         {
             "key": "pineapple",
@@ -118,7 +118,7 @@
         {
             "key": "turnip",
             "name": "turnip",
-            "description": "É um nabo\u2026que útil. "
+            "description": "É um nabo... que útil. "
         },
         {
             "key": "wig",
