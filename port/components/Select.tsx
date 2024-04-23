@@ -12,7 +12,7 @@ interface EpisodeCardProps {
 
 function needsTranslation(lang: string, episode: string): boolean {
   const key = `${lang}-${episode}`;
-  const help: string[] = ["pt-2", "pt-scooby-1", "pt-scooby-2"];
+  const help: string[] = ["pt-scooby-1", "pt-scooby-2"];
   return help.includes(key);
 }
 
