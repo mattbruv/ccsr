@@ -1,0 +1,144 @@
+{
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
+    "scene": {
+        "plugMyHoles": "Eu só posso detê-lo se você me der cinco items para entupir os canhões dele! Escolha sabiamente!"
+    },
+    "inventory": [
+        {
+            "key": "cart",
+            "name": "luggageCart",
+            "description": "Este é o seu carrinho de bagagem."
+        },
+        {
+            "key": "mojojojo",
+            "name": "MojoJojo",
+            "description": "Não olhe para mim! Pare de olhar, JÁ!"
+        },
+        {
+            "key": "cheese",
+            "name": "cheeseWedge",
+            "description": "Na França, isto se chama 'Fromage'."
+        },
+        {
+            "key": "nutlog",
+            "name": "nut-log",
+            "description": "Olha só esse mega rocambole de nozes!"
+        },
+        {
+            "key": "flower",
+            "name": "prettyFlower",
+            "description": "Que flor bonita."
+        },
+        {
+            "key": "uglyflower",
+            "name": "uglyFlower",
+            "description": "Quem colheu esta flor?"
+        },
+        {
+            "key": "tam",
+            "name": "tambourine",
+            "description": "Um tamborim! Forme uma banda!"
+        },
+        {
+            "key": "starfish",
+            "name": "starfish",
+            "description": "Estrelas-do-mar são equinodermos."
+        },
+        {
+            "key": "glasses",
+            "name": "sunglasses",
+            "description": "Um par de óculos de sol maneiros!"
+        },
+        {
+            "key": "wallet",
+            "name": "wallet",
+            "description": "É a carteira do Prefeito."
+        },
+        {
+            "key": "ten",
+            "name": "$10",
+            "description": "Uau! Dez dólares!"
+        },
+        {
+            "key": "mask",
+            "name": "ZorakMask",
+            "description": "Essa máscara é medonha, mas familiar."
+        },
+        {
+            "key": "key",
+            "name": "skeletonKey",
+            "description": "Isto abre quase qualquer porta."
+        },
+        {
+            "key": "brak",
+            "name": "BrakCard",
+            "description": "É uma carta do TCG de BRAK."
+        },
+        {
+            "key": "burger",
+            "name": "hamburger",
+            "description": "Um sanduíche feito com carne de HAMBÚRGUER. "
+        },
+        {
+            "key": "ketchup",
+            "name": "ketchup",
+            "description": "Um conveniente saquinho de ketchup."
+        },
+        {
+            "key": "kitty",
+            "name": "kittyToy",
+            "description": "Meu gatinho de pelúcia cuti-cuti."
+        },
+        {
+            "key": "mustache",
+            "name": "fakeMoustache",
+            "description": "Um bigode falso. Astuto."
+        },
+        {
+            "key": "octo",
+            "name": "octopus",
+            "description": "Polvos são cefalópodes."
+        },
+        {
+            "key": "rock",
+            "name": "petRock",
+            "description": "Uma pedra de coleira... hein?"
+        },
+        {
+            "key": "pineapple",
+            "name": "pineapple",
+            "description": "Um abacaxi suculento. Delícia!"
+        },
+        {
+            "key": "sgcard",
+            "name": "SpaceGhostCard",
+            "description": "Uma carta do TCG de Space Ghost."
+        },
+        {
+            "key": "turnip",
+            "name": "turnip",
+            "description": "É um nabo... que útil. "
+        },
+        {
+            "key": "wig",
+            "name": "wig",
+            "description": "Uma baita peruca! E das bem cabeluadas."
+        },
+        {
+            "key": "yoyo",
+            "name": "yo-yo",
+            "description": "Ioiôs são divertidos! "
+        },
+        {
+            "key": "armor",
+            "name": "armor",
+            "description": "É pesada. É de metal. É metal pesado."
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "Uma embarcação navegável."
+        }
+    ]
+}
