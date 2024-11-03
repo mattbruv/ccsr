@@ -1,14 +1,13 @@
 import { useEffect, useRef } from "react"
-import { useMapOMaticContext } from "./context/MapOMaticContext"
+import CCSRRenderer from "./ccsr/renderer"
 
 function RendererPage() {
 
-    const { renderer } = useMapOMaticContext()
     const canvasRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (canvasRef.current) {
-            canvasRef.current.appendChild(renderer.app.view)
+            canvasRef.current.appendChild(CCSRRenderer.app.view)
         }
     }, [])
 

@@ -46,11 +46,17 @@ export enum MapObjectType {
   Scooby2_floor = "#floor"
 }
 
+export type MapObjectRenderSettings = {
+  outline: boolean
+  alpha: number
+};
+
 /**
  * Represents some object in the game world
  */
 export type MapObject = {
   random_id: UUID;
+  render: MapObjectRenderSettings;
 
   id: number;
   dataType: MapDataType.Object;
@@ -105,12 +111,22 @@ export type MapObjectItem = {
   COND: (MapObjectCond | null)[];
 };
 
+// gConMove = [#none, #AUTO, #push, #pull, #movex, #movey]
+export enum MapObjectMoveCond {
+  None = 1,
+  Auto,
+  Push,
+  Pull,
+  MoveX,
+  MoveY
+}
+
 export type MapObjectMove = {
   U: number;
   d: number;
   L: number;
   R: number;
-  COND: number;
+  COND: MapObjectMoveCond;
   TIMEA: number;
   TIMEB: number;
 };

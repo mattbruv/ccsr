@@ -1,6 +1,6 @@
 import { parseMap } from "../parser/parser";
 import { LingoArray, LingoObject, LingoType } from "../parser/types";
-import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectType, MapObjectVisibility } from "./types";
+import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectMoveCond, MapObjectType, MapObjectVisibility } from "./types";
 
 export function stringToMapData(text: string): MapData | undefined {
     const parsed = parseMap(text)
@@ -62,7 +62,7 @@ function lingoObjectToMapObjectMove(object: LingoObject): MapObjectMove {
         d: 0,
         L: 0,
         R: 0,
-        COND: 0,
+        COND: MapObjectMoveCond.Auto,
         TIMEA: 0,
         TIMEB: 0
     };
@@ -105,7 +105,7 @@ function lingoObjectToMapObjectData(object: LingoObject): MapObjectData {
             d: 0,
             L: 0,
             R: 0,
-            COND: 0,
+            COND: MapObjectMoveCond.Auto,
             TIMEA: 0,
             TIMEB: 0
         },
@@ -216,7 +216,9 @@ function lingoArrayToMapObjectCond(array: LingoArray): (MapObjectCond | null)[] 
         conds.push(cond);
     }
 
-    return conds;
+    // Filter out null values for the sake of keeping a clean array
+    // We'll add up to 4 null values back on export to match the original map data.
+    return conds.filter(x => x !== null);
 }
 
 
@@ -267,6 +269,10 @@ function lingoArrayToLocation(array: LingoArray): MapObjectLocation {
 function lingoToMapObject(object: LingoObject): MapObject {
 
     const mapObject: MapObject = {
+        render: {
+            outline: false,
+            alpha: 1
+        },
         random_id: crypto.randomUUID(),
         dataType: MapDataType.Object,
         id: 0,
@@ -297,12 +303,12 @@ function lingoToMapObject(object: LingoObject): MapObject {
                 d: 0,
                 L: 0,
                 R: 0,
-                COND: 0,
+                COND: MapObjectMoveCond.Auto,
                 TIMEA: 0,
                 TIMEB: 0
             },
             message: []
-        }
+        },
     }
 
     for (const property of object.properties) {

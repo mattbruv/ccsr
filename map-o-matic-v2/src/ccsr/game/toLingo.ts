@@ -126,7 +126,16 @@ function mapObjectVisibilityToLingo(visi: MapObjectVisibility): LingoObject {
 
 function mapObjectCondArrayToLingo(condArray: (MapObjectCond | null)[]): LingoArray {
 
-    const children: LingoValue[] = condArray.map(cond => {
+    // In the original map files, it looks like the map editor filled the COND arrays
+    // with 4 null values, regardless if there are any CONDs in the array or not.
+    // Let's mimic this behavior.
+    // I don't know why they seem to limit it to 4, from a quick glance at the code
+    // it looks like it loops over the COND array dynamically, not with a hardcoded 4 value
+    const actualCONDs = condArray.filter(x => x !== null)
+    const fillToFour = <T>(arr: T[]): (T | null)[] => arr.concat(Array(4).fill(null)).slice(0, 4)
+    const finalCondArray = fillToFour(actualCONDs)
+
+    const children: LingoValue[] = finalCondArray.map(cond => {
         if (!cond) {
             const nullValue: LingoIdentifier = {
                 type: LingoType.Identifier,

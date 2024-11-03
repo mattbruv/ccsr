@@ -1,15 +1,14 @@
 import { createContext, useContext } from "react";
-import { MapFile, Project, ProjectState } from "../ccsr/types";
-import { CCSRRenderer } from "../ccsr/renderer";
-import { MapObject } from "../ccsr/game/types";
+import { MapFile, Project, ProjectState, UUID } from "../ccsr/types";
+import CCSRRenderer from "../ccsr/renderer";
 
 export const MapOMaticContext = createContext<MapOMatic | undefined>(undefined);
 
 export type MapOMatic = {
     project: Project
-    renderer: CCSRRenderer
     updateProject: (newProject: Project, reloadImages?: boolean) => void,
     updateMap: (newMap: MapFile) => void,
+    centerOnMap: (map_id: UUID) => void,
     updateState: (newState: ProjectState) => void,
 }
 

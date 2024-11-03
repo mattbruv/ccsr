@@ -13,6 +13,7 @@
     "@tabler/icons-react": "^3.19.0",
     "@types/pngjs": "^6.0.5",
     "file-saver": "^2.0.5",
+    "immer": "^10.1.1",
     "jszip": "^3.10.1",
     "pixi-viewport": "^5.0.3",
     "pixi.js": "^7.4.2",

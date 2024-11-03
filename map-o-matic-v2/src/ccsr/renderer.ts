@@ -1,15 +1,15 @@
 import { Viewport } from "pixi-viewport";
 import * as PIXI from "pixi.js"
-import { MapFile, Project } from "./types";
+import { MapFile, Project, UUID } from "./types";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
 
-export class CCSRRenderer {
+class CCSRRenderer {
     public app: PIXI.Application<HTMLCanvasElement>;
     public viewport: Viewport
-    private textures: PIXI.Texture[] = []
-    private mapRenders: MapRender[] = []
+    public textures: PIXI.Texture[] = []
+    public mapRenders: MapRender[] = []
 
     constructor() {
         this.app = new PIXI.Application({
@@ -27,12 +27,10 @@ export class CCSRRenderer {
         this.app.stage.addChild(this.viewport)
     }
 
-    public renderProject(project: Project, reloadImages: boolean = false) {
+    public async renderProject(project: Project, reloadImages: boolean = false) {
         const promise = reloadImages ? this.loadImages(project) : Promise.resolve()
-
-        promise.then(() => {
-            this.renderMaps(project)
-        })
+        await promise
+        this.renderMaps(project)
     }
 
     public async loadImages(project: Project) {
@@ -57,7 +55,6 @@ export class CCSRRenderer {
         let mapRender = this.mapRenders.find(x => x.randomId === map.random_id)
 
         if (!mapRender) {
-            console.log("existing map not found, adding it")
             mapRender = new MapRender(map)
             this.mapRenders.push(mapRender)
             this.viewport.addChild(mapRender.container)
@@ -71,11 +68,21 @@ export class CCSRRenderer {
             this.renderMap(map)
         }
     }
+
+    public centerOnMap(map_id: UUID) {
+        const map = this.mapRenders.find(x => x.randomId === map_id)
+        if (!map) return;
+        const { x, y } = map.container.position
+        const HW = MAP_WIDTH / 2
+        const HH = MAP_HEIGHT / 2
+        this.viewport.moveCenter(x + HW, y + HH)
+
+    }
 }
 
 
 class MapRender {
-    public randomId: string
+    public randomId: UUID
     public container: PIXI.Container;
     public name: string;
     public shortName: string;
@@ -138,6 +145,7 @@ class MapRender {
             const tiling = member.includes("tile.")
 
             const texture = PIXI.utils.TextureCache[member]
+            const spriteContainer = new PIXI.Container();
             const sprite = !tiling ? new PIXI.Sprite(texture) : new PIXI.TilingSprite(texture)
 
             const { x, y } = object.location
@@ -154,7 +162,22 @@ class MapRender {
                 sprite.y -= Math.round(sprite.height / 2)
             }
 
-            renderer.render(sprite, {
+            // Object render settings
+            sprite.alpha = object.render.alpha
+            spriteContainer.addChild(sprite)
+
+            if (object.render.outline) {
+                const square = new PIXI.Graphics();
+                square.lineStyle({
+                    color: 0x00ffff,
+                    width: 3
+                })
+                square.drawRect(0, 0, sprite.width, sprite.height)
+                square.position.set(sprite.x, sprite.y)
+                spriteContainer.addChild(square)
+            }
+
+            renderer.render(spriteContainer, {
                 clear: false,
                 renderTexture: this.renderTexture
             })
@@ -162,6 +185,21 @@ class MapRender {
     }
 
     private drawGrid() {
+        // Draw lighter gray lines every 16 pixels
+        this.grid.lineStyle(1, 0xA9A9A9, 0.5); // 1px thick lighter gray lines
+        for (let x = 0; x <= MAP_WIDTH; x += 16) {
+            if (x % 32 !== 0) { // Skip every 32-pixel mark (already drawn)
+                this.grid.moveTo(x, 0);
+                this.grid.lineTo(x, MAP_HEIGHT);
+            }
+        }
+        for (let y = 0; y <= MAP_HEIGHT; y += 16) {
+            if (y % 32 !== 0) { // Skip every 32-pixel mark (already drawn)
+                this.grid.moveTo(0, y);
+                this.grid.lineTo(MAP_WIDTH, y);
+            }
+        }
+
         // Draw black lines every 32 pixels
         this.grid.lineStyle(1, 0x000000, 0.5); // 2px thick black lines
         for (let x = 0; x <= MAP_WIDTH; x += 32) {
@@ -173,20 +211,9 @@ class MapRender {
             this.grid.lineTo(MAP_WIDTH, y);
         }
 
-        // Draw lighter gray lines every 8 pixels
-        this.grid.lineStyle(1, 0xA9A9A9, 0.5); // 1px thick lighter gray lines
-        for (let x = 0; x <= MAP_WIDTH; x += 8) {
-            if (x % 32 !== 0) { // Skip every 32-pixel mark (already drawn)
-                this.grid.moveTo(x, 0);
-                this.grid.lineTo(x, MAP_HEIGHT);
-            }
-        }
-        for (let y = 0; y <= MAP_HEIGHT; y += 8) {
-            if (y % 32 !== 0) { // Skip every 32-pixel mark (already drawn)
-                this.grid.moveTo(0, y);
-                this.grid.lineTo(MAP_WIDTH, y);
-            }
-        }
     }
 
 }
+
+const MapOMaticRenderer = new CCSRRenderer()
+export default MapOMaticRenderer

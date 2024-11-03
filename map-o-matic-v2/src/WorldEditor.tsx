@@ -1,10 +1,16 @@
-import { Accordion, Card, Group, Stack, Text, Title } from "@mantine/core"
+import { Accordion, Card, Checkbox, Group, Stack, Text, Title } from "@mantine/core"
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { MapObjectType } from "./ccsr/game/types"
+import { ChangeEvent, useState } from "react"
+import { produce } from "immer"
 
 function WorldEditor() {
 
-    const { project } = useMapOMaticContext()
+    const { project, updateProject } = useMapOMaticContext()
+
+    const totalMaps = project.maps.length
+    const mapBorderCount = project.maps.filter(x => x.render.showMapBorder === true).length
+    const mapGridCount = project.maps.filter(x => x.render.showMapGrid === true).length
 
     const maps = project.maps.map(map => {
         return (
@@ -36,8 +42,38 @@ function WorldEditor() {
         )
     })
 
+    function toggleGrids(event: ChangeEvent<HTMLInputElement>): void {
+        updateProject(produce(project, draft => {
+            draft.maps.forEach(x => x.render.showMapGrid = event.target.checked)
+        }))
+    }
+
+    function toggleBorders(event: ChangeEvent<HTMLInputElement>): void {
+        const value = event.target.checked
+        updateProject(produce(project, draft => {
+            draft.maps.forEach(x => x.render.showMapBorder = event.target.checked)
+        }))
+    }
+
     return (<>
         <div>
+            {totalMaps}-
+            {mapGridCount}-
+            {mapBorderCount}
+            <Stack gap={"sm"}>
+                <Checkbox
+                    onChange={toggleGrids}
+                    checked={mapGridCount === totalMaps}
+                    indeterminate={mapGridCount > 0 && mapGridCount < totalMaps}
+                    label="Show Grids"
+                />
+                <Checkbox
+                    onChange={toggleBorders}
+                    checked={mapBorderCount === totalMaps}
+                    indeterminate={mapBorderCount > 0 && mapBorderCount < totalMaps}
+                    label="Show Borders"
+                />
+            </Stack>
             <Accordion>
                 {maps}
             </Accordion>

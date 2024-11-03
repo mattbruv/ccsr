@@ -20,11 +20,9 @@ const theme = createTheme({
 });
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <MantineProvider defaultColorScheme='light' theme={theme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </MantineProvider>
-  </StrictMode>,
+  <MantineProvider defaultColorScheme='light' theme={theme}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </MantineProvider>
 )
