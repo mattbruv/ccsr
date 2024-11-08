@@ -1,4 +1,4 @@
-import { ActionIcon, Card, ComboboxData, Group, Select, Stack, Textarea, TextInput, Tooltip } from "@mantine/core";
+import { ActionIcon, Card, ComboboxData, Group, NumberInput, Select, Stack, Textarea, TextInput, Tooltip, useCombobox } from "@mantine/core";
 import { MapObject, MapObjectCond, MapObjectMessage, MapObjectMoveCond, MapObjectType } from "./ccsr/game/types"
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { produce } from "immer";
@@ -113,32 +113,45 @@ function ObjectEditor() {
                                     }))
                                 }}
                             />
-                            <Tooltip label="This field always seems to be left blank">
-                                <TextInput
-                                    label="Name"
-                                    disabled={true}
-                                    value={selectedObject?.data.item.name}
-                                />
-                            </Tooltip>
+                            <TextInput
+                                label="Member Texture"
+                                value={selectedObject?.member}
+                                onChange={(e) => {
+                                    const newMember = e.target.value
+                                    if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                        draft.member = newMember
+                                    }))
+                                }}
+                            />
+                            <TextInput
+                                label="Name"
+                                value={selectedObject?.data.item.name}
+                                onChange={(e) => {
+                                    const newMember = e.target.value
+                                    if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                        draft.data.item.name = newMember
+                                    }))
+                                }}
+                            />
                         </Group>
                         <Group>
-                            <TextInput
+                            <NumberInput
                                 label="X Offset (Tile)"
                                 placeholder="X"
                                 value={selectedObject?.location.x}
                                 onChange={(e) => {
-                                    const newX = parseInt(e.target.value)
+                                    const newX = Number(e)
                                     if (selectedObject && !isNaN(newX)) updateObject(produce(selectedObject, draft => {
                                         draft.location.x = newX
                                     }))
                                 }}
                             />
-                            <TextInput
+                            <NumberInput
                                 label="Y Offset (Tile)"
                                 placeholder="Y"
                                 value={selectedObject?.location.y}
                                 onChange={(e) => {
-                                    const newY = parseInt(e.target.value)
+                                    const newY = Number(e)
                                     if (selectedObject && !isNaN(newY)) updateObject(produce(selectedObject, draft => {
                                         draft.location.y = newY
                                     }))
@@ -146,21 +159,23 @@ function ObjectEditor() {
                             />
                         </Group>
                         <Group>
-                            <TextInput
+                            <NumberInput
                                 label="Width (Pixels)"
                                 value={selectedObject?.width}
+                                step={32}
                                 onChange={(e) => {
-                                    const newWidth = parseInt(e.target.value)
+                                    const newWidth = Number(e)
                                     if (selectedObject && !isNaN(newWidth)) updateObject(produce(selectedObject, draft => {
                                         draft.width = newWidth
                                     }))
                                 }}
                             />
-                            <TextInput
+                            <NumberInput
                                 label="Height (Pixels)"
                                 value={selectedObject?.height}
+                                step={32}
                                 onChange={(e) => {
-                                    const newHeight = parseInt(e.target.value)
+                                    const newHeight = Number(e)
                                     if (selectedObject && !isNaN(newHeight)) updateObject(produce(selectedObject, draft => {
                                         draft.height = newHeight
                                     }))

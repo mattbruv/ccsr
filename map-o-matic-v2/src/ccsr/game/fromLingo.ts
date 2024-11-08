@@ -1,3 +1,4 @@
+import { newMapObject } from "../helpers";
 import { parseMap } from "../parser/parser";
 import { LingoArray, LingoObject, LingoType } from "../parser/types";
 import { MapData, MapDataType, MapMetadata, MapObject, MapObjectCond, MapObjectData, MapObjectItem, MapObjectLocation, MapObjectMessage, MapObjectMove, MapObjectMoveCond, MapObjectType, MapObjectVisibility } from "./types";
@@ -268,48 +269,7 @@ function lingoArrayToLocation(array: LingoArray): MapObjectLocation {
 
 function lingoToMapObject(object: LingoObject): MapObject {
 
-    const mapObject: MapObject = {
-        render: {
-            outline: false,
-            alpha: 1
-        },
-        random_id: crypto.randomUUID(),
-        dataType: MapDataType.Object,
-        id: 0,
-        member: "",
-        type: MapObjectType.FLOR,
-        location: {
-            x: 0,
-            y: 0
-        },
-        width: 0,
-        WSHIFT: 0,
-        height: 0,
-        HSHIFT: 0,
-        data: {
-            item: {
-                name: "",
-                type: MapObjectType.FLOR,
-                visi: {
-                    visiObj: "",
-                    visiAct: "",
-                    inviObj: "",
-                    inviAct: ""
-                },
-                COND: []
-            },
-            move: {
-                U: 0,
-                d: 0,
-                L: 0,
-                R: 0,
-                COND: MapObjectMoveCond.Auto,
-                TIMEA: 0,
-                TIMEB: 0
-            },
-            message: []
-        },
-    }
+    const mapObject = newMapObject()
 
     for (const property of object.properties) {
         const key = property.key.value

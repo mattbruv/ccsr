@@ -1,6 +1,6 @@
-import { ActionIcon, AppShell, Burger, Button, Checkbox, Flex, Group, Modal, NavLink, NumberInput, ScrollArea, Stack, Switch, Text } from '@mantine/core'
+import { ActionIcon, AppShell, Burger, Button, Flex, Group, Modal, NavLink, NumberInput, ScrollArea, Stack, Switch, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconApple, IconCamera, IconCameraUp, IconDownload, IconImageInPicture, IconMap, IconSettings, IconWorld } from '@tabler/icons-react';
+import { IconApple, IconCamera, IconImageInPicture, IconMap, IconSettings, IconWorld } from '@tabler/icons-react';
 import { Link, Route, Routes } from 'react-router-dom';
 import WorldEditor from './WorldEditor';
 import MapEditor from './MapEditor';
@@ -58,6 +58,7 @@ function App() {
   // CANNOT be used with React Strict Mode, as it runs effects twice
   // which causes the shit to load twice, what a stupid waste of many hours of my life
   // to figure that out
+  /*
   useEffect(() => {
     loadZipFromServer("1.zip").then((project) => {
       project.metadata.author = "Funny Garbage"
@@ -65,6 +66,7 @@ function App() {
       mapOMatic.updateProject(project, true)
     })
   }, [])
+  */
 
   const [screenshotModalOpened, { open, close }] = useDisclosure(false);
   const [screenshotScale, setScreenshotScale] = useState<string | number>(1)

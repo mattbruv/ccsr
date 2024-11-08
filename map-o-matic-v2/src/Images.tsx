@@ -3,7 +3,8 @@ import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { useState } from "react";
 import "./images.css"
 import { ImageFile } from "./ccsr/types";
-import { IconTrash } from "@tabler/icons-react";
+import { IconExchange, IconTrash } from "@tabler/icons-react";
+import { produce } from "immer";
 
 
 type CCSRImage = {
@@ -18,6 +19,10 @@ type ImageReference = {
 function Images() {
     const { project, updateProject } = useMapOMaticContext();
     const [filterBlocks, setFilterBlocks] = useState(true)
+
+    const selectedObject = project.maps
+        .flatMap(x => x.data?.objects ?? [])
+        .find(o => o.random_id === project.state.selectedObject)
 
     const images: CCSRImage[] = project.images
         .filter(img => {
@@ -38,6 +43,16 @@ function Images() {
         }, true)
     }
 
+    function setObjectImage(img: ImageFile): void {
+        if (!selectedObject) return;
+        updateProject(produce(project, draft => {
+            const obj = draft.maps.flatMap(x => x.data?.objects ?? []).find(obj => obj.random_id === selectedObject.random_id)
+            if (obj) {
+                obj.member = img.filename
+            }
+        }))
+    }
+
     return (
         <>
             <div>Images: {images.length}</div>
@@ -50,9 +65,14 @@ function Images() {
                                 <Image src={URL.createObjectURL(img.file.data)} alt={img.file.filename} width={50} />
                                 <div>{img.file.filename}</div>
                             </Card>
-                            <ActionIcon onClick={() => removeImage(img.file)} variant="filled" >
+                            <ActionIcon color={"red"} onClick={() => removeImage(img.file)} variant="filled" >
                                 <IconTrash />
                             </ActionIcon>
+                            {selectedObject ?
+                                <ActionIcon onClick={() => setObjectImage(img.file)} variant="filled" >
+                                    <IconExchange />
+                                </ActionIcon>
+                                : null}
                         </div>
                     )
                 })}

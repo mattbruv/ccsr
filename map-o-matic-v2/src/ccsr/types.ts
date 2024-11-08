@@ -32,6 +32,8 @@ export type MapRenderSettings = {
   showMap: boolean
   showMapGrid: boolean
   showMapBorder: boolean
+  showCollision: boolean
+  collisionAlpha: number
 }
 
 export type ImageFile = {

@@ -5,7 +5,7 @@ import { newProject } from "../context/MapOMaticContext";
 import { stringToMapData } from "./game/fromLingo";
 import { mapDataToLingo } from "./game/toLingo";
 import { lingoValueToString } from "./parser/print";
-import { filenameFromPath } from "./helpers";
+import { filenameFromPath, newMapFile } from "./helpers";
 import { PNG } from "pngjs/browser"
 
 const METADATA_FILE = "map-o-matic.json"
@@ -19,7 +19,8 @@ export function saveProjectToZip(project: Project) {
         if (!map.data) continue;
         const lingo = mapDataToLingo(map.data)
         const text = lingoValueToString(lingo, false, false)
-        zip.file(map.filename, text)
+        const path = `${MAP_FOLDER}/${map.filename}.txt`;
+        zip.file(path, text)
     }
 
     for (const image of project.images) {
@@ -64,17 +65,12 @@ async function loadProjectFile(blob: Blob | File): Promise<Project> {
         .map(async ([filename, file]) => {
             const text = await file.async("text")
             const data = stringToMapData(text.trim())
-            const map: MapFile = {
-                filename,
-                render: {
-                    showMap: true,
-                    showMapGrid: true,
-                    showMapBorder: true,
-                },
-                file_text: text,
-                data,
-                random_id: crypto.randomUUID()
-            }
+            const map = newMapFile()
+            // not the prettiest way to do this but whatever
+            // Get just the filename
+            map.filename = filename.split("/").at(-1)?.split(".").slice(0, -1).join(".")!;
+            map.file_text = text;
+            map.data = data;
             return map
         }))
 
