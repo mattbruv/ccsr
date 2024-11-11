@@ -4,10 +4,10 @@
 
 == Director Basics
 
-== Map Format
-
-  gConMove = [#none, #AUTO, #push, #pull, #movex, #movey]
-
 === Lingo Objects
 
-== Collision System
+== Map Format
+
+  // gConMove = [#none, #AUTO, #push, #pull, #movex, #movey]
+
+#include "collision.typ"

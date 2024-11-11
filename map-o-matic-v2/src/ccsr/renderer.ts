@@ -240,7 +240,7 @@ class MapRender {
                 collision.beginFill(fillColor, 1)
 
                 // If the object is a floor, show the additional overlap bounds
-                if (objectType === MapObjectType.FLOR) {
+                if (objectType === MapObjectType.FLOR || objectType === MapObjectType.WATER) {
                     collision.beginFill(fillColor, 0.5)
                     // The padding used is basically 75% of a tile, or 24 pixels.
                     // A tile is 8 * 4 wide, and the player can never fully be a WALL tile,
@@ -248,6 +248,7 @@ class MapRender {
                     // can never fully leave the FLOOR onto the WALL. Since the player moves
                     // In 8 pixel steps, this means we can only take (8 * 3) steps onto the wall tile
                     // instead of (8 * 4) steps.
+                    // The same logic applies to WATER tiles
                     const pad = 8 * 3
                     collision.drawRect(sprite.x - pad, sprite.y - pad, sprite.width + pad * 2, sprite.height + pad * 2)
                 }

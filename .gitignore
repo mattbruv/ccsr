@@ -28,3 +28,7 @@ assets
 translate-objects
 
 */*.pdf
+docs/main.pdf
+docs/engine/collision.pdf
+docs/main.pdf
+docs/engine/main.pdf

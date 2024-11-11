@@ -61,7 +61,7 @@ async function loadProjectFile(blob: Blob | File): Promise<Project> {
     // Extract map files
     project.maps = await Promise.all(Object.entries(zip.files)
         .sort(([a], [b]) => a.localeCompare(b))
-        .filter(([filename, file]) => filename.startsWith(MAP_FOLDER) && !file.dir)
+        .filter(([filename, file]) => filename.includes(MAP_FOLDER) && !file.dir && !filename.includes("__MACOSX") && !filename.includes(".DS_Store"))
         .map(async ([filename, file]) => {
             const text = await file.async("text")
             const data = stringToMapData(text.trim())
