@@ -29,6 +29,7 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
+          git submodule update --init --recursive
           cd map-o-matic-v2
           npm install
 
