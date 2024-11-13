@@ -1,25 +1,25 @@
 import { ActionIcon, AppShell, Burger, Button, Flex, Group, Modal, NavLink, NumberInput, ScrollArea, Stack, Switch, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconApple, IconCamera, IconImageInPicture, IconMap, IconSettings, IconWorld } from '@tabler/icons-react';
+import { IconApple, IconCamera, IconGraph, IconImageInPicture, IconMap, IconSchema, IconSettings, IconWorld } from '@tabler/icons-react';
 import { Link, Route, Routes } from 'react-router-dom';
-import WorldEditor from './WorldEditor';
 import MapEditor from './MapEditor';
 import ObjectEditor from './ObjectEditor';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Project } from './ccsr/types';
 import ProjectPage from './Project';
 import { MapOMatic, MapOMaticContext, newProject } from './context/MapOMaticContext';
 import CCSRRenderer from './ccsr/renderer';
 import RendererPage from './Renderer';
 import Images from './Images';
-import { loadZipFromServer } from './ccsr/zip';
+import Notice from './Notice';
+import EventGraph from './EventGraph';
 
 export enum MapOMaticPage {
   Project = "/project",
-  WorldEditor = "/world",
   MapEditor = "/map",
   ObjectEditor = "/object",
   Images = "/images",
+  EventGraph = "/event-graph"
 }
 
 function App() {
@@ -29,11 +29,13 @@ function App() {
 
   const mapOMatic: MapOMatic = {
     project,
-    updateProject: (newProject, reloadImages: boolean | undefined = false) => {
+    updateProject: (newProject, reloadImages: boolean | undefined = false, rerender: boolean = true) => {
       setProject(newProject)
-      CCSRRenderer.renderProject(newProject, reloadImages)
+      if (rerender) {
+        CCSRRenderer.renderProject(newProject, reloadImages)
+      }
     },
-    updateMap: (newMap) => {
+    updateMap: (newMap, rerender = true) => {
       const newProject: Project = {
         ...project,
         maps: project.maps.map((map) =>
@@ -41,7 +43,9 @@ function App() {
         ),
       }
       setProject(newProject);
-      CCSRRenderer.renderMap(newMap)
+      if (rerender) {
+        CCSRRenderer.renderMap(newMap)
+      }
     },
     updateState: (newState) => {
       setProject({
@@ -134,12 +138,6 @@ function App() {
                 leftSection={<IconSettings size="1rem" />}
               />
               <NavLink
-                label="World Editor"
-                component={Link}
-                to={MapOMaticPage.WorldEditor}
-                leftSection={<IconWorld size="1rem" />}
-              />
-              <NavLink
                 component={Link}
                 to={MapOMaticPage.MapEditor}
                 label="Map Editor"
@@ -157,6 +155,12 @@ function App() {
                 label={"Images (" + project.images.length + ")"}
                 leftSection={<IconImageInPicture size="1rem" />}
               />
+              <NavLink
+                component={Link}
+                to={MapOMaticPage.EventGraph}
+                label={"Event Graph"}
+                leftSection={<IconSchema size="1rem" />}
+              />
             </AppShell.Section>
             <AppShell.Section>
               <Text size="xs">
@@ -165,16 +169,16 @@ function App() {
             </AppShell.Section>
           </AppShell.Navbar>
           <AppShell.Main>
+            <Notice />
             <Flex style={{ height: '85vh' }}> {/* Full height container */}
               <ScrollArea style={{ width: '50%', height: '100%' }}> {/* Left pane */}
                 <Routes>
                   <Route path='/' element={<ProjectPage />} />
                   <Route path='/project' element={<ProjectPage />} />
-                  <Route path='/world' element={<WorldEditor />} />
                   <Route path='/map' element={<MapEditor />} />
                   <Route path='/object' element={<ObjectEditor />} />
-                  <Route path='/event' element={<WorldEditor />} />
                   <Route path='/images' element={<Images />} />
+                  <Route path='/event-graph' element={<EventGraph />} />
                 </Routes>
               </ScrollArea>
               <ScrollArea style={{ width: '50%', height: '100%' }}> {/* Right pane */}

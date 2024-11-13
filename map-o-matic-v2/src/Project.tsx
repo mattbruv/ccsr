@@ -51,6 +51,10 @@ function ProjectPage() {
         loadZipFromServer(selected.value).then((project) => {
             project.metadata.author = "Funny Garbage"
             project.metadata.name = selected.label
+            // Disable automatically showing the incomplete maps
+            // So users don't get confused when they are overlaid
+            project.maps.filter(x => x.filename.length !== 4)
+                .forEach(x => x.render.showMap = false)
             updateProject(project, true)
             close()
         })
@@ -83,13 +87,13 @@ function ProjectPage() {
                     <Input.Wrapper label="Project Name">
                         <Input
                             value={project.metadata.name}
-                            onChange={(e) => updateProject({ ...project, metadata: { ...project.metadata, name: e.target.value } })}
+                            onChange={(e) => updateProject({ ...project, metadata: { ...project.metadata, name: e.target.value } }, false, false)}
                         />
                     </Input.Wrapper>
                     <Input.Wrapper label="Author">
                         <Input
                             value={project.metadata.author}
-                            onChange={(e) => updateProject({ ...project, metadata: { ...project.metadata, author: e.target.value } })}
+                            onChange={(e) => updateProject({ ...project, metadata: { ...project.metadata, author: e.target.value } }, false, false)}
                         />
                     </Input.Wrapper>
                 </div>

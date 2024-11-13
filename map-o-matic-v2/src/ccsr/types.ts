@@ -13,6 +13,8 @@ export type Project = {
 export type ProjectState = {
   selectedMap: UUID | null,
   selectedObject: UUID | null,
+  exportAsJSON: boolean
+  exportPretty: boolean
 }
 
 // Contains all information related to a game map
@@ -25,7 +27,7 @@ export type MapFile = {
   // parseResult: ASTParseResult
 
   /** The Map Data parsed into a useable Javascript Object */
-  data?: MapData
+  data: MapData
 };
 
 export type MapRenderSettings = {

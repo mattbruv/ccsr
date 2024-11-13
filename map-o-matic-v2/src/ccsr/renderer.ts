@@ -77,6 +77,12 @@ class CCSRRenderer {
         for (const map of project.maps) {
             this.renderMap(map)
         }
+
+        // Remove maps that are no longer in the project
+        const ids = project.maps.flatMap(x => x.random_id)
+        const deletedMaps = this.mapRenders.filter(x => !ids.includes(x.randomId))
+        deletedMaps.forEach(x => this.viewport.removeChild(x.container))
+        this.mapRenders = this.mapRenders.filter(x => ids.includes(x.randomId))
     }
 
     public centerOnMap(map_id: UUID) {
@@ -154,9 +160,6 @@ class MapRender {
         try {
             const x = parseInt(file.filename.slice(0, 2))
             let y = parseInt(file.filename.slice(2, 4))
-            if (file.filename.length !== 4) {
-                y += 1.25
-            }
             this.container.position.set(x * MAP_WIDTH, y * MAP_HEIGHT)
         }
         catch (e) {
@@ -165,6 +168,7 @@ class MapRender {
 
         const objects = file.data?.objects ?? [];
 
+        this.container.visible = file.render.showMap
         this.border.visible = file.render.showMapBorder
         this.grid.visible = file.render.showMapGrid
         this.collisionSprite.visible = file.render.showCollision

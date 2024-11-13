@@ -70,7 +70,7 @@ async function loadProjectFile(blob: Blob | File): Promise<Project> {
             // Get just the filename
             map.filename = filename.split("/").at(-1)?.split(".").slice(0, -1).join(".")!;
             map.file_text = text;
-            map.data = data;
+            if (data) map.data = data;
             return map
         }))
 

@@ -108,7 +108,7 @@ export type MapObjectItem = {
   name: string;
   type: MapObjectType;
   visi: MapObjectVisibility;
-  COND: (MapObjectCond | null)[];
+  COND: MapObjectCond[];
 };
 
 // gConMove = [#none, #AUTO, #push, #pull, #movex, #movey]

@@ -65,7 +65,14 @@ export function newMapFile(): MapFile {
             collisionAlpha: 0.5
         },
         file_text: "",
-        data: undefined,
+        data: {
+            metadata: {
+                dataType: MapDataType.Metadata,
+                roomid: "",
+                roomStatus: 0
+            },
+            objects: []
+        },
         random_id: crypto.randomUUID()
     }
 

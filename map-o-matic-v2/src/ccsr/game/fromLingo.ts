@@ -183,12 +183,11 @@ function lingoObjectToMapObjectVisibility(object: LingoObject): MapObjectVisibil
     return visibility;
 }
 
-function lingoArrayToMapObjectCond(array: LingoArray): (MapObjectCond | null)[] {
-    const conds: (MapObjectCond | null)[] = [];
+function lingoArrayToMapObjectCond(array: LingoArray): MapObjectCond[] {
+    const conds: MapObjectCond[] = [];
 
     for (const child of array.children) {
         if (child.type !== LingoType.Object) {
-            conds.push(null);
             continue;
         }
 
@@ -217,9 +216,7 @@ function lingoArrayToMapObjectCond(array: LingoArray): (MapObjectCond | null)[] 
         conds.push(cond);
     }
 
-    // Filter out null values for the sake of keeping a clean array
-    // We'll add up to 4 null values back on export to match the original map data.
-    return conds.filter(x => x !== null);
+    return conds
 }
 
 

@@ -14,6 +14,7 @@ import '@mantine/core/styles.css';
 
 import { createTheme, MantineProvider } from '@mantine/core';
 import { BrowserRouter } from 'react-router-dom';
+import { ModalsProvider } from '@mantine/modals';
 
 const theme = createTheme({
   /** Put your mantine theme override here */
@@ -22,7 +23,9 @@ const theme = createTheme({
 createRoot(document.getElementById('root')!).render(
   <MantineProvider defaultColorScheme='light' theme={theme}>
     <BrowserRouter>
-      <App />
+      <ModalsProvider>
+        <App />
+      </ModalsProvider>
     </BrowserRouter>
   </MantineProvider>
 )

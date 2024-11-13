@@ -1,4 +1,4 @@
-import { ActionIcon, Card, ComboboxData, Group, NumberInput, Select, Stack, Textarea, TextInput, Tooltip, useCombobox } from "@mantine/core";
+import { ActionIcon, Card, ComboboxData, Group, NumberInput, Select, Stack, Text, Textarea, TextInput, Tooltip, useCombobox } from "@mantine/core";
 import { MapObject, MapObjectCond, MapObjectMessage, MapObjectMoveCond, MapObjectType } from "./ccsr/game/types"
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { produce } from "immer";
@@ -7,22 +7,31 @@ import { IconCodePlus, IconMailPlus, IconTrash } from "@tabler/icons-react";
 const mapObjectTypes = Object.entries(MapObjectType)
 const mapObjectTypeOptions: string[] = mapObjectTypes.map(([_, value]) => value);
 
-function ObjectEditor() {
-
-    const { project, updateMap } = useMapOMaticContext()
+function ObjectEditorPage() {
+    const { project } = useMapOMaticContext()
 
     const selectedObject = project.maps
         .flatMap(x => x.data?.objects ?? [])
         .find(o => o.random_id === project.state.selectedObject)
 
-    const CONDS = (selectedObject?.data.item.COND ?? [])
-        .filter(x => x !== null)
+    return (
+        (selectedObject ? <ObjectEditor selectedObject={selectedObject} /> : <div>
+            <Text>Edit an object in the Map Editor to use this page</Text>
+        </div>)
+    )
 
-    const MESSAGES = (selectedObject?.data.message ?? [])
+}
+
+function ObjectEditor({ selectedObject }: { selectedObject: MapObject }) {
+
+    const { project, updateMap } = useMapOMaticContext()
+
+    const CONDS = selectedObject.data.item.COND
+    const MESSAGES = selectedObject.data.message
 
     function updateObject(object: MapObject): void {
         const map = project.maps.find(x => x.data?.objects.some(o => o.random_id === object.random_id))
-        if (!map?.data?.objects) return;
+        if (!map) return;
         updateMap({
             ...map,
             data: {
@@ -33,21 +42,18 @@ function ObjectEditor() {
     }
 
     function updateCond(cond: MapObjectCond, index: number) {
-        if (!selectedObject) return;
         updateObject(produce(selectedObject, draft => {
             draft.data.item.COND[index] = cond
         }))
     }
 
     function removeCond(index: number) {
-        if (!selectedObject) return;
         updateObject(produce(selectedObject, draft => {
             draft.data.item.COND.splice(index, 1)
         }))
     }
 
     function addCond() {
-        if (!selectedObject) return;
         updateObject(produce(selectedObject, draft => {
             draft.data.item.COND.push({
                 giveAct: "",
@@ -59,21 +65,18 @@ function ObjectEditor() {
     }
 
     function updateMessage(message: MapObjectMessage, index: number) {
-        if (!selectedObject) return;
         updateObject(produce(selectedObject, draft => {
             draft.data.message[index] = message
         }))
     }
 
     function removeMessage(index: number) {
-        if (!selectedObject) return;
         updateObject(produce(selectedObject, draft => {
             draft.data.message.splice(index, 1)
         }))
     }
 
     function addMessage() {
-        if (!selectedObject) return;
         updateObject(produce(selectedObject, draft => {
             draft.data.message.push({
                 plrAct: "",
@@ -104,31 +107,31 @@ function ObjectEditor() {
                 <Card padding="lg" radius="md" withBorder>
                     <Stack gap={"xs"}>
                         <Group>
-                            <Select data={mapObjectTypeOptions} label="Collision Type" placeholder="Type" value={selectedObject?.data.item.type}
+                            <Select data={mapObjectTypeOptions} label="Collision Type" placeholder="Type" value={selectedObject.data.item.type}
                                 onChange={(val) => {
                                     const newType = mapObjectTypes.find(x => x[1] === val)?.[1]
                                     console.log(newType)
-                                    if (selectedObject && newType) updateObject(produce(selectedObject, draft => {
+                                    if (newType) updateObject(produce(selectedObject, draft => {
                                         draft.data.item.type = newType
                                     }))
                                 }}
                             />
                             <TextInput
                                 label="Member Texture"
-                                value={selectedObject?.member}
+                                value={selectedObject.member}
                                 onChange={(e) => {
                                     const newMember = e.target.value
-                                    if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                    updateObject(produce(selectedObject, draft => {
                                         draft.member = newMember
                                     }))
                                 }}
                             />
                             <TextInput
                                 label="Name"
-                                value={selectedObject?.data.item.name}
+                                value={selectedObject.data.item.name}
                                 onChange={(e) => {
                                     const newMember = e.target.value
-                                    if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                    updateObject(produce(selectedObject, draft => {
                                         draft.data.item.name = newMember
                                     }))
                                 }}
@@ -138,10 +141,10 @@ function ObjectEditor() {
                             <NumberInput
                                 label="X Offset (Tile)"
                                 placeholder="X"
-                                value={selectedObject?.location.x}
+                                value={selectedObject.location.x}
                                 onChange={(e) => {
                                     const newX = Number(e)
-                                    if (selectedObject && !isNaN(newX)) updateObject(produce(selectedObject, draft => {
+                                    if (!isNaN(newX)) updateObject(produce(selectedObject, draft => {
                                         draft.location.x = newX
                                     }))
                                 }}
@@ -149,10 +152,10 @@ function ObjectEditor() {
                             <NumberInput
                                 label="Y Offset (Tile)"
                                 placeholder="Y"
-                                value={selectedObject?.location.y}
+                                value={selectedObject.location.y}
                                 onChange={(e) => {
                                     const newY = Number(e)
-                                    if (selectedObject && !isNaN(newY)) updateObject(produce(selectedObject, draft => {
+                                    if (!isNaN(newY)) updateObject(produce(selectedObject, draft => {
                                         draft.location.y = newY
                                     }))
                                 }}
@@ -161,22 +164,22 @@ function ObjectEditor() {
                         <Group>
                             <NumberInput
                                 label="Width (Pixels)"
-                                value={selectedObject?.width}
+                                value={selectedObject.width}
                                 step={32}
                                 onChange={(e) => {
                                     const newWidth = Number(e)
-                                    if (selectedObject && !isNaN(newWidth)) updateObject(produce(selectedObject, draft => {
+                                    if (!isNaN(newWidth)) updateObject(produce(selectedObject, draft => {
                                         draft.width = newWidth
                                     }))
                                 }}
                             />
                             <NumberInput
                                 label="Height (Pixels)"
-                                value={selectedObject?.height}
+                                value={selectedObject.height}
                                 step={32}
                                 onChange={(e) => {
                                     const newHeight = Number(e)
-                                    if (selectedObject && !isNaN(newHeight)) updateObject(produce(selectedObject, draft => {
+                                    if (!isNaN(newHeight)) updateObject(produce(selectedObject, draft => {
                                         draft.height = newHeight
                                     }))
                                 }}
@@ -185,20 +188,20 @@ function ObjectEditor() {
                         <Group>
                             <TextInput
                                 label="Width Shift (Pixels)"
-                                value={selectedObject?.WSHIFT}
+                                value={selectedObject.WSHIFT}
                                 onChange={(e) => {
                                     const newWShift = parseInt(e.target.value)
-                                    if (selectedObject && !isNaN(newWShift)) updateObject(produce(selectedObject, draft => {
+                                    if (!isNaN(newWShift)) updateObject(produce(selectedObject, draft => {
                                         draft.WSHIFT = newWShift
                                     }))
                                 }}
                             />
                             <TextInput
                                 label="Height Shift (Pixels)"
-                                value={selectedObject?.HSHIFT}
+                                value={selectedObject.HSHIFT}
                                 onChange={(e) => {
                                     const newHShift = parseInt(e.target.value)
-                                    if (selectedObject && !isNaN(newHShift)) updateObject(produce(selectedObject, draft => {
+                                    if (!isNaN(newHShift)) updateObject(produce(selectedObject, draft => {
                                         draft.HSHIFT = newHShift
                                     }))
                                 }}
@@ -210,18 +213,18 @@ function ObjectEditor() {
                     <Group>
                         <TextInput
                             label="Visible Object"
-                            value={selectedObject?.data.item.visi.visiObj}
+                            value={selectedObject.data.item.visi.visiObj}
                             onChange={(e) => {
-                                if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                updateObject(produce(selectedObject, draft => {
                                     draft.data.item.visi.visiObj = e.target.value
                                 }))
                             }}
                         />
                         <TextInput
                             label="Visible Act"
-                            value={selectedObject?.data.item.visi.visiAct}
+                            value={selectedObject.data.item.visi.visiAct}
                             onChange={(e) => {
-                                if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                updateObject(produce(selectedObject, draft => {
                                     draft.data.item.visi.visiAct = e.target.value
                                 }))
                             }}
@@ -230,18 +233,18 @@ function ObjectEditor() {
                     <Group>
                         <TextInput
                             label="Invisible Object"
-                            value={selectedObject?.data.item.visi.inviObj}
+                            value={selectedObject.data.item.visi.inviObj}
                             onChange={(e) => {
-                                if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                updateObject(produce(selectedObject, draft => {
                                     draft.data.item.visi.inviObj = e.target.value
                                 }))
                             }}
                         />
                         <TextInput
                             label="Invisible Act"
-                            value={selectedObject?.data.item.visi.inviAct}
+                            value={selectedObject.data.item.visi.inviAct}
                             onChange={(e) => {
-                                if (selectedObject) updateObject(produce(selectedObject, draft => {
+                                updateObject(produce(selectedObject, draft => {
                                     draft.data.item.visi.inviAct = e.target.value
                                 }))
                             }}
@@ -250,9 +253,11 @@ function ObjectEditor() {
                 </Card>
                 <Card padding="lg" radius="md" withBorder>
                     <Group>
-                        <ActionIcon title="Add new Condition" color={"green"} onClick={addCond}>
-                            <IconCodePlus></IconCodePlus>
-                        </ActionIcon>
+                        <Tooltip label="Add New Condition">
+                            <ActionIcon title="Add new Condition" color={"green"} onClick={addCond}>
+                                <IconCodePlus></IconCodePlus>
+                            </ActionIcon>
+                        </Tooltip>
                     </Group>
                     {CONDS.map((cond, index) => {
                         return (
@@ -290,9 +295,11 @@ function ObjectEditor() {
                 </Card>
                 <Card padding="lg" radius="md" withBorder>
                     <Group>
-                        <ActionIcon title="Add new Message" color={"green"} onClick={addMessage}>
-                            <IconMailPlus></IconMailPlus>
-                        </ActionIcon>
+                        <Tooltip label="Add New Message">
+                            <ActionIcon title="Add New Message" color={"green"} onClick={addMessage}>
+                                <IconMailPlus></IconMailPlus>
+                            </ActionIcon>
+                        </Tooltip>
                     </Group>
                     {MESSAGES.map((message, index) => {
                         return (
@@ -327,7 +334,7 @@ function ObjectEditor() {
                         <Group>
                             <TextInput
                                 label="Left"
-                                value={selectedObject?.data.move.L}
+                                value={selectedObject.data.move.L}
                                 onChange={(e) => {
                                     const newLeft = parseInt(e.target.value)
                                     if (selectedObject && !isNaN(newLeft)) updateObject(produce(selectedObject, draft => {
@@ -337,7 +344,7 @@ function ObjectEditor() {
                             />
                             <TextInput
                                 label="Right"
-                                value={selectedObject?.data.move.R}
+                                value={selectedObject.data.move.R}
                                 onChange={(e) => {
                                     const newRight = parseInt(e.target.value)
                                     if (selectedObject && !isNaN(newRight)) updateObject(produce(selectedObject, draft => {
@@ -347,7 +354,7 @@ function ObjectEditor() {
                             />
                             <TextInput
                                 label="Up"
-                                value={selectedObject?.data.move.U}
+                                value={selectedObject.data.move.U}
                                 onChange={(e) => {
                                     const newUp = parseInt(e.target.value)
                                     if (selectedObject && !isNaN(newUp)) updateObject(produce(selectedObject, draft => {
@@ -357,7 +364,7 @@ function ObjectEditor() {
                             />
                             <TextInput
                                 label="Down"
-                                value={selectedObject?.data.move.d}
+                                value={selectedObject.data.move.d}
                                 onChange={(e) => {
                                     const newDown = parseInt(e.target.value)
                                     if (selectedObject && !isNaN(newDown)) updateObject(produce(selectedObject, draft => {
@@ -372,7 +379,7 @@ function ObjectEditor() {
                             <Select
                                 label="Move Type"
                                 data={condSelections}
-                                value={selectedObject?.data.move.COND.toString()}
+                                value={selectedObject.data.move.COND.toString()}
                                 onChange={(value) => {
                                     if (value === null) return;
                                     const newCond = parseInt(value)
@@ -385,7 +392,7 @@ function ObjectEditor() {
                                 <TextInput
                                     label="Time A"
                                     disabled
-                                    value={selectedObject?.data.move.TIMEA}
+                                    value={selectedObject.data.move.TIMEA}
                                     onChange={(e) => {
                                         const newTime = parseInt(e.target.value)
                                         if (selectedObject && !isNaN(newTime)) updateObject(produce(selectedObject, draft => {
@@ -398,7 +405,7 @@ function ObjectEditor() {
                                 <TextInput
                                     label="Time B"
                                     disabled
-                                    value={selectedObject?.data.move.TIMEB}
+                                    value={selectedObject.data.move.TIMEB}
                                     onChange={(e) => {
                                         const newTime = parseInt(e.target.value)
                                         if (selectedObject && !isNaN(newTime)) updateObject(produce(selectedObject, draft => {
@@ -415,4 +422,4 @@ function ObjectEditor() {
     )
 }
 
-export default ObjectEditor
+export default ObjectEditorPage

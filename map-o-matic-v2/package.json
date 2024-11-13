@@ -11,8 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/modals": "^7.13.5",
     "@tabler/icons-react": "^3.19.0",
+    "@types/cytoscape": "^3.21.8",
+    "@types/cytoscape-dagre": "^2.3.3",
     "@types/pngjs": "^6.0.5",
+    "cytoscape": "^3.30.3",
+    "cytoscape-dagre": "^2.5.0",
     "file-saver": "^2.0.5",
     "immer": "^10.1.1",
     "jszip": "^3.10.1",
