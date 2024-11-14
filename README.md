@@ -8,6 +8,7 @@
 ### **[Play it HERE in your Browser!](https://mattbruv.github.io/ccsr)**
 
 This is a modern port of the Shockwave game series Cartoon Cartoon Summer Resort.
+It also includes Scooby Doo Hollywood Horror Part 1 and Part 2, as well as a fully featured map editor.
 
 **Cartoon Cartoon Summer Resort** is the name of a series of four episodic Adventure Games formerly hosted on Cartoon Network's official website, featuring characters from their Cartoon Cartoons original programming. The game was created and released in summer 2000 tying in to the first Big Pick. Each playable character was from one of the shorts selected that could have become a full fleged series during the promotion.
 

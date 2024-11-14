@@ -1,0 +1,40 @@
+name: Run Jest Tests
+
+# This workflow will run on pushes and pull requests to the main branch
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    # Runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    # Steps to be executed
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.9.0'  # Use the version your project requires
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          git submodule update --init --recursive
+          cd map-o-matic-v2
+          npm install
+
+      # Step 4: Run Jest tests
+      - name: Run Jest tests
+        run: |
+          cd map-o-matic-v2
+          npm run test
