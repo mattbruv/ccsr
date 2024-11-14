@@ -1,0 +1,144 @@
+{
+    "walkIntoWater": "¡No se puede caminar sobre el agua!",
+    "noItems": "No tienes nada.",
+    "scene": {
+        "plugMyHoles": "¡La única manera de detenerlo es si me das cinco objetos para tapar sus cañones! ¡Elige bien!"
+    },
+    "inventory": [
+        {
+            "key": "cart",
+            "name": "carro portaequipajes",
+            "description": "este es tu carro de equipaje."
+        },
+        {
+            "key": "mojojojo",
+            "name": "MojoJojo",
+            "description": "¡No me mires a mí! ¡Mira hacia otro lado, AHORA!"
+        },
+        {
+            "key": "cheese",
+            "name": "cuña de queso",
+            "description": "En Francia, esto se llama 'Fromage'."
+        },
+        {
+            "key": "nutlog",
+            "name": "nut-log",
+            "description": "¡Mira este estupendo Nut-Log!"
+        },
+        {
+            "key": "flower",
+            "name": "bonita flor",
+            "description": "Qué flor tan bonita"
+        },
+        {
+            "key": "uglyflower",
+            "name": "flor fea",
+            "description": "¿Quién recogió esta flor?"
+        },
+        {
+            "key": "tam",
+            "name": "pandereta",
+            "description": "¡Una pandereta! ¡Ve a formar una banda!"
+        },
+        {
+            "key": "starfish",
+            "name": "estrella de mar",
+            "description": "Las estrellas de mar son equinodermos."
+        },
+        {
+            "key": "glasses",
+            "name": "gafas de sol",
+            "description": "Unas gafas de sol muy chulas."
+        },
+        {
+            "key": "wallet",
+            "name": "cartera",
+            "description": "Es la cartera del alcalde"
+        },
+        {
+            "key": "ten",
+            "name": "$10",
+            "description": "¡Vaya! Diez dólares"
+        },
+        {
+            "key": "mask",
+            "name": "Máscara de Zorak",
+            "description": "Esta máscara da miedo, pero es familiar."
+        },
+        {
+            "key": "key",
+            "name": "Llave esqueleto",
+            "description": "Esto abrirá casi cualquier puerta."
+        },
+        {
+            "key": "brak",
+            "name": "Tarjeta Brak",
+            "description": "Es una tarjeta de intercambio de BRAK."
+        },
+        {
+            "key": "burger",
+            "name": "hamburguesa",
+            "description": "Un sándwich hecho de HAMBURGUESA."
+        },
+        {
+            "key": "ketchup",
+            "name": "ketchup",
+            "description": "Un práctico paquete de ketchup."
+        },
+        {
+            "key": "kitty",
+            "name": "gatito juguete",
+            "description": "Mi ingenioso y esponjoso gatito de juguete."
+        },
+        {
+            "key": "mustache",
+            "name": "Bigote falso",
+            "description": "Un bigote falso. Engañoso."
+        },
+        {
+            "key": "octo",
+            "name": "pulpo",
+            "description": "Los pulpos son cefalópodos."
+        },
+        {
+            "key": "rock",
+            "name": "piedra",
+            "description": "Una piedra con cuello... ¿eh?"
+        },
+        {
+            "key": "pineapple",
+            "name": "piña",
+            "description": "Una jugosa piña. ¡Qué rico!"
+        },
+        {
+            "key": "sgcard",
+            "name": "Tarjeta SpaceGhost",
+            "description": "Una tarjeta de intercambio de Space Ghost."
+        },
+        {
+            "key": "turnip",
+            "name": "nabo",
+            "description": "Es un nabo... qué útil."
+        },
+        {
+            "key": "wig",
+            "name": "peluca",
+            "description": "¡Una gran peluca! Es realmente peludo."
+        },
+        {
+            "key": "yoyo",
+            "name": "yo-yo",
+            "description": "¡Los yo-yo son divertidos!"
+        },
+        {
+            "key": "armor",
+            "name": "armadura",
+            "description": "Es pesado. Es metal. Es heavy metal."
+        },
+        {
+            "key": "scuba",
+            "name": "barco",
+            "description": "Un barco bueno y en condiciones de navegar."
+        }
+    ]
+}

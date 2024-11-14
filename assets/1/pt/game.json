@@ -1,0 +1,89 @@
+{
+    "walkIntoWater": "Não se pode simplesmente entrar na água!!!",
+    "noItems": "Você não tem itens.",
+    "scene": {
+        "plugMyHoles": "Ah não! Os canos estão estourados! Você tem alguma coisa para tapar os buracos?"
+    },
+    "inventory": [
+        {
+            "key": "firstaid",
+            "name": "firstAid",
+            "description": "Kit de Primeiros-Socorros, garantia de cura!"
+        },
+        {
+            "key": "hammer",
+            "name": "hammer",
+            "description": "Um martelo para bater nas coisas."
+        },
+        {
+            "key": "sock",
+            "name": "sock",
+            "description": "Essa meia tem cheiro de pé."
+        },
+        {
+            "key": "chocbar",
+            "name": "candy",
+            "description": "Um Chocolate delicioso."
+        },
+        {
+            "key": "ducktape",
+            "name": "duckTape",
+            "description": "Fita feita de pato, Fita de Pato."
+        },
+        {
+            "key": "bandaid",
+            "name": "bandAid",
+            "description": "Um Band-Aid novinho."
+        },
+        {
+            "key": "bananas",
+            "name": "bananas",
+            "description": "Sim, nós temos Bananas!"
+        },
+        {
+            "key": "sunscreen",
+            "name": "sunscreen",
+            "description": "Protetor solar, protege dos raios U-V!"
+        },
+        {
+            "key": "keys",
+            "name": "keys",
+            "description": "chaves do Ônibus Cartoon Network."
+        },
+        {
+            "key": "wrench",
+            "name": "wrench",
+            "description": "Uma chave para porcas e parafusos."
+        },
+        {
+            "key": "gum",
+            "name": "gum",
+            "description": "Parece que esse chiclete já foi mascado."
+        },
+        {
+            "key": "tape",
+            "name": "scotchTape",
+            "description": "Fita feita na Escócia, Fita Adesiva."
+        },
+        {
+            "key": "deedee",
+            "name": "DeeDee",
+            "description": "É a irmã do Dexter, Dee-Dee."
+        },
+        {
+            "key": "chicken",
+            "name": "Chicken",
+            "description": "É o irmão da Vaca, Frango."
+        },
+        {
+            "key": "tennis",
+            "name": "racket",
+            "description": "Vamos jogar tênis!"
+        },
+        {
+            "key": "scuba",
+            "name": "boat",
+            "description": "Uma embarcação navegável."
+        }
+    ]
+}
