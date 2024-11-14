@@ -6,6 +6,7 @@ export const MapOMaticContext = createContext<MapOMatic | undefined>(undefined);
 
 export type MapOMatic = {
     project: Project
+    rerenderProject: () => void,
     updateProject: (newProject: Project, reloadImages?: boolean, rerender?: boolean) => void,
     updateMap: (newMap: MapFile, rerender?: boolean) => void,
     centerOnMap: (map_id: UUID) => void,

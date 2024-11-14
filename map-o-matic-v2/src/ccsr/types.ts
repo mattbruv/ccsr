@@ -41,9 +41,9 @@ export type MapRenderSettings = {
 export type ImageFile = {
   path: string;
   filename: string;
-  filenameAndExtension: string
   originalData: Blob
   data: Blob;
+  randomId: UUID
 };
 
 // Contains metadata about a project

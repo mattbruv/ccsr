@@ -24,7 +24,7 @@ export function saveProjectToZip(project: Project) {
     }
 
     for (const image of project.images) {
-        zip.file(image.path, image.originalData)
+        zip.file(image.path + image.filename + ".png", image.originalData)
     }
 
     zip.generateAsync({ type: "blob" })
@@ -83,15 +83,14 @@ async function loadProjectFile(blob: Blob | File): Promise<Project> {
         .map(async (pngFile) => {
             const originalBlob = await pngFile.async("blob")
             const blob = await removeWhiteFromBlob(originalBlob)
-
             const filenameAndExtension = filenameFromPath(pngFile.name)
 
             const image: ImageFile = {
                 data: blob,
                 originalData: originalBlob,
                 filename: filenameAndExtension.split(".png").at(0) ?? "",
-                filenameAndExtension,
-                path: pngFile.name,
+                path: pngFile.name.replace(filenameAndExtension, ""),
+                randomId: crypto.randomUUID()
             }
             return image
         }));
@@ -100,7 +99,7 @@ async function loadProjectFile(blob: Blob | File): Promise<Project> {
 }
 
 // Chat GPT generated garbage
-async function removeWhiteFromBlob(blob: Blob): Promise<Blob> {
+export async function removeWhiteFromBlob(blob: Blob): Promise<Blob> {
     // Create an image element
     const img = new Image();
     img.src = URL.createObjectURL(blob);

@@ -1,4 +1,4 @@
-import { ActionIcon, AppShell, Burger, Button, Flex, Group, Modal, NavLink, NumberInput, ScrollArea, Stack, Switch, Text } from '@mantine/core'
+import { ActionIcon, Anchor, AppShell, Burger, Button, Flex, Group, Modal, NavLink, NumberInput, ScrollArea, Stack, Switch, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconApple, IconCamera, IconGraph, IconImageInPicture, IconMap, IconSchema, IconSettings, IconWorld } from '@tabler/icons-react';
 import { Link, Route, Routes } from 'react-router-dom';
@@ -29,6 +29,9 @@ function App() {
 
   const mapOMatic: MapOMatic = {
     project,
+    rerenderProject: () => {
+      CCSRRenderer.renderProject(project, true)
+    },
     updateProject: (newProject, reloadImages: boolean | undefined = false, rerender: boolean = true) => {
       setProject(newProject)
       if (rerender) {
@@ -90,6 +93,8 @@ function App() {
 
 
   }
+
+  const [noticeOpened, noticeCallbacks] = useDisclosure(false);
 
   return (
     <>
@@ -163,13 +168,17 @@ function App() {
               />
             </AppShell.Section>
             <AppShell.Section>
-              <Text size="xs">
-                Map-O-Matic v2
-              </Text>
+              <div onClick={noticeCallbacks.open}>
+                <Anchor>
+                  <Text size="xs">
+                    Map-O-Matic v2
+                  </Text>
+                </Anchor>
+              </div>
             </AppShell.Section>
           </AppShell.Navbar>
           <AppShell.Main>
-            <Notice />
+            <Notice close={noticeCallbacks.close} open={noticeCallbacks.open} opened={noticeOpened} />
             <Flex style={{ height: '85vh' }}> {/* Full height container */}
               <ScrollArea style={{ width: '50%', height: '100%' }}> {/* Left pane */}
                 <Routes>

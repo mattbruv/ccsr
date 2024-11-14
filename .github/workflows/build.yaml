@@ -24,6 +24,15 @@ jobs:
           python setup.py
           npm install
           npm run build
+          mkdir -p dist/editor
+
+      - name: Install and Build Editor 
+        run: |
+          cd map-o-matic-v2
+          npm install
+          npm run build
+          cd ../port
+          cp -r ../map-o-matic-v2/dist/* dist/editor/
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

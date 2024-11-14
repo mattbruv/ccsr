@@ -11,7 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/modals": "^7.13.5",
+    "@mantine/core": "^7.14.0",
+    "@mantine/dropzone": "^7.14.0",
+    "@mantine/modals": "^7.14.0",
     "@tabler/icons-react": "^3.19.0",
     "@types/cytoscape": "^3.21.8",
     "@types/cytoscape-dagre": "^2.3.3",

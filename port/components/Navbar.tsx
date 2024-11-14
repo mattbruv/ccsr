@@ -11,6 +11,7 @@ import {
 import Settings from "@mui/icons-material/Settings";
 import Github from "@mui/icons-material/GitHub";
 import Discord from "@mui/icons-material/Forum";
+import MapIcon from "@mui/icons-material/Map";
 
 type NavbarProps = {
   openPageCB: (page: string) => void;
@@ -65,6 +66,17 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
         <Toolbar>
           <Stack sx={{ flexGrow: 1 }} direction="row"></Stack>
           <Box style={this.toolbarDisplay()}>
+            <Tooltip arrow title={t.mapEditor}>
+              <Link
+                color="inherit"
+                href="https://mattbruv.github.io/ccsr/editor"
+                target="_blank"
+              >
+                <IconButton size="large" color="inherit">
+                  <MapIcon />
+                </IconButton>
+              </Link>
+            </Tooltip>
             <Tooltip arrow title={t.discord}>
               <Link
                 color="inherit"
@@ -100,7 +112,7 @@ export class Navbar extends React.Component<NavbarProps, NavbarState> {
             </Tooltip>
           </Box>
         </Toolbar>
-      </AppBar>
+      </AppBar >
     );
   }
 }
