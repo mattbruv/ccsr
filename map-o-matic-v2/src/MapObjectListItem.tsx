@@ -1,6 +1,6 @@
 import { Group, ActionIcon, Popover, NumberInput, Button, HoverCard, Indicator, Code, Card, Stack, Image, Text } from "@mantine/core"
 import { IconArrowUp, IconArrowDown, IconArrowMergeAltRight, IconPencil, IconCopyPlus, IconGhost, IconCodeDots, IconMessage, IconTextCaption, IconTrash } from "@tabler/icons-react"
-import { MapObject } from "./ccsr/game/types"
+import { MapObject, MapObjectType } from "./ccsr/game/types"
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { produce } from "immer"
 import { MapFile, UUID } from "./ccsr/types"
@@ -123,10 +123,26 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
         }
     }
 
+    function getBackgroundColor(obj: MapObject): string {
+        switch (obj.data.item.type) {
+            case MapObjectType.FLOR:
+            case MapObjectType.Scooby2_floor:
+                return "#CAF1DE"
+            case MapObjectType.WALL: return "#F7D8BA"
+            case MapObjectType.CHAR: return "#FFFFCC"
+            case MapObjectType.DOOR: return "#CCCCFF"
+            case MapObjectType.ITEM: return "#FFCCE5"
+            case MapObjectType.WATER: return "#CCE5FF"
+        }
+    }
+
     return (
-        <div key={obj.random_id}
+        <Card padding={"xs"} withBorder key={obj.random_id}
             onMouseEnter={() => highlightObject(obj.random_id)}
             onMouseLeave={() => resetHighlights()}
+            style={{
+                // backgroundColor: getBackgroundColor(obj)
+            }}
         >
             <Group>
                 <div>{index}</div>
@@ -257,6 +273,6 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
                     <IconTrash />
                 </ActionIcon>
             </Group>
-        </div>
+        </Card>
     );
 }
