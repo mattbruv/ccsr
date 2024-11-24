@@ -73,7 +73,8 @@ export function newMapFile(): MapFile {
             },
             objects: []
         },
-        random_id: crypto.randomUUID()
+        random_id: crypto.randomUUID(),
+        trashedObjects: []
     }
 
     return map

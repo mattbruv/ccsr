@@ -27,7 +27,8 @@ export type MapFile = {
   // parseResult: ASTParseResult
 
   /** The Map Data parsed into a useable Javascript Object */
-  data: MapData
+  data: MapData;
+  trashedObjects: MapObject[]
 };
 
 export type MapRenderSettings = {

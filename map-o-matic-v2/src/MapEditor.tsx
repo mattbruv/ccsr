@@ -10,7 +10,7 @@ import { MapObjectType } from "./ccsr/game/types";
 import GlobalActions from "./GlobalActions";
 import { modals } from "@mantine/modals";
 import MapDataExporter from "./MapData";
-import { MapObjectListItem } from "./MapObjectListItem";
+import { MapObjectListItem, MapObjectPreview } from "./MapObjectListItem";
 
 type MapEditorProps = {
     map: MapFile
@@ -304,9 +304,11 @@ function MapEditor({ map }: MapEditorProps) {
                             <Tabs.Tab value="objects" leftSection={<IconApple />}>
                                 Objects ({map.data.objects.length})
                             </Tabs.Tab>
-                            <Tabs.Tab value="trash" leftSection={<IconTrashX />}>
-                                Trash
-                            </Tabs.Tab>
+                            <Tooltip label="Trashed items will NOT be saved in your project">
+                                <Tabs.Tab value="trash" leftSection={<IconTrashX />}>
+                                    Trash ({map.trashedObjects.length})
+                                </Tabs.Tab>
+                            </Tooltip>
                         </Tabs.List>
                         <Tabs.Panel value="objects">
                             <div>
@@ -324,7 +326,13 @@ function MapEditor({ map }: MapEditorProps) {
                             </div>
                         </Tabs.Panel>
                         <Tabs.Panel value="trash">
-                            <div>Hi mom</div>
+                            <div>
+                                {map.trashedObjects.map(trash => (
+                                    <Group key={trash.random_id}>
+                                        <MapObjectPreview obj={trash} />
+                                    </Group>
+                                ))}
+                            </div>
                         </Tabs.Panel>
                     </Tabs>
                 </Card>
