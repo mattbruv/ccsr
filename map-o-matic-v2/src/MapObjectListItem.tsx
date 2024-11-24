@@ -40,13 +40,16 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
     }
 
 
-    function trashObject(random_id: string): void {
+    function trashObject(random_id: string, index: number): void {
         const deleted = map.data.objects.find(x => x.random_id === random_id)
         if (!deleted) return;
 
         updateMap(produce(map, draft => {
             draft.data.objects = draft.data.objects.filter(x => x.random_id !== random_id)
-            draft.trashedObjects.push(deleted)
+            draft.trashedObjects.push({
+                obj: deleted,
+                deletedAtIndex: index
+            })
         }))
     }
 
@@ -162,7 +165,7 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
                 <MapObjectPreview key={obj.random_id} obj={obj} />
                 <ActionIcon
                     color={"red"}
-                    onClick={() => trashObject(obj.random_id)}>
+                    onClick={() => trashObject(obj.random_id, index)}>
                     <IconTrash />
                 </ActionIcon>
             </Group>

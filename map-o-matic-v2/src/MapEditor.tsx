@@ -328,8 +328,8 @@ function MapEditor({ map }: MapEditorProps) {
                         <Tabs.Panel value="trash">
                             <div>
                                 {map.trashedObjects.map(trash => (
-                                    <Group key={trash.random_id}>
-                                        <MapObjectPreview obj={trash} />
+                                    <Group key={trash.obj.random_id}>
+                                        <MapObjectPreview obj={trash.obj} />
                                     </Group>
                                 ))}
                             </div>
