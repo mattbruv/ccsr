@@ -17,26 +17,8 @@ type MapObjectListItemProps = {
 
 export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): JSX.Element {
 
-    const { project, updateMap, updateState, updateProject } = useMapOMaticContext();
+    const { project, updateMap, updateState } = useMapOMaticContext();
     const navigate = useNavigate()
-
-    const messageCount = obj.data.message.length
-    const condsCount = obj.data.item.COND.length
-    const invisCount = Object.values(obj.data.item.visi).filter(x => x !== "").length
-    const name = obj.data.item.name
-
-    function iconShade(value: number): "lightgray" | "black" {
-        return value === 0 ? "lightgray" : "black"
-    }
-
-    function getImage(member: string): string {
-        if (member.toLowerCase().endsWith(".x"))
-            member = member.replace(".x", "")
-        const img = project.images.find(x => x.filename.toLowerCase() === member.toLowerCase())
-        if (img)
-            return URL.createObjectURL(img.data)
-        return ""
-    }
 
     function resetHighlights(): void {
         updateMap(produce(map, draft => {
@@ -123,18 +105,6 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
         }
     }
 
-    function getBackgroundColor(obj: MapObject): string {
-        switch (obj.data.item.type) {
-            case MapObjectType.FLOR:
-            case MapObjectType.Scooby2_floor:
-                return "#CAF1DE"
-            case MapObjectType.WALL: return "#F7D8BA"
-            case MapObjectType.CHAR: return "#FFFFCC"
-            case MapObjectType.DOOR: return "#CCCCFF"
-            case MapObjectType.ITEM: return "#FFCCE5"
-            case MapObjectType.WATER: return "#CCE5FF"
-        }
-    }
 
     return (
         <Card padding={"xs"} withBorder key={obj.random_id}
@@ -190,83 +160,7 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
                         <IconCopyPlus />
                     </ActionIcon>
                 </div>
-                <div>
-                    <Image mah={32} maw={32} src={getImage(obj.member)} alt={obj.member} />
-                </div>
-                <Group gap={5}>
-                    <HoverCard shadow={"xl"} disabled={!invisCount}>
-                        <HoverCard.Target>
-                            <Indicator size={16} inline disabled={!invisCount} color={"blue"} label={invisCount}>
-                                <IconGhost color={iconShade(invisCount)} title="Invisibility" />
-                            </Indicator>
-                        </HoverCard.Target>
-                        <HoverCard.Dropdown>
-                            {Object.entries(obj.data.item.visi).filter(([_, o]) => o).map(([key, val]) => (
-                                <div key={key}>{key}: <Code>{val}</Code></div>
-                            ))}
-                        </HoverCard.Dropdown>
-                    </HoverCard>
-                    <HoverCard shadow={"xl"} disabled={!condsCount}>
-                        <HoverCard.Target>
-                            <Indicator size={16} inline disabled={!condsCount} color={"blue"} label={condsCount}>
-                                <IconCodeDots color={iconShade(condsCount)} title="Conditions" />
-                            </Indicator>
-                        </HoverCard.Target>
-                        <HoverCard.Dropdown>
-                            {obj.data.item.COND
-                                .map(cond => {
-                                    const entries = Object.entries(cond)
-                                    return (
-                                        <Card withBorder>
-                                            <div>
-                                                {entries.map(([key, value]) => {
-                                                    return (
-                                                        <div key={key}>
-                                                            {key}: <Code>{value}</Code>
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-                                        </Card>
-                                    );
-                                })
-                            }
-                        </HoverCard.Dropdown>
-                    </HoverCard>
-                    <HoverCard shadow={"xl"} disabled={!messageCount}>
-                        <HoverCard.Target>
-                            <Indicator size={16} inline disabled={!messageCount} color={"blue"} label={messageCount}>
-                                <IconMessage color={iconShade(messageCount)} title="Messages" />
-                            </Indicator>
-                        </HoverCard.Target>
-                        <HoverCard.Dropdown>
-                            <Stack gap={"xs"}>
-                                {obj.data.message.map(x => {
-                                    return (
-                                        <div>
-                                            {x.plrAct ? (<Code>Act: {x.plrAct}</Code>) : null}
-                                            {x.plrObj ? (<Code>Obj: {x.plrObj}</Code>) : null}
-                                            <Text size={"sm"}>
-                                                {x.text.length > 50 ? x.text.slice(0, 50) + "..." : x.text}
-                                            </Text>
-                                        </div>
-                                    )
-                                })}
-                            </Stack>
-                        </HoverCard.Dropdown>
-                    </HoverCard>
-                    <HoverCard shadow={"xl"} disabled={!name}>
-                        <HoverCard.Target>
-                            <Indicator size={16} inline disabled={!name} color={"blue"} label={1}>
-                                <IconTextCaption color={iconShade(name.length)} title={name ? name : "Name"} />
-                            </Indicator>
-                        </HoverCard.Target>
-                        <HoverCard.Dropdown>
-                            <div><Code>{obj.data.item.type}</Code></div>
-                            <Code>{obj.data.item.name}</Code>
-                        </HoverCard.Dropdown>
-                    </HoverCard>
-                </Group>
+                <MapObjectPreview key={obj.random_id} obj={obj} />
                 <ActionIcon
                     color={"red"}
                     onClick={() => removeObj(obj.random_id)}>
@@ -275,4 +169,109 @@ export function MapObjectListItem({ map, obj, index }: MapObjectListItemProps): 
             </Group>
         </Card>
     );
+}
+
+type MapObjectPreviewProps = {
+    obj: MapObject
+}
+
+export function MapObjectPreview({ obj }: MapObjectPreviewProps) {
+    const { project } = useMapOMaticContext();
+    const messageCount = obj.data.message.length
+    const condsCount = obj.data.item.COND.length
+    const invisCount = Object.values(obj.data.item.visi).filter(x => x !== "").length
+    const name = obj.data.item.name
+
+    function iconShade(value: number): "lightgray" | "black" {
+        return value === 0 ? "lightgray" : "black"
+    }
+
+    function getImage(member: string): string {
+        if (member.toLowerCase().endsWith(".x"))
+            member = member.replace(".x", "")
+        const img = project.images.find(x => x.filename.toLowerCase() === member.toLowerCase())
+        if (img)
+            return URL.createObjectURL(img.data)
+        return ""
+    }
+
+    return (
+        <Group key={obj.random_id} gap={5}>
+            <div>
+                <Image mah={32} maw={32} src={getImage(obj.member)} alt={obj.member} />
+            </div>
+            <HoverCard shadow={"xl"} disabled={!invisCount}>
+                <HoverCard.Target>
+                    <Indicator size={16} inline disabled={!invisCount} color={"blue"} label={invisCount}>
+                        <IconGhost color={iconShade(invisCount)} title="Invisibility" />
+                    </Indicator>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                    {Object.entries(obj.data.item.visi).filter(([_, o]) => o).map(([key, val]) => (
+                        <div key={key}>{key}: <Code>{val}</Code></div>
+                    ))}
+                </HoverCard.Dropdown>
+            </HoverCard>
+            <HoverCard shadow={"xl"} disabled={!condsCount}>
+                <HoverCard.Target>
+                    <Indicator size={16} inline disabled={!condsCount} color={"blue"} label={condsCount}>
+                        <IconCodeDots color={iconShade(condsCount)} title="Conditions" />
+                    </Indicator>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                    {obj.data.item.COND
+                        .map(cond => {
+                            const entries = Object.entries(cond)
+                            return (
+                                <Card key={obj.random_id} withBorder>
+                                    <div>
+                                        {entries.map(([key, value]) => {
+                                            return (
+                                                <div key={key}>
+                                                    {key}: <Code>{value}</Code>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </Card>
+                            );
+                        })
+                    }
+                </HoverCard.Dropdown>
+            </HoverCard>
+            <HoverCard shadow={"xl"} disabled={!messageCount}>
+                <HoverCard.Target>
+                    <Indicator size={16} inline disabled={!messageCount} color={"blue"} label={messageCount}>
+                        <IconMessage color={iconShade(messageCount)} title="Messages" />
+                    </Indicator>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                    <Stack gap={"xs"}>
+                        {obj.data.message.map(x => {
+                            return (
+                                <div key={obj.random_id}>
+                                    {x.plrAct ? (<Code>Act: {x.plrAct}</Code>) : null}
+                                    {x.plrObj ? (<Code>Obj: {x.plrObj}</Code>) : null}
+                                    <Text size={"sm"}>
+                                        {x.text.length > 50 ? x.text.slice(0, 50) + "..." : x.text}
+                                    </Text>
+                                </div>
+                            )
+                        })}
+                    </Stack>
+                </HoverCard.Dropdown>
+            </HoverCard>
+            <HoverCard shadow={"xl"} disabled={!name}>
+                <HoverCard.Target>
+                    <Indicator size={16} inline disabled={!name} color={"blue"} label={1}>
+                        <IconTextCaption color={iconShade(name.length)} title={name ? name : "Name"} />
+                    </Indicator>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                    <div><Code>{obj.data.item.type}</Code></div>
+                    <Code>{obj.data.item.name}</Code>
+                </HoverCard.Dropdown>
+            </HoverCard>
+        </Group>
+    )
 }

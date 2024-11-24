@@ -1,7 +1,7 @@
 import { useMapOMaticContext } from "./context/MapOMaticContext"
-import { ActionIcon, Card, Code, ComboboxItem, Group, NumberInput, Select, Slider, Stack, Switch, Text, TextInput, Tooltip } from "@mantine/core";
+import { ActionIcon, Card, Code, ComboboxItem, Group, NumberInput, Select, Slider, Stack, Switch, Tabs, Text, TextInput, Tooltip } from "@mantine/core";
 import { MapFile, UUID } from "./ccsr/types";
-import { IconMapPlus, IconPlus, IconTool, IconTrashX } from "@tabler/icons-react";
+import { IconApple, IconMapPlus, IconPhone, IconPlus, IconTool, IconTrashX } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { produce } from "immer";
 import { useEffect, useState } from "react";
@@ -299,17 +299,34 @@ function MapEditor({ map }: MapEditorProps) {
                     </Group>
                 </Card>
                 <Card withBorder shadow={'xs'}>
-                    <Tooltip label="Add New Object">
-                        <ActionIcon
-                            color={"green"}
-                            disabled={!map}
-                            onClick={addObj}>
-                            <IconPlus />
-                        </ActionIcon>
-                    </Tooltip>
-                    {map.data.objects.map((obj, index) => (
-                        <MapObjectListItem map={map} obj={obj} index={index} />
-                    ))}
+                    <Tabs defaultValue={"objects"}>
+                        <Tabs.List>
+                            <Tabs.Tab value="objects" leftSection={<IconApple />}>
+                                Objects ({map.data.objects.length})
+                            </Tabs.Tab>
+                            <Tabs.Tab value="trash" leftSection={<IconTrashX />}>
+                                Trash
+                            </Tabs.Tab>
+                        </Tabs.List>
+                        <Tabs.Panel value="objects">
+                            <div>
+                                <Tooltip label="Add New Object">
+                                    <ActionIcon
+                                        color={"green"}
+                                        disabled={!map}
+                                        onClick={addObj}>
+                                        <IconPlus />
+                                    </ActionIcon>
+                                </Tooltip>
+                                {map.data.objects.map((obj, index) => (
+                                    <MapObjectListItem key={obj.random_id} map={map} obj={obj} index={index} />
+                                ))}
+                            </div>
+                        </Tabs.Panel>
+                        <Tabs.Panel value="trash">
+                            <div>Hi mom</div>
+                        </Tabs.Panel>
+                    </Tabs>
                 </Card>
             </div>
         </>
