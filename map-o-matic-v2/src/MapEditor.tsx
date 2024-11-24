@@ -1,9 +1,9 @@
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { ActionIcon, Card, Code, ComboboxItem, Group, NumberInput, Select, Slider, Stack, Switch, Tabs, Text, TextInput, Tooltip } from "@mantine/core";
-import { MapFile, UUID } from "./ccsr/types";
-import { IconApple, IconMapPlus, IconPhone, IconPlus, IconTool, IconTrashX } from "@tabler/icons-react";
+import { MapFile, TrashObject, UUID } from "./ccsr/types";
+import { IconApple, IconMapPlus, IconPhone, IconPlus, IconRestore, IconTool, IconTrashX } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { produce } from "immer";
+import { isDraft, produce } from "immer";
 import { useEffect, useState } from "react";
 import { newMapFile, newMapObject } from "./ccsr/helpers";
 import { MapObjectType } from "./ccsr/game/types";
@@ -241,6 +241,19 @@ function MapEditor({ map }: MapEditorProps) {
         }), false)
     }
 
+    function restoreObject(trash: TrashObject): void {
+        updateMap(produce(map, draft => {
+            // Put it and the end if the index is invalid
+            if (trash.deletedAtIndex >= draft.data.objects.length) {
+                draft.data.objects.push(trash.obj)
+            }
+            else {
+                draft.data.objects.splice(trash.deletedAtIndex, 0, trash.obj)
+            }
+            draft.trashedObjects = draft.trashedObjects.filter(x => x.obj.random_id !== trash.obj.random_id)
+        }))
+    }
+
     return (
         <>
             <div>
@@ -326,13 +339,23 @@ function MapEditor({ map }: MapEditorProps) {
                             </div>
                         </Tabs.Panel>
                         <Tabs.Panel value="trash">
-                            <div>
+                            <Card padding={"xs"} withBorder>
                                 {map.trashedObjects.map(trash => (
                                     <Group key={trash.obj.random_id}>
                                         <MapObjectPreview obj={trash.obj} />
+                                        <Tooltip label="Restore Object">
+                                            <ActionIcon
+                                                color={"green"}
+                                                onClick={() => restoreObject(trash)}>
+                                                <IconRestore />
+                                            </ActionIcon>
+                                        </Tooltip>
                                     </Group>
                                 ))}
-                            </div>
+                                {!map.trashedObjects.length ? (
+                                    <div>No objects have been deleted.</div>
+                                ) : null}
+                            </Card>
                         </Tabs.Panel>
                     </Tabs>
                 </Card>

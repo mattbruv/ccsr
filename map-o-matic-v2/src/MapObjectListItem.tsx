@@ -6,7 +6,7 @@ import { produce } from "immer"
 import { MapFile, UUID } from "./ccsr/types"
 import { MapOMaticPage } from "./App"
 import { useNavigate } from "react-router-dom";
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 
 type MapObjectListItemProps = {
     map: MapFile,
