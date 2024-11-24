@@ -1,12 +1,12 @@
 import { Group, ActionIcon, Popover, NumberInput, Button, HoverCard, Indicator, Code, Card, Stack, Image, Text } from "@mantine/core"
 import { IconArrowUp, IconArrowDown, IconArrowMergeAltRight, IconPencil, IconCopyPlus, IconGhost, IconCodeDots, IconMessage, IconTextCaption, IconTrash } from "@tabler/icons-react"
-import { MapObject, MapObjectType } from "./ccsr/game/types"
+import { MapObject } from "./ccsr/game/types"
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { produce } from "immer"
 import { MapFile, UUID } from "./ccsr/types"
 import { MapOMaticPage } from "./App"
 import { useNavigate } from "react-router-dom";
-import { ReactNode, useState } from "react"
+import { useState } from "react"
 
 type MapObjectListItemProps = {
     map: MapFile,

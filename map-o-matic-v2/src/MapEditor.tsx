@@ -254,6 +254,27 @@ function MapEditor({ map }: MapEditorProps) {
         }))
     }
 
+    function emptyTrash(): void {
+        modals.openConfirmModal({
+            labels: {
+                cancel: "Cancel",
+                confirm: "Confirm"
+            },
+            children: (
+                <div>
+                    You're about to permanently delete {map.trashedObjects.length} objects.
+                    Are you sure?
+                </div>
+            ),
+            onConfirm: () => {
+                updateMap(produce(map, draft => {
+                    draft.trashedObjects = []
+                }))
+            }
+        })
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <>
             <div>
@@ -340,6 +361,19 @@ function MapEditor({ map }: MapEditorProps) {
                         </Tabs.Panel>
                         <Tabs.Panel value="trash">
                             <Card padding={"xs"} withBorder>
+                                {!map.trashedObjects.length ? (
+                                    <div>No objects have been deleted.</div>
+                                ) : (
+                                    <div>
+                                        <Tooltip label="Empty Trash">
+                                            <ActionIcon
+                                                color={"red"}
+                                                onClick={() => emptyTrash()}>
+                                                <IconTrashX />
+                                            </ActionIcon>
+                                        </Tooltip>
+                                    </div>
+                                )}
                                 {map.trashedObjects.map(trash => (
                                     <Group key={trash.obj.random_id}>
                                         <MapObjectPreview obj={trash.obj} />
@@ -352,9 +386,6 @@ function MapEditor({ map }: MapEditorProps) {
                                         </Tooltip>
                                     </Group>
                                 ))}
-                                {!map.trashedObjects.length ? (
-                                    <div>No objects have been deleted.</div>
-                                ) : null}
                             </Card>
                         </Tabs.Panel>
                     </Tabs>
