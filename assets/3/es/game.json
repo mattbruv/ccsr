@@ -1,0 +1,104 @@
+{
+    "walkIntoWater": "¡No se puede caminar sobre el agua!",
+    "noItems": "No tienes nada.",
+    "scene": {
+        "plugMyHoles": "XXX"
+    },
+    "inventory": [
+        {
+            "key": "monkey",
+            "name": "mono",
+            "description": "¡Los monos molan y este no es una excepción!"
+        },
+        {
+            "key": "ostrich",
+            "name": "avestruz",
+            "description": "Un delicioso avestruz... Quiero decir Avestruz AMIGABLE"
+        },
+        {
+            "key": "beetle",
+            "name": "escarabajo",
+            "description": "Un escarabajo. Se llama Paul."
+        },
+        {
+            "key": "koala",
+            "name": "koala",
+            "description": "Los osos koala son marsupiales."
+        },
+        {
+            "key": "lizard",
+            "name": "lagarto",
+            "description": "Los lagartos son reptiles."
+        },
+        {
+            "key": "wind",
+            "name": "piedra de viento",
+            "description": "¡Una Llave de volcán! ¡Esta tiene el poder del viento!"
+        },
+        {
+            "key": "sun",
+            "name": "piedra del sol",
+            "description": "¡Una llave de volcán! Está muy caliente."
+        },
+        {
+            "key": "waters",
+            "name": "piedra de agua",
+            "description": "¡Una llave de volcán! Tiene el poder del agua."
+        },
+        {
+            "key": "tree",
+            "name": "piedra del árbol",
+            "description": "Esta es la Piedra del Árbol, una de las cinco Llaves del Volcán."
+        },
+        {
+            "key": "stone",
+            "name": "piedra de la piedra",
+            "description": "¡Una llave de volcán! Es dura y pétrea"
+        },
+        {
+            "key": "split",
+            "name": "banana split",
+            "description": "Un pegajoso Banana split. ¡Delicioso!"
+        },
+        {
+            "key": "dino",
+            "name": "dinosaurio robot",
+            "description": "Lo último en tecnología de robots/dinos de juguete."
+        },
+        {
+            "key": "watch",
+            "name": "reloj",
+            "description": "Este reloj de bolsillo te dirá la hora en tu bolsillo."
+        },
+        {
+            "key": "tuna",
+            "name": "sándwich de atún",
+            "description": "Un sándwich de atún. Apestoso pero delicioso."
+        },
+        {
+            "key": "flower",
+            "name": "flor",
+            "description": "Una bonita flor con suaves pétalos rojos."
+        },
+        {
+            "key": "leaf",
+            "name": "hoja de eucalipto",
+            "description": "Una hoja de Australia. ¿Quién querría esto?"
+        },
+        {
+            "key": "bag",
+            "name": "Bolsa de papel",
+            "description": "I. R. Baboon sacó esta bolsa de papel de un avión."
+        },
+        {
+            "key": "scuba",
+            "name": "barco",
+            "description": "Un barco bueno y en condiciones de navegar."
+        },
+        {
+            "key": "courage",
+            "name": "Courage",
+            "description": "Un perro cobarde."
+        }
+    ]
+}
