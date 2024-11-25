@@ -11,6 +11,7 @@ function GlobalActions() {
     const mapBorderCount = project.maps.filter(x => x.render.showMapBorder === true).length
     const mapGridCount = project.maps.filter(x => x.render.showMapGrid === true).length
     const mapCollisionCount = project.maps.filter(x => x.render.showCollision === true).length
+    const mapMoveBoxCount = project.maps.filter(x => x.render.showMoveBoxes === true).length
 
     function toggleGrids(event: ChangeEvent<HTMLInputElement>): void {
         updateProject(produce(project, draft => {
@@ -30,8 +31,14 @@ function GlobalActions() {
         }))
     }
 
+    function toggleMoveBoxes(event: ChangeEvent<HTMLInputElement>): void {
+        updateProject(produce(project, draft => {
+            draft.maps.forEach(x => x.render.showMoveBoxes = event.target.checked)
+        }))
+    }
+
     return (<>
-        <div>
+        <Group>
             <Stack gap={"xs"}>
                 <Checkbox
                     onChange={toggleGrids}
@@ -52,7 +59,15 @@ function GlobalActions() {
                     label="Show Collisions"
                 />
             </Stack>
-        </div>
+            <Stack gap={"xs"} justify={"flex-start"}>
+                <Checkbox
+                    onChange={toggleMoveBoxes}
+                    checked={mapMoveBoxCount === totalMaps}
+                    indeterminate={mapMoveBoxCount > 0 && mapMoveBoxCount < totalMaps}
+                    label="Show Move Bounds"
+                />
+            </Stack>
+        </Group>
     </>)
 }
 

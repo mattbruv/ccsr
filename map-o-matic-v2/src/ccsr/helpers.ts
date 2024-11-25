@@ -62,7 +62,8 @@ export function newMapFile(): MapFile {
             showMapGrid: true,
             showMapBorder: true,
             showCollision: false,
-            collisionAlpha: 0.5
+            showMoveBoxes: true,
+            collisionAlpha: 0.5,
         },
         file_text: "",
         data: {
@@ -73,7 +74,8 @@ export function newMapFile(): MapFile {
             },
             objects: []
         },
-        random_id: crypto.randomUUID()
+        random_id: crypto.randomUUID(),
+        trashedObjects: []
     }
 
     return map

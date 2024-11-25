@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
 import { MapFile, Project, ProjectState, UUID } from "../ccsr/types";
-import CCSRRenderer from "../ccsr/renderer";
 
 export const MapOMaticContext = createContext<MapOMatic | undefined>(undefined);
 

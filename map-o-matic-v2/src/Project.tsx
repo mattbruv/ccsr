@@ -3,6 +3,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconDownload, IconPlus, IconUpload } from "@tabler/icons-react";
 import { newProject, useMapOMaticContext } from "./context/MapOMaticContext";
 import { loadCustomZip, loadZipFromServer, saveProjectToZip } from "./ccsr/zip";
+import { useNavigate } from "react-router-dom";
+import { MapOMaticPage } from "./App";
 
 export const EPISODE_DATA = [
     {
@@ -40,6 +42,7 @@ function ProjectPage() {
 
     const [opened, { open, close }] = useDisclosure(false);
     const { project, updateProject } = useMapOMaticContext()
+    const navigate = useNavigate()
 
     function saveProject() {
         saveProjectToZip(project);
@@ -55,16 +58,20 @@ function ProjectPage() {
             // So users don't get confused when they are overlaid
             project.maps.filter(x => x.filename.length !== 4)
                 .forEach(x => x.render.showMap = false)
+            project.state.selectedMap = project.maps.at(0)?.random_id ?? null
             updateProject(project, true)
             close()
+            navigate(MapOMaticPage.MapEditor)
         })
     }
 
     function loadUserZip(file: File | null) {
         if (!file) return;
         loadCustomZip(file).then((project) => {
+            project.state.selectedMap = project.maps.at(0)?.random_id ?? null
             updateProject(project, true)
             close()
+            navigate(MapOMaticPage.MapEditor)
         })
     }
 

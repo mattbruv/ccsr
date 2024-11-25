@@ -1,16 +1,16 @@
 import { useMapOMaticContext } from "./context/MapOMaticContext"
-import { ActionIcon, Button, Card, Code, ComboboxItem, Group, HoverCard, Image, Indicator, NumberInput, Popover, Select, Slider, Stack, Switch, Text, TextInput, Tooltip } from "@mantine/core";
-import { MapFile, UUID } from "./ccsr/types";
-import { IconArrowDown, IconArrowMergeAltRight, IconArrowUp, IconCodeDots, IconCopyPlus, IconGhost, IconMapPlus, IconMessage, IconPencil, IconPlus, IconTextCaption, IconTool, IconTrash, IconTrashX } from "@tabler/icons-react";
+import { ActionIcon, Card, Code, ComboboxItem, Group, NumberInput, Select, Slider, Stack, Switch, Tabs, Text, TextInput, Tooltip } from "@mantine/core";
+import { MapFile, TrashObject, UUID } from "./ccsr/types";
+import { IconApple, IconMapPlus, IconPhone, IconPlus, IconRestore, IconTool, IconTrashX } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { MapOMaticPage } from "./App";
-import { produce } from "immer";
+import { isDraft, produce } from "immer";
 import { useEffect, useState } from "react";
 import { newMapFile, newMapObject } from "./ccsr/helpers";
 import { MapObjectType } from "./ccsr/game/types";
 import GlobalActions from "./GlobalActions";
 import { modals } from "@mantine/modals";
 import MapDataExporter from "./MapData";
+import { MapObjectListItem, MapObjectPreview } from "./MapObjectListItem";
 
 type MapEditorProps = {
     map: MapFile
@@ -140,54 +140,6 @@ function MapEditor({ map }: MapEditorProps) {
         }))
     }
 
-
-    function removeObj(random_id: string): void {
-        const updatedObjects = map.data.objects.filter(x => x.random_id !== random_id);
-        updateMap({
-            ...map,
-            data: {
-                ...map.data,
-                objects: updatedObjects
-            }
-        });
-    }
-
-    function selectObject(random_id: UUID): void {
-        updateState({
-            ...project.state,
-            selectedObject: random_id
-        })
-        navigate(MapOMaticPage.ObjectEditor)
-    }
-
-    function resetHighlights(): void {
-        updateMap(produce(map, draft => {
-            draft.data.objects.forEach(obj => {
-                obj.render.alpha = 1
-                obj.render.outline = false
-            })
-        }))
-    }
-
-    function highlightObject(random_id: UUID): void {
-        const nextMap = produce(map, (draft) => {
-            const objects = draft.data.objects ?? []
-            const obj = objects.find(x => x.random_id === random_id)
-            const notObj = objects.filter(x => x.random_id !== random_id)
-            if (obj) {
-                obj.render.alpha = 1
-                obj.render.outline = true
-            }
-            notObj.forEach(x => {
-                x.render.alpha = 0.5
-                x.render.outline = false
-
-            })
-        })
-
-        updateMap(nextMap)
-    }
-
     function moveObj(index: number, up: boolean): void {
         const newIndex = index + (up ? -1 : 1)
         updateMap(produce(map, draft => {
@@ -198,18 +150,6 @@ function MapEditor({ map }: MapEditorProps) {
         }))
     }
 
-    function cloneObj(random_id: UUID, index: number): void {
-
-        updateMap(produce(map, draft => {
-            const obj = map.data.objects.find(x => x.random_id === random_id)
-            if (obj) {
-                draft.data.objects.splice(index, 0, {
-                    ...obj,
-                    random_id: crypto.randomUUID()
-                })
-            }
-        }))
-    }
 
     function addObj(): void {
         updateMap(produce(map, draft => {
@@ -221,21 +161,6 @@ function MapEditor({ map }: MapEditorProps) {
             obj.location.y = 0
             draft.data.objects.push(obj)
         }))
-    }
-
-    const [moveIndex, setMoveIndex] = useState<string | number>(0)
-
-    function moveObjIndex(obj_id: UUID): void {
-        const obj = map.data.objects.find(x => x.random_id === obj_id)
-        if (obj) {
-            updateMap(produce(map, draft => {
-                const objs = draft.data.objects.filter(x => x.random_id !== obj_id) ?? []
-                objs?.splice(Number(moveIndex), 0, obj)
-                if (draft.data.objects) {
-                    draft.data.objects = objs
-                }
-            }))
-        }
     }
 
     // Attempts to automatically fix collision by moving
@@ -316,10 +241,44 @@ function MapEditor({ map }: MapEditorProps) {
         }), false)
     }
 
+    function restoreObject(trash: TrashObject): void {
+        updateMap(produce(map, draft => {
+            // Put it and the end if the index is invalid
+            if (trash.deletedAtIndex >= draft.data.objects.length) {
+                draft.data.objects.push(trash.obj)
+            }
+            else {
+                draft.data.objects.splice(trash.deletedAtIndex, 0, trash.obj)
+            }
+            draft.trashedObjects = draft.trashedObjects.filter(x => x.obj.random_id !== trash.obj.random_id)
+        }))
+    }
+
+    function emptyTrash(): void {
+        modals.openConfirmModal({
+            labels: {
+                cancel: "Cancel",
+                confirm: "Confirm"
+            },
+            children: (
+                <div>
+                    You're about to permanently delete {map.trashedObjects.length} objects.
+                    Are you sure?
+                </div>
+            ),
+            onConfirm: () => {
+                updateMap(produce(map, draft => {
+                    draft.trashedObjects = []
+                }))
+            }
+        })
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <>
-            <div>
-                <Card withBorder>
+            <Stack gap={"xs"}>
+                <Card>
                     <Group grow>
                         <Switch
                             label="Show Map"
@@ -374,172 +333,64 @@ function MapEditor({ map }: MapEditorProps) {
                     </Group>
                 </Card>
                 <Card withBorder shadow={'xs'}>
-                    <Tooltip label="Add New Object">
-                        <ActionIcon
-                            color={"green"}
-                            disabled={!map}
-                            onClick={addObj}>
-                            <IconPlus />
-                        </ActionIcon>
-                    </Tooltip>
-                    {map.data.objects.map((obj, index) => {
-                        const messageCount = obj.data.message.length
-                        const condsCount = obj.data.item.COND.length
-                        const invisCount = Object.values(obj.data.item.visi).filter(x => x !== "").length
-                        const name = obj.data.item.name
-
-                        function iconShade(value: number): "lightgray" | "black" {
-                            return value === 0 ? "lightgray" : "black"
-                        }
-
-                        function getImage(member: string): string {
-                            if (member.toLowerCase().endsWith(".x"))
-                                member = member.replace(".x", "")
-                            const img = project.images.find(x => x.filename.toLowerCase() === member.toLowerCase())
-                            if (img)
-                                return URL.createObjectURL(img.data)
-                            return ""
-                        }
-
-                        return (
-                            <div key={obj.random_id}
-                                onMouseEnter={() => highlightObject(obj.random_id)}
-                                onMouseLeave={() => resetHighlights()}
-                            >
-                                <Group>
-                                    <div>{index}</div>
-                                    <div>
-                                        <ActionIcon
-                                            color={"yellow"}
-                                            title="Move Object Up"
-                                            disabled={index === 0}
-                                            onClick={() => moveObj(index, true)}>
-                                            <IconArrowUp />
-                                        </ActionIcon>
-                                        <ActionIcon
-                                            color={"yellow"}
-                                            title="Move Object Down"
-                                            disabled={index == (map.data.objects.length ?? 0) - 1}
-                                            onClick={() => moveObj(index, false)}>
-                                            <IconArrowDown />
-                                        </ActionIcon>
-                                        <Popover position="bottom" withArrow shadow="md">
-                                            <Popover.Target>
-                                                <ActionIcon color={"yellow"} title="Move Object to Index">
-                                                    <IconArrowMergeAltRight />
-                                                </ActionIcon>
-                                            </Popover.Target>
-                                            <Popover.Dropdown>
-                                                <NumberInput
-                                                    label="Move To Index"
-                                                    min={0}
-                                                    max={(map.data.objects.length ?? 1) - 1}
-                                                    onChange={setMoveIndex}
-                                                    clampBehavior={"strict"} />
-                                                <Button onClick={() => moveObjIndex(obj.random_id)}>Move to {moveIndex}</Button>
-                                            </Popover.Dropdown>
-                                        </Popover>
-                                    </div>
-                                    <div>
-                                        <ActionIcon
-                                            color={"green"}
-                                            onClick={() => selectObject(obj.random_id)}>
-                                            <IconPencil />
-                                        </ActionIcon>
-                                        <ActionIcon
-                                            color={"grape"}
-                                            onClick={() => cloneObj(obj.random_id, index)}>
-                                            <IconCopyPlus />
-                                        </ActionIcon>
-                                    </div>
-                                    <div>
-                                        <Image mah={32} maw={32} src={getImage(obj.member)} alt={obj.member} />
-                                    </div>
-                                    <Group gap={5}>
-                                        <HoverCard shadow={"xl"} disabled={!invisCount}>
-                                            <HoverCard.Target>
-                                                <Indicator size={16} inline disabled={!invisCount} color={"blue"} label={invisCount}>
-                                                    <IconGhost color={iconShade(invisCount)} title="Invisibility" />
-                                                </Indicator>
-                                            </HoverCard.Target>
-                                            <HoverCard.Dropdown>
-                                                {Object.entries(obj.data.item.visi).filter(([_, o]) => o).map(([key, val]) => (
-                                                    <div key={key}>{key}: <Code>{val}</Code></div>
-                                                ))}
-                                            </HoverCard.Dropdown>
-                                        </HoverCard>
-                                        <HoverCard shadow={"xl"} disabled={!condsCount}>
-                                            <HoverCard.Target>
-                                                <Indicator size={16} inline disabled={!condsCount} color={"blue"} label={condsCount}>
-                                                    <IconCodeDots color={iconShade(condsCount)} title="Conditions" />
-                                                </Indicator>
-                                            </HoverCard.Target>
-                                            <HoverCard.Dropdown>
-                                                {obj.data.item.COND
-                                                    .map(cond => {
-                                                        const entries = Object.entries(cond)
-                                                        return (
-                                                            <Card withBorder>
-                                                                <div>
-                                                                    {entries.map(([key, value]) => {
-                                                                        return (
-                                                                            <div key={key}>
-                                                                                {key}: <Code>{value}</Code>
-                                                                            </div>
-                                                                        )
-                                                                    })}
-                                                                </div>
-                                                            </Card>
-                                                        );
-                                                    })
-                                                }
-                                            </HoverCard.Dropdown>
-                                        </HoverCard>
-                                        <HoverCard shadow={"xl"} disabled={!messageCount}>
-                                            <HoverCard.Target>
-                                                <Indicator size={16} inline disabled={!messageCount} color={"blue"} label={messageCount}>
-                                                    <IconMessage color={iconShade(messageCount)} title="Messages" />
-                                                </Indicator>
-                                            </HoverCard.Target>
-                                            <HoverCard.Dropdown>
-                                                <Stack gap={"xs"}>
-                                                    {obj.data.message.map(x => {
-                                                        return (
-                                                            <div>
-                                                                {x.plrAct ? (<Code>Act: {x.plrAct}</Code>) : null}
-                                                                {x.plrObj ? (<Code>Obj: {x.plrObj}</Code>) : null}
-                                                                <Text size={"sm"}>
-                                                                    {x.text.length > 50 ? x.text.slice(0, 50) + "..." : x.text}
-                                                                </Text>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </Stack>
-                                            </HoverCard.Dropdown>
-                                        </HoverCard>
-                                        <HoverCard shadow={"xl"} disabled={!name}>
-                                            <HoverCard.Target>
-                                                <Indicator size={16} inline disabled={!name} color={"blue"} label={1}>
-                                                    <IconTextCaption color={iconShade(name.length)} title={name ? name : "Name"} />
-                                                </Indicator>
-                                            </HoverCard.Target>
-                                            <HoverCard.Dropdown>
-                                                <div><Code>{obj.data.item.type}</Code></div>
-                                                <Code>{obj.data.item.name}</Code>
-                                            </HoverCard.Dropdown>
-                                        </HoverCard>
-                                    </Group>
+                    <Tabs defaultValue={"objects"}>
+                        <Tabs.List>
+                            <Tabs.Tab value="objects" leftSection={<IconApple />}>
+                                Objects ({map.data.objects.length})
+                            </Tabs.Tab>
+                            <Tooltip label="Trashed items will NOT be saved in your project">
+                                <Tabs.Tab value="trash" leftSection={<IconTrashX />}>
+                                    Trash ({map.trashedObjects.length})
+                                </Tabs.Tab>
+                            </Tooltip>
+                        </Tabs.List>
+                        <Tabs.Panel value="objects">
+                            <div>
+                                <Tooltip label="Add New Object">
                                     <ActionIcon
-                                        color={"red"}
-                                        onClick={() => removeObj(obj.random_id)}>
-                                        <IconTrash />
+                                        color={"green"}
+                                        disabled={!map}
+                                        onClick={addObj}>
+                                        <IconPlus />
                                     </ActionIcon>
-                                </Group>
+                                </Tooltip>
+                                {map.data.objects.map((obj, index) => (
+                                    <MapObjectListItem key={obj.random_id} map={map} obj={obj} index={index} />
+                                ))}
                             </div>
-                        );
-                    })}
+                        </Tabs.Panel>
+                        <Tabs.Panel value="trash">
+                            <Card padding={"xs"} withBorder>
+                                {!map.trashedObjects.length ? (
+                                    <div>No objects have been deleted.</div>
+                                ) : (
+                                    <div>
+                                        <Tooltip label="Empty Trash">
+                                            <ActionIcon
+                                                color={"red"}
+                                                onClick={() => emptyTrash()}>
+                                                <IconTrashX />
+                                            </ActionIcon>
+                                        </Tooltip>
+                                    </div>
+                                )}
+                                {map.trashedObjects.map(trash => (
+                                    <Group key={trash.obj.random_id}>
+                                        <MapObjectPreview obj={trash.obj} />
+                                        <Tooltip label="Restore Object">
+                                            <ActionIcon
+                                                color={"green"}
+                                                onClick={() => restoreObject(trash)}>
+                                                <IconRestore />
+                                            </ActionIcon>
+                                        </Tooltip>
+                                    </Group>
+                                ))}
+                            </Card>
+                        </Tabs.Panel>
+                    </Tabs>
                 </Card>
-            </div>
+            </Stack>
         </>
     )
 }

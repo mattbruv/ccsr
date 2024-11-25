@@ -332,42 +332,46 @@ function ObjectEditor({ selectedObject }: { selectedObject: MapObject }) {
                 <Card padding="lg" radius="md" withBorder>
                     <Stack gap={"xs"}>
                         <Group>
-                            <TextInput
+                            <NumberInput
                                 label="Left"
+                                min={0}
                                 value={selectedObject.data.move.L}
                                 onChange={(e) => {
-                                    const newLeft = parseInt(e.target.value)
-                                    if (selectedObject && !isNaN(newLeft)) updateObject(produce(selectedObject, draft => {
+                                    const newLeft = Number(e)
+                                    if (!isNaN(newLeft)) updateObject(produce(selectedObject, draft => {
                                         draft.data.move.L = newLeft
                                     }))
                                 }}
                             />
-                            <TextInput
+                            <NumberInput
                                 label="Right"
+                                min={0}
                                 value={selectedObject.data.move.R}
                                 onChange={(e) => {
-                                    const newRight = parseInt(e.target.value)
-                                    if (selectedObject && !isNaN(newRight)) updateObject(produce(selectedObject, draft => {
+                                    const newRight = Number(e)
+                                    if (!isNaN(newRight)) updateObject(produce(selectedObject, draft => {
                                         draft.data.move.R = newRight
                                     }))
                                 }}
                             />
-                            <TextInput
+                            <NumberInput
                                 label="Up"
+                                min={0}
                                 value={selectedObject.data.move.U}
                                 onChange={(e) => {
-                                    const newUp = parseInt(e.target.value)
-                                    if (selectedObject && !isNaN(newUp)) updateObject(produce(selectedObject, draft => {
+                                    const newUp = Number(e)
+                                    if (!isNaN(newUp)) updateObject(produce(selectedObject, draft => {
                                         draft.data.move.U = newUp
                                     }))
                                 }}
                             />
-                            <TextInput
+                            <NumberInput
                                 label="Down"
+                                min={0}
                                 value={selectedObject.data.move.d}
                                 onChange={(e) => {
-                                    const newDown = parseInt(e.target.value)
-                                    if (selectedObject && !isNaN(newDown)) updateObject(produce(selectedObject, draft => {
+                                    const newDown = Number(e)
+                                    if (!isNaN(newDown)) updateObject(produce(selectedObject, draft => {
                                         draft.data.move.d = newDown
                                     }))
                                 }}

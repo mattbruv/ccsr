@@ -1,12 +1,11 @@
 import JSZip from "jszip";
-import { ImageFile, MapFile, Project } from "./types";
+import { ImageFile, Project } from "./types";
 import { saveAs } from "file-saver";
 import { newProject } from "../context/MapOMaticContext";
 import { stringToMapData } from "./game/fromLingo";
 import { mapDataToLingo } from "./game/toLingo";
 import { lingoValueToString } from "./parser/print";
 import { filenameFromPath, newMapFile } from "./helpers";
-import { PNG } from "pngjs/browser"
 
 const METADATA_FILE = "map-o-matic.json"
 const MAP_FOLDER = "map.data"
@@ -73,9 +72,6 @@ async function loadProjectFile(blob: Blob | File): Promise<Project> {
             if (data) map.data = data;
             return map
         }))
-
-
-    const images: ImageFile[] = []
 
     project.images = await Promise.all(zip.file(/\.png$/)
         // Some mac metadata is in the zip files, ignore that

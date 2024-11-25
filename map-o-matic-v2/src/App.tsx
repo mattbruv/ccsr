@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, AppShell, Burger, Button, Flex, Group, Modal, NavLink, NumberInput, ScrollArea, Stack, Switch, Text } from '@mantine/core'
+import { ActionIcon, Anchor, AppShell, Burger, Button, Flex, Grid, Group, MantineStyleProp, Modal, NavLink, NumberInput, rem, ScrollArea, Stack, Switch, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconApple, IconCamera, IconGraph, IconImageInPicture, IconMap, IconSchema, IconSettings, IconWorld } from '@tabler/icons-react';
 import { Link, Route, Routes } from 'react-router-dom';
@@ -96,6 +96,22 @@ function App() {
 
   const [noticeOpened, noticeCallbacks] = useDisclosure(false);
 
+  const GRID_HEIGHT = "calc(100vh - 68px)"
+  const GRID_LEFT: MantineStyleProp = {
+    //backgroundColor: "blue",
+    overflowY: "auto",
+    minHeight: GRID_HEIGHT,
+    maxHeight: GRID_HEIGHT,
+    padding: "1rem"
+  }
+  const GRID_RIGHT: MantineStyleProp = {
+    // backgroundColor: "red",
+    padding: "2px",
+    // overflowY: "auto",
+    minHeight: GRID_HEIGHT,
+    maxHeight: GRID_HEIGHT
+  }
+
   return (
     <>
       <MapOMaticContext.Provider value={mapOMatic}>
@@ -106,7 +122,6 @@ function App() {
             breakpoint: "sm",
             collapsed: { desktop: !navOpened },
           }}
-          padding="md"
         >
           <AppShell.Header>
             <Group h="100%" px="md">
@@ -179,8 +194,8 @@ function App() {
           </AppShell.Navbar>
           <AppShell.Main>
             <Notice close={noticeCallbacks.close} open={noticeCallbacks.open} opened={noticeOpened} />
-            <Flex style={{ height: '85vh' }}> {/* Full height container */}
-              <ScrollArea style={{ width: '50%', height: '100%' }}> {/* Left pane */}
+            <Grid align="stretch" gutter={{ base: 0 }}>
+              <Grid.Col span={6} style={GRID_LEFT}>
                 <Routes>
                   <Route path='/' element={<ProjectPage />} />
                   <Route path='/project' element={<ProjectPage />} />
@@ -189,11 +204,12 @@ function App() {
                   <Route path='/images' element={<Images />} />
                   <Route path='/event-graph' element={<EventGraph />} />
                 </Routes>
-              </ScrollArea>
-              <ScrollArea style={{ width: '50%', height: '100%' }}> {/* Right pane */}
+
+              </Grid.Col>
+              <Grid.Col span={6} style={GRID_RIGHT}>
                 <RendererPage />
-              </ScrollArea>
-            </Flex>
+              </Grid.Col>
+            </Grid>
           </AppShell.Main>
         </AppShell >
       </MapOMaticContext.Provider >

@@ -190,7 +190,7 @@ function EventGraph() {
         <>
             <div
                 ref={containerRef}
-                style={{ width: '600px', height: '600px', border: '1px solid black' }}
+                style={{ width: '100%', height: '100%' }}
             />
         </>
     )

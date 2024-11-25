@@ -17,6 +17,11 @@ export type ProjectState = {
   exportPretty: boolean
 }
 
+export type TrashObject = {
+  obj: MapObject
+  deletedAtIndex: number
+}
+
 // Contains all information related to a game map
 export type MapFile = {
   render: MapRenderSettings
@@ -27,7 +32,8 @@ export type MapFile = {
   // parseResult: ASTParseResult
 
   /** The Map Data parsed into a useable Javascript Object */
-  data: MapData
+  data: MapData;
+  trashedObjects: TrashObject[]
 };
 
 export type MapRenderSettings = {
@@ -35,6 +41,7 @@ export type MapRenderSettings = {
   showMapGrid: boolean
   showMapBorder: boolean
   showCollision: boolean
+  showMoveBoxes: boolean
   collisionAlpha: number
 }
 

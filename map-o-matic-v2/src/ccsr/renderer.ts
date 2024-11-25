@@ -1,7 +1,7 @@
 import { Viewport } from "pixi-viewport";
 import * as PIXI from "pixi.js"
 import { MapFile, Project, UUID } from "./types";
-import { MapObjectMoveCond, MapObjectType } from "./game/types";
+import { MapObject, MapObjectMoveCond, MapObjectType } from "./game/types";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -91,7 +91,11 @@ class CCSRRenderer {
         const { x, y } = map.container.position
         const HW = MAP_WIDTH / 2
         const HH = MAP_HEIGHT / 2
-        this.viewport.moveCenter(x + HW, y + HH)
+        // Idk how the math works out on this but I just tweaked it until
+        // it was showing up in the center 🤷
+        this.viewport.scale.set(1)
+        this.viewport.moveCenter(x + HW * 2 + HW, y + HH + HH / 2)
+        console.log(x, y)
 
     }
 }
@@ -229,6 +233,10 @@ class MapRender {
                 spriteContainer.addChild(square)
             }
 
+            if (file.render.showMoveBoxes) {
+                addMoveBoxes(object, sprite, spriteContainer)
+            }
+
             renderer.render(spriteContainer, {
                 clear: false,
                 renderTexture: this.renderTexture
@@ -305,8 +313,29 @@ class MapRender {
         }
 
     }
-
 }
 
 const MapOMaticRenderer = new CCSRRenderer()
 export default MapOMaticRenderer
+
+function addMoveBoxes(object: MapObject, sprite: PIXI.Sprite, spriteContainer: PIXI.Container) {
+    if (object.data.move.COND !== MapObjectMoveCond.Auto) return;
+    // bounds for each side seem to be taken from
+    // the edge of the sprite + n * 16
+    // where n is the move number
+    const { L, R, U, d } = object.data.move
+
+    const x1 = -(L * 16)
+    const y1 = -(U * 16)
+    const width = (sprite.width + (R * 16)) - x1
+    const height = (sprite.height + (d * 16)) - y1
+
+    const square = new PIXI.Graphics();
+    square.lineStyle({
+        color: 0xFF0000,
+        width: 2
+    })
+    square.drawRect(x1, y1, width, height)
+    square.position.set(sprite.x, sprite.y)
+    spriteContainer.addChild(square)
+}
