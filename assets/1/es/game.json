@@ -1,0 +1,89 @@
+{
+    "walkIntoWater": "¡No se puede caminar sobre el agua!",
+    "noItems": "No tienes nada.",
+    "scene": {
+        "plugMyHoles": "¡Oh, no! ¡Las tuberías están rotas! ¿Tienes algún artículo que podamos usar para tapar los agujeros?"
+    },
+    "inventory": [
+        {
+            "key": "firstaid",
+            "name": "botiquín",
+            "description": "Botiquín de primeros auxilios, ¡garantizado para curar!"
+        },
+        {
+            "key": "hammer",
+            "name": "martillo",
+            "description": "Un martillo con el que golpear cosas"
+        },
+        {
+            "key": "sock",
+            "name": "calcetín",
+            "description": "Este calcetín huele a pie"
+        },
+        {
+            "key": "chocbar",
+            "name": "chocolate",
+            "description": "Una deliciosa barra de chocolate."
+        },
+        {
+            "key": "ducktape",
+            "name": "cinta adhesiva",
+            "description": "Cinta adhesiva, hecha con patos."
+        },
+        {
+            "key": "bandaid",
+            "name": "curita",
+            "description": "Una bonita y limpia curita."
+        },
+        {
+            "key": "bananas",
+            "name": "plátanos",
+            "description": "¡Sí, tenemos algunos plátanos!"
+        },
+        {
+            "key": "sunscreen",
+            "name": "protector solar",
+            "description": "Pantalla solar, te protege de los rayos U-V."
+        },
+        {
+            "key": "keys",
+            "name": "llaves",
+            "description": "Llaves del autobús de Cartoon Network"
+        },
+        {
+            "key": "wrench",
+            "name": "llave inglesa",
+            "description": "Una llave inglesa para tuercas y tornillos."
+        },
+        {
+            "key": "gum",
+            "name": "chicle",
+            "description": "Parece que este chicle ha sido masticado."
+        },
+        {
+            "key": "tape",
+            "name": "cinta escocia",
+            "description": "Cinta fabricada en Escocia, cinta escocia"
+        },
+        {
+            "key": "deedee",
+            "name": "DeeDee",
+            "description": "Es la hermana de Dexter, Dee-Dee."
+        },
+        {
+            "key": "chicken",
+            "name": "Pollo",
+            "description": "Es el hermano de Vaca, Pollo."
+        },
+        {
+            "key": "tennis",
+            "name": "raqueta",
+            "description": "¡Vamos a jugar al tenis!"
+        },
+        {
+            "key": "scuba",
+            "name": "barco",
+            "description": "Un barco bueno y en condiciones de navegar."
+        }
+    ]
+}

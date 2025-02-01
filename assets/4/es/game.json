@@ -1,0 +1,114 @@
+{
+    "walkIntoWater": "¡No se puede caminar sobre el agua!",
+    "noItems": "No tienes nada.",
+    "scene": {
+        "plugMyHoles": "¡Muy bien hombre!  ¡Ahora es el momento de emparejar a las parejas adecuadas! ¡Elige a CINCO solteros elegibles de tu inventario y emparéjalos en orden con la chica que quiera bailar con ellos! ¡Buena suerte!"
+    },
+    "inventory": [
+        {
+            "key": "shoes",
+            "name": "zapatos",
+            "description": "Estos zapatos de plataforma son fabulosos"
+        },
+        {
+            "key": "wig",
+            "name": "peluca",
+            "description": "¡Una auténtica peluca de discoteca!"
+        },
+        {
+            "key": "suit",
+            "name": "traje",
+            "description": "Un traje de ocio, una prenda relajante para todas las ocasiones. "
+        },
+        {
+            "key": "necklace",
+            "name": "collar",
+            "description": "¡Genial! ¡Un auténtico collar de dientes de sierra!"
+        },
+        {
+            "key": "pants",
+            "name": "pantalones",
+            "description": "Salga con estilo al estilo de los pantalones de campana."
+        },
+        {
+            "key": "box",
+            "name": "fiambrera",
+            "description": "Una fiambrera oficial de Moltar. Con termo."
+        },
+        {
+            "key": "milk",
+            "name": "leche caliente",
+            "description": "Cuanto menos se sepa de esta leche, mejor."
+        },
+        {
+            "key": "shovel",
+            "name": "pala",
+            "description": "¡Esta pala está hecha de plástico resistente! ¡Divertido!"
+        },
+        {
+            "key": "blankee",
+            "name": "mantita",
+            "description": "una manta... Te hace sentir seguro y cálido."
+        },
+        {
+            "key": "cd",
+            "name": "cd",
+            "description": "Todos tus favoritos de los 70 en un solo CD."
+        },
+        {
+            "key": "ball",
+            "name": "bola de discoteca",
+            "description": "Una bola de discoteca, también conocida como esfera de boogie."
+        },
+        {
+            "key": "keys",
+            "name": "llaves",
+            "description": "La llave de la discoteca. ¡Funkadellic!"
+        },
+        {
+            "key": "ray",
+            "name": "pistola de rayos",
+            "description": "Esta es la pistola de rayos de juguete más elegante que jamás hayas visto."
+        },
+        {
+            "key": "record",
+            "name": "disco de oro",
+            "description": "Un disco de oro de los clásicos de Gee-Bees."
+        },
+        {
+            "key": "dexter",
+            "name": "Dexter",
+            "description": "Es Dexter, el niño inventor."
+        },
+        {
+            "key": "edd",
+            "name": "Edd",
+            "description": "Este es Edd. El bueno de Edd."
+        },
+        {
+            "key": "baboon",
+            "name": "Baboon",
+            "description": "¡A I.R. Baboon no le gusta estar en Inventory Window!"
+        },
+        {
+            "key": "chicken",
+            "name": "Chicken",
+            "description": "Este es el hermano de Cow, Chicken."
+        },
+        {
+            "key": "courage",
+            "name": "Courage",
+            "description": "Un perro cobarde."
+        },
+        {
+            "key": "johnny",
+            "name": "Johnny",
+            "description": "Hombre, soy bastante"
+        },
+        {
+            "key": "scuba",
+            "name": "barco",
+            "description": "Un barco bueno y en condiciones de navegar."
+        }
+    ]
+}
