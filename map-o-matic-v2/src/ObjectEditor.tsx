@@ -1,8 +1,8 @@
-import { ActionIcon, Card, ComboboxData, Group, NumberInput, Select, Stack, Text, Textarea, TextInput, Tooltip, useCombobox } from "@mantine/core";
+import { ActionIcon, Button, Card, ComboboxData, Group, NumberInput, Select, Stack, Text, Textarea, TextInput, Tooltip, useCombobox } from "@mantine/core";
 import { MapObject, MapObjectCond, MapObjectMessage, MapObjectMoveCond, MapObjectType } from "./ccsr/game/types"
 import { useMapOMaticContext } from "./context/MapOMaticContext"
 import { produce } from "immer";
-import { IconCodePlus, IconMailPlus, IconTrash } from "@tabler/icons-react";
+import { IconCamera, IconCodePlus, IconMailPlus, IconResize, IconTrash } from "@tabler/icons-react";
 
 const mapObjectTypes = Object.entries(MapObjectType)
 const mapObjectTypeOptions: string[] = mapObjectTypes.map(([_, value]) => value);
@@ -101,6 +101,21 @@ function ObjectEditor({ selectedObject }: { selectedObject: MapObject }) {
         disabled: parseInt(value) >= MapObjectMoveCond.Pull
     }))
 
+    const image = project.images.find(x => x.filename === selectedObject.member)
+
+    function resizeToImage() {
+        if (!image) return;
+        const src = URL.createObjectURL(image.data)
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+            updateObject(produce(selectedObject, draft => {
+                draft.width = img.width
+                draft.height = img.height
+            }))
+        }
+    }
+
     return (
         <>
             <Stack gap={"xs"}>
@@ -184,7 +199,15 @@ function ObjectEditor({ selectedObject }: { selectedObject: MapObject }) {
                                     }))
                                 }}
                             />
+                            {image ? (
+                                <Tooltip label="Resize to member texture dimensions">
+                                    <ActionIcon onClick={resizeToImage} color={"gray"}>
+                                        <IconResize />
+                                    </ActionIcon>
+                                </Tooltip>
+                            ) : null}
                         </Group>
+
                         <Group>
                             <TextInput
                                 label="Width Shift (Pixels)"
