@@ -34,6 +34,7 @@ import { GameSound } from "./sound";
 import { Intro } from "./intro";
 import { Scooby1 } from "./scripts/scooby1";
 import { Scooby2 } from "./scripts/scooby2";
+import { Dexter } from "./scripts/dexter";
 
 export const MAP_WIDTH = 416;
 export const MAP_HEIGHT = 320;
@@ -43,7 +44,8 @@ export const UI_HEIGHT_PERCENT = 0.6;
 
 export enum EngineType {
   CCSR,
-  Scooby
+  Scooby,
+  Dexter,
 }
 
 export class Game {
@@ -108,11 +110,12 @@ export class Game {
   public introScreen: Intro;
 
   constructor(episode: string, language: string) {
-
-    this.engineType = episode.toLowerCase().includes("scooby")
+    const name = episode.toLowerCase();
+    this.engineType = name.includes("scooby")
       ? EngineType.Scooby
+      : name.includes("dexter")
+      ? EngineType.Dexter
       : EngineType.CCSR;
-
 
     const div = document.getElementById("main")!;
     this.app = new PIXI.Application({
@@ -142,43 +145,49 @@ export class Game {
     });
 
     const manager = new Hammer.Manager(this.app.view);
-    manager.add(new Hammer.Pan({
-      threshold: 100
-    }));
-    manager.add(new Hammer.Tap({
-      taps: 2
-    }));
+    manager.add(
+      new Hammer.Pan({
+        threshold: 100,
+      })
+    );
+    manager.add(
+      new Hammer.Tap({
+        taps: 2,
+      })
+    );
 
     type TouchLogic = (event: HammerInput) => boolean;
     const threshold = 50;
-    const verticalCheck = (event: HammerInput) => Math.abs(event.deltaY) > threshold;
-    const horizontalCheck = (event: HammerInput) => Math.abs(event.deltaX) > threshold;
+    const verticalCheck = (event: HammerInput) =>
+      Math.abs(event.deltaY) > threshold;
+    const horizontalCheck = (event: HammerInput) =>
+      Math.abs(event.deltaX) > threshold;
 
     const pans: [string, Key, Key, TouchLogic][] = [
       ["panup", Key.UP, Key.DOWN, verticalCheck],
       ["pandown", Key.DOWN, Key.UP, verticalCheck],
       ["panleft", Key.LEFT, Key.RIGHT, horizontalCheck],
       ["panright", Key.RIGHT, Key.LEFT, horizontalCheck],
-    ]
+    ];
 
-    pans.map(panInfo => {
+    pans.map((panInfo) => {
       const [eventName, add, remove, check] = panInfo;
       manager.on(eventName, (event) => {
-        console.log(event)
+        console.log(event);
         if (check(event)) {
           this.keysPressed.add(add);
           this.keysPressed.delete(remove);
         }
-      })
-    })
+      });
+    });
 
     manager.on("panend", () => {
-      this.keysPressed.clear()
-    })
+      this.keysPressed.clear();
+    });
 
     manager.on("tap", () => {
       this.inventory.openInventory();
-    })
+    });
 
     this.player = new Player(this);
     this.camera = new GameCamera(this);
@@ -440,9 +449,11 @@ export class Game {
         const inPlayer = intersect(obj.getRect(), playerRect);
         const willBeInPlayer = intersect(nextRect, playerRect);
 
-        if (rectAinRectB(nextRect, bounds) &&
+        if (
+          rectAinRectB(nextRect, bounds) &&
           (inPlayer || (!inPlayer && !willBeInPlayer)) &&
-          this.canMoveGameObject(obj, nextPos)) {
+          this.canMoveGameObject(obj, nextPos)
+        ) {
           obj.initMove(obj.nextPos, nextPos);
         } else {
           obj.movePos = obj.nextPos;
@@ -468,7 +479,9 @@ export class Game {
         //console.log("texture", obj)
         const textures = filmLoop.texture.loopTextures;
         if (obj.frame % filmLoop.texture.delay === 0) {
-          const tex = getMemberTexture(textures[obj.frameIndex++ % textures.length]);
+          const tex = getMemberTexture(
+            textures[obj.frameIndex++ % textures.length]
+          );
           obj.sprite.texture = tex!;
           if (obj.frameIndex > textures.length) {
             obj.frameIndex = 0;
@@ -752,15 +765,16 @@ export class Game {
         if (collisionObject.data.item.type == GameObjectType.WALL && !message) {
           if (this.engineType === EngineType.CCSR) {
             this.sound.once(this.sound.bump);
-          }
-          else if (this.engineType === EngineType.Scooby) {
+          } else if (this.engineType === EngineType.Scooby) {
             const bumpSounds = ["bump", "ruh_oh", undefined, undefined];
             const randIndex = Math.floor(Math.random() * bumpSounds.length);
             // console.log(randIndex)
             const randSound = bumpSounds[randIndex];
             if (randSound !== undefined) {
-              if (!this.sound.soundBank["bump"].playing() &&
-                !this.sound.soundBank["ruh_oh"].playing()) {
+              if (
+                !this.sound.soundBank["bump"].playing() &&
+                !this.sound.soundBank["ruh_oh"].playing()
+              ) {
                 this.sound.dynamicSoundOnce(randSound);
               }
             }
@@ -873,7 +887,7 @@ export class Game {
           // we're just gonna hotfix it
           if (delta.y === 0 && delta.x === 0) {
             nextPos.y -= 32;
-            this.player.scooby.y -= 32
+            this.player.scooby.y -= 32;
           }
 
           this.player.scooby.x += delta.x;
@@ -945,7 +959,7 @@ export class Game {
           this.sound.dynamicSoundOnce("bunch_o_bats");
         }
         if (this.inventory.items.includes("max")) {
-          this.sound.dynamicSoundOnce("ghost_02")
+          this.sound.dynamicSoundOnce("ghost_02");
         }
       }
     }
@@ -1004,6 +1018,9 @@ export class Game {
         break;
       case "scooby-2":
         this.script = new Scooby2(this);
+        break;
+      case "dexter":
+        this.script = new Dexter(this);
         break;
       default:
         this.script = new Episode1(this);
@@ -1161,7 +1178,10 @@ export class Game {
   }
 }
 
-export function getMemberTexture(memberName: string, resource: string = "textures") {
+export function getMemberTexture(
+  memberName: string,
+  resource: string = "textures"
+) {
   let name = memberName.toLowerCase();
   name = name + ".png";
   name = name.replace(".x.", ".");
