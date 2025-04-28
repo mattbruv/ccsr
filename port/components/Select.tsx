@@ -12,7 +12,12 @@ interface EpisodeCardProps {
 
 function needsTranslation(lang: string, episode: string): boolean {
   const key = `${lang}-${episode}`;
-  const help: string[] = ["pt-scooby-1", "pt-scooby-2"];
+  const help: string[] = [
+    "pt-scooby-1",
+    "pt-scooby-2",
+    "pt-dexter",
+    "es-dexter",
+  ];
   return help.includes(key);
 }
 
@@ -104,6 +109,13 @@ export function SelectEpisode(props: SelectProps) {
               episode={"scooby-2"}
               language={props.languageString}
               img={img("scooby-2", props.languageString)}
+            />
+            <EpisodeCard
+              t={props.t}
+              playEpisodeCB={props.playCB}
+              episode={"dexter"}
+              language={props.languageString}
+              img={img("dexter", props.languageString)}
             />
           </Grid>
         </Grid>

@@ -245,7 +245,7 @@ def parseMapData(episodeNumber):
 
 def setupSounds():
 
-    folders = [1, 2, 3, 4, "scooby-1", "scooby-2"]
+    folders = [1, 2, 3, 4, "scooby-1", "scooby-2", "dexter"]
 
     for folder in folders:
         pathlib.Path(f"public/assets/{folder}/sound").mkdir(parents=True, exist_ok=True)
@@ -263,6 +263,7 @@ def setup():
     episodes = list(range(1, 5))
     episodes.append("scooby-1")
     episodes.append("scooby-2")
+    episodes.append("dexter")
 
     for i in episodes:
         pathlib.Path("public/assets/{}".format(i)
