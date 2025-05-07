@@ -68,7 +68,7 @@ export class GameInventory {
     this.sprite.interactive = true;
     this.sprite.on("touchstart", () => {
       this.closeInventory();
-    })
+    });
 
     this.girlOrder = new PIXI.Sprite();
 
@@ -274,9 +274,8 @@ export class GameInventory {
   }
 
   public openInventory(selectItem?: string) {
-
-    // Scooby games don't have a UI for the inventory
-    if (this.engine == EngineType.Scooby) {
+    // Scooby games don't have a UI for the inventory, neither do dexter
+    if (this.engine != EngineType.CCSR) {
       return;
     }
 
@@ -357,7 +356,7 @@ export class GameInventory {
   }
 
   public closeInventory() {
-    if (this.engine === EngineType.Scooby) {
+    if (this.engine !== EngineType.CCSR) {
       return;
     }
 
