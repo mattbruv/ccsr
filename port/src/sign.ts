@@ -66,13 +66,16 @@ export class GameSign {
 
   public init() {
     this.sprite.texture = getMemberTexture("sign.bkg")!;
+    if (this.engine === EngineType.Dexter) {
+      this.sprite.texture = getMemberTexture("talk.bg")!;
+    }
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
 
     this.sprite.interactive = true;
     this.sprite.on("touchstart", () => {
-      this.closeMessage()
-    })
+      this.closeMessage();
+    });
 
     this.characterSprite = new PIXI.Sprite();
     this.characterSprite.anchor.set(0.5, 0.5);
@@ -94,7 +97,8 @@ export class GameSign {
     this.isMessageShowing = true;
     this.setTextDimensions(false);
 
-    this.sprite.texture = getMemberTexture("talk.bkg")!;
+    const tex = this.engine === EngineType.Dexter ? "talk.bg" : "talk.bkg";
+    this.sprite.texture = getMemberTexture(tex)!;
     this.sprite.visible = true;
 
     this.characterSprite.texture = getMemberTexture(charName + ".face")!;
@@ -112,7 +116,11 @@ export class GameSign {
     this.isMessageShowing = true;
     this.setTextDimensions(true);
 
-    this.sprite.texture = getMemberTexture("sign.bkg")!;
+    if (this.engine === EngineType.Dexter) {
+      this.sprite.texture = getMemberTexture("talk.bg")!;
+    } else {
+      this.sprite.texture = getMemberTexture("sign.bkg")!;
+    }
     this.sprite.visible = true;
 
     this.textElement.innerText = message;
@@ -132,8 +140,7 @@ export class GameSign {
         l -= 10;
         width -= 8;
         height -= 5;
-      }
-      else {
+      } else {
         l += 30;
         width -= 30;
         height += 24;
@@ -146,7 +153,6 @@ export class GameSign {
 
     const halfWidth = Math.round(this.sprite.width / 2);
     const halfHeight = Math.round(this.sprite.height / 2);
-
 
     const leftAdjust = l * this.scale;
     const topAdjust = t * this.scale;
