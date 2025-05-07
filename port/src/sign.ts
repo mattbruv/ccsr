@@ -41,10 +41,15 @@ export class GameSign {
     this.textElement.style.display = "none";
     this.textElement.style.top = "0";
     this.textElement.style.left = "0";
-    this.textElement.style.backgroundColor = "white";
-    this.textElement.style.color = "black";
-    this.textElement.style.overflowY = "scroll";
-    this.textElement.style.border = "1px solid black";
+    if (engine === EngineType.Dexter) {
+      //this.textElement.style.backgroundColor = "white";
+      this.textElement.style.color = "lime";
+    } else {
+      this.textElement.style.backgroundColor = "white";
+      this.textElement.style.color = "black";
+      this.textElement.style.border = "1px solid black";
+      this.textElement.style.overflowY = "scroll";
+    }
     this.textElement.style.userSelect = "none";
     this.textElement.style.whiteSpace = "break-spaces"; // don't compress whitespace
     this.textElement.style.fontFamily = "arial";
@@ -148,6 +153,12 @@ export class GameSign {
       }
     }
 
+    if (this.engine === EngineType.Dexter) {
+      width = 200;
+      l = 95;
+      t = 80;
+    }
+
     const boxWidth = width * this.scale;
     const boxHeight = height * this.scale;
 
@@ -208,7 +219,8 @@ export class GameSign {
 
     this.sprite.scale.set(this.scale, this.scale);
 
-    this.textElement.style.fontSize = 90 * this.scale + "%";
+    const fontSize = this.engine === EngineType.Dexter ? 72 : 90;
+    this.textElement.style.fontSize = fontSize * this.scale + "%";
     this.setTextDimensions(!this.isCharacterMessage);
   }
 }
