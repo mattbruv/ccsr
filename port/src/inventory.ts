@@ -65,11 +65,6 @@ export class GameInventory {
     this.spriteInstructions = new PIXI.Sprite();
     this.spriteSelectedItem = new PIXI.Sprite();
 
-    this.sprite.interactive = true;
-    this.sprite.on("touchstart", () => {
-      this.closeInventory();
-    });
-
     this.girlOrder = new PIXI.Sprite();
 
     this.onCloseCallback = undefined;
@@ -87,6 +82,16 @@ export class GameInventory {
     this.textElement.style.fontStretch = "condensed";
 
     this.adaptiveScale = true;
+
+    if (engine !== EngineType.Dexter) {
+      this.sprite.interactive = true;
+      this.sprite.on("touchstart", () => {
+        this.closeInventory();
+      });
+    } else {
+      this.sprite.visible = true;
+      this.textElement.style.display = "block";
+    }
 
     document.getElementById("game-container")?.appendChild(this.textElement);
   }
@@ -199,6 +204,11 @@ export class GameInventory {
     this.sprite.texture = getMemberTexture("inventory")!;
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.visible = false;
+
+    if (this.engine === EngineType.Dexter) {
+      this.sprite.texture = getMemberTexture("WWF_DEX_BAR_BLUE")!;
+      this.sprite.visible = true;
+    }
 
     this.originalHeight = this.sprite.height;
     this.originalWidth = this.sprite.width;
@@ -415,8 +425,15 @@ export class GameInventory {
     const scaleX = targetWidth / this.originalWidth;
 
     this.scale = 1;
-    if (this.adaptiveScale) {
+    if (this.adaptiveScale && this.engine !== EngineType.Dexter) {
       this.scale = width > height ? scaleY : scaleX;
+    } else {
+      // dexter stuff
+      this.sprite.anchor.set(0);
+      const height =
+        this.game.app.renderer.screen.height - this.sprite.height * scaleX;
+      this.sprite.position.set(100, height);
+      this.scale = scaleX;
     }
 
     this.sprite.scale.set(this.scale, this.scale);
