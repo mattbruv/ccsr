@@ -65,7 +65,6 @@ export class Player implements MovableGameObject {
 
     this.posX = 0;
     this.posY = 0;
-
   }
 
   public init() {
@@ -74,7 +73,7 @@ export class Player implements MovableGameObject {
 
     if (this.game.engineType === EngineType.Scooby) {
       this.scooby.texture = getMemberTexture("scooby.down.1")!;
-      this.scooby.anchor.set(0.5)
+      this.scooby.anchor.set(0.5);
     }
   }
 
@@ -90,7 +89,6 @@ export class Player implements MovableGameObject {
     this.posX = x;
     this.posY = y;
     this.sprite.position.set(this.posX, this.posY);
-
   }
 
   public initMove(fromPos: Pos, toPos: Pos) {
@@ -147,9 +145,9 @@ export class Player implements MovableGameObject {
     this.nextPos = { x, y };
 
     if (this.game.engineType === EngineType.Scooby) {
-      this.scoobyDirection = PlayerDirection.RIGHT
-      this.scooby.position.set(this.posX - 32, this.posY)
-      this.updateScooby()
+      this.scoobyDirection = PlayerDirection.RIGHT;
+      this.scooby.position.set(this.posX - 32, this.posY);
+      this.updateScooby();
     }
   }
 
@@ -157,24 +155,31 @@ export class Player implements MovableGameObject {
     // console.log("scoob: ", this.scoobyDirection, "shag: ", dir)
     switch (this.scoobyDirection) {
       case PlayerDirection.UP:
-      case PlayerDirection.DOWN:
-        {
-          return [PlayerDirection.LEFT, PlayerDirection.RIGHT].includes(dir);
-        }
+      case PlayerDirection.DOWN: {
+        return [PlayerDirection.LEFT, PlayerDirection.RIGHT].includes(dir);
+      }
       case PlayerDirection.LEFT:
-      case PlayerDirection.RIGHT:
-        {
-          return [PlayerDirection.UP, PlayerDirection.DOWN].includes(dir);
-        }
-      default: return false;
+      case PlayerDirection.RIGHT: {
+        return [PlayerDirection.UP, PlayerDirection.DOWN].includes(dir);
+      }
+      default:
+        return false;
     }
-
   }
 
-  private getScoobyOffset(thisDir: PlayerDirection, isPerpendicular: boolean): Pos {
-
-    type scoobyOffset = "left" | "top" | "right" | "bottom" |
-      "pLeft" | "pTop" | "pRight" | "pBottom";
+  private getScoobyOffset(
+    thisDir: PlayerDirection,
+    isPerpendicular: boolean
+  ): Pos {
+    type scoobyOffset =
+      | "left"
+      | "top"
+      | "right"
+      | "bottom"
+      | "pLeft"
+      | "pTop"
+      | "pRight"
+      | "pBottom";
 
     /*
       the Y offsets used to be +/-17 instead of 16,
@@ -193,23 +198,30 @@ export class Player implements MovableGameObject {
       pLeft: { x: 48, y: 16 },
       pTop: { x: 0, y: 0 },
       pRight: { x: -48, y: 16 },
-      pBottom: { x: 0, y: 0 }
+      pBottom: { x: 0, y: 0 },
     };
 
     if (!isPerpendicular) {
       switch (thisDir) {
-        case PlayerDirection.LEFT: return scoobyOffsetList.left;
-        case PlayerDirection.UP: return scoobyOffsetList.top;
-        case PlayerDirection.RIGHT: return scoobyOffsetList.right;
-        case PlayerDirection.DOWN: return scoobyOffsetList.bottom;
+        case PlayerDirection.LEFT:
+          return scoobyOffsetList.left;
+        case PlayerDirection.UP:
+          return scoobyOffsetList.top;
+        case PlayerDirection.RIGHT:
+          return scoobyOffsetList.right;
+        case PlayerDirection.DOWN:
+          return scoobyOffsetList.bottom;
       }
-    }
-    else {
+    } else {
       switch (thisDir) {
-        case PlayerDirection.LEFT: return scoobyOffsetList.pLeft;
-        case PlayerDirection.UP: return scoobyOffsetList.pTop;
-        case PlayerDirection.RIGHT: return scoobyOffsetList.pRight;
-        case PlayerDirection.DOWN: return scoobyOffsetList.pBottom;
+        case PlayerDirection.LEFT:
+          return scoobyOffsetList.pLeft;
+        case PlayerDirection.UP:
+          return scoobyOffsetList.pTop;
+        case PlayerDirection.RIGHT:
+          return scoobyOffsetList.pRight;
+        case PlayerDirection.DOWN:
+          return scoobyOffsetList.pBottom;
       }
     }
   }
@@ -221,33 +233,32 @@ export class Player implements MovableGameObject {
   }
 
   private scoobyGetDelta(shaggyLoc: Pos, thisOffset: Pos): Pos {
-    const thisDelta: Pos = { x: 0, y: 0 }
+    const thisDelta: Pos = { x: 0, y: 0 };
     const thisUnit = 8;
-    const thisLoc: Pos = { x: shaggyLoc.x + thisOffset.x, y: shaggyLoc.y + thisOffset.y };
-    const myLoc: Pos = { x: this.scooby.position.x, y: this.scooby.position.y }
+    const thisLoc: Pos = {
+      x: shaggyLoc.x + thisOffset.x,
+      y: shaggyLoc.y + thisOffset.y,
+    };
+    const myLoc: Pos = { x: this.scooby.position.x, y: this.scooby.position.y };
 
     // console.log("getDelta thisLoc", thisLoc, "myLoc", myLoc)
 
     if (myLoc.x < thisLoc.x) {
       thisDelta.x += thisUnit;
-    }
-    else {
+    } else {
       if (myLoc.x > thisLoc.x) {
         thisDelta.x -= thisUnit;
-      }
-      else {
+      } else {
         thisDelta.x = 0;
       }
     }
 
     if (myLoc.y > thisLoc.y) {
       thisDelta.y -= thisUnit;
-    }
-    else {
+    } else {
       if (myLoc.y < thisLoc.y) {
         thisDelta.y += thisUnit;
-      }
-      else {
+      } else {
         thisDelta.y = 0;
       }
     }
@@ -256,19 +267,14 @@ export class Player implements MovableGameObject {
   }
 
   private scoobyGetDir(delta: Pos): PlayerDirection | null {
-    if (delta.y > 0)
-      return PlayerDirection.DOWN
-    if (delta.y < 0)
-      return PlayerDirection.UP
-    if (delta.x > 0)
-      return PlayerDirection.RIGHT
-    if (delta.x < 0)
-      return PlayerDirection.LEFT
+    if (delta.y > 0) return PlayerDirection.DOWN;
+    if (delta.y < 0) return PlayerDirection.UP;
+    if (delta.x > 0) return PlayerDirection.RIGHT;
+    if (delta.x < 0) return PlayerDirection.LEFT;
     return null;
   }
 
   public updateScooby() {
-
     const thisLoc: Pos = this.nextPos;
     const thisDir = this.characterDirection;
     const thisFrame = this.frameOfAnimation;
@@ -286,9 +292,15 @@ export class Player implements MovableGameObject {
       // console.log("thisLoc: ", thisLoc)
       const thisDelta = this.scoobyGetDelta(thisLoc, thisOffset);
       const scooby = this.scooby.position;
-      const newLoc: Pos = { x: scooby.x + thisDelta.x, y: this.scooby.y + thisDelta.y };
+      const newLoc: Pos = {
+        x: scooby.x + thisDelta.x,
+        y: this.scooby.y + thisDelta.y,
+      };
       // console.log("delta:", thisDelta)
-      thisRect = this.getCollisionRectAtPoint(newLoc.x + thisDelta.x, newLoc.y + thisDelta.y);
+      thisRect = this.getCollisionRectAtPoint(
+        newLoc.x + thisDelta.x,
+        newLoc.y + thisDelta.y
+      );
       const newDir = this.scoobyGetDir(thisDelta);
       if (newDir !== null) {
         this.scoobyDirection = newDir;
@@ -296,8 +308,7 @@ export class Player implements MovableGameObject {
         this.scooby.position.x += thisDelta.x;
         this.scooby.position.y += thisDelta.y;
       }
-    }
-    else {
+    } else {
       // sprite(me.spriteNum).locZ = me.spriteNum
       // me.pDelta = thisSpeed
     }
@@ -330,35 +341,38 @@ export class Player implements MovableGameObject {
 
       // move to bottom half of 64 height sprite
       result.y += 16;
-    };
+    }
 
     return result;
   }
 
   public getAnimationFrameCount(): number {
-    return (this.game.engineType === EngineType.Scooby) ? 3 : 2
+    switch (this.game.engineType) {
+      case EngineType.Scooby:
+        return 3;
+      case EngineType.CCSR:
+        return 2;
+      case EngineType.Dexter:
+        return 4;
+    }
   }
 
   private getScoobyTexture(thisDir: PlayerDirection, thisFrame: number) {
     const textureString = `scooby.${thisDir}.${thisFrame}`;
     // console.log(textureString);
     return getMemberTexture(textureString);
-
   }
 
   private getTextureString() {
     const normal = [
       this.state,
-      this.horizontalDirection,
+      this.game.engineType === EngineType.CCSR
+        ? this.horizontalDirection
+        : this.characterDirection,
       this.frameOfAnimation,
     ];
     const boat = [this.state, this.characterDirection];
     const arr = this.state == PlayerState.NORMAL ? normal : boat;
-
-    if (this.game.engineType === EngineType.Scooby) {
-      const shaggyState = [this.state, this.characterDirection, this.frameOfAnimation];
-      return shaggyState.join(".") + ".png";
-    }
 
     return arr.join(".") + ".png";
   }
